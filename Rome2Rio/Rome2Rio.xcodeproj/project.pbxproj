@@ -1,0 +1,547 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5ED4B34C1601D01C00E9FE42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34B1601D01C00E9FE42 /* UIKit.framework */; };
+		5ED4B34E1601D01C00E9FE42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34D1601D01C00E9FE42 /* Foundation.framework */; };
+		5ED4B3501601D01C00E9FE42 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34F1601D01C00E9FE42 /* CoreGraphics.framework */; };
+		5ED4B3561601D01C00E9FE42 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5ED4B3541601D01C00E9FE42 /* InfoPlist.strings */; };
+		5ED4B3581601D01C00E9FE42 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3571601D01C00E9FE42 /* main.m */; };
+		5ED4B35C1601D01C00E9FE42 /* R2RAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B35B1601D01C00E9FE42 /* R2RAppDelegate.m */; };
+		5ED4B35F1601D01C00E9FE42 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ED4B35D1601D01C00E9FE42 /* MainStoryboard.storyboard */; };
+		5ED4B3621601D01C00E9FE42 /* R2RMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3611601D01C00E9FE42 /* R2RMasterViewController.m */; };
+		5ED4B3651601D01C00E9FE42 /* R2RDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3641601D01C00E9FE42 /* R2RDetailViewController.m */; };
+		5ED4B3B41601D07000E9FE42 /* fbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ED4B36D1601D07000E9FE42 /* fbicon.png */; };
+		5ED4B3B51601D07000E9FE42 /* R2RAirline.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B36F1601D07000E9FE42 /* R2RAirline.m */; };
+		5ED4B3B61601D07000E9FE42 /* R2RAirport.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3711601D07000E9FE42 /* R2RAirport.m */; };
+		5ED4B3B71601D07000E9FE42 /* R2RConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3731601D07000E9FE42 /* R2RConnection.m */; };
+		5ED4B3B81601D07000E9FE42 /* R2RDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3751601D07000E9FE42 /* R2RDataController.m */; };
+		5ED4B3B91601D07000E9FE42 /* R2RFlightHop.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3771601D07000E9FE42 /* R2RFlightHop.m */; };
+		5ED4B3BA1601D07000E9FE42 /* R2RFlightItinerary.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3791601D07000E9FE42 /* R2RFlightItinerary.m */; };
+		5ED4B3BB1601D07000E9FE42 /* R2RFlightLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B37B1601D07000E9FE42 /* R2RFlightLeg.m */; };
+		5ED4B3BC1601D07000E9FE42 /* R2RFlightSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B37D1601D07000E9FE42 /* R2RFlightSegment.m */; };
+		5ED4B3BD1601D07000E9FE42 /* R2RFlightSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B37F1601D07000E9FE42 /* R2RFlightSegmentCell.m */; };
+		5ED4B3BE1601D07000E9FE42 /* R2RFlightSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3811601D07000E9FE42 /* R2RFlightSegmentView.m */; };
+		5ED4B3BF1601D07000E9FE42 /* R2RFlightTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3831601D07000E9FE42 /* R2RFlightTicket.m */; };
+		5ED4B3C01601D07000E9FE42 /* R2RFlightTicketSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3851601D07000E9FE42 /* R2RFlightTicketSet.m */; };
+		5ED4B3C11601D07000E9FE42 /* R2RGeoCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3871601D07000E9FE42 /* R2RGeoCoder.m */; };
+		5ED4B3C21601D07000E9FE42 /* R2RGeoCodeResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3891601D07000E9FE42 /* R2RGeoCodeResponse.m */; };
+		5ED4B3C31601D07000E9FE42 /* R2RHopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B38B1601D07000E9FE42 /* R2RHopCell.m */; };
+		5ED4B3C41601D07000E9FE42 /* R2RNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B38D1601D07000E9FE42 /* R2RNameCell.m */; };
+		5ED4B3C51601D07000E9FE42 /* R2RPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B38F1601D07000E9FE42 /* R2RPlace.m */; };
+		5ED4B3C61601D07000E9FE42 /* R2RPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3911601D07000E9FE42 /* R2RPosition.m */; };
+		5ED4B3C71601D07000E9FE42 /* R2RPrintSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3931601D07000E9FE42 /* R2RPrintSearch.m */; };
+		5ED4B3C81601D07000E9FE42 /* R2RResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3951601D07000E9FE42 /* R2RResultsCell.m */; };
+		5ED4B3C91601D07000E9FE42 /* R2RResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3971601D07000E9FE42 /* R2RResultsViewController.m */; };
+		5ED4B3CA1601D07000E9FE42 /* R2RRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3991601D07000E9FE42 /* R2RRoute.m */; };
+		5ED4B3CB1601D07000E9FE42 /* R2RSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B39B1601D07000E9FE42 /* R2RSearch.m */; };
+		5ED4B3CC1601D07000E9FE42 /* R2RSearchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B39D1601D07000E9FE42 /* R2RSearchResponse.m */; };
+		5ED4B3CD1601D07000E9FE42 /* R2RSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B39F1601D07000E9FE42 /* R2RSegmentViewController.m */; };
+		5ED4B3CE1601D07000E9FE42 /* R2RStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A11601D07000E9FE42 /* R2RStop.m */; };
+		5ED4B3CF1601D07000E9FE42 /* R2RTransitHop.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A31601D07000E9FE42 /* R2RTransitHop.m */; };
+		5ED4B3D01601D07000E9FE42 /* R2RTransitItinerary.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A51601D07000E9FE42 /* R2RTransitItinerary.m */; };
+		5ED4B3D11601D07000E9FE42 /* R2RTransitLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A71601D07000E9FE42 /* R2RTransitLeg.m */; };
+		5ED4B3D21601D07000E9FE42 /* R2RTransitSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A91601D07000E9FE42 /* R2RTransitSegment.m */; };
+		5ED4B3D31601D07000E9FE42 /* R2RTransitSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3AB1601D07000E9FE42 /* R2RTransitSegmentCell.m */; };
+		5ED4B3D41601D07000E9FE42 /* R2RTransitSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3AD1601D07000E9FE42 /* R2RTransitSegmentView.m */; };
+		5ED4B3D51601D07000E9FE42 /* R2RWalkDriveSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3AF1601D07000E9FE42 /* R2RWalkDriveSegment.m */; };
+		5ED4B3D61601D07000E9FE42 /* R2RWalkDriveSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3B11601D07000E9FE42 /* R2RWalkDriveSegmentCell.m */; };
+		5ED4B3D71601D07000E9FE42 /* R2RWalkDriveSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3B31601D07000E9FE42 /* R2RWalkDriveSegmentView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5ED4B3471601D01C00E9FE42 /* Rome2Rio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rome2Rio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5ED4B34B1601D01C00E9FE42 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5ED4B34D1601D01C00E9FE42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5ED4B34F1601D01C00E9FE42 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		5ED4B3531601D01C00E9FE42 /* Rome2Rio-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Rome2Rio-Info.plist"; sourceTree = "<group>"; };
+		5ED4B3551601D01C00E9FE42 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5ED4B3571601D01C00E9FE42 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5ED4B3591601D01C00E9FE42 /* Rome2Rio-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rome2Rio-Prefix.pch"; sourceTree = "<group>"; };
+		5ED4B35A1601D01C00E9FE42 /* R2RAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = R2RAppDelegate.h; sourceTree = "<group>"; };
+		5ED4B35B1601D01C00E9FE42 /* R2RAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = R2RAppDelegate.m; sourceTree = "<group>"; };
+		5ED4B35E1601D01C00E9FE42 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		5ED4B3601601D01C00E9FE42 /* R2RMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = R2RMasterViewController.h; sourceTree = "<group>"; };
+		5ED4B3611601D01C00E9FE42 /* R2RMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = R2RMasterViewController.m; sourceTree = "<group>"; };
+		5ED4B3631601D01C00E9FE42 /* R2RDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = R2RDetailViewController.h; sourceTree = "<group>"; };
+		5ED4B3641601D01C00E9FE42 /* R2RDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = R2RDetailViewController.m; sourceTree = "<group>"; };
+		5ED4B36D1601D07000E9FE42 /* fbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fbicon.png; sourceTree = "<group>"; };
+		5ED4B36E1601D07000E9FE42 /* R2RAirline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAirline.h; sourceTree = "<group>"; };
+		5ED4B36F1601D07000E9FE42 /* R2RAirline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAirline.m; sourceTree = "<group>"; };
+		5ED4B3701601D07000E9FE42 /* R2RAirport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAirport.h; sourceTree = "<group>"; };
+		5ED4B3711601D07000E9FE42 /* R2RAirport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAirport.m; sourceTree = "<group>"; };
+		5ED4B3721601D07000E9FE42 /* R2RConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RConnection.h; sourceTree = "<group>"; };
+		5ED4B3731601D07000E9FE42 /* R2RConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RConnection.m; sourceTree = "<group>"; };
+		5ED4B3741601D07000E9FE42 /* R2RDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RDataController.h; sourceTree = "<group>"; };
+		5ED4B3751601D07000E9FE42 /* R2RDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RDataController.m; sourceTree = "<group>"; };
+		5ED4B3761601D07000E9FE42 /* R2RFlightHop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightHop.h; sourceTree = "<group>"; };
+		5ED4B3771601D07000E9FE42 /* R2RFlightHop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightHop.m; sourceTree = "<group>"; };
+		5ED4B3781601D07000E9FE42 /* R2RFlightItinerary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightItinerary.h; sourceTree = "<group>"; };
+		5ED4B3791601D07000E9FE42 /* R2RFlightItinerary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightItinerary.m; sourceTree = "<group>"; };
+		5ED4B37A1601D07000E9FE42 /* R2RFlightLeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightLeg.h; sourceTree = "<group>"; };
+		5ED4B37B1601D07000E9FE42 /* R2RFlightLeg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightLeg.m; sourceTree = "<group>"; };
+		5ED4B37C1601D07000E9FE42 /* R2RFlightSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightSegment.h; sourceTree = "<group>"; };
+		5ED4B37D1601D07000E9FE42 /* R2RFlightSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightSegment.m; sourceTree = "<group>"; };
+		5ED4B37E1601D07000E9FE42 /* R2RFlightSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightSegmentCell.h; sourceTree = "<group>"; };
+		5ED4B37F1601D07000E9FE42 /* R2RFlightSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightSegmentCell.m; sourceTree = "<group>"; };
+		5ED4B3801601D07000E9FE42 /* R2RFlightSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightSegmentView.h; sourceTree = "<group>"; };
+		5ED4B3811601D07000E9FE42 /* R2RFlightSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightSegmentView.m; sourceTree = "<group>"; };
+		5ED4B3821601D07000E9FE42 /* R2RFlightTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightTicket.h; sourceTree = "<group>"; };
+		5ED4B3831601D07000E9FE42 /* R2RFlightTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightTicket.m; sourceTree = "<group>"; };
+		5ED4B3841601D07000E9FE42 /* R2RFlightTicketSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightTicketSet.h; sourceTree = "<group>"; };
+		5ED4B3851601D07000E9FE42 /* R2RFlightTicketSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightTicketSet.m; sourceTree = "<group>"; };
+		5ED4B3861601D07000E9FE42 /* R2RGeoCoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RGeoCoder.h; sourceTree = "<group>"; };
+		5ED4B3871601D07000E9FE42 /* R2RGeoCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RGeoCoder.m; sourceTree = "<group>"; };
+		5ED4B3881601D07000E9FE42 /* R2RGeoCodeResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RGeoCodeResponse.h; sourceTree = "<group>"; };
+		5ED4B3891601D07000E9FE42 /* R2RGeoCodeResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RGeoCodeResponse.m; sourceTree = "<group>"; };
+		5ED4B38A1601D07000E9FE42 /* R2RHopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RHopCell.h; sourceTree = "<group>"; };
+		5ED4B38B1601D07000E9FE42 /* R2RHopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RHopCell.m; sourceTree = "<group>"; };
+		5ED4B38C1601D07000E9FE42 /* R2RNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RNameCell.h; sourceTree = "<group>"; };
+		5ED4B38D1601D07000E9FE42 /* R2RNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RNameCell.m; sourceTree = "<group>"; };
+		5ED4B38E1601D07000E9FE42 /* R2RPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPlace.h; sourceTree = "<group>"; };
+		5ED4B38F1601D07000E9FE42 /* R2RPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPlace.m; sourceTree = "<group>"; };
+		5ED4B3901601D07000E9FE42 /* R2RPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPosition.h; sourceTree = "<group>"; };
+		5ED4B3911601D07000E9FE42 /* R2RPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPosition.m; sourceTree = "<group>"; };
+		5ED4B3921601D07000E9FE42 /* R2RPrintSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPrintSearch.h; sourceTree = "<group>"; };
+		5ED4B3931601D07000E9FE42 /* R2RPrintSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPrintSearch.m; sourceTree = "<group>"; };
+		5ED4B3941601D07000E9FE42 /* R2RResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RResultsCell.h; sourceTree = "<group>"; };
+		5ED4B3951601D07000E9FE42 /* R2RResultsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RResultsCell.m; sourceTree = "<group>"; };
+		5ED4B3961601D07000E9FE42 /* R2RResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RResultsViewController.h; sourceTree = "<group>"; };
+		5ED4B3971601D07000E9FE42 /* R2RResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RResultsViewController.m; sourceTree = "<group>"; };
+		5ED4B3981601D07000E9FE42 /* R2RRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RRoute.h; sourceTree = "<group>"; };
+		5ED4B3991601D07000E9FE42 /* R2RRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RRoute.m; sourceTree = "<group>"; };
+		5ED4B39A1601D07000E9FE42 /* R2RSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearch.h; sourceTree = "<group>"; };
+		5ED4B39B1601D07000E9FE42 /* R2RSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearch.m; sourceTree = "<group>"; };
+		5ED4B39C1601D07000E9FE42 /* R2RSearchResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearchResponse.h; sourceTree = "<group>"; };
+		5ED4B39D1601D07000E9FE42 /* R2RSearchResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchResponse.m; sourceTree = "<group>"; };
+		5ED4B39E1601D07000E9FE42 /* R2RSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSegmentViewController.h; sourceTree = "<group>"; };
+		5ED4B39F1601D07000E9FE42 /* R2RSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSegmentViewController.m; sourceTree = "<group>"; };
+		5ED4B3A01601D07000E9FE42 /* R2RStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RStop.h; sourceTree = "<group>"; };
+		5ED4B3A11601D07000E9FE42 /* R2RStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RStop.m; sourceTree = "<group>"; };
+		5ED4B3A21601D07000E9FE42 /* R2RTransitHop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitHop.h; sourceTree = "<group>"; };
+		5ED4B3A31601D07000E9FE42 /* R2RTransitHop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitHop.m; sourceTree = "<group>"; };
+		5ED4B3A41601D07000E9FE42 /* R2RTransitItinerary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitItinerary.h; sourceTree = "<group>"; };
+		5ED4B3A51601D07000E9FE42 /* R2RTransitItinerary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitItinerary.m; sourceTree = "<group>"; };
+		5ED4B3A61601D07000E9FE42 /* R2RTransitLeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitLeg.h; sourceTree = "<group>"; };
+		5ED4B3A71601D07000E9FE42 /* R2RTransitLeg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitLeg.m; sourceTree = "<group>"; };
+		5ED4B3A81601D07000E9FE42 /* R2RTransitSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegment.h; sourceTree = "<group>"; };
+		5ED4B3A91601D07000E9FE42 /* R2RTransitSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegment.m; sourceTree = "<group>"; };
+		5ED4B3AA1601D07000E9FE42 /* R2RTransitSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentCell.h; sourceTree = "<group>"; };
+		5ED4B3AB1601D07000E9FE42 /* R2RTransitSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentCell.m; sourceTree = "<group>"; };
+		5ED4B3AC1601D07000E9FE42 /* R2RTransitSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentView.h; sourceTree = "<group>"; };
+		5ED4B3AD1601D07000E9FE42 /* R2RTransitSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentView.m; sourceTree = "<group>"; };
+		5ED4B3AE1601D07000E9FE42 /* R2RWalkDriveSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RWalkDriveSegment.h; sourceTree = "<group>"; };
+		5ED4B3AF1601D07000E9FE42 /* R2RWalkDriveSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveSegment.m; sourceTree = "<group>"; };
+		5ED4B3B01601D07000E9FE42 /* R2RWalkDriveSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RWalkDriveSegmentCell.h; sourceTree = "<group>"; };
+		5ED4B3B11601D07000E9FE42 /* R2RWalkDriveSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveSegmentCell.m; sourceTree = "<group>"; };
+		5ED4B3B21601D07000E9FE42 /* R2RWalkDriveSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RWalkDriveSegmentView.h; sourceTree = "<group>"; };
+		5ED4B3B31601D07000E9FE42 /* R2RWalkDriveSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveSegmentView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5ED4B3441601D01C00E9FE42 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5ED4B34C1601D01C00E9FE42 /* UIKit.framework in Frameworks */,
+				5ED4B34E1601D01C00E9FE42 /* Foundation.framework in Frameworks */,
+				5ED4B3501601D01C00E9FE42 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5ED4B33C1601D01C00E9FE42 = {
+			isa = PBXGroup;
+			children = (
+				5ED4B3511601D01C00E9FE42 /* Rome2Rio */,
+				5ED4B34A1601D01C00E9FE42 /* Frameworks */,
+				5ED4B3481601D01C00E9FE42 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5ED4B3481601D01C00E9FE42 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B3471601D01C00E9FE42 /* Rome2Rio.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5ED4B34A1601D01C00E9FE42 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B34B1601D01C00E9FE42 /* UIKit.framework */,
+				5ED4B34D1601D01C00E9FE42 /* Foundation.framework */,
+				5ED4B34F1601D01C00E9FE42 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5ED4B3511601D01C00E9FE42 /* Rome2Rio */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B35A1601D01C00E9FE42 /* R2RAppDelegate.h */,
+				5ED4B35B1601D01C00E9FE42 /* R2RAppDelegate.m */,
+				5ED4B35D1601D01C00E9FE42 /* MainStoryboard.storyboard */,
+				5ED4B3D81601D08300E9FE42 /* Controllers */,
+				5ED4B3D91601D0FC00E9FE42 /* Helpers */,
+				5ED4B3DA1601D10500E9FE42 /* CellPrototypes */,
+				5ED4B36B1601D05B00E9FE42 /* New Group */,
+				5ED4B36C1601D07000E9FE42 /* Images */,
+				5ED4B3521601D01C00E9FE42 /* Supporting Files */,
+			);
+			path = Rome2Rio;
+			sourceTree = "<group>";
+		};
+		5ED4B3521601D01C00E9FE42 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B3531601D01C00E9FE42 /* Rome2Rio-Info.plist */,
+				5ED4B3541601D01C00E9FE42 /* InfoPlist.strings */,
+				5ED4B3571601D01C00E9FE42 /* main.m */,
+				5ED4B3591601D01C00E9FE42 /* Rome2Rio-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5ED4B36B1601D05B00E9FE42 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B36E1601D07000E9FE42 /* R2RAirline.h */,
+				5ED4B36F1601D07000E9FE42 /* R2RAirline.m */,
+				5ED4B3701601D07000E9FE42 /* R2RAirport.h */,
+				5ED4B3711601D07000E9FE42 /* R2RAirport.m */,
+				5ED4B3761601D07000E9FE42 /* R2RFlightHop.h */,
+				5ED4B3771601D07000E9FE42 /* R2RFlightHop.m */,
+				5ED4B3781601D07000E9FE42 /* R2RFlightItinerary.h */,
+				5ED4B3791601D07000E9FE42 /* R2RFlightItinerary.m */,
+				5ED4B37A1601D07000E9FE42 /* R2RFlightLeg.h */,
+				5ED4B37B1601D07000E9FE42 /* R2RFlightLeg.m */,
+				5ED4B37C1601D07000E9FE42 /* R2RFlightSegment.h */,
+				5ED4B37D1601D07000E9FE42 /* R2RFlightSegment.m */,
+				5ED4B3821601D07000E9FE42 /* R2RFlightTicket.h */,
+				5ED4B3831601D07000E9FE42 /* R2RFlightTicket.m */,
+				5ED4B3841601D07000E9FE42 /* R2RFlightTicketSet.h */,
+				5ED4B3851601D07000E9FE42 /* R2RFlightTicketSet.m */,
+				5ED4B3881601D07000E9FE42 /* R2RGeoCodeResponse.h */,
+				5ED4B3891601D07000E9FE42 /* R2RGeoCodeResponse.m */,
+				5ED4B38E1601D07000E9FE42 /* R2RPlace.h */,
+				5ED4B38F1601D07000E9FE42 /* R2RPlace.m */,
+				5ED4B3901601D07000E9FE42 /* R2RPosition.h */,
+				5ED4B3911601D07000E9FE42 /* R2RPosition.m */,
+				5ED4B3981601D07000E9FE42 /* R2RRoute.h */,
+				5ED4B3991601D07000E9FE42 /* R2RRoute.m */,
+				5ED4B39C1601D07000E9FE42 /* R2RSearchResponse.h */,
+				5ED4B39D1601D07000E9FE42 /* R2RSearchResponse.m */,
+				5ED4B3A01601D07000E9FE42 /* R2RStop.h */,
+				5ED4B3A11601D07000E9FE42 /* R2RStop.m */,
+				5ED4B3A21601D07000E9FE42 /* R2RTransitHop.h */,
+				5ED4B3A31601D07000E9FE42 /* R2RTransitHop.m */,
+				5ED4B3A41601D07000E9FE42 /* R2RTransitItinerary.h */,
+				5ED4B3A51601D07000E9FE42 /* R2RTransitItinerary.m */,
+				5ED4B3A61601D07000E9FE42 /* R2RTransitLeg.h */,
+				5ED4B3A71601D07000E9FE42 /* R2RTransitLeg.m */,
+				5ED4B3A81601D07000E9FE42 /* R2RTransitSegment.h */,
+				5ED4B3A91601D07000E9FE42 /* R2RTransitSegment.m */,
+				5ED4B3AE1601D07000E9FE42 /* R2RWalkDriveSegment.h */,
+				5ED4B3AF1601D07000E9FE42 /* R2RWalkDriveSegment.m */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		5ED4B36C1601D07000E9FE42 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B36D1601D07000E9FE42 /* fbicon.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		5ED4B3D81601D08300E9FE42 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B3741601D07000E9FE42 /* R2RDataController.h */,
+				5ED4B3751601D07000E9FE42 /* R2RDataController.m */,
+				5ED4B3631601D01C00E9FE42 /* R2RDetailViewController.h */,
+				5ED4B3641601D01C00E9FE42 /* R2RDetailViewController.m */,
+				5ED4B3601601D01C00E9FE42 /* R2RMasterViewController.h */,
+				5ED4B3611601D01C00E9FE42 /* R2RMasterViewController.m */,
+				5ED4B3961601D07000E9FE42 /* R2RResultsViewController.h */,
+				5ED4B3971601D07000E9FE42 /* R2RResultsViewController.m */,
+				5ED4B39E1601D07000E9FE42 /* R2RSegmentViewController.h */,
+				5ED4B39F1601D07000E9FE42 /* R2RSegmentViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		5ED4B3D91601D0FC00E9FE42 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B3721601D07000E9FE42 /* R2RConnection.h */,
+				5ED4B3731601D07000E9FE42 /* R2RConnection.m */,
+				5ED4B3861601D07000E9FE42 /* R2RGeoCoder.h */,
+				5ED4B3871601D07000E9FE42 /* R2RGeoCoder.m */,
+				5ED4B3921601D07000E9FE42 /* R2RPrintSearch.h */,
+				5ED4B3931601D07000E9FE42 /* R2RPrintSearch.m */,
+				5ED4B39A1601D07000E9FE42 /* R2RSearch.h */,
+				5ED4B39B1601D07000E9FE42 /* R2RSearch.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		5ED4B3DA1601D10500E9FE42 /* CellPrototypes */ = {
+			isa = PBXGroup;
+			children = (
+				5ED4B37E1601D07000E9FE42 /* R2RFlightSegmentCell.h */,
+				5ED4B37F1601D07000E9FE42 /* R2RFlightSegmentCell.m */,
+				5ED4B3801601D07000E9FE42 /* R2RFlightSegmentView.h */,
+				5ED4B3811601D07000E9FE42 /* R2RFlightSegmentView.m */,
+				5ED4B38A1601D07000E9FE42 /* R2RHopCell.h */,
+				5ED4B38B1601D07000E9FE42 /* R2RHopCell.m */,
+				5ED4B38C1601D07000E9FE42 /* R2RNameCell.h */,
+				5ED4B38D1601D07000E9FE42 /* R2RNameCell.m */,
+				5ED4B3941601D07000E9FE42 /* R2RResultsCell.h */,
+				5ED4B3951601D07000E9FE42 /* R2RResultsCell.m */,
+				5ED4B3AA1601D07000E9FE42 /* R2RTransitSegmentCell.h */,
+				5ED4B3AB1601D07000E9FE42 /* R2RTransitSegmentCell.m */,
+				5ED4B3AC1601D07000E9FE42 /* R2RTransitSegmentView.h */,
+				5ED4B3AD1601D07000E9FE42 /* R2RTransitSegmentView.m */,
+				5ED4B3B01601D07000E9FE42 /* R2RWalkDriveSegmentCell.h */,
+				5ED4B3B11601D07000E9FE42 /* R2RWalkDriveSegmentCell.m */,
+				5ED4B3B21601D07000E9FE42 /* R2RWalkDriveSegmentView.h */,
+				5ED4B3B31601D07000E9FE42 /* R2RWalkDriveSegmentView.m */,
+			);
+			name = CellPrototypes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5ED4B3461601D01C00E9FE42 /* Rome2Rio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5ED4B3681601D01C00E9FE42 /* Build configuration list for PBXNativeTarget "Rome2Rio" */;
+			buildPhases = (
+				5ED4B3431601D01C00E9FE42 /* Sources */,
+				5ED4B3441601D01C00E9FE42 /* Frameworks */,
+				5ED4B3451601D01C00E9FE42 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Rome2Rio;
+			productName = Rome2Rio;
+			productReference = 5ED4B3471601D01C00E9FE42 /* Rome2Rio.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5ED4B33E1601D01C00E9FE42 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = R2R;
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = Rome2Rio;
+			};
+			buildConfigurationList = 5ED4B3411601D01C00E9FE42 /* Build configuration list for PBXProject "Rome2Rio" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5ED4B33C1601D01C00E9FE42;
+			productRefGroup = 5ED4B3481601D01C00E9FE42 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5ED4B3461601D01C00E9FE42 /* Rome2Rio */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5ED4B3451601D01C00E9FE42 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5ED4B3561601D01C00E9FE42 /* InfoPlist.strings in Resources */,
+				5ED4B35F1601D01C00E9FE42 /* MainStoryboard.storyboard in Resources */,
+				5ED4B3B41601D07000E9FE42 /* fbicon.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5ED4B3431601D01C00E9FE42 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5ED4B3581601D01C00E9FE42 /* main.m in Sources */,
+				5ED4B35C1601D01C00E9FE42 /* R2RAppDelegate.m in Sources */,
+				5ED4B3621601D01C00E9FE42 /* R2RMasterViewController.m in Sources */,
+				5ED4B3651601D01C00E9FE42 /* R2RDetailViewController.m in Sources */,
+				5ED4B3B51601D07000E9FE42 /* R2RAirline.m in Sources */,
+				5ED4B3B61601D07000E9FE42 /* R2RAirport.m in Sources */,
+				5ED4B3B71601D07000E9FE42 /* R2RConnection.m in Sources */,
+				5ED4B3B81601D07000E9FE42 /* R2RDataController.m in Sources */,
+				5ED4B3B91601D07000E9FE42 /* R2RFlightHop.m in Sources */,
+				5ED4B3BA1601D07000E9FE42 /* R2RFlightItinerary.m in Sources */,
+				5ED4B3BB1601D07000E9FE42 /* R2RFlightLeg.m in Sources */,
+				5ED4B3BC1601D07000E9FE42 /* R2RFlightSegment.m in Sources */,
+				5ED4B3BD1601D07000E9FE42 /* R2RFlightSegmentCell.m in Sources */,
+				5ED4B3BE1601D07000E9FE42 /* R2RFlightSegmentView.m in Sources */,
+				5ED4B3BF1601D07000E9FE42 /* R2RFlightTicket.m in Sources */,
+				5ED4B3C01601D07000E9FE42 /* R2RFlightTicketSet.m in Sources */,
+				5ED4B3C11601D07000E9FE42 /* R2RGeoCoder.m in Sources */,
+				5ED4B3C21601D07000E9FE42 /* R2RGeoCodeResponse.m in Sources */,
+				5ED4B3C31601D07000E9FE42 /* R2RHopCell.m in Sources */,
+				5ED4B3C41601D07000E9FE42 /* R2RNameCell.m in Sources */,
+				5ED4B3C51601D07000E9FE42 /* R2RPlace.m in Sources */,
+				5ED4B3C61601D07000E9FE42 /* R2RPosition.m in Sources */,
+				5ED4B3C71601D07000E9FE42 /* R2RPrintSearch.m in Sources */,
+				5ED4B3C81601D07000E9FE42 /* R2RResultsCell.m in Sources */,
+				5ED4B3C91601D07000E9FE42 /* R2RResultsViewController.m in Sources */,
+				5ED4B3CA1601D07000E9FE42 /* R2RRoute.m in Sources */,
+				5ED4B3CB1601D07000E9FE42 /* R2RSearch.m in Sources */,
+				5ED4B3CC1601D07000E9FE42 /* R2RSearchResponse.m in Sources */,
+				5ED4B3CD1601D07000E9FE42 /* R2RSegmentViewController.m in Sources */,
+				5ED4B3CE1601D07000E9FE42 /* R2RStop.m in Sources */,
+				5ED4B3CF1601D07000E9FE42 /* R2RTransitHop.m in Sources */,
+				5ED4B3D01601D07000E9FE42 /* R2RTransitItinerary.m in Sources */,
+				5ED4B3D11601D07000E9FE42 /* R2RTransitLeg.m in Sources */,
+				5ED4B3D21601D07000E9FE42 /* R2RTransitSegment.m in Sources */,
+				5ED4B3D31601D07000E9FE42 /* R2RTransitSegmentCell.m in Sources */,
+				5ED4B3D41601D07000E9FE42 /* R2RTransitSegmentView.m in Sources */,
+				5ED4B3D51601D07000E9FE42 /* R2RWalkDriveSegment.m in Sources */,
+				5ED4B3D61601D07000E9FE42 /* R2RWalkDriveSegmentCell.m in Sources */,
+				5ED4B3D71601D07000E9FE42 /* R2RWalkDriveSegmentView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5ED4B3541601D01C00E9FE42 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5ED4B3551601D01C00E9FE42 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		5ED4B35D1601D01C00E9FE42 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5ED4B35E1601D01C00E9FE42 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5ED4B3661601D01C00E9FE42 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5ED4B3671601D01C00E9FE42 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5ED4B3691601D01C00E9FE42 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Rome2Rio/Rome2Rio-Prefix.pch";
+				INFOPLIST_FILE = "Rome2Rio/Rome2Rio-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		5ED4B36A1601D01C00E9FE42 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Rome2Rio/Rome2Rio-Prefix.pch";
+				INFOPLIST_FILE = "Rome2Rio/Rome2Rio-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5ED4B3411601D01C00E9FE42 /* Build configuration list for PBXProject "Rome2Rio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5ED4B3661601D01C00E9FE42 /* Debug */,
+				5ED4B3671601D01C00E9FE42 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5ED4B3681601D01C00E9FE42 /* Build configuration list for PBXNativeTarget "Rome2Rio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5ED4B3691601D01C00E9FE42 /* Debug */,
+				5ED4B36A1601D01C00E9FE42 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5ED4B33E1601D01C00E9FE42 /* Project object */;
+}
