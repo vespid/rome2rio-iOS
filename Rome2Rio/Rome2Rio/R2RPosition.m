@@ -12,4 +12,9 @@
 
 @synthesize lat, lng;
 
+- (NSString *)description 
+{
+	return [NSString stringWithFormat: @"%f, %f", self.lat, self.lng];
+}
+
 @end
