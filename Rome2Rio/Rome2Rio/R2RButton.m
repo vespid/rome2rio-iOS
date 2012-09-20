@@ -1,14 +1,14 @@
 //
-//  R2RWalkDriveSegmentView.m
-//  R2RApp
+//  R2RButton.m
+//  Rome2Rio
 //
-//  Created by Ash Verdoorn on 13/09/12.
+//  Created by Ash Verdoorn on 18/09/12.
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-#import "R2RWalkDriveSegmentView.h"
+#import "R2RButton.h"
 
-@implementation R2RWalkDriveSegmentView
+@implementation R2RButton
 
 - (id)initWithFrame:(CGRect)frame
 {

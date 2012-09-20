@@ -9,6 +9,7 @@
 #import "R2RMasterViewController.h"
 #import "R2RDetailViewController.h"
 #import "R2RResultsViewController.h"
+#import "R2RStatusButton.h"
 
 
 @interface R2RMasterViewController ()
@@ -22,6 +23,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *toTextField;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 //@property (weak, nonatomic) R2RResultsViewController *resultsViewController;
+@property (strong, nonatomic) R2RStatusButton *statusButton;
+
+//@property (strong, nonatomic) UIView *statusMessageView;
+
+
+
 
 - (IBAction)FromEditingDidBegin:(id)sender;
 - (IBAction)ToEditingDidBegin:(id)sender;
@@ -29,13 +36,13 @@
 - (IBAction)ToEditingDidEnd:(id)sender;
 - (IBAction)SearchTouchUpInside:(id)sender;
 
-enum {
-    stateEmpty = 0,
-    stateEditingDidBegin,
-    stateEditingDidEnd,
-    stateResolved,
-    stateLocationNotFound
-};
+enum R2RState
+{
+    IDLE = 0,
+    RESOLVING_FROM,
+    RESOLVING_TO,
+    SEARCHING,
+} ;
 
 @end
 
@@ -52,20 +59,25 @@ enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:) name:@"refreshFromTextField" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:) name:@"refreshToTextField" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:) name:@"displayStatusMessage" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView:) name:@"clearStatusMessage" object:nil];
+ 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFromTextField:) name:@"refreshFromTextField" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshToTextField:) name:@"refreshToTextField" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
     
     // Do any additional setup after loading the view, typically from a nib.
     
-///////don't need navigation items on main view
-//    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-//
-//    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-//    self.navigationItem.rightBarButtonItem = addButton;
+//    self.statusMessage = [[R2RStatusLabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height -100, self.view.bounds.size.width, 30.0)];
+//    [self.view addSubview:self.statusMessage];
+    
+    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, 360.0, 320.0, 30.0)];
+    //self.statusButton = [R2RStatusButton buttonWithType:UIButtonTypeCustom];
+    
+    [self.view addSubview:self.statusButton];
+    
+    [self setStatusMessage:self.dataController.statusMessage];
+    
 }
+
 
 - (void)viewDidUnload
 {
@@ -73,8 +85,7 @@ enum {
     //here or dealloc???
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshFromTextField" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshToTextField" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"displayStatusMessage" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"clearStatusMessage" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
     
     [self setFromTextField:nil];
     [self setToTextField:nil];
@@ -177,40 +188,74 @@ enum {
     }
 }
 
+- (IBAction)FromEditingDidBegin:(id)sender
+{
+    [self.dataController FromEditingDidBegin];
+    
+//    self.dataController.fromText = @"";
+//    [self.dataController clearGeoCoderFrom];
+//    [self.dataController clearSearch];
+}
+
+- (IBAction)ToEditingDidBegin:(id)sender
+{
+    [self.dataController ToEditingDidBegin];
+    
+//    self.dataController.toText = @"";
+//    [self.dataController clearGeoCoderTo];
+//    [self.dataController clearSearch];
+}
+
 - (IBAction)FromEditingDidEnd:(id)sender
 {
-    if ([self.fromTextField.text length] == 0)
+    if ([self.fromTextField.text length]> 0)
     {
-        return;
+        [self.dataController FromEditingDidEnd:self.fromTextField.text];
     }
     
-    [self.dataController geoCodeFromQuery:self.fromTextField.text];
+//    self.dataController.fromText = self.fromTextField.text;
+//    
+//    if ([self.fromTextField.text length] == 0)
+//    {
+//        return;
+//    }
+//    
+//    if (self.dataController.state == IDLE || self.dataController.state == RESOLVING_FROM)
+//    {
+//        [self.dataController geoCodeFromQuery:self.fromTextField.text];
+//    }
 
 }
 
 - (IBAction)ToEditingDidEnd:(id)sender
 {
-    if ([self.toTextField.text length] == 0)
+    if ([self.toTextField.text length]> 0)
     {
-        //self.geoCoderTo.responseCompletionState = stateEmpty;
-        return;
+        [self.dataController ToEditingDidEnd:self.toTextField.text];
     }
     
-    [self.dataController geoCodeToQuery:self.toTextField.text];
-    
+//    self.dataController.toText = self.toTextField.text;
+//    
+//    if ([self.toTextField.text length] == 0)
+//    {
+//        return;
+//    }
+//    
+//    if (self.dataController.state == IDLE || self.dataController.state == RESOLVING_TO)
+//    {
+//        [self.dataController geoCodeToQuery:self.toTextField.text];
+//    }
 }
 
 - (IBAction)SearchTouchUpInside:(id)sender
 {
     if ([self.fromTextField.text length] == 0)
-    {
-        //[self TextBoxAlert:@"Enter Location": @"Please enter origin"];
-        [self WarningMessage:@"Please enter origin":@"from"];
+    { 
+        [self WarningMessage:@"Please enter origin":@"from"];        
         return;
     }
     if ([self.toTextField.text length] == 0)
     {
-        //[self TextBoxAlert:@"Enter Location": @"Please enter destination"];
         [self WarningMessage:@"Please enter destination":@"to"];
         return;
     }
@@ -222,84 +267,117 @@ enum {
     
 }
 
-- (IBAction)FromEditingDidBegin:(id)sender
-{
-    [self.dataController clearGeoCoderFrom];
-    [self.dataController clearSearch];
-    
-    //self.geoCoderFrom = nil;
-}
 
-- (IBAction)ToEditingDidBegin:(id)sender
-{
-    [self.dataController clearGeoCoderTo];
-    [self.dataController clearSearch];
-    //self.geoCoderTo = nil;
-}
 
 
 - (void)WarningMessage: (NSString *) message: (NSString *) textField
 {
+
+//    
+//    self.statusButton.hidden = false;
+//    self.statusButton.titleLabel.text = message;
+//    
+//    [self performSelector:@selector(clearMessage) withObject:nil afterDelay:3.0];
+//    
+    
+    [self setStatusMessage:message];
+    //[self performSelector:@selector(setStatusMessage:) withObject:@"" afterDelay:3.0];
+    
     //maybe enum the textField
     
     //messageState = textField;
     
-    self.messageLabel.text = message;
+    //self.messageLabel.text = message;
 }
 
-- (void)ClearMessage: (NSString *) textField;
-{
-    //if ([messageState isEqualToString:textField])
-    {
-        self.messageLabel.text = nil;
-    }
-}
+//-(void) clearMessage
+//{
+//    self.statusButton.hidden = true;
+//    //[self.view removeFromSuperview];
+//}
 
-- (void)TextBoxAlert:(NSString *) title: (NSString *)message
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
-}
+//-(void) refreshView:(NSNotification *) notification
+//{
+//    if ([notification.name isEqualToString:@"refreshFromTextField"])
+//    {
+//        [self refreshFromTextField];
+//        return;
+//    }
+//    if ([notification.name isEqualToString:@"refreshToTextField"])
+//    {
+//        [self refreshToTextField];
+//        return;
+//    }
+//    if ([notification.name isEqualToString:@"refreshStatusMessage"])
+//    {
+//        [self refreshStatusMessage];
+//        return;
+//    }
+//    
+//    if ([notification.name isEqualToString:@"displayStatusMessage"])
+//    {
+//        //[self displayStatusMessage];
+//        return;
+//    }
+//    if ([notification.name isEqualToString:@"clearStatusMessage"])
+//    {
+//        //[self clearStatusMessage];
+//        return;
+//    }
+//    
+//    
+//}
 
--(void) refreshView:(NSNotification *) notification
-{
-    if ([notification.name isEqualToString:@"refreshFromTextField"])
-    {
-        [self refreshFromTextField];
-        return;
-    }
-    if ([notification.name isEqualToString:@"refreshToTextField"])
-    {
-        [self refreshToTextField];
-        return;
-    }
-    if ([notification.name isEqualToString:@"displayStatusMessage"])
-    {
-        //[self displayStatusMessage];
-        return;
-    }
-    if ([notification.name isEqualToString:@"clearStatusMessage"])
-    {
-        //[self clearStatusMessage];
-        return;
-    }
-    
-    
-}
-
--(void) refreshFromTextField
+-(void) refreshFromTextField:(NSNotification *) notification
 {
     self.fromTextField.text = self.dataController.geoCoderFrom.geoCodeResponse.place.longName;
 }
 
--(void) refreshToTextField
+-(void) refreshToTextField:(NSNotification *) notification
 {
     self.toTextField.text = self.dataController.geoCoderTo.geoCodeResponse.place.longName;
 }
+
+-(void) refreshStatusMessage:(NSNotification *) notification
+{
+    
+    
+    
+    [self setStatusMessage:self.dataController.statusMessage];
+    
+    //[self.statusButton setTitle:self.dataController.statusMessage forState:UIControlStateNormal];
+    
+//    if ([self.dataController.statusMessage length] == 0)
+//    {
+//        [self.statusButton setHidden:true];
+//    }
+//    else
+//    {
+//        [self.statusButton setHidden:false];
+//    }
+}
+
+-(void) setStatusMessage: (NSString *) message
+{
+    //added this to have a selector for setting message to nil.
+    //will probably change when resolving of multiple messages is sorted
+    
+    
+    [self.statusButton setTitle:message forState:UIControlStateNormal];
+    //-(void) setStatusMessage {
+    //[self.statusButton setTitle:self.dataController.statusMessage forState:UIControlStateNormal];
+    //}
+}
+
+-(void) setStatusMessage: (NSString *) message: (NSString *) sender
+{
+    //added this to have a selector for setting message to nil.
+    //will probably change when resolving of multiple messages is sorted
+
+    [self.statusButton setTitle:message forState:UIControlStateNormal];
+
+}
+
 
 
 @end

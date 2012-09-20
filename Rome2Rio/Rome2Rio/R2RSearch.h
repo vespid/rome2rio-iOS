@@ -33,8 +33,13 @@
 
 @property (weak, nonatomic) id<R2RSearchDelegate> delegate;
 @property (strong, nonatomic) R2RSearchResponse *searchResponse;
+@property (nonatomic) NSInteger responseCompletionState;
+@property (strong, nonatomic) NSString *responseMessage;
 
--(id) initWithFromToStrings:(NSString *)fromString:(NSString *)toString delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
+//-(id) initWithFromToStrings:(NSString *)fromString:(NSString *)toString delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
+
+- (id) initWithSearch:(NSString *)oName:(NSString *)dName:(NSString *)oPos:(NSString *)dPos delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
+
 
 @end
 

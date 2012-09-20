@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-#import "R2RTransitSegmentView.h"
-
 @interface R2RTransitSegmentCell : UITableViewCell
 
-@property (strong, nonatomic) R2RTransitSegmentView *transitSegmentView;
+@property (weak, nonatomic) IBOutlet UILabel *kindLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fromLabel;
+@property (weak, nonatomic) IBOutlet UILabel *toLabel;
+@property (weak, nonatomic) IBOutlet UILabel *durationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lineLabel;
+@property (weak, nonatomic) IBOutlet UILabel *agencyLabel;
 
 @end

@@ -23,7 +23,8 @@
 
 @protocol R2RConnectionDelegate <NSObject>
 
-- (void)R2RConnectionProcessData:(R2RConnection *)delegateConnection;
+- (void) R2RConnectionProcessData:(R2RConnection *)delegateConnection;
+- (void) R2RConnectionError:(R2RConnection *)delegateConnection;
 
 @end
 

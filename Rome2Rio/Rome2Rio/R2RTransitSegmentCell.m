@@ -9,20 +9,19 @@
 #import "R2RTransitSegmentCell.h"
 
 @implementation R2RTransitSegmentCell
-
-@synthesize transitSegmentView;
+@synthesize kindLabel;
+@synthesize fromLabel;
+@synthesize toLabel;
+@synthesize lineLabel;
+@synthesize durationLabel;
+@synthesize agencyLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        CGRect viewFrame = CGRectMake(0.0, 0.0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
         
-        transitSegmentView = [[R2RTransitSegmentView alloc] initWithFrame:viewFrame];
-        transitSegmentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        
-        [self.contentView addSubview:transitSegmentView];
     }
     return self;
 }

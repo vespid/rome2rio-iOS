@@ -10,4 +10,9 @@
 
 @interface R2RFlightSegmentCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *airlineLabel;
+@property (weak, nonatomic) IBOutlet UILabel *durationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *departureTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *arrivalTimeLabel;
+
 @end

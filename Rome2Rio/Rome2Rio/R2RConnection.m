@@ -55,6 +55,8 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     NSLog(@"didFailWithError");
     NSLog(@"Connection failed: %@", [error localizedDescription]);
+    
+    [[self delegate] R2RConnectionError:self];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {

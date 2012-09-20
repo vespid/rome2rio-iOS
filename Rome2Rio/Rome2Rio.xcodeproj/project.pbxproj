@@ -26,12 +26,10 @@
 		5ED4B3BB1601D07000E9FE42 /* R2RFlightLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B37B1601D07000E9FE42 /* R2RFlightLeg.m */; };
 		5ED4B3BC1601D07000E9FE42 /* R2RFlightSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B37D1601D07000E9FE42 /* R2RFlightSegment.m */; };
 		5ED4B3BD1601D07000E9FE42 /* R2RFlightSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B37F1601D07000E9FE42 /* R2RFlightSegmentCell.m */; };
-		5ED4B3BE1601D07000E9FE42 /* R2RFlightSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3811601D07000E9FE42 /* R2RFlightSegmentView.m */; };
 		5ED4B3BF1601D07000E9FE42 /* R2RFlightTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3831601D07000E9FE42 /* R2RFlightTicket.m */; };
 		5ED4B3C01601D07000E9FE42 /* R2RFlightTicketSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3851601D07000E9FE42 /* R2RFlightTicketSet.m */; };
 		5ED4B3C11601D07000E9FE42 /* R2RGeoCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3871601D07000E9FE42 /* R2RGeoCoder.m */; };
 		5ED4B3C21601D07000E9FE42 /* R2RGeoCodeResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3891601D07000E9FE42 /* R2RGeoCodeResponse.m */; };
-		5ED4B3C31601D07000E9FE42 /* R2RHopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B38B1601D07000E9FE42 /* R2RHopCell.m */; };
 		5ED4B3C41601D07000E9FE42 /* R2RNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B38D1601D07000E9FE42 /* R2RNameCell.m */; };
 		5ED4B3C51601D07000E9FE42 /* R2RPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B38F1601D07000E9FE42 /* R2RPlace.m */; };
 		5ED4B3C61601D07000E9FE42 /* R2RPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3911601D07000E9FE42 /* R2RPosition.m */; };
@@ -41,17 +39,21 @@
 		5ED4B3CA1601D07000E9FE42 /* R2RRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3991601D07000E9FE42 /* R2RRoute.m */; };
 		5ED4B3CB1601D07000E9FE42 /* R2RSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B39B1601D07000E9FE42 /* R2RSearch.m */; };
 		5ED4B3CC1601D07000E9FE42 /* R2RSearchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B39D1601D07000E9FE42 /* R2RSearchResponse.m */; };
-		5ED4B3CD1601D07000E9FE42 /* R2RSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B39F1601D07000E9FE42 /* R2RSegmentViewController.m */; };
 		5ED4B3CE1601D07000E9FE42 /* R2RStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A11601D07000E9FE42 /* R2RStop.m */; };
 		5ED4B3CF1601D07000E9FE42 /* R2RTransitHop.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A31601D07000E9FE42 /* R2RTransitHop.m */; };
 		5ED4B3D01601D07000E9FE42 /* R2RTransitItinerary.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A51601D07000E9FE42 /* R2RTransitItinerary.m */; };
 		5ED4B3D11601D07000E9FE42 /* R2RTransitLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A71601D07000E9FE42 /* R2RTransitLeg.m */; };
 		5ED4B3D21601D07000E9FE42 /* R2RTransitSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3A91601D07000E9FE42 /* R2RTransitSegment.m */; };
 		5ED4B3D31601D07000E9FE42 /* R2RTransitSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3AB1601D07000E9FE42 /* R2RTransitSegmentCell.m */; };
-		5ED4B3D41601D07000E9FE42 /* R2RTransitSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3AD1601D07000E9FE42 /* R2RTransitSegmentView.m */; };
 		5ED4B3D51601D07000E9FE42 /* R2RWalkDriveSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3AF1601D07000E9FE42 /* R2RWalkDriveSegment.m */; };
 		5ED4B3D61601D07000E9FE42 /* R2RWalkDriveSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3B11601D07000E9FE42 /* R2RWalkDriveSegmentCell.m */; };
-		5ED4B3D71601D07000E9FE42 /* R2RWalkDriveSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3B31601D07000E9FE42 /* R2RWalkDriveSegmentView.m */; };
+		5ED4B3ED1602D05A00E9FE42 /* R2RFlightSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3EC1602D05A00E9FE42 /* R2RFlightSegmentViewController.m */; };
+		5ED4B3F01602D06F00E9FE42 /* R2RTransitSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3EF1602D06E00E9FE42 /* R2RTransitSegmentViewController.m */; };
+		5ED4B3F31602D08100E9FE42 /* R2RWalkDriveSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3F21602D08000E9FE42 /* R2RWalkDriveSegmentViewController.m */; };
+		5ED4B3F61602D3AF00E9FE42 /* R2RFlightHopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3F51602D3AE00E9FE42 /* R2RFlightHopCell.m */; };
+		5ED4B3F91602D3C300E9FE42 /* R2RTransitHopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3F81602D3C300E9FE42 /* R2RTransitHopCell.m */; };
+		5ED4B3FC1602D3D700E9FE42 /* R2RWalkDriveHopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3FB1602D3D700E9FE42 /* R2RWalkDriveHopCell.m */; };
+		5ED5C8CC16082D34004CFDC8 /* R2RStatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C8CB16082D34004CFDC8 /* R2RStatusButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,8 +91,6 @@
 		5ED4B37D1601D07000E9FE42 /* R2RFlightSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightSegment.m; sourceTree = "<group>"; };
 		5ED4B37E1601D07000E9FE42 /* R2RFlightSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightSegmentCell.h; sourceTree = "<group>"; };
 		5ED4B37F1601D07000E9FE42 /* R2RFlightSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightSegmentCell.m; sourceTree = "<group>"; };
-		5ED4B3801601D07000E9FE42 /* R2RFlightSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightSegmentView.h; sourceTree = "<group>"; };
-		5ED4B3811601D07000E9FE42 /* R2RFlightSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightSegmentView.m; sourceTree = "<group>"; };
 		5ED4B3821601D07000E9FE42 /* R2RFlightTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightTicket.h; sourceTree = "<group>"; };
 		5ED4B3831601D07000E9FE42 /* R2RFlightTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightTicket.m; sourceTree = "<group>"; };
 		5ED4B3841601D07000E9FE42 /* R2RFlightTicketSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightTicketSet.h; sourceTree = "<group>"; };
@@ -99,8 +99,6 @@
 		5ED4B3871601D07000E9FE42 /* R2RGeoCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RGeoCoder.m; sourceTree = "<group>"; };
 		5ED4B3881601D07000E9FE42 /* R2RGeoCodeResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RGeoCodeResponse.h; sourceTree = "<group>"; };
 		5ED4B3891601D07000E9FE42 /* R2RGeoCodeResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RGeoCodeResponse.m; sourceTree = "<group>"; };
-		5ED4B38A1601D07000E9FE42 /* R2RHopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RHopCell.h; sourceTree = "<group>"; };
-		5ED4B38B1601D07000E9FE42 /* R2RHopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RHopCell.m; sourceTree = "<group>"; };
 		5ED4B38C1601D07000E9FE42 /* R2RNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RNameCell.h; sourceTree = "<group>"; };
 		5ED4B38D1601D07000E9FE42 /* R2RNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RNameCell.m; sourceTree = "<group>"; };
 		5ED4B38E1601D07000E9FE42 /* R2RPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPlace.h; sourceTree = "<group>"; };
@@ -119,8 +117,6 @@
 		5ED4B39B1601D07000E9FE42 /* R2RSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearch.m; sourceTree = "<group>"; };
 		5ED4B39C1601D07000E9FE42 /* R2RSearchResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearchResponse.h; sourceTree = "<group>"; };
 		5ED4B39D1601D07000E9FE42 /* R2RSearchResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchResponse.m; sourceTree = "<group>"; };
-		5ED4B39E1601D07000E9FE42 /* R2RSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSegmentViewController.h; sourceTree = "<group>"; };
-		5ED4B39F1601D07000E9FE42 /* R2RSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSegmentViewController.m; sourceTree = "<group>"; };
 		5ED4B3A01601D07000E9FE42 /* R2RStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RStop.h; sourceTree = "<group>"; };
 		5ED4B3A11601D07000E9FE42 /* R2RStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RStop.m; sourceTree = "<group>"; };
 		5ED4B3A21601D07000E9FE42 /* R2RTransitHop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitHop.h; sourceTree = "<group>"; };
@@ -133,14 +129,24 @@
 		5ED4B3A91601D07000E9FE42 /* R2RTransitSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegment.m; sourceTree = "<group>"; };
 		5ED4B3AA1601D07000E9FE42 /* R2RTransitSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentCell.h; sourceTree = "<group>"; };
 		5ED4B3AB1601D07000E9FE42 /* R2RTransitSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentCell.m; sourceTree = "<group>"; };
-		5ED4B3AC1601D07000E9FE42 /* R2RTransitSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentView.h; sourceTree = "<group>"; };
-		5ED4B3AD1601D07000E9FE42 /* R2RTransitSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentView.m; sourceTree = "<group>"; };
 		5ED4B3AE1601D07000E9FE42 /* R2RWalkDriveSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RWalkDriveSegment.h; sourceTree = "<group>"; };
 		5ED4B3AF1601D07000E9FE42 /* R2RWalkDriveSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveSegment.m; sourceTree = "<group>"; };
 		5ED4B3B01601D07000E9FE42 /* R2RWalkDriveSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RWalkDriveSegmentCell.h; sourceTree = "<group>"; };
 		5ED4B3B11601D07000E9FE42 /* R2RWalkDriveSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveSegmentCell.m; sourceTree = "<group>"; };
-		5ED4B3B21601D07000E9FE42 /* R2RWalkDriveSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RWalkDriveSegmentView.h; sourceTree = "<group>"; };
-		5ED4B3B31601D07000E9FE42 /* R2RWalkDriveSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveSegmentView.m; sourceTree = "<group>"; };
+		5ED4B3EB1602D05A00E9FE42 /* R2RFlightSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightSegmentViewController.h; sourceTree = "<group>"; };
+		5ED4B3EC1602D05A00E9FE42 /* R2RFlightSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightSegmentViewController.m; sourceTree = "<group>"; };
+		5ED4B3EE1602D06E00E9FE42 /* R2RTransitSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentViewController.h; sourceTree = "<group>"; };
+		5ED4B3EF1602D06E00E9FE42 /* R2RTransitSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentViewController.m; sourceTree = "<group>"; };
+		5ED4B3F11602D08000E9FE42 /* R2RWalkDriveSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RWalkDriveSegmentViewController.h; sourceTree = "<group>"; };
+		5ED4B3F21602D08000E9FE42 /* R2RWalkDriveSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveSegmentViewController.m; sourceTree = "<group>"; };
+		5ED4B3F41602D3AE00E9FE42 /* R2RFlightHopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightHopCell.h; sourceTree = "<group>"; };
+		5ED4B3F51602D3AE00E9FE42 /* R2RFlightHopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightHopCell.m; sourceTree = "<group>"; };
+		5ED4B3F71602D3C200E9FE42 /* R2RTransitHopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitHopCell.h; sourceTree = "<group>"; };
+		5ED4B3F81602D3C300E9FE42 /* R2RTransitHopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitHopCell.m; sourceTree = "<group>"; };
+		5ED4B3FA1602D3D700E9FE42 /* R2RWalkDriveHopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RWalkDriveHopCell.h; sourceTree = "<group>"; };
+		5ED4B3FB1602D3D700E9FE42 /* R2RWalkDriveHopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveHopCell.m; sourceTree = "<group>"; };
+		5ED5C8CA16082D34004CFDC8 /* R2RStatusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RStatusButton.h; sourceTree = "<group>"; };
+		5ED5C8CB16082D34004CFDC8 /* R2RStatusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RStatusButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,7 +199,7 @@
 				5ED4B3D81601D08300E9FE42 /* Controllers */,
 				5ED4B3D91601D0FC00E9FE42 /* Helpers */,
 				5ED4B3DA1601D10500E9FE42 /* CellPrototypes */,
-				5ED4B36B1601D05B00E9FE42 /* New Group */,
+				5ED4B36B1601D05B00E9FE42 /* Models */,
 				5ED4B36C1601D07000E9FE42 /* Images */,
 				5ED4B3521601D01C00E9FE42 /* Supporting Files */,
 			);
@@ -211,7 +217,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5ED4B36B1601D05B00E9FE42 /* New Group */ = {
+		5ED4B36B1601D05B00E9FE42 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				5ED4B36E1601D07000E9FE42 /* R2RAirline.h */,
@@ -253,7 +259,7 @@
 				5ED4B3AE1601D07000E9FE42 /* R2RWalkDriveSegment.h */,
 				5ED4B3AF1601D07000E9FE42 /* R2RWalkDriveSegment.m */,
 			);
-			name = "New Group";
+			name = Models;
 			sourceTree = "<group>";
 		};
 		5ED4B36C1601D07000E9FE42 /* Images */ = {
@@ -275,8 +281,14 @@
 				5ED4B3611601D01C00E9FE42 /* R2RMasterViewController.m */,
 				5ED4B3961601D07000E9FE42 /* R2RResultsViewController.h */,
 				5ED4B3971601D07000E9FE42 /* R2RResultsViewController.m */,
-				5ED4B39E1601D07000E9FE42 /* R2RSegmentViewController.h */,
-				5ED4B39F1601D07000E9FE42 /* R2RSegmentViewController.m */,
+				5ED4B3EB1602D05A00E9FE42 /* R2RFlightSegmentViewController.h */,
+				5ED4B3EC1602D05A00E9FE42 /* R2RFlightSegmentViewController.m */,
+				5ED4B3EE1602D06E00E9FE42 /* R2RTransitSegmentViewController.h */,
+				5ED4B3EF1602D06E00E9FE42 /* R2RTransitSegmentViewController.m */,
+				5ED4B3F11602D08000E9FE42 /* R2RWalkDriveSegmentViewController.h */,
+				5ED4B3F21602D08000E9FE42 /* R2RWalkDriveSegmentViewController.m */,
+				5ED5C8CA16082D34004CFDC8 /* R2RStatusButton.h */,
+				5ED5C8CB16082D34004CFDC8 /* R2RStatusButton.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -301,22 +313,20 @@
 			children = (
 				5ED4B37E1601D07000E9FE42 /* R2RFlightSegmentCell.h */,
 				5ED4B37F1601D07000E9FE42 /* R2RFlightSegmentCell.m */,
-				5ED4B3801601D07000E9FE42 /* R2RFlightSegmentView.h */,
-				5ED4B3811601D07000E9FE42 /* R2RFlightSegmentView.m */,
-				5ED4B38A1601D07000E9FE42 /* R2RHopCell.h */,
-				5ED4B38B1601D07000E9FE42 /* R2RHopCell.m */,
+				5ED4B3F41602D3AE00E9FE42 /* R2RFlightHopCell.h */,
+				5ED4B3F51602D3AE00E9FE42 /* R2RFlightHopCell.m */,
+				5ED4B3F71602D3C200E9FE42 /* R2RTransitHopCell.h */,
+				5ED4B3F81602D3C300E9FE42 /* R2RTransitHopCell.m */,
+				5ED4B3FA1602D3D700E9FE42 /* R2RWalkDriveHopCell.h */,
+				5ED4B3FB1602D3D700E9FE42 /* R2RWalkDriveHopCell.m */,
 				5ED4B38C1601D07000E9FE42 /* R2RNameCell.h */,
 				5ED4B38D1601D07000E9FE42 /* R2RNameCell.m */,
 				5ED4B3941601D07000E9FE42 /* R2RResultsCell.h */,
 				5ED4B3951601D07000E9FE42 /* R2RResultsCell.m */,
 				5ED4B3AA1601D07000E9FE42 /* R2RTransitSegmentCell.h */,
 				5ED4B3AB1601D07000E9FE42 /* R2RTransitSegmentCell.m */,
-				5ED4B3AC1601D07000E9FE42 /* R2RTransitSegmentView.h */,
-				5ED4B3AD1601D07000E9FE42 /* R2RTransitSegmentView.m */,
 				5ED4B3B01601D07000E9FE42 /* R2RWalkDriveSegmentCell.h */,
 				5ED4B3B11601D07000E9FE42 /* R2RWalkDriveSegmentCell.m */,
-				5ED4B3B21601D07000E9FE42 /* R2RWalkDriveSegmentView.h */,
-				5ED4B3B31601D07000E9FE42 /* R2RWalkDriveSegmentView.m */,
 			);
 			name = CellPrototypes;
 			sourceTree = "<group>";
@@ -399,12 +409,10 @@
 				5ED4B3BB1601D07000E9FE42 /* R2RFlightLeg.m in Sources */,
 				5ED4B3BC1601D07000E9FE42 /* R2RFlightSegment.m in Sources */,
 				5ED4B3BD1601D07000E9FE42 /* R2RFlightSegmentCell.m in Sources */,
-				5ED4B3BE1601D07000E9FE42 /* R2RFlightSegmentView.m in Sources */,
 				5ED4B3BF1601D07000E9FE42 /* R2RFlightTicket.m in Sources */,
 				5ED4B3C01601D07000E9FE42 /* R2RFlightTicketSet.m in Sources */,
 				5ED4B3C11601D07000E9FE42 /* R2RGeoCoder.m in Sources */,
 				5ED4B3C21601D07000E9FE42 /* R2RGeoCodeResponse.m in Sources */,
-				5ED4B3C31601D07000E9FE42 /* R2RHopCell.m in Sources */,
 				5ED4B3C41601D07000E9FE42 /* R2RNameCell.m in Sources */,
 				5ED4B3C51601D07000E9FE42 /* R2RPlace.m in Sources */,
 				5ED4B3C61601D07000E9FE42 /* R2RPosition.m in Sources */,
@@ -414,17 +422,21 @@
 				5ED4B3CA1601D07000E9FE42 /* R2RRoute.m in Sources */,
 				5ED4B3CB1601D07000E9FE42 /* R2RSearch.m in Sources */,
 				5ED4B3CC1601D07000E9FE42 /* R2RSearchResponse.m in Sources */,
-				5ED4B3CD1601D07000E9FE42 /* R2RSegmentViewController.m in Sources */,
 				5ED4B3CE1601D07000E9FE42 /* R2RStop.m in Sources */,
 				5ED4B3CF1601D07000E9FE42 /* R2RTransitHop.m in Sources */,
 				5ED4B3D01601D07000E9FE42 /* R2RTransitItinerary.m in Sources */,
 				5ED4B3D11601D07000E9FE42 /* R2RTransitLeg.m in Sources */,
 				5ED4B3D21601D07000E9FE42 /* R2RTransitSegment.m in Sources */,
 				5ED4B3D31601D07000E9FE42 /* R2RTransitSegmentCell.m in Sources */,
-				5ED4B3D41601D07000E9FE42 /* R2RTransitSegmentView.m in Sources */,
 				5ED4B3D51601D07000E9FE42 /* R2RWalkDriveSegment.m in Sources */,
 				5ED4B3D61601D07000E9FE42 /* R2RWalkDriveSegmentCell.m in Sources */,
-				5ED4B3D71601D07000E9FE42 /* R2RWalkDriveSegmentView.m in Sources */,
+				5ED4B3ED1602D05A00E9FE42 /* R2RFlightSegmentViewController.m in Sources */,
+				5ED4B3F01602D06F00E9FE42 /* R2RTransitSegmentViewController.m in Sources */,
+				5ED4B3F31602D08100E9FE42 /* R2RWalkDriveSegmentViewController.m in Sources */,
+				5ED4B3F61602D3AF00E9FE42 /* R2RFlightHopCell.m in Sources */,
+				5ED4B3F91602D3C300E9FE42 /* R2RTransitHopCell.m in Sources */,
+				5ED4B3FC1602D3D700E9FE42 /* R2RWalkDriveHopCell.m in Sources */,
+				5ED5C8CC16082D34004CFDC8 /* R2RStatusButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,6 +552,7 @@
 				5ED4B36A1601D01C00E9FE42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -7,6 +7,10 @@
 //
 
 #import "R2RDetailViewController.h"
+#import "R2RFlightSegmentViewController.h"
+#import "R2RTransitSegmentViewController.h"
+#import "R2RWalkDriveSegmentViewController.h"
+
 #import "R2RNameCell.h"
 #import "R2RHopCell.h"
 
@@ -32,6 +36,8 @@
 @end
 
 @implementation R2RDetailViewController
+
+@synthesize route;
 
 #pragma mark - Managing the detail item
 
@@ -92,25 +98,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.row == 0)
-//    {
-//        static NSString *CellIdentifier = @"NameCell";
-//        R2RNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//        
-//        NSString *sourceName = [self getSegmentSourceName:[self.route.segments objectAtIndex:indexPath.row]];
-//        [[cell nameLabel] setText:sourceName];
-//        
-//        return cell;
-//    }
     
     if (indexPath.row % 2 == 0)
     {
         int routeIndex = floor(indexPath.row/2);
         
-        static NSString *CellIdentifier = @"NameCell";
-        
-        //NSString *targetName = [self getSegmentTargetName:[self.route.segments objectAtIndex:routeIndex]];
-
+        NSString *CellIdentifier = @"NameCell";
+    
         R2RNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         R2RStop *stop = [self.route.stops objectAtIndex:routeIndex];
@@ -123,15 +117,16 @@
     {
         int routeIndex = floor(indexPath.row/2);
         
-        static NSString *CellIdentifier = @"HopCell";
+        NSString *CellIdentifier = [self getCellIdentifier:[self.route.segments objectAtIndex:routeIndex]];
         
         float duration = [self getSegmentDuration:[self.route.segments objectAtIndex:routeIndex]];
         NSString *kind = [self getSegmentKind:[self.route.segments objectAtIndex:routeIndex]];
         
         NSString *hopDescription = [NSString stringWithFormat:@"%.0f minutes by %@", duration, kind];
         
-        R2RHopCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        id cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
+        //this only works if all hopcells have the same label/icon names
         [[cell hopLabel] setText:hopDescription];
         
         return cell;
@@ -139,48 +134,45 @@
     
 }
 
--(NSString*) getSegmentSourceName:(id) segment
-{
-    NSMutableString *sourceName = [[NSMutableString alloc] init];
-    /////////  REDO THIS SECTION
-    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
-    {
-        R2RWalkDriveSegment *currentSegment = segment;
-        [sourceName appendString:currentSegment.sName];
-    }
-    else if([segment isKindOfClass:[R2RTransitSegment class]])
-    {
-        R2RTransitSegment *currentSegment = segment;
-        [sourceName appendString:currentSegment.sName];
-    }
-    else if([segment isKindOfClass:[R2RFlightSegment class]])
-    {
-        R2RFlightSegment *currentSegment = segment;
-        [sourceName appendString:currentSegment.sCode];
-    }
-    
-    return sourceName;
-
-}
-
--(NSString*) getSegmentTargetName:(id) segment
+//-(NSString*) getSegmentSourceName:(id) segment
+//{
+//    NSMutableString *sourceName = [[NSMutableString alloc] init];
+//    /////////  REDO THIS SECTION
+//    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
+//    {
+//        R2RWalkDriveSegment *currentSegment = segment;
+//        [sourceName appendString:currentSegment.sName];
+//    }
+//    else if([segment isKindOfClass:[R2RTransitSegment class]])
+//    {
+//        R2RTransitSegment *currentSegment = segment;
+//        [sourceName appendString:currentSegment.sName];
+//    }
+//    else if([segment isKindOfClass:[R2RFlightSegment class]])
+//    {
+//        R2RFlightSegment *currentSegment = segment;
+//        [sourceName appendString:currentSegment.sCode];
+//    }
+//    
+//    return sourceName;
+//
+//}
+//
+-(NSString*) getCellIdentifier:(id) segment
 {
     NSMutableString *targetName = [[NSMutableString alloc] init];
-    /////////  REDO THIS SECTION
+
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
-        R2RWalkDriveSegment *currentSegment = segment;
-        [targetName appendString:currentSegment.tName];
+        return @"WalkDriveHopCell";
     }
     else if([segment isKindOfClass:[R2RTransitSegment class]])
     {
-        R2RTransitSegment *currentSegment = segment;
-        [targetName appendString:currentSegment.tName];
+        return @"TransitHopCell";
     }
     else if([segment isKindOfClass:[R2RFlightSegment class]])
     {
-        R2RFlightSegment *currentSegment = segment;
-        [targetName appendString:currentSegment.tCode];
+        return @"FlightHopCell";
     }
     
     return targetName;
@@ -190,7 +182,7 @@
 -(float) getSegmentDuration:(id) segment
 {
     float duration;
-    /////////  REDO THIS SECTION
+
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
         R2RWalkDriveSegment *currentSegment = segment;
@@ -214,7 +206,7 @@
 -(NSString*) getSegmentKind:(id) segment
 {
     NSMutableString *kind = [[NSMutableString alloc] init];
-    /////////  REDO THIS SECTION
+
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
         R2RWalkDriveSegment *currentSegment = segment;
@@ -235,5 +227,31 @@
     
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showFlightSegment"])
+    {
+        R2RFlightSegmentViewController *segmentViewController = [segue destinationViewController];
+        segmentViewController.flightSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
+    }
+    if ([[segue identifier] isEqualToString:@"showTransitSegment"])
+    {
+        R2RTransitSegmentViewController *segmentViewController = [segue destinationViewController];
+        segmentViewController.transitSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
+    }
+    if ([[segue identifier] isEqualToString:@"showWalkDriveSegment"])
+    {
+        R2RWalkDriveSegment *segment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
+        R2RWalkDriveSegmentViewController *segmentViewController = [segue destinationViewController];
+        segmentViewController.walkDriveSegment = segment;
+    }
 
+}
+
+
+- (IBAction)ReturnToSearch:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+
+}
 @end

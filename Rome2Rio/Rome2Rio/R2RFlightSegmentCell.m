@@ -9,6 +9,10 @@
 #import "R2RFlightSegmentCell.h"
 
 @implementation R2RFlightSegmentCell
+@synthesize airlineLabel;
+@synthesize durationLabel;
+@synthesize departureTimeLabel;
+@synthesize arrivalTimeLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

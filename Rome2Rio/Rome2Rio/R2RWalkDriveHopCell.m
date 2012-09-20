@@ -1,17 +1,16 @@
 //
-//  R2RWalkDriveSegmentCell.m
-//  R2RApp
+//  R2RWalkDriveHopCell.m
+//  Rome2Rio
 //
-//  Created by Ash Verdoorn on 13/09/12.
+//  Created by Ash Verdoorn on 14/09/12.
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-#import "R2RWalkDriveSegmentCell.h"
+#import "R2RWalkDriveHopCell.h"
 
-@implementation R2RWalkDriveSegmentCell
-@synthesize kindLabel;
-@synthesize descriptionLabel;
-@synthesize durationLabel;
+@implementation R2RWalkDriveHopCell
+
+@synthesize hopLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

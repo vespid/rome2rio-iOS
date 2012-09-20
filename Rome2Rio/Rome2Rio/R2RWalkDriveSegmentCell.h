@@ -10,4 +10,8 @@
 
 @interface R2RWalkDriveSegmentCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *kindLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *durationLabel;
+
 @end

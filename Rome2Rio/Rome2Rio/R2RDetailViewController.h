@@ -15,6 +15,6 @@
 
 @property (strong, nonatomic) R2RRoute *route;
 
-//@property (strong, nonatomic) id detailItem;
+- (IBAction)ReturnToSearch:(id)sender;
 
 @end

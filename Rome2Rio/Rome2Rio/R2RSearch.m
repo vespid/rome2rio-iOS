@@ -14,36 +14,89 @@
 
 @property(strong, nonatomic) R2RConnection *r2rConnection;
 
+@property(strong, nonatomic) NSString *oName;
+@property(strong, nonatomic) NSString *dName;
+@property(strong, nonatomic) NSString *oPos;
+@property(strong, nonatomic) NSString *dPos;
+
+@property (nonatomic) NSInteger retryCount;
+
+enum {
+    stateEmpty = 0,
+    stateEditingDidBegin,
+    stateEditingDidEnd,
+    stateResolved,
+    stateLocationNotFound,
+    stateError,
+    stateResolving
+};
+
 @end
 
 
 @implementation R2RSearch
 
-@synthesize searchResponse;
+@synthesize searchResponse, responseCompletionState, responseMessage;
 @synthesize delegate;
 
--(id) initWithFromToStrings:(NSString *)fromString :(NSString *)toString delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
+- (id) initWithSearch:(NSString *)oName :(NSString *)dName :(NSString *)oPos :(NSString *)dPos delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
 {
-    
     self = [super init];
     
     if (self != nil)
     {
+        self.retryCount = 0;
         self.delegate = r2rSearchDelegate;
-        	
-        NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@", fromString, toString];
         
-        NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        self.oName = oName;
+        self.dName = dName;
+        self.oPos = oPos;
+        self.dPos = dPos;
         
-        NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
-        
-        self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:searchUrl delegate:self];
-                
+        [self sendAsynchronousRequest];
     }
     
     return self;
 }
 
+//-(id) initWithFromToStrings:(NSString *)fromString :(NSString *)toString delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
+//{
+//    
+//    self = [super init];
+//    
+//    if (self != nil)
+//    {
+//        self.delegate = r2rSearchDelegate;
+//        	
+//        NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@", fromString, toString];
+//        
+//        NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+//        
+//        NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
+//        
+//        self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:searchUrl delegate:self];
+//                
+//    }
+//    
+//    return self;
+//}
+
+-(void) sendAsynchronousRequest
+{
+    
+    NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@", self.oName, self.dName, self.oPos, self.dPos];
+    
+    NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    
+    NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
+    
+    NSLog(@"%@ %d", @"Search Started", self.retryCount);
+    self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:searchUrl delegate:self];
+    
+    self.responseCompletionState = stateResolving;
+    
+    [self performSelector:@selector(connectionTimeout:) withObject:[NSNumber numberWithInt:self.retryCount] afterDelay:5.0];
+}
 
 -(void) parseJson
 {
@@ -53,25 +106,21 @@
     
     NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:self.r2rConnection.responseData options:kNilOptions error:&error];
     
-    // show all values/////////////////////////////
-    for(id key in responseData) {
-        
-        id value = [responseData objectForKey:key];
-        
-        NSString *keyAsString = (NSString *)key;
-        NSString *valueAsString = (NSString *)value;
-        
-        NSLog(@"key: %@", keyAsString);
-        NSLog(@"value: %@", valueAsString);
-    }/////////////////////////////////////////////
-    
+//    // show all values/////////////////////////////
+//    for(id key in responseData) {
+//        
+//        id value = [responseData objectForKey:key];
+//        
+//        NSString *keyAsString = (NSString *)key;
+//        NSString *valueAsString = (NSString *)value;
+//        
+//        NSLog(@"key: %@", keyAsString);
+//        NSLog(@"value: %@", valueAsString);
+//    }/////////////////////////////////////////////
     
     self.searchResponse = [self parseResponse:responseData];
     
-    ////set status to complete/resolved
-    ////then call delegate for R2RViewController to set text box to place.Name;
-    
-    [self printTestData];
+//    [self printTestData];
 }
 
 -(R2RSearchResponse*) parseResponse:(NSDictionary* )responseData
@@ -203,7 +252,7 @@
     airline.name = [airlineResponse objectForKey:@"name"];
     airline.url = [airlineResponse objectForKey:@"url"];	
         
-    NSLog(@"url\t%@", airline.url);
+//    NSLog(@"url\t%@", airline.url);
     
     return airline;
 }
@@ -612,21 +661,78 @@
 
 - (void) R2RConnectionProcessData:(R2RConnection *) delegateConnection
 {
-    [self parseJson];
+    if (self.responseCompletionState != stateResolved)
+    {
+        [self parseJson];
+        
+        self.responseCompletionState = stateResolved;
+        
+        NSLog(@"%s", "Search Parsed");
+        
+        [self performSelector:@selector(delayTest) withObject:nil afterDelay:6.0];
+    }
+    else
+    {
+        NSLog(@"%s", "Ignore Response, state already resolved");
+    }
     
-    [[self delegate] R2RSearchResolved:self];
-    ////set status to complete/resolved
-    ////then call delegate for R2RViewController to inform of earch completion
+    
+    //[[self delegate] R2RSearchResolved:self];
+    
+    
     
 }
 
+- (void) delayTest
+{
+    NSLog(@"%@", @"Search resolved");
+    [[self delegate] R2RSearchResolved:self];
+}
+
+
+- (void) R2RConnectionError:(R2RConnection *)delegateConnection
+{
+    if (self.retryCount < 5)
+    {
+        //on error resend request after 1 second
+        NSLog(@"%@ %d", @"Search: Retrying Connection", self.retryCount);
+        [self performSelector:@selector(sendAsynchronousRequest) withObject:nil afterDelay:1.0];
+        self.retryCount++;
+    }
+    else
+    {
+        NSLog(@"%@", @"Search: Connection Failed, too many retries");
+        self.responseCompletionState = stateError;
+        self.responseMessage = @"Unable to resolve ";
+        //self.
+    }
+}
+
+- (void) connectionTimeout: (NSNumber *) retryNumber
+{
+    if (self.responseCompletionState == stateResolving)
+    {
+        if (self.retryCount >= 5)
+        {
+            NSLog(@"%@", @"Search: Connection Failed, too many retries (timeout)");
+            self.responseCompletionState = stateError;
+            self.responseMessage = @"Unable to resolve ";
+        }
+        
+        else if (self.retryCount == [retryNumber integerValue])
+        {
+            NSLog(@"%@ %@ %d", @"Search: Timeout, Retrying Connection", retryNumber, [retryNumber integerValue]);
+            [self sendAsynchronousRequest];
+            self.retryCount++;
+        }
+    }
+}
 
 -(void) printTestData
 {
     R2RPrintSearch *printSearch = [R2RPrintSearch alloc];
     
     [printSearch printSearchData:self.searchResponse];
-    
     
 }
 
