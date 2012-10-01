@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface R2RTransitSegmentCell : UITableViewCell
+#import "R2RIconLoader.h"
+
+@interface R2RTransitSegmentCell : UITableViewCell <R2RIconLoaderDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *kindLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fromLabel;
@@ -16,5 +18,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *durationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lineLabel;
 @property (weak, nonatomic) IBOutlet UILabel *agencyLabel;
+
+@property (strong, nonatomic) UIImageView *agencyIconView;
+
+-(void) initAgencyIconView: (CGRect) rect;
+-(void) loadAgencyIcon: (NSString *) iconPath;
 
 @end

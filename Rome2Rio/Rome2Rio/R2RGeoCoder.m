@@ -84,9 +84,11 @@ enum {
         [geoCoderString appendFormat:@"&language=%@", self.language];
     }
     
-    NSString *geoCoderEncoded = [geoCoderString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSString *geoCoderEncoded = [geoCoderString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSURL *getCoderUrl =  [NSURL URLWithString:geoCoderEncoded];
+    
+    NSLog(@"%@ %d %@", @"Geocode Started", self.retryCount, self.query);
     
     self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:getCoderUrl delegate:self];
     
@@ -100,7 +102,7 @@ enum {
 
 -(void) parseJson
 {
-    NSLog(@"Succeeded! Received %d bytes of data from Geocoder",[self.r2rConnection.responseData length]);
+//    NSLog(@"Succeeded! Received %d bytes of data from Geocoder",[self.r2rConnection.responseData length]);
     
     NSError *error = nil;
     
@@ -187,8 +189,8 @@ enum {
 {
     
     //delay before parsing data
-    [self performSelector:@selector(parseJson) withObject:nil afterDelay:4.0];
-    //[self parseJson];
+    [self performSelector:@selector(parseJson) withObject:nil afterDelay:0.0];
+//    [self parseJson];
     
     ////set status to complete/resolved
     ////then call delegate for R2RViewController to set text box to place.Name;
@@ -198,7 +200,8 @@ enum {
     
       
     
-    [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:4.0];
+    [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
+//    [self GeoCoderDelegateDelayTest];
     
     //self.responseCompletionState = stateResolved;
     
@@ -218,7 +221,8 @@ enum {
         NSLog(@"%@", @"Connection Failed, too many retries");
         self.responseCompletionState = stateError;
         self.responseMessage = @"Unable to resolve ";
-        //self.
+        
+        [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
     }
 }
 
@@ -231,6 +235,7 @@ enum {
             NSLog(@"%@", @"Connection Failed, too many retries (timeout)");
             self.responseCompletionState = stateError;
             self.responseMessage = @"Unable to resolve ";
+            [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
         }
         
         else if (self.retryCount == [retryNumber integerValue])

@@ -10,8 +10,9 @@
 
 #import "R2RGeoCoder.h"
 #import "R2RSearch.h"
+#import "R2RIconLoader.h"
 
-@interface R2RDataController : NSObject <R2RGeoCoderDelegate, R2RSearchDelegate>
+@interface R2RDataController : NSObject <R2RGeoCoderDelegate, R2RSearchDelegate/*, R2RIconLoaderDelegate*/>
 
 @property (strong, nonatomic) R2RGeoCoder *geoCoderFrom;
 @property (strong, nonatomic) R2RGeoCoder *geoCoderTo;

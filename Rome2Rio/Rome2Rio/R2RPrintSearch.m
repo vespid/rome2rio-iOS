@@ -106,7 +106,7 @@
 
 -(void) printTransitLeg:(R2RTransitLeg*) leg
 {
-    NSLog(@"%@", leg.url);
+    NSLog(@"%@\t%@", leg.url, leg.host);
     
     for (R2RTransitHop *hop in leg.hops)
     {
@@ -116,7 +116,7 @@
 
 -(void) printTransitHop:(R2RTransitHop*) hop
 {
-    NSLog(@"TranistHop\t%@\t%f\t%f\t%@\t%f\t%f\t %@\t%@\t%@\t%f\t%@", hop.sName, hop.sPos.lat, hop.sPos.lng, hop.tName, hop.tPos.lat, hop.tPos.lng, hop.vehicle, hop.line, hop.frequency, hop.duration, hop.agency);
+    NSLog(@"TranistHop\t%@\t%f\t%f\t%@\t%f\t%f\t %@\t%@\t%f\t%f\t%@", hop.sName, hop.sPos.lat, hop.sPos.lng, hop.tName, hop.tPos.lat, hop.tPos.lng, hop.vehicle, hop.line, hop.frequency, hop.duration, hop.agency);
     
     for (R2RPosition *pos in hop.path)
     {
@@ -156,7 +156,7 @@
 
 -(void) printFlightHop:(R2RFlightHop*) hop
 {
-    NSLog(@"Flight Hop\t%@\t%@\t%f\t%f\t%@\t%@\t%f\t%d\t%f\t%d", hop.sCode, hop.tCode, hop.sTime, hop.tTime, hop.airline, hop.flight, hop.duration, hop.dayChange, hop.lDuration, hop.lDayChange);
+    NSLog(@"Flight Hop\t%@\t%@\t%@\t%@\t%@\t%@\t%f\t%d\t%f\t%d", hop.sCode, hop.tCode, hop.sTime, hop.tTime, hop.airline, hop.flight, hop.duration, hop.dayChange, hop.lDuration, hop.lDayChange);
 }
 
 -(void) printFlightTicketSets:(R2RFlightTicketSet*) ticketSet

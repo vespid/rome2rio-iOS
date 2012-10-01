@@ -11,6 +11,7 @@
 
 #import "R2RStatusButton.h"
 #import "R2RResultsCell.h"
+#import "R2RStringFormatters.h"
 
 #import "R2RAirport.h"
 #import "R2RAirline.h"
@@ -39,7 +40,8 @@ enum {
     stateEditingDidBegin,
     stateEditingDidEnd,
     stateResolved,
-    stateLocationNotFound
+    stateLocationNotFound,
+    stateError
 };
 
 enum R2RState
@@ -91,6 +93,12 @@ enum R2RState
     
     [self setStatusMessage:self.dataController.statusMessage];
 
+//    //retry search if search has failed
+//    if (self.dataController.state == IDLE && self.dataController.search.responseCompletionState == stateError)
+//    {
+//        [self.dataController.search sendAsynchronousRequest];
+//    }
+    
     //[self configureResultsView];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -157,6 +165,11 @@ enum R2RState
 //    R2RRoute *route = [self.searchResponse.routes objectAtIndex:tempIndexRow];
 //    [[cell routeNumberLabel] setText : [NSString stringWithFormat:@"%d", indexPath.row]];
     
+//    [cell setBackgroundColor:[UIColor greenColor]];
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(20, 0, 50, 50)];
+//    [view setBackgroundColor:[UIColor blueColor]];
+//    [cell addSubview:view];
+    
     R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:indexPath.row];
     
     char routeLabel = 'A';
@@ -201,13 +214,22 @@ enum R2RState
 //
 //    }
     
+//    NSDate *duration = [[NSDate alloc] init];
+//    
+//    NSDateComponents *components = [[NSDateComponents alloc] init];
+//    [components setMinute:route.duration];
+//    
+//    NSLog(@"hour %d", [components hour]);
+//    
+//    NSTimeInterval 
+    
     [[cell routeKindLabel] setText:route.name];
-    [[cell routeDurationLabel] setText:[NSString stringWithFormat:@"%f", route.duration]];
-
-//    BirdSighting *sightingAtIndex = [self.dataController objectInListAtIndex:indexPath.row];
-//    [[cell textLabel] setText:sightingAtIndex.name];
-//    [[cell detailTextLabel] setText:[formatter stringFromDate:(NSDate *)sightingAtIndex.date]];
-//    return cell;
+    
+    R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
+    
+    [[cell routeDurationLabel] setText:[formatter formatDuration:route.duration]];
+    
+    //[[cell routeDurationLabel] setText:[NSString stringWithFormat:@"%f", route.duration]];
     
     return cell;
 }
@@ -293,7 +315,8 @@ enum R2RState
     {
         R2RDetailViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-        
+        detailsViewController.airlines = self.dataController.search.searchResponse.airlines;
+        detailsViewController.airports = self.dataController.search.searchResponse.airports;
     }
 }
 

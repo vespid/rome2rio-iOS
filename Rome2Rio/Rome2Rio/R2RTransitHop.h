@@ -18,9 +18,11 @@
 @property (strong, nonatomic) R2RPosition *tPos;
 @property (strong, nonatomic) NSString *vehicle;
 @property (strong, nonatomic) NSString *line;
-@property (strong, nonatomic) NSString *frequency;
+@property (nonatomic) float frequency;
 @property (nonatomic) float duration;
 @property (strong, nonatomic) NSString *agency;
+@property (nonatomic) CGPoint iconOffset;
+@property (strong, nonatomic) NSString *iconPath;
 
 @property (strong, nonatomic) NSMutableArray *path;
 

@@ -109,6 +109,8 @@ enum {
 
 -(void) R2RGeoCoderResolved:(R2RGeoCoder *)delegateGeoCoder
 {
+    
+    [self RefreshStatusMessage:nil];
      
     if (delegateGeoCoder == self.geoCoderFrom & self.state == RESOLVING_FROM)
     {
@@ -133,9 +135,9 @@ enum {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
         }
         
-        self.state = IDLE;
-        
-        [self RefreshStatusMessage:geoCoderFrom];
+//        self.state = IDLE;
+//        
+//        [self RefreshStatusMessage:geoCoderFrom];
         
         //if (self.geoCoderTo != nil && self.geoCoderTo.responseCompletionState != stateResolved)
         if (self.geoCoderTo == nil && [self.toText length] > 0)
@@ -174,9 +176,9 @@ enum {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
         }
      
-        self.state = IDLE;
-        
-        [self RefreshStatusMessage:self.geoCoderTo];
+//        self.state = IDLE;
+//        
+//        [self RefreshStatusMessage:self.geoCoderTo];
         
         //if (self.geoCoderFrom != nil && self.geoCoderFrom.responseCompletionState != stateResolved)
         if (self.geoCoderFrom == nil && [self.fromText length] > 0)
@@ -186,6 +188,8 @@ enum {
             return;
         }
     }
+    
+    self.state = IDLE;
     
     [self ResolvedStateChanged];
     
@@ -218,8 +222,10 @@ enum {
     NSString *dName = self.geoCoderTo.geoCodeResponse.place.shortName;
     NSString *oPos = [NSString stringWithFormat:@"%f,%f", self.geoCoderFrom.geoCodeResponse.place.lat, self.geoCoderFrom.geoCodeResponse.place.lng];
     NSString *dPos = [NSString stringWithFormat:@"%f,%f", self.geoCoderTo.geoCodeResponse.place.lat, self.geoCoderTo.geoCodeResponse.place.lng];
+    NSString *oKind = self.geoCoderFrom.geoCodeResponse.place.kind;
+    NSString *dKind = self.geoCoderTo.geoCodeResponse.place.kind;
     
-    self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos delegate:self];
+    self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind delegate:self];
     
 //    self.statusMessage = @"Searching";
     
@@ -332,6 +338,11 @@ enum {
     self.fromText = @"";
     self.geoCoderFrom = nil;
     self.search = nil;
+    
+    if (self.state != RESOLVING_TO)
+    {
+        self.state = IDLE;
+    }
 }
 
 - (void) FromEditingDidEnd:(NSString *)query
@@ -349,6 +360,11 @@ enum {
     self.toText = @"";
     self.geoCoderTo = nil;
     self.search = nil;
+    
+    if (self.state != RESOLVING_FROM)
+    {
+        self.state = IDLE;
+    }
 }
 
 - (void) ToEditingDidEnd:(NSString *)query

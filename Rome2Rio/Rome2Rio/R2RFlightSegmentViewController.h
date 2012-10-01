@@ -9,9 +9,28 @@
 #import <UIKit/UIKit.h>
 
 #import "R2RFlightSegment.h"
+#import "R2RAirlineIconLoader.h"
 
-@interface R2RFlightSegmentViewController : UITableViewController
+@interface R2RFlightSegmentViewController : UITableViewController <R2RAirlineIconLoaderDelegate>
 
 @property (strong, nonatomic) R2RFlightSegment *flightSegment;
+@property (strong, nonatomic) NSArray *airlines;
+@property (strong, nonatomic) NSArray *airports;
+
+@property (nonatomic, retain) NSMutableDictionary *iconDownloadsInProgress;
+
+//- (void)iconDidLoad:(NSIndexPath *)indexPath;
+
+-(void) sortFlightSegment;
+
+@end
+
+@interface FlightGroup : NSObject
+
+@property NSInteger hops;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSMutableArray *flights;
+
+-(id) initWithHops: (NSInteger) hops;
 
 @end

@@ -1,0 +1,201 @@
+//
+//  R2RStringFormatters.m
+//  Rome2Rio
+//
+//  Created by Ash Verdoorn on 20/09/12.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
+//
+
+#import "R2RStringFormatters.h"
+#import "R2RDuration.h"
+
+
+@implementation R2RStringFormatters
+
+@synthesize showMinutesIfZero;
+
+-(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops
+{
+    return [NSString stringWithFormat:@"%@ by plane, %@", [self formatDuration:minutes], [self formatStopovers:stops]];
+}
+
+-(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle
+{
+    if (changes == 0)
+    {
+        return [NSString stringWithFormat:@"%@ by %@, %@", [self formatDuration:minutes], vehicle, [self formatFrequency:frequency]];
+    }
+    else if (changes == 1)
+    {
+        return [NSString stringWithFormat:@"%@ by %@, 1 change", [self formatDuration:minutes], vehicle];
+    }
+    else if (changes >= 2)
+    {
+        return [NSString stringWithFormat:@"%@ by %@, %d changes", [self formatDuration:minutes], vehicle, changes];
+    }
+    return nil;
+}
+
+-(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance
+{
+    if (distance < .005)
+    {
+        return [NSString stringWithFormat:@"%@ by dancing", [self formatDuration:minutes]];
+    }
+    else
+    {
+        return [NSString stringWithFormat:@"%@ by car, %@", [self formatDuration:minutes], [self formatDistance:distance]];
+    }
+    
+}
+
+-(NSString *) formatDuration: (float) minutes
+{
+    R2RDuration *duration = [[R2RDuration alloc] initWithMinutes:minutes];
+    
+    //NSString *durationString = [[NSString alloc] init];
+    
+    if (duration.totalHours >= 48)
+    {
+        return [NSString stringWithFormat:@"%ddays %@hrs", duration.days, [self padNumber:duration.hours]];
+    }
+    else if (duration.totalHours < 1)
+    {
+        return [NSString stringWithFormat:@"%dmin", duration.minutes];
+    }
+    else
+    {
+        if (duration.minutes == 0 && !self.showMinutesIfZero)
+        {
+            return [NSString stringWithFormat:@"%dhrs", duration.totalHours];
+        }
+        else
+        {
+            return [NSString stringWithFormat:@"%dhrs %@min", duration.totalHours, [self padNumber:duration.minutes]];
+        }
+    }
+}
+
+-(NSString *) formatFrequency: (float) frequency
+{
+    int weekFrequency = lroundf(frequency);
+    if (weekFrequency <= 1)
+    {
+        return @"once a week";
+    }
+    if (weekFrequency == 2)
+    {
+        return @"twice a week";
+    }
+    if (weekFrequency < 7)
+    {
+        return [NSString stringWithFormat:@"%d times a week", weekFrequency];
+    }
+    
+    NSInteger dayFrequency = lroundf(frequency/7);
+    
+    if (dayFrequency == 1)
+    {
+        return @"once daily";
+    }
+    if (dayFrequency == 2)
+    {
+        return @"twice daily";
+    }
+    if (dayFrequency < 6)
+    {
+        return [NSString stringWithFormat:@"%d times a day", dayFrequency];
+    }
+    if (dayFrequency < 9)
+    {
+        return @"every 4 hours";
+    }
+    if (dayFrequency < 11)
+    {
+        return @"every 3 hours";
+    }
+    if (dayFrequency < 13)
+    {
+        return @"every 2 hours";
+    }
+    
+    NSInteger hourFrequency = lroundf(frequency/7/24);
+    
+    if (hourFrequency == 1)
+    {
+        return @"hourly";
+    }
+    if (hourFrequency == 2)
+    {
+        return @"every 30 minutes";
+    }
+    if (hourFrequency == 3)
+    {
+        return @"every 20 minutes";
+    }
+    if (hourFrequency == 4 || hourFrequency == 5)
+    {
+        return @"every 15 minutes";
+    }
+    if (hourFrequency <= 10)
+    {
+        return @"every 10 minutes";
+    }
+    
+    return @"every 5 minutes";
+}
+
+-(NSString *) formatDistance: (float) distance
+{
+    if (distance < 1)
+    {
+        return [NSString stringWithFormat:@"%.0f m", distance*1000];
+    }
+    else if(distance < 100)
+    {
+        return [NSString stringWithFormat:@"%.1f km", distance];
+    }
+    else
+    {
+        return [NSString stringWithFormat:@"%.0f km", distance];
+    }
+}
+
+-(NSString *) padNumber: (NSInteger) number
+{
+    if (number < 10)
+    {
+        return [NSString stringWithFormat:@"0%d", number];
+    }
+    else
+    {
+        return [NSString stringWithFormat:@"%d", number];
+    }
+}
+
+-(NSString *) formatStopovers: (NSInteger) stops
+{
+    if (stops == 0)
+    {
+        return @"non-stop";
+    }
+    else if (stops == 1)
+    {
+        return @"1 stopover";
+    }
+    else if (stops >= 2)
+    {
+        return [NSString stringWithFormat:@"%d stopovers", stops];
+    }
+    return @"";
+}
+
+-(NSString *)formatTransitHopVehicle:(NSString *) vehicle
+{
+    vehicle = [vehicle stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[vehicle substringToIndex:1] uppercaseString]];
+    vehicle = [vehicle stringByAppendingString:@" from"];
+    return vehicle;
+}
+
+
+@end

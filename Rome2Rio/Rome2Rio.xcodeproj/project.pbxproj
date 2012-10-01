@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E8DB41C160C00FE00756321 /* sprites6.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E8DB41B160C00FE00756321 /* sprites6.png */; };
+		5E8DB4E0160FEC3F00756321 /* R2RImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4DF160FEC3F00756321 /* R2RImageView.m */; };
+		5E8DB4E2161043AF00756321 /* ConnectionLines.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E8DB4E1161043AF00756321 /* ConnectionLines.png */; };
+		5E8DB4E516129D7500756321 /* R2RSegmentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4E416129D7400756321 /* R2RSegmentHandler.m */; };
+		5E8DB4EF1612E35100756321 /* R2RTitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4EE1612E35000756321 /* R2RTitleLabel.m */; };
+		5E8DB4F61613EBB100756321 /* R2RIconLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4F51613EBB000756321 /* R2RIconLoader.m */; };
+		5E8DB4FD1616985F00756321 /* R2RSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4FC1616985E00756321 /* R2RSprite.m */; };
+		5E8DB5001616B6E200756321 /* R2RAirlineIconLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4FF1616B6E200756321 /* R2RAirlineIconLoader.m */; };
 		5ED4B34C1601D01C00E9FE42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34B1601D01C00E9FE42 /* UIKit.framework */; };
 		5ED4B34E1601D01C00E9FE42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34D1601D01C00E9FE42 /* Foundation.framework */; };
 		5ED4B3501601D01C00E9FE42 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34F1601D01C00E9FE42 /* CoreGraphics.framework */; };
@@ -54,9 +62,25 @@
 		5ED4B3F91602D3C300E9FE42 /* R2RTransitHopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3F81602D3C300E9FE42 /* R2RTransitHopCell.m */; };
 		5ED4B3FC1602D3D700E9FE42 /* R2RWalkDriveHopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3FB1602D3D700E9FE42 /* R2RWalkDriveHopCell.m */; };
 		5ED5C8CC16082D34004CFDC8 /* R2RStatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C8CB16082D34004CFDC8 /* R2RStatusButton.m */; };
+		5ED5C8D7160AF49B004CFDC8 /* R2RDuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C8D6160AF49B004CFDC8 /* R2RDuration.m */; };
+		5ED5C8DA160B012A004CFDC8 /* R2RStringFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C8D9160B012A004CFDC8 /* R2RStringFormatters.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E8DB41B160C00FE00756321 /* sprites6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprites6.png; sourceTree = "<group>"; };
+		5E8DB4DE160FEC3F00756321 /* R2RImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RImageView.h; sourceTree = "<group>"; };
+		5E8DB4DF160FEC3F00756321 /* R2RImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RImageView.m; sourceTree = "<group>"; };
+		5E8DB4E1161043AF00756321 /* ConnectionLines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ConnectionLines.png; sourceTree = "<group>"; };
+		5E8DB4E316129D7400756321 /* R2RSegmentHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSegmentHandler.h; sourceTree = "<group>"; };
+		5E8DB4E416129D7400756321 /* R2RSegmentHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSegmentHandler.m; sourceTree = "<group>"; };
+		5E8DB4ED1612E34F00756321 /* R2RTitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTitleLabel.h; sourceTree = "<group>"; };
+		5E8DB4EE1612E35000756321 /* R2RTitleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTitleLabel.m; sourceTree = "<group>"; };
+		5E8DB4F41613EBAF00756321 /* R2RIconLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RIconLoader.h; sourceTree = "<group>"; };
+		5E8DB4F51613EBB000756321 /* R2RIconLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RIconLoader.m; sourceTree = "<group>"; };
+		5E8DB4FB1616985C00756321 /* R2RSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSprite.h; sourceTree = "<group>"; };
+		5E8DB4FC1616985E00756321 /* R2RSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSprite.m; sourceTree = "<group>"; };
+		5E8DB4FE1616B6E100756321 /* R2RAirlineIconLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAirlineIconLoader.h; sourceTree = "<group>"; };
+		5E8DB4FF1616B6E200756321 /* R2RAirlineIconLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAirlineIconLoader.m; sourceTree = "<group>"; };
 		5ED4B3471601D01C00E9FE42 /* Rome2Rio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rome2Rio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ED4B34B1601D01C00E9FE42 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5ED4B34D1601D01C00E9FE42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -147,6 +171,10 @@
 		5ED4B3FB1602D3D700E9FE42 /* R2RWalkDriveHopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RWalkDriveHopCell.m; sourceTree = "<group>"; };
 		5ED5C8CA16082D34004CFDC8 /* R2RStatusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RStatusButton.h; sourceTree = "<group>"; };
 		5ED5C8CB16082D34004CFDC8 /* R2RStatusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RStatusButton.m; sourceTree = "<group>"; };
+		5ED5C8D5160AF49A004CFDC8 /* R2RDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RDuration.h; sourceTree = "<group>"; };
+		5ED5C8D6160AF49B004CFDC8 /* R2RDuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RDuration.m; sourceTree = "<group>"; };
+		5ED5C8D8160B012A004CFDC8 /* R2RStringFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RStringFormatters.h; sourceTree = "<group>"; };
+		5ED5C8D9160B012A004CFDC8 /* R2RStringFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RStringFormatters.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,7 +293,9 @@
 		5ED4B36C1601D07000E9FE42 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5E8DB4E1161043AF00756321 /* ConnectionLines.png */,
 				5ED4B36D1601D07000E9FE42 /* fbicon.png */,
+				5E8DB41B160C00FE00756321 /* sprites6.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -304,6 +334,20 @@
 				5ED4B3931601D07000E9FE42 /* R2RPrintSearch.m */,
 				5ED4B39A1601D07000E9FE42 /* R2RSearch.h */,
 				5ED4B39B1601D07000E9FE42 /* R2RSearch.m */,
+				5ED5C8D5160AF49A004CFDC8 /* R2RDuration.h */,
+				5ED5C8D6160AF49B004CFDC8 /* R2RDuration.m */,
+				5ED5C8D8160B012A004CFDC8 /* R2RStringFormatters.h */,
+				5ED5C8D9160B012A004CFDC8 /* R2RStringFormatters.m */,
+				5E8DB4DE160FEC3F00756321 /* R2RImageView.h */,
+				5E8DB4DF160FEC3F00756321 /* R2RImageView.m */,
+				5E8DB4E316129D7400756321 /* R2RSegmentHandler.h */,
+				5E8DB4E416129D7400756321 /* R2RSegmentHandler.m */,
+				5E8DB4F41613EBAF00756321 /* R2RIconLoader.h */,
+				5E8DB4F51613EBB000756321 /* R2RIconLoader.m */,
+				5E8DB4FB1616985C00756321 /* R2RSprite.h */,
+				5E8DB4FC1616985E00756321 /* R2RSprite.m */,
+				5E8DB4FE1616B6E100756321 /* R2RAirlineIconLoader.h */,
+				5E8DB4FF1616B6E200756321 /* R2RAirlineIconLoader.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -327,6 +371,8 @@
 				5ED4B3AB1601D07000E9FE42 /* R2RTransitSegmentCell.m */,
 				5ED4B3B01601D07000E9FE42 /* R2RWalkDriveSegmentCell.h */,
 				5ED4B3B11601D07000E9FE42 /* R2RWalkDriveSegmentCell.m */,
+				5E8DB4ED1612E34F00756321 /* R2RTitleLabel.h */,
+				5E8DB4EE1612E35000756321 /* R2RTitleLabel.m */,
 			);
 			name = CellPrototypes;
 			sourceTree = "<group>";
@@ -386,6 +432,8 @@
 				5ED4B3561601D01C00E9FE42 /* InfoPlist.strings in Resources */,
 				5ED4B35F1601D01C00E9FE42 /* MainStoryboard.storyboard in Resources */,
 				5ED4B3B41601D07000E9FE42 /* fbicon.png in Resources */,
+				5E8DB41C160C00FE00756321 /* sprites6.png in Resources */,
+				5E8DB4E2161043AF00756321 /* ConnectionLines.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +485,14 @@
 				5ED4B3F91602D3C300E9FE42 /* R2RTransitHopCell.m in Sources */,
 				5ED4B3FC1602D3D700E9FE42 /* R2RWalkDriveHopCell.m in Sources */,
 				5ED5C8CC16082D34004CFDC8 /* R2RStatusButton.m in Sources */,
+				5ED5C8D7160AF49B004CFDC8 /* R2RDuration.m in Sources */,
+				5ED5C8DA160B012A004CFDC8 /* R2RStringFormatters.m in Sources */,
+				5E8DB4E0160FEC3F00756321 /* R2RImageView.m in Sources */,
+				5E8DB4E516129D7500756321 /* R2RSegmentHandler.m in Sources */,
+				5E8DB4EF1612E35100756321 /* R2RTitleLabel.m in Sources */,
+				5E8DB4F61613EBB100756321 /* R2RIconLoader.m in Sources */,
+				5E8DB4FD1616985F00756321 /* R2RSprite.m in Sources */,
+				5E8DB5001616B6E200756321 /* R2RAirlineIconLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

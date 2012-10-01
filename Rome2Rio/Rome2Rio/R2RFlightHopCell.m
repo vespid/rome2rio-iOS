@@ -7,16 +7,23 @@
 //
 
 #import "R2RFlightHopCell.h"
+#import "R2RImageView.h"
+
 
 @implementation R2RFlightHopCell
 
 @synthesize hopLabel;
 
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
+    if (self)
+    {
+//        R2RImageView *view = [[R2RImageView alloc] initWithFrame:CGRectMake(0, 0, 12, 12)];
+//        [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(267, 46, 12, 12)];
+//        [self setBackgroundColor:[UIColor blueColor]];
+//        [self addSubview:view];
     }
     return self;
 }

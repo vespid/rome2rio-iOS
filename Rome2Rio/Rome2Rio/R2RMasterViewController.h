@@ -12,7 +12,7 @@
 //#import "R2RGeoCoder.h"
 //#import "R2RSearch.h"
 
-@interface R2RMasterViewController : UITableViewController <UITextFieldDelegate/*, R2RGeoCoderDelegate, R2RSearchDelegate*/>
+@interface R2RMasterViewController : UIViewController <UITextFieldDelegate/*, R2RGeoCoderDelegate, R2RSearchDelegate*/>
 
 @property R2RDataController *dataController;
 

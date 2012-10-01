@@ -17,7 +17,7 @@
 
 @implementation R2RConnection
 
-@synthesize responseData, connection, delegate;
+@synthesize responseData, connection, delegate, connectionString;
 
 -(id) initWithConnectionUrl:(NSURL *)connectionUrl delegate:(id<R2RConnectionDelegate>)r2rConnectionDelegate
 {
@@ -33,6 +33,12 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:connectionUrl];
         
         self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+
+        self.connectionString = [NSString stringWithFormat:@"%@", connectionUrl];
+//        self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+//        [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+//        [self.connection start];
+//        NSLog(@"%@", [NSRunLoop currentRunLoop]);
         
     }
     
@@ -67,7 +73,7 @@
     //Is anyone listening
     //if([delegate respondsToSelector:@selector(connectionDidFinishLoading:)])
     //{
-        
+    
         [[self delegate] R2RConnectionProcessData:self];
     
     //}

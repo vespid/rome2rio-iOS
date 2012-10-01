@@ -18,6 +18,8 @@
 @property(strong, nonatomic) NSString *dName;
 @property(strong, nonatomic) NSString *oPos;
 @property(strong, nonatomic) NSString *dPos;
+@property(strong, nonatomic) NSString *oKind;
+@property(strong, nonatomic) NSString *dKind;
 
 @property (nonatomic) NSInteger retryCount;
 
@@ -39,7 +41,7 @@ enum {
 @synthesize searchResponse, responseCompletionState, responseMessage;
 @synthesize delegate;
 
-- (id) initWithSearch:(NSString *)oName :(NSString *)dName :(NSString *)oPos :(NSString *)dPos delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
+- (id) initWithSearch:(NSString *)oName :(NSString *)dName :(NSString *)oPos :(NSString *)dPos :(NSString *)oKind :(NSString *)dKind delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
 {
     self = [super init];
     
@@ -52,6 +54,8 @@ enum {
         self.dName = dName;
         self.oPos = oPos;
         self.dPos = dPos;
+        self.oKind = oKind;
+        self.dKind = dKind;
         
         [self sendAsynchronousRequest];
     }
@@ -84,9 +88,9 @@ enum {
 -(void) sendAsynchronousRequest
 {
     
-    NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@", self.oName, self.dName, self.oPos, self.dPos];
+    NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind];
     
-    NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
     
@@ -100,11 +104,12 @@ enum {
 
 -(void) parseJson
 {
-    NSLog(@"Succeeded! Received %d bytes of data from GetRoutes",[self.r2rConnection.responseData length]);
+//    NSLog(@"Succeeded! Received %d bytes of data from GetRoutes",[self.r2rConnection.responseData length]);
     
     NSError *error = nil;
     
     NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:self.r2rConnection.responseData options:kNilOptions error:&error];
+//    if responseData is nil send an error message
     
 //    // show all values/////////////////////////////
 //    for(id key in responseData) {
@@ -250,9 +255,19 @@ enum {
     
     airline.code = [airlineResponse objectForKey:@"code"];
     airline.name = [airlineResponse objectForKey:@"name"];
-    airline.url = [airlineResponse objectForKey:@"url"];	
-        
-//    NSLog(@"url\t%@", airline.url);
+    airline.url = [airlineResponse objectForKey:@"url"];
+    
+    NSScanner *scanner = [NSScanner scannerWithString:[airlineResponse objectForKey:@"iconOffset"]];
+    [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
+    
+    float x,y;
+    [scanner scanFloat:&x];
+    [scanner scanFloat:&y];
+    
+    airline.iconOffset = CGPointMake(x, y);
+    airline.iconPath = [airlineResponse objectForKey:@"iconPath"];
+    
+//    NSLog(@"airline\t%@\t%@\t%f\t%f", airline.url, airline.iconPath, airline.iconOffset.x, airline.iconOffset.y);
     
     return airline;
 }
@@ -450,6 +465,7 @@ enum {
     R2RTransitLeg *transitLeg = [R2RTransitLeg alloc];
     
     transitLeg.url = [transitLegResponse objectForKey:@"url"];
+    transitLeg.host = [transitLegResponse objectForKey:@"host"];
     
     NSArray *transitHopsResponse = [transitLegResponse objectForKey:@"hops"];
     
@@ -488,13 +504,22 @@ enum {
     
     transitHop.vehicle = [transitHopResponse objectForKey:@"vehicle"];
     transitHop.line = [transitHopResponse objectForKey:@"line"];
-    transitHop.frequency = [transitHopResponse objectForKey:@"frequency"];
+    transitHop.frequency = [[transitHopResponse objectForKey:@"frequency"] floatValue];
     transitHop.duration = [[transitHopResponse objectForKey:@"duration"] floatValue];
     transitHop.agency = [transitHopResponse objectForKey:@"agency"];
     
     NSString *pathPostionArrayString = [transitHopResponse objectForKey:@"path"];
     
     transitHop.path = [self parsePositionArray:pathPostionArrayString];
+    
+    NSScanner *scanner = [NSScanner scannerWithString:[transitHopResponse objectForKey:@"iconOffset"]];
+    [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
+    float x,y;
+    [scanner scanFloat:&x];
+    [scanner scanFloat:&y];
+    
+    transitHop.iconOffset = CGPointMake(x, y);
+    transitHop.iconPath = [transitHopResponse objectForKey:@"iconPath"];
     
     return transitHop;
 }
@@ -592,8 +617,8 @@ enum {
     
     flightHop.sCode = [flightHopResponse objectForKey:@"sCode"];
     flightHop.tCode = [flightHopResponse objectForKey:@"tCode"];
-    flightHop.sTime = [[flightHopResponse objectForKey:@"sTime"] floatValue];
-    flightHop.tTime = [[flightHopResponse objectForKey:@"tTime"] floatValue];
+    flightHop.sTime = [flightHopResponse objectForKey:@"sTime"];
+    flightHop.tTime = [flightHopResponse objectForKey:@"tTime"];
     flightHop.airline = [flightHopResponse objectForKey:@"airline"];
     flightHop.flight = [flightHopResponse objectForKey:@"flight"];
     flightHop.duration = [[flightHopResponse objectForKey:@"duration"] floatValue];
@@ -669,7 +694,7 @@ enum {
         
         NSLog(@"%s", "Search Parsed");
         
-        [self performSelector:@selector(delayTest) withObject:nil afterDelay:6.0];
+        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
     }
     else
     {
@@ -704,7 +729,8 @@ enum {
         NSLog(@"%@", @"Search: Connection Failed, too many retries");
         self.responseCompletionState = stateError;
         self.responseMessage = @"Unable to resolve ";
-        //self.
+        
+        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
     }
 }
 
@@ -717,6 +743,8 @@ enum {
             NSLog(@"%@", @"Search: Connection Failed, too many retries (timeout)");
             self.responseCompletionState = stateError;
             self.responseMessage = @"Unable to resolve ";
+            
+            [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
         }
         
         else if (self.retryCount == [retryNumber integerValue])

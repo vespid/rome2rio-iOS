@@ -12,8 +12,8 @@
 
 @property (strong, nonatomic) NSString *sCode;
 @property (strong, nonatomic) NSString *tCode;
-@property (nonatomic) float sTime;
-@property (nonatomic) float tTime;
+@property (strong, nonatomic) NSString *sTime;
+@property (strong, nonatomic) NSString *tTime;
 @property (strong, nonatomic) NSString *airline;
 @property (strong, nonatomic) NSString *flight;
 @property (nonatomic) float duration;

@@ -13,6 +13,7 @@
 @interface R2RTransitLeg : NSObject
 
 @property (strong, nonatomic) NSURL *url;
+@property (strong, nonatomic) NSString *host;
 @property (strong, nonatomic) NSMutableArray *hops;
 
 @end

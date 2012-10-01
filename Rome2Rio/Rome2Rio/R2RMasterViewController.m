@@ -11,6 +11,7 @@
 #import "R2RResultsViewController.h"
 #import "R2RStatusButton.h"
 
+#import "R2RImageView.h"
 
 @interface R2RMasterViewController ()
 
@@ -21,13 +22,11 @@
 //@property (strong, nonatomic) R2RPlace *toSearchPlace;
 @property (weak, nonatomic) IBOutlet UITextField *fromTextField;
 @property (weak, nonatomic) IBOutlet UITextField *toTextField;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 //@property (weak, nonatomic) R2RResultsViewController *resultsViewController;
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
 //@property (strong, nonatomic) UIView *statusMessageView;
-
-
 
 
 - (IBAction)FromEditingDidBegin:(id)sender;
@@ -48,7 +47,7 @@ enum R2RState
 
 @implementation R2RMasterViewController
 
-@synthesize dataController, fromTextField, toTextField, messageLabel;
+@synthesize dataController, fromTextField, toTextField;
 
 
 //- (void)awakeFromNib
@@ -63,11 +62,10 @@ enum R2RState
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFromTextField:) name:@"refreshFromTextField" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshToTextField:) name:@"refreshToTextField" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
+
+    [self displayIcons];
+
     
-    // Do any additional setup after loading the view, typically from a nib.
-    
-//    self.statusMessage = [[R2RStatusLabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height -100, self.view.bounds.size.width, 30.0)];
-//    [self.view addSubview:self.statusMessage];
     
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, 360.0, 320.0, 30.0)];
     //self.statusButton = [R2RStatusButton buttonWithType:UIButtonTypeCustom];
@@ -76,8 +74,79 @@ enum R2RState
     
     [self setStatusMessage:self.dataController.statusMessage];
     
+    //[self drawIcons];
+    
 }
 
+
+
+- (void) displayIcons
+{
+    //Header Image
+    CGPoint position = CGPointMake(10, 20); //position to place icon
+    CGSize size = CGSizeMake(300, 70); // size of icon  //make size exact and adjust position based on screen size
+    CGPoint imageLocation = CGPointMake(70, 100); //position of icon in image
+    CGSize imageSize = CGSizeMake(386, 83); //size of icon in image
+    
+    R2RImageView *view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
+    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
+    [self.view addSubview:view];
+    
+    NSInteger xPos = (self.view.bounds.size.width/7);
+    
+    //plane
+    position = CGPointMake(1*xPos+5, 265); //position to place icon
+    size = CGSizeMake(50, 36); // size of icon
+    imageSize = CGSizeMake(42, 36); //size of icon in image
+    imageLocation = CGPointMake(0, 0); //position of icon in image
+    
+    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x+5, position.y, size.width, size.height)];
+    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
+    [self.view addSubview:view];
+    
+    //train
+    position = CGPointMake(3*xPos, 265); //position to place icon
+    size = CGSizeMake(58, 36); // size of icon
+    imageSize = CGSizeMake(58, 36); //size of icon in image
+    imageLocation = CGPointMake(102, 0); //position of icon in image
+
+    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
+    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
+    [self.view addSubview:view];
+    
+    //bus
+    position = CGPointMake(5*xPos, 265); //position to place icon
+    size = CGSizeMake(55, 36); // size of icon
+    imageSize = CGSizeMake(55, 36); //size of icon in image
+    imageLocation = CGPointMake(174, 40); //position of icon in image
+    
+    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
+    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
+    [self.view addSubview:view];
+    
+    //ferry
+    position = CGPointMake(2*xPos/*+(xPos/2)*/, 310); //position to place icon
+    size = CGSizeMake(67, 36); // size of icon
+    imageSize = CGSizeMake(67, 36); //size of icon in image
+    imageLocation = CGPointMake(162, 0); //position of icon in image
+    
+    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
+    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
+    [self.view addSubview:view];
+    
+    //car
+    position = CGPointMake(4*xPos/*+(xPos/2)*/, 310); //position to place icon
+    size = CGSizeMake(57, 36); // size of icon
+    imageSize = CGSizeMake(57, 36); //size of icon in image
+    imageLocation = CGPointMake(43, 0); //position of icon in image
+    
+    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
+    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
+    [self.view addSubview:view];
+    
+    
+    
+}
 
 - (void)viewDidUnload
 {
@@ -89,7 +158,7 @@ enum R2RState
     
     [self setFromTextField:nil];
     [self setToTextField:nil];
-    [self setMessageLabel:nil];
+//    [self setMessageLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -98,74 +167,6 @@ enum R2RState
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-
-//- (void)insertNewObject:(id)sender
-//{
-//    if (!_objects) {
-//        _objects = [[NSMutableArray alloc] init];
-//    }
-//    [_objects insertObject:[NSDate date] atIndex:0];
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//}
-
-#pragma mark - Table View
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 4;
-    //return _objects.count;
-}
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (indexPath == 0)
-//    {
-//        return [tableView data]
-//    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-//
-//    NSDate *object = [_objects objectAtIndex:indexPath.row];
-//    cell.textLabel.text = [object description];
-//    return cell;
-//}
-
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    // Return NO if you do not want the specified item to be editable.
-//    return YES;
-//}
-
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        [_objects removeObjectAtIndex:indexPath.row];
-//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-//        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-//    }
-//}
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -378,6 +379,39 @@ enum R2RState
 
 }
 
+- (void) drawIcons
+{
+    //self.view.backgroundColor = [UIColor blueColor];
+    // Initialization code
+    //UIImageView *planeView = [[UIImageView alloc] initWithImage:]
+    //UIImage *plane = [[UIImage alloc] init];
+    UIImage *sprites = [UIImage imageNamed:@"sprites6.png"];
+    
+    //plane
+    CGPoint point = CGPointMake(100, 50);
+    //        UIRectClip(CGRectMake(20, 50, 42, 36));
+    [sprites drawAtPoint:point];
+    
+//    //train
+//    point = CGPointMake(80-102, 50);
+//    //        UIRectClip(CGRectMake(20, 50, 58, 36));
+//    [sprites drawAtPoint:point];
+//    
+//    //bus
+//    point = CGPointMake(140-174, 50-40);
+//    //        UIRectClip(CGRectMake(20, 50, 55, 36));
+//    [sprites drawAtPoint:point];
+//    
+//    //ferry
+//    point = CGPointMake(200-162, 50);
+//    //        UIRectClip(CGRectMake(20, 50, 67, 36));
+//    [sprites drawAtPoint:point];
+//    
+//    //car
+//    point = CGPointMake(260-43, 50);
+//    //        UIRectClip(CGRectMake(20, 50, 57, 36));
+//    [sprites drawAtPoint:point];
+}
 
 
 @end

@@ -10,10 +10,11 @@
 
 #import "R2RRoute.h"
 
-
 @interface R2RDetailViewController : UITableViewController
 
 @property (strong, nonatomic) R2RRoute *route;
+@property (strong, nonatomic) NSArray *airlines;
+@property (strong, nonatomic) NSArray *airports;
 
 - (IBAction)ReturnToSearch:(id)sender;
 
