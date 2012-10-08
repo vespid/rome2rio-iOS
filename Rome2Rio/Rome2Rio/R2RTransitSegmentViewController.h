@@ -13,5 +13,7 @@
 @interface R2RTransitSegmentViewController : UITableViewController
 
 @property (strong, nonatomic) R2RTransitSegment *transitSegment;
+@property (strong, nonatomic) NSArray *agencies;
+//@property (strong, nonatomic) NSMutableDictionary *agencyIcons;
 
 @end

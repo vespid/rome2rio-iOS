@@ -15,6 +15,9 @@
 @property (strong, nonatomic) R2RRoute *route;
 @property (strong, nonatomic) NSArray *airlines;
 @property (strong, nonatomic) NSArray *airports;
+@property (strong, nonatomic) NSArray *agencies;
+
+//@property (strong, nonatomic) NSMutableDictionary *agencyIcons;
 
 - (IBAction)ReturnToSearch:(id)sender;
 

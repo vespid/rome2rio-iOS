@@ -16,6 +16,7 @@
 #import "R2RTransitItinerary.h"
 #import "R2RTransitLeg.h"
 #import "R2RTransitHop.h"
+#import "R2RTransitLine.h"
 #import "R2RFlightSegment.h"
 #import "R2RFlightItinerary.h"
 #import "R2RFlightLeg.h"
@@ -116,12 +117,17 @@
 
 -(void) printTransitHop:(R2RTransitHop*) hop
 {
-    NSLog(@"TranistHop\t%@\t%f\t%f\t%@\t%f\t%f\t %@\t%@\t%f\t%f\t%@", hop.sName, hop.sPos.lat, hop.sPos.lng, hop.tName, hop.tPos.lat, hop.tPos.lng, hop.vehicle, hop.line, hop.frequency, hop.duration, hop.agency);
+    NSLog(@"TranistHop\t%f\t%f\t%@\t%@\t%@\t%@\t%@", hop.duration, hop.frequency, hop.path, hop.sName, hop.sPos, hop.tName, hop.tPos);
     
-    for (R2RPosition *pos in hop.path)
+    for (R2RTransitLine *line in hop.lines)
     {
-        NSLog(@"%f\t%f\t", pos.lat, pos.lng);
+        [self printTransitLine:line];
     }
+}
+
+-(void) printTransitLine:(R2RTransitLine*) line 
+{
+    NSLog(@"TransitLine\t%@\t%@\t%f\t%@\t%@", line.agency, line.code, line.frequency, line.name, line.vehicle);
 }
 
 -(void) printFlightSegment:(R2RFlightSegment*) segment

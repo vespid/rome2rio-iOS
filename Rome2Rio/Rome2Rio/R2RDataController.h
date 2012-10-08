@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 #import "R2RGeoCoder.h"
 #import "R2RSearch.h"
 #import "R2RIconLoader.h"
 
-@interface R2RDataController : NSObject <R2RGeoCoderDelegate, R2RSearchDelegate/*, R2RIconLoaderDelegate*/>
+@interface R2RDataController : NSObject <R2RGeoCoderDelegate, R2RSearchDelegate, CLLocationManagerDelegate/*, R2RIconLoaderDelegate*/>
 
 @property (strong, nonatomic) R2RGeoCoder *geoCoderFrom;
 @property (strong, nonatomic) R2RGeoCoder *geoCoderTo;
@@ -22,6 +23,8 @@
 @property (strong, nonatomic) NSString *statusMessage;
 //@property (strong, nonatomic) NSString *statusMessageSender;
 @property (nonatomic) NSInteger state;
+
+//@property (strong, nonatomic) NSMutableDictionary *agencyIcons;
 
 //@property (strong, nonatomic) NSMutableString *statusMessage;
 //@property (strong, nonatomic) R2RStatusMessageController *statusMessageController;
@@ -36,6 +39,8 @@
 - (void) FromEditingDidEnd:(NSString *)query;
 - (void) ToEditingDidBegin;
 - (void) ToEditingDidEnd:(NSString *)query;
+- (void) currentLocationTouchUpInside;
+- (void) geoCodeFrom:(NSString *) query;
 
 
 @end

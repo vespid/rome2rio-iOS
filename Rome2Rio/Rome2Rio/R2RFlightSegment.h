@@ -17,6 +17,7 @@
 @property (nonatomic) float duration;
 @property (strong, nonatomic) NSString *sCode;
 @property (strong, nonatomic) NSString *tCode;
+@property (nonatomic) BOOL isMajor;
 
 @property (strong, nonatomic) NSMutableArray *itineraries;
 

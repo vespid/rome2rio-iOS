@@ -10,8 +10,9 @@
 
 @interface R2RResultsCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *routeNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel *routeKindLabel;
-@property (weak, nonatomic) IBOutlet UILabel *routeDurationLabel;
+@property (strong, nonatomic) UILabel *resultDescripionLabel;
+@property (strong, nonatomic) UILabel *resultDurationLabel;
+@property (nonatomic) NSInteger iconCount;
+@property (strong, nonatomic) NSMutableArray *icons;
 
 @end

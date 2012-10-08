@@ -10,6 +10,6 @@
 
 @implementation R2RSearchResponse
 
-@synthesize routes, airports, airlines;
+@synthesize routes, airports, airlines, agencies;
 
 @end

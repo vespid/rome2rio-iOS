@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #include "R2RTransitHop.h"
+#include "R2RTransitLine.h"
 
 @interface R2RTransitLeg : NSObject
 

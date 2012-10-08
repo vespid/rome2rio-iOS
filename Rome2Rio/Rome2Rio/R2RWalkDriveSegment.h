@@ -19,5 +19,7 @@
 @property (strong, nonatomic) R2RPosition *sPos;
 @property (strong, nonatomic) NSString *tName;
 @property (strong, nonatomic) R2RPosition *tPos;
+@property (strong, nonatomic) NSString *path;
+@property (nonatomic) BOOL isMajor;
 
 @end

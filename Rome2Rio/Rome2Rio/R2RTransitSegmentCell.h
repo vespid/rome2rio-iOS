@@ -10,18 +10,20 @@
 
 #import "R2RIconLoader.h"
 
-@interface R2RTransitSegmentCell : UITableViewCell <R2RIconLoaderDelegate>
+@interface R2RTransitSegmentCell : UITableViewCell //<R2RIconLoaderDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *kindLabel;
-@property (weak, nonatomic) IBOutlet UILabel *fromLabel;
-@property (weak, nonatomic) IBOutlet UILabel *toLabel;
-@property (weak, nonatomic) IBOutlet UILabel *durationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *lineLabel;
-@property (weak, nonatomic) IBOutlet UILabel *agencyLabel;
+//@property (strong, nonatomic) UIImageView *agencyIconView;
 
-@property (strong, nonatomic) UIImageView *agencyIconView;
+@property (strong, nonatomic) UIImageView *transitVehicleIcon;
+@property (strong, nonatomic) UILabel *fromLabel;
+@property (strong, nonatomic) UILabel *toLabel;
+@property (strong, nonatomic) UILabel *durationLabel;
+@property (strong, nonatomic) UILabel *frequencyLabel;
+@property (strong, nonatomic) UILabel *lineLabel;
 
--(void) initAgencyIconView: (CGRect) rect;
--(void) loadAgencyIcon: (NSString *) iconPath;
+
+//
+//-(void) initAgencyIconView: (CGRect) rect;
+//-(void) loadAgencyIcon: (NSString *) iconPath;
 
 @end

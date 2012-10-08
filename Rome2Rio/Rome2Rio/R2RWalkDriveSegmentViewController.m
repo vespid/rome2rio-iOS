@@ -9,6 +9,9 @@
 #import "R2RWalkDriveSegmentViewController.h"
 #import "R2RWalkDriveSegmentCell.h"
 
+#import "R2RSegmentHandler.h"
+#import "R2RStringFormatters.h"
+
 @interface R2RWalkDriveSegmentViewController ()
 
 @end
@@ -30,6 +33,16 @@
 {
     [super viewDidLoad];
 
+    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
+    
+    self.navigationItem.title = [stringFormatter capitaliseFirstLetter:walkDriveSegment.kind];
+    
+    [self.tableView setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+    
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.tableFooterView = footer;
+    
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -68,9 +81,15 @@
     static NSString *CellIdentifier = @"WalkDriveSegmentCell";
     R2RWalkDriveSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    [[cell kindLabel] setText:walkDriveSegment.kind];
-    [[cell descriptionLabel] setText:[NSString stringWithFormat:@"%f", walkDriveSegment.distance]];
-    [[cell durationLabel] setText:[NSString stringWithFormat:@"%f", walkDriveSegment.duration]];	
+    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    [cell.kindIcon setImage:[segmentHandler getRouteIcon:self.walkDriveSegment.kind]];
+
+    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
+    [cell.fromLabel setText:walkDriveSegment.sName];
+    [cell.toLabel setText:walkDriveSegment.tName];
+    
+    [cell.distanceLabel setText:[stringFormatter formatDistance:walkDriveSegment.distance]];
+    [cell.durationLabel setText:[stringFormatter formatDuration:walkDriveSegment.duration]];
     
     return cell;
 }

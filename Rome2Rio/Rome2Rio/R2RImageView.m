@@ -37,6 +37,8 @@
     UIImage *result = [UIImage imageWithCGImage:imageRef];
     
     self.image = result;
+    
+    CGImageRelease(imageRef);
 }
 
 @end

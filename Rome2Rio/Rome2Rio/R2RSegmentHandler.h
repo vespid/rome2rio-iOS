@@ -22,10 +22,15 @@
 
 @interface R2RSegmentHandler : NSObject
 
+-(UIImage *) getRouteIcon:(NSString *) kind;
+-(UIImage *) getSegmentResultIcon:(id) segment;
+-(BOOL) getSegmentIsMajor:(id) segment;
+
 -(NSInteger) getTransitChanges: (R2RTransitSegment *) segment;
--(NSString *) getTransitVehicle: (R2RTransitSegment *) segment;
+//-(NSString *) getTransitVehicle: (R2RTransitSegment *) segment;
 //-(NSString *) getFrequencyText: (R2RTransitSegment *) segment;
 -(float) getTransitFrequency: (R2RTransitSegment *)segment;
+- (UIImage *) getConnectionImage: (id) segment;
 
 
 @end

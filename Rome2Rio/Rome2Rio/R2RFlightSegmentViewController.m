@@ -9,6 +9,7 @@
 
 #import "R2RFlightSegmentViewController.h"
 #import "R2RFlightSegmentCell.h"
+#import "R2RFlightSegmentSectionHeader.h"
 #import "R2RTitleLabel.h"
 #import "R2RAirline.h"
 #import "R2RAirport.h"
@@ -48,6 +49,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"Fly";
     
     self.iconDownloadsInProgress = [NSMutableDictionary dictionary];
     [self.tableView setSectionHeaderHeight:55];
@@ -102,65 +105,30 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, 50);
     
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
-//    [header setAlpha:1.0];
-    [header setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-    
-    R2RTitleLabel *titleLabel = [[R2RTitleLabel alloc] initWithFrame:CGRectMake(0, 5, self.view.bounds.size.width, 25)];
-    [titleLabel setTextAlignment:UITextAlignmentCenter];
-    [titleLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+    R2RFlightSegmentSectionHeader *header = [[R2RFlightSegmentSectionHeader alloc] initWithFrame:rect];
+
     FlightGroup *flightGroup = [self.flightGroups objectAtIndex:section];
-    [titleLabel setText:flightGroup.name];
-    [header addSubview:titleLabel];
+    [header.titleLabel setText:flightGroup.name];
     
-    NSString *from = [[NSString alloc] init];
-    NSString *to = [[NSString alloc] init];
-    for (R2RAirport *airport in self.airports)
-    {
-        if ([airport.code isEqualToString:self.flightSegment.sCode])
-        {
-            from = [NSString stringWithString:airport.code];
-        }
-        if ([airport.code isEqualToString:self.flightSegment.tCode])
-        {
-            to = [NSString stringWithString:airport.code];
-        }
+    NSString *from = [[NSString alloc] initWithString:self.flightSegment.sCode];
+    NSString *to = [[NSString alloc] initWithString:self.flightSegment.tCode];
     
-    }
+//    NSString *joiner = @" to ";
+//    CGSize joinerSize = [joiner sizeWithFont:header.titleLabel.font]; //change to font of choice
+//    rect = CGRectMake((self.view.bounds.size.width/2)-(joinerSize.width/2), 30, joinerSize.width, 25);
+//    [header.joinerLabel setFrame:rect];
     
-    NSString *joiner = @" to ";
-    CGSize joinerSize = [joiner sizeWithFont:titleLabel.font]; //change to font of choice
-    
-    CGRect rect = CGRectMake((self.view.bounds.size.width/2)-(joinerSize.width/2), 30, joinerSize.width, 25);
-    
-    UILabel *joinerLabel = [[UILabel alloc] initWithFrame:rect];
-    [joinerLabel setTextAlignment:UITextAlignmentCenter];
-    [joinerLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-    [joinerLabel setText:joiner];
-    [joinerLabel setTextColor:[UIColor lightGrayColor]];
-    [header addSubview:joinerLabel];
-    
-    rect = CGRectMake(0, 30, (self.view.bounds.size.width/2)-(joinerSize.width/2), 25);
-    UILabel *fromLabel = [[UILabel alloc] initWithFrame:rect];
-    [fromLabel setTextAlignment:UITextAlignmentRight];
-    [fromLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-    [fromLabel setMinimumFontSize:10.0];
-    [fromLabel setAdjustsFontSizeToFitWidth:YES];
-    [fromLabel setText:from];
-    [header addSubview:fromLabel];
-    
-    rect = CGRectMake((self.view.bounds.size.width/2)+(joinerSize.width/2), 30, (self.view.bounds.size.width/2)-(joinerSize.width/2), 25);
-    UILabel *toLabel = [[UILabel alloc] initWithFrame:rect];
-    [toLabel setTextAlignment:UITextAlignmentLeft];
-    [toLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-    [toLabel setMinimumFontSize:10.0];
-    [toLabel setAdjustsFontSizeToFitWidth:YES];
-    [toLabel setText:to];
-    [header addSubview:toLabel];
+//    rect = CGRectMake(0, 30, (self.view.bounds.size.width/2)-(joinerSize.width/2), 25);
+//    [header.fromLabel setFrame:rect];
+    [header.fromLabel setText:from];
+   
+//    rect = CGRectMake((self.view.bounds.size.width/2)+(joinerSize.width/2), 30, (self.view.bounds.size.width/2)-(joinerSize.width/2), 25);
+//    [header.toLabel setFrame:rect];
+    [header.toLabel setText:to];
     
     return header;
-    
 }
 
 //- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -401,56 +369,8 @@
             [iconLoader.cellPaths addObject:indexPath];
         }
     }
-    
-    
-//    R2RAirlineIconLoader *iconLoader = [iconDownloadsInProgress objectForKey:indexPath];
-//    if (iconLoader == nil)
-//    {
-//        
-//        iconLoader = [[R2RAirlineIconLoader alloc] initWithIconPath:airline.iconPath delegate:self];
-////        iconLoader = [[R2RIconLoader alloc] initWithIconPath:airline.iconPath delegate:self];
-//        iconLoader.airline = airline;
-//        iconLoader.indexPathInTableView = indexPath;
-//        [iconDownloadsInProgress setObject:iconLoader forKey:indexPath];
-//        [iconLoader sendAsynchronousRequest];
-//    }
 }
-
-// this method is used in case the user scrolled into a set of cells that don't have their app icons yet
-//- (void)loadImagesForOnscreenRows
-//{
-//    if ([self.entries count] > 0)
-//    {
-//        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
-//        for (NSIndexPath *indexPath in visiblePaths)
-//        {
-//            AppRecord *appRecord = [self.entries objectAtIndex:indexPath.row];
-//            
-//            if (!appRecord.appIcon) // avoid the app icon download if the app already has an icon
-//            {
-//                [self startIconDownload:appRecord forIndexPath:indexPath];
-//            }
-//        }
-//    }
-//}
-
-//// called by our ImageDownloader when an icon is ready to be displayed
-//- (void)appImageDidLoad:(NSIndexPath *)indexPath
-//{
-//    IconDownloader *iconDownloader = [imageDownloadsInProgress objectForKey:indexPath];
-//    if (iconDownloader != nil)
-//    {
-//        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:iconDownloader.indexPathInTableView];
-//        
-//        // Display the newly loaded image
-//        cell.imageView.image = iconDownloader.appRecord.appIcon;
-//    }
-//    
-//    // Remove the IconDownloader from the in progress list.
-//    // This will result in it being deallocated.
-//    [imageDownloadsInProgress removeObjectForKey:indexPath];
-//}
-
+    
 -(void) r2rAirlineIconLoaded:(R2RAirlineIconLoader *)delegateIconLoader
 {
     R2RAirlineIconLoader *iconLoader = [iconDownloadsInProgress objectForKey:delegateIconLoader.airline.code];

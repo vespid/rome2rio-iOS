@@ -18,6 +18,7 @@
 @property (strong, nonatomic) NSString *imagePath;
 
 -(id) initWithPath:(NSString *) path :(CGPoint)offset :(CGSize)size;
+-(id)initWithImage:(UIImage *)image :(CGRect)rect;
 -(id) initWithImage:(UIImage *) image :(CGPoint)offset :(CGSize)size;
 
 -(void) setSpriteFromImage:(UIImage *)image;

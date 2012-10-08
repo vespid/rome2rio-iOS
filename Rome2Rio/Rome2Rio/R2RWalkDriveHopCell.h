@@ -11,5 +11,8 @@
 @interface R2RWalkDriveHopCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *hopLabel;
+@property (strong, nonatomic) UIImageView *icon;
+@property (strong, nonatomic) UIImageView *connectTop;
+@property (strong, nonatomic) UIImageView *connectBottom;
 
 @end

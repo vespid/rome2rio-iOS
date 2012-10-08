@@ -30,7 +30,7 @@
         self.iconPath = iconPath;
         self.delegate = r2rAirlineIconLoaderDelegate;
         
-        [self sendAsynchronousRequest];
+//        [self sendAsynchronousRequest];
     }
     
     return self;

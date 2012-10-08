@@ -10,6 +10,6 @@
 
 @implementation R2RTransitLeg
 
-@synthesize url, hops;
+@synthesize url, hops, host;
 
 @end

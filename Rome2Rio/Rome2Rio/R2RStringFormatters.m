@@ -36,11 +36,11 @@
     return nil;
 }
 
--(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance
+-(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance: (NSString *) kind
 {
-    if (distance < .005)
+    if ([kind isEqualToString:@"walk"])
     {
-        return [NSString stringWithFormat:@"%@ by dancing", [self formatDuration:minutes]];
+        return [NSString stringWithFormat:@"%@ by foot, %@", [self formatDuration:minutes], [self formatDistance:distance]];
     }
     else
     {
@@ -195,6 +195,12 @@
     vehicle = [vehicle stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[vehicle substringToIndex:1] uppercaseString]];
     vehicle = [vehicle stringByAppendingString:@" from"];
     return vehicle;
+}
+
+-(NSString *) capitaliseFirstLetter: (NSString *) string
+{
+    string = [string stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[string substringToIndex:1] uppercaseString]];
+    return string;
 }
 
 

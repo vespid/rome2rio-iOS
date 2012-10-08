@@ -12,18 +12,13 @@
 
 @interface R2RTransitHop : NSObject
 
+@property (nonatomic) float duration;
+@property (nonatomic) float frequency;
+@property (strong, nonatomic) NSMutableArray *lines;
+@property (strong, nonatomic) NSMutableArray *path;
 @property (strong, nonatomic) NSString *sName;
 @property (strong, nonatomic) R2RPosition *sPos;
 @property (strong, nonatomic) NSString *tName;
 @property (strong, nonatomic) R2RPosition *tPos;
-@property (strong, nonatomic) NSString *vehicle;
-@property (strong, nonatomic) NSString *line;
-@property (nonatomic) float frequency;
-@property (nonatomic) float duration;
-@property (strong, nonatomic) NSString *agency;
-@property (nonatomic) CGPoint iconOffset;
-@property (strong, nonatomic) NSString *iconPath;
-
-@property (strong, nonatomic) NSMutableArray *path;
 
 @end

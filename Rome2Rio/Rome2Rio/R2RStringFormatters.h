@@ -15,11 +15,14 @@
 
 -(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops;
 -(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle;
--(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance;
+-(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance: (NSString *) kind;
 -(NSString *) formatTransitHopVehicle: (NSString *) vehicle;
 
 -(NSString *) formatDuration: (float) minutes;
 -(NSString *) formatFrequency: (float) frequency;
 -(NSString *) formatDistance: (float) distance;
+
+-(NSString *) capitaliseFirstLetter: (NSString *) string;
+
 
 @end

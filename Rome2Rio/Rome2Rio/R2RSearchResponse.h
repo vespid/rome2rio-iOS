@@ -13,5 +13,6 @@
 @property (strong, nonatomic) NSMutableArray *routes;
 @property (strong, nonatomic) NSMutableArray *airports;
 @property (strong, nonatomic) NSMutableArray *airlines;
+@property (strong, nonatomic) NSMutableArray *agencies;
 
 @end

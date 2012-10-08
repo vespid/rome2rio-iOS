@@ -1,4 +1,4 @@
-//
+    //
 //  R2RGetRoutes.m
 //  HttpRequest
 //
@@ -134,6 +134,7 @@ enum {
     
     parsedSearchResponse.airports = [self parseAirports:[responseData objectForKey:@"airports"]];
     parsedSearchResponse.airlines = [self parseAirlines:[responseData objectForKey:@"airlines"]];
+    parsedSearchResponse.agencies = [self parseAirlines:[responseData objectForKey:@"agencies"]];
     parsedSearchResponse.routes = [self parseRoutes:[responseData objectForKey:@"routes"]];
     
     return parsedSearchResponse;
@@ -255,8 +256,10 @@ enum {
     
     airline.code = [airlineResponse objectForKey:@"code"];
     airline.name = [airlineResponse objectForKey:@"name"];
-    airline.url = [airlineResponse objectForKey:@"url"];
     
+    NSString *urlString = [airlineResponse objectForKey:@"url"];
+    airline.url = [NSURL URLWithString:urlString];
+     
     NSScanner *scanner = [NSScanner scannerWithString:[airlineResponse objectForKey:@"iconOffset"]];
     [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
     
@@ -270,6 +273,45 @@ enum {
 //    NSLog(@"airline\t%@\t%@\t%f\t%f", airline.url, airline.iconPath, airline.iconOffset.x, airline.iconOffset.y);
     
     return airline;
+}
+
+-(NSMutableArray*) parseAgencies:( NSArray *) agenciesResponse
+{
+    NSMutableArray *agencies = [[NSMutableArray alloc] initWithCapacity:[agenciesResponse count]] ;
+    
+    for (id agencyResponse in agenciesResponse)
+    {
+        R2RAgency *agency = [self parseAgency:agencyResponse];
+        [agencies addObject:agency];
+        
+    }
+    
+    return agencies;
+}
+
+-(R2RAgency*) parseAgency:(id) agencyResponse
+{
+    R2RAgency *agency = [R2RAgency alloc];
+    
+    agency.code = [agencyResponse objectForKey:@"code"];
+    agency.name = [agencyResponse objectForKey:@"name"];
+    
+    NSString *urlString = [agencyResponse objectForKey:@"url"];
+    agency.url = [NSURL URLWithString:urlString];
+    
+    NSScanner *scanner = [NSScanner scannerWithString:[agencyResponse objectForKey:@"iconOffset"]];
+    [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
+    
+    float x,y;
+    [scanner scanFloat:&x];
+    [scanner scanFloat:&y];
+    
+    agency.iconOffset = CGPointMake(x, y);
+    agency.iconPath = [agencyResponse objectForKey:@"iconPath"];
+    
+    //    NSLog(@"airline\t%@\t%@\t%f\t%f", airline.url, airline.iconPath, airline.iconOffset.x, airline.iconOffset.y);
+    
+    return agency;
 }
 
 -(NSMutableArray*) parseRoutes: (NSArray *) routesResponse
@@ -392,6 +434,11 @@ enum {
     NSString *tPosString = [segmentResponse objectForKey:@"tPos"];
     segment.tPos = [self parsePositionString:tPosString];
     
+    NSInteger isMajor = [[segmentResponse objectForKey:@"isMajor"] integerValue];
+    segment.isMajor = (isMajor == 1) ? YES : NO;
+    
+    segment.path = [segmentResponse objectForKey:@"path"];
+    
     return segment;
 }
 
@@ -411,6 +458,9 @@ enum {
     
     NSString *tPosString = [segmentResponse objectForKey:@"tPos"];
     segment.tPos = [self parsePositionString:tPosString];
+    
+    NSInteger isMajor = [[segmentResponse objectForKey:@"isMajor"] integerValue];
+    segment.isMajor = (isMajor == 1) ? YES : NO;
     
     NSArray *itinerariesResponse = [segmentResponse objectForKey:@"itineraries"];
     
@@ -464,7 +514,8 @@ enum {
 {
     R2RTransitLeg *transitLeg = [R2RTransitLeg alloc];
     
-    transitLeg.url = [transitLegResponse objectForKey:@"url"];
+    NSString *urlString = [transitLegResponse objectForKey:@"url"];
+    transitLeg.url = [NSURL URLWithString:urlString];
     transitLeg.host = [transitLegResponse objectForKey:@"host"];
     
     NSArray *transitHopsResponse = [transitLegResponse objectForKey:@"hops"];
@@ -502,26 +553,46 @@ enum {
     NSString *tPosString = [transitHopResponse objectForKey:@"tPos"];
     transitHop.tPos = [self parsePositionString:tPosString];
     
-    transitHop.vehicle = [transitHopResponse objectForKey:@"vehicle"];
-    transitHop.line = [transitHopResponse objectForKey:@"line"];
-    transitHop.frequency = [[transitHopResponse objectForKey:@"frequency"] floatValue];
     transitHop.duration = [[transitHopResponse objectForKey:@"duration"] floatValue];
-    transitHop.agency = [transitHopResponse objectForKey:@"agency"];
+    transitHop.frequency = [[transitHopResponse objectForKey:@"frequency"] floatValue];
     
-    NSString *pathPostionArrayString = [transitHopResponse objectForKey:@"path"];
+    transitHop.path = [transitHopResponse objectForKey:@"path"];
+//    NSString *pathPostionArrayString = [transitHopResponse objectForKey:@"path"];
+//    transitHop.path = [self parsePositionArray:pathPostionArrayString];
     
-    transitHop.path = [self parsePositionArray:pathPostionArrayString];
     
-    NSScanner *scanner = [NSScanner scannerWithString:[transitHopResponse objectForKey:@"iconOffset"]];
-    [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
-    float x,y;
-    [scanner scanFloat:&x];
-    [scanner scanFloat:&y];
+    NSArray *transitLinesResponse = [transitHopResponse objectForKey:@"lines"];
     
-    transitHop.iconOffset = CGPointMake(x, y);
-    transitHop.iconPath = [transitHopResponse objectForKey:@"iconPath"];
+    transitHop.lines = [self parseTransitLines:transitLinesResponse];
     
     return transitHop;
+}
+
+-(NSMutableArray *) parseTransitLines:(NSArray *) transitLinesResponse
+{
+    NSMutableArray *transitLines = [[NSMutableArray alloc] initWithCapacity:[transitLinesResponse count]];
+    
+    for (id transitLineResponse in transitLinesResponse)
+    {
+        R2RTransitLine *transitLine = [self parseTransitLine:transitLineResponse];
+        
+        [transitLines addObject:transitLine];
+    }
+    
+    return transitLines;
+}
+
+-(R2RTransitLine *) parseTransitLine:(NSDictionary *) transitLineResponse
+{
+    R2RTransitLine *transitLine = [R2RTransitLine alloc];
+    
+    transitLine.agency = [transitLineResponse objectForKey:@"agency"];
+    transitLine.code = [transitLineResponse objectForKey:@"code"];
+    transitLine.frequency = [[transitLineResponse objectForKey:@"frequency"] floatValue];
+    transitLine.name = [transitLineResponse objectForKey:@"name"];
+    transitLine.vehicle = [transitLineResponse objectForKey:@"vehicle"];
+    
+    return transitLine;
 }
 
 -(R2RFlightSegment*) parseFlightSegment: (NSDictionary *) segmentResponse
@@ -533,6 +604,9 @@ enum {
     segment.duration = [[segmentResponse objectForKey:@"duration"] floatValue];
     segment.sCode = [segmentResponse objectForKey:@"sCode"];
     segment.tCode = [segmentResponse objectForKey:@"tCode"];
+    
+    NSInteger isMajor = [[segmentResponse objectForKey:@"isMajor"] integerValue];
+    segment.isMajor = (isMajor == 1) ? YES : NO;
     
     NSArray *itinerariesResponse = [segmentResponse objectForKey:@"itineraries"];
     

@@ -26,6 +26,9 @@
 //@property (weak, nonatomic) R2RResultsViewController *resultsViewController;
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
+
+//@property (strong, nonatomic) NSString *myLocation;
+
 //@property (strong, nonatomic) UIView *statusMessageView;
 
 
@@ -34,6 +37,8 @@
 - (IBAction)FromEditingDidEnd:(id)sender;
 - (IBAction)ToEditingDidEnd:(id)sender;
 - (IBAction)SearchTouchUpInside:(id)sender;
+- (IBAction)currentLocationTouchUpInside:(id)sender;
+- (IBAction)geoCodeFrom:(id)sender;
 
 enum R2RState
 {
@@ -65,7 +70,7 @@ enum R2RState
 
     [self displayIcons];
 
-    
+    [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
     
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, 360.0, 320.0, 30.0)];
     //self.statusButton = [R2RStatusButton buttonWithType:UIButtonTypeCustom];
@@ -75,7 +80,13 @@ enum R2RState
     [self setStatusMessage:self.dataController.statusMessage];
     
     //[self drawIcons];
-    
+//    
+//    if (nil == self.locationManager)
+//        self.locationManager = [[CLLocationManager alloc] init];
+//    
+//    self.locationManager.delegate = self;
+//    [self.locationManager startMonitoringSignificantLocationChanges];
+//    
 }
 
 
@@ -268,6 +279,15 @@ enum R2RState
     
 }
 
+- (IBAction)currentLocationTouchUpInside:(id)sender
+{
+    [self.dataController currentLocationTouchUpInside];
+}
+
+- (IBAction)geoCodeFrom:(id)sender
+{
+    [self.dataController geoCodeFrom:self.fromTextField.text];
+}
 
 
 

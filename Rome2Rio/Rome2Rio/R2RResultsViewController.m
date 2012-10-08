@@ -10,8 +10,11 @@
 #import "R2RDetailViewController.h"
 
 #import "R2RStatusButton.h"
+#import "R2RResultSectionHeader.h"
 #import "R2RResultsCell.h"
 #import "R2RStringFormatters.h"
+#import "R2RSegmentHandler.h"
+#import "R2RSprite.h"
 
 #import "R2RAirport.h"
 #import "R2RAirline.h"
@@ -31,9 +34,8 @@
 
 @interface R2RResultsViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *searchLabel;
+@property (strong, nonatomic) R2RResultSectionHeader *header;
 @property (strong, nonatomic) R2RStatusButton *statusButton;
-
 
 enum {
     stateEmpty = 0,
@@ -55,7 +57,6 @@ enum R2RState
 @end
 
 @implementation R2RResultsViewController
-@synthesize searchLabel;
 
 @synthesize dataController;
 //@synthesize searchResponse, fromSearchPlace, toSearchPlace;
@@ -78,6 +79,11 @@ enum R2RState
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshResults:) name:@"refreshResults" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
     
+    [self.tableView setSectionHeaderHeight:35.0];
+    CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, self.tableView.sectionHeaderHeight);
+    
+    self.header = [[R2RResultSectionHeader alloc] initWithFrame:rect];
+
     [self refreshResultsViewTitle];
     
 //    self.statusMessage = [[R2RStatusLabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height -100, self.view.bounds.size.width, 30.0)];
@@ -116,7 +122,7 @@ enum R2RState
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshResults" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
     
-    [self setSearchLabel:nil];
+//    [self setSearchLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -128,6 +134,11 @@ enum R2RState
 }
 
 #pragma mark - Table view data source
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return self.header;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -152,88 +163,58 @@ enum R2RState
     static NSString *CellIdentifier = @"ResultsCell";
     R2RResultsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
-    
-//    static NSDateFormatter *formatter = nil;
-//    if (formatter == nil)
-//    {
-//        formatter = [[NSDateFormatter alloc] init];
-//        [formatter setDateStyle:NSDateFormatterMediumStyle];
-//    }
-    
-//    NSInteger tempIndexRow = (indexPath.row % [self.searchResponse.routes count]);
-//    R2RRoute *route = [self.searchResponse.routes objectAtIndex:tempIndexRow];
-//    [[cell routeNumberLabel] setText : [NSString stringWithFormat:@"%d", indexPath.row]];
-    
-//    [cell setBackgroundColor:[UIColor greenColor]];
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(20, 0, 50, 50)];
-//    [view setBackgroundColor:[UIColor blueColor]];
-//    [cell addSubview:view];
-    
     R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:indexPath.row];
     
-    char routeLabel = 'A';
-    routeLabel = routeLabel + indexPath.row;
-    [[cell routeNumberLabel] setText : [NSString stringWithFormat:@"%c", routeLabel]];
-    
-    
-//    
-//    //NSString *kindString = [[NSString alloc] init];
-//    NSMutableString *kindString = [[NSMutableString alloc] init];
-//    float totalDuration;
-//    int count = 0;
-//    for (id segment in route.segments)
-//    {
-//        
-//        /////////  REDO THIS SECTION
-//        if([segment isKindOfClass:[R2RWalkDriveSegment class]])
-//        {
-//            R2RWalkDriveSegment *currentSegment = segment;
-//            [kindString appendString:currentSegment.kind];
-//            totalDuration += currentSegment.duration;
-//        }
-//        else if([segment isKindOfClass:[R2RTransitSegment class]])
-//        {
-//            R2RTransitSegment *currentSegment = segment;
-//            [kindString appendString:currentSegment.kind];
-//            totalDuration += currentSegment.duration;
-//        }
-//        else if([segment isKindOfClass:[R2RFlightSegment class]])
-//        {
-//            R2RFlightSegment *currentSegment = segment;
-//            [kindString appendString:currentSegment.kind];
-//            totalDuration += currentSegment.duration;
-//        }
-//        
-//        count++;
-//        
-//        if (count < [route.segments count])
-//        {
-//            [kindString appendString:@","];
-//        }
-//
-//    }
-    
-//    NSDate *duration = [[NSDate alloc] init];
-//    
-//    NSDateComponents *components = [[NSDateComponents alloc] init];
-//    [components setMinute:route.duration];
-//    
-//    NSLog(@"hour %d", [components hour]);
-//    
-//    NSTimeInterval 
-    
-    [[cell routeKindLabel] setText:route.name];
+    [cell.resultDescripionLabel setText:route.name];
     
     R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
     
-    [[cell routeDurationLabel] setText:[formatter formatDuration:route.duration]];
+    [cell.resultDurationLabel setText:[formatter formatDuration:route.duration]];
     
-    //[[cell routeDurationLabel] setText:[NSString stringWithFormat:@"%f", route.duration]];
+    R2RSegmentHandler *segmentHandler  = [[R2RSegmentHandler alloc] init];
     
+    NSInteger iconCount = 0;
+    float xOffset = 0;
+    for (id segment in route.segments)
+    {
+        if (iconCount >= 5) break;
+        
+        if ([segmentHandler getSegmentIsMajor:segment])
+        {
+            UIImageView *iconView = [cell.icons objectAtIndex:iconCount];
+            
+            if (xOffset == 0)
+            {
+                xOffset = iconView.frame.origin.x;
+            }
+            
+            UIImage *icon = [segmentHandler getSegmentResultIcon:segment];
+            
+            CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, icon.size.width, icon.size.height);
+            
+            [iconView setFrame:iconFrame];
+            [iconView setImage:icon];
+            
+            xOffset = iconView.frame.origin.x + iconView.frame.size.width + 7; //xPos of next icon
+
+//            icon.image = [segmentHandler getSegmentResultIcon:segment];
+            iconCount++;
+        }
+    }
+    
+    cell.iconCount = iconCount;
+     
     return cell;
 }
 
+//-(UIImage *) getSegmentIcon:(id) segment
+//{
+//    R2RSegmentHandler *segmentHandler  = [[R2RSegmentHandler alloc] init];
+//    
+//    UIImage *icon = [segmentHandler getSegmentResultIcon:segment];
+//
+//    return icon;
+//}
 
 
 /*
@@ -317,6 +298,8 @@ enum R2RState
         detailsViewController.route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         detailsViewController.airlines = self.dataController.search.searchResponse.airlines;
         detailsViewController.airports = self.dataController.search.searchResponse.airports;
+        detailsViewController.agencies = self.dataController.search.searchResponse.agencies;
+//        detailsViewController.agencyIcons = self.dataController.agencyIcons;
     }
 }
 
@@ -339,7 +322,9 @@ enum R2RState
         to = [[NSString alloc] initWithString:self.dataController.geoCoderTo.geoCodeResponse.place.shortName];
     }
     
-    self.searchLabel.text = [NSString stringWithFormat:@"%@ to %@", from, to];
+    [self.header.fromLabel setText:from];
+    [self.header.toLabel setText:to];
+//    self.searchLabel.text = [NSString stringWithFormat:@"%@ to %@", from, to];
     
 }
 

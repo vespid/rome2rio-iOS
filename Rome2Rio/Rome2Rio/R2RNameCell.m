@@ -11,30 +11,16 @@
 
 @implementation R2RNameCell
 
-@synthesize nameLabel;
-//@synthesize nameLabel, icon, connectTop, connectBottom;
+//@synthesize nameLabel;
+@synthesize nameLabel, icon, connectTop, connectBottom;
 
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if (self) {
-        
-        //set static properties for cell
-//        topConnection = [[UIView alloc] initWithFrame:CGRectMake(23, 0, 6, self.contentView.bounds.size.height/2)];
-//        bottomConnection = [[UIView alloc] initWithFrame:CGRectMake(23, self.contentView.bounds.size.height/2, 6, self.contentView.bounds.size.height/2)];
-//        
-        
-//        connectTop = [[R2RImageView alloc] initWithFrame:CGRectMake(23, 0, 6, self.contentView.bounds.size.height/2)];
-//        [self.contentView addSubview:connectTop];
-//        
-//        connectBottom = [[R2RImageView alloc] initWithFrame:CGRectMake(23, self.contentView.bounds.size.height/2, 6, self.contentView.bounds.size.height/2)];
-//        [self.contentView addSubview:connectBottom];
-//        
-//        icon = [[R2RImageView alloc] initWithFrame:CGRectMake(20, self.contentView.bounds.size.height/2-6, 12, 12)];
-//        [icon setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(267, 46, 12, 12)];
-//        
-//        [self.contentView addSubview:icon];
+    if (self)
+    {
+        [self initSubviews];
     }
     return self;
 }
@@ -53,6 +39,20 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void) initSubviews
+{
+    //set static properties for cell
+    
+    self.connectTop = [[UIImageView alloc] initWithFrame:CGRectMake(23, 0, 6, self.contentView.bounds.size.height/2)];
+    [self.contentView addSubview:connectTop];
+    
+    self.connectBottom = [[UIImageView alloc] initWithFrame:CGRectMake(23, self.contentView.bounds.size.height/2, 6, self.contentView.bounds.size.height/2)];
+    [self.contentView addSubview:connectBottom];
+    
+    self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(20, self.contentView.bounds.size.height/2-6, 12, 12)];
+    [self.contentView addSubview:icon];
 }
 
 @end

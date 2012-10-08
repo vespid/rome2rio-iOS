@@ -20,6 +20,7 @@
 @property (strong, nonatomic) R2RPosition *sPos;
 @property (strong, nonatomic) NSString *tName;
 @property (strong, nonatomic) R2RPosition *tPos;
+@property (nonatomic) BOOL isMajor;
 
 @property (strong, nonatomic) NSMutableArray *itineraries;
 

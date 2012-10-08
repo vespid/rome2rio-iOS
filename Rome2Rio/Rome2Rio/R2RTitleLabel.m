@@ -19,7 +19,8 @@
         [self setTextColor:[UIColor orangeColor]];
         [self setMinimumFontSize:5.0];
         [self setAdjustsFontSizeToFitWidth:YES];
-        
+        [self setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+       
     }
     return self;
 }

@@ -32,7 +32,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        [self initSubViews];
+        [self initSubviews];
     }	
     return self;
 }
@@ -53,7 +53,7 @@
     // Configure the view for the selected state
 }
 
--(void)initSubViews
+-(void)initSubviews
 {
     
     CGRect rect = CGRectMake(3, (self.bounds.size.height-23)/2, 27, 23);
@@ -65,33 +65,34 @@
     [self addSubview:self.secondAirlineIcon];
     
     rect = CGRectMake((self.bounds.size.width/2)-10-50, 3, 50, 25);
-    sTimeLabel = [[UILabel alloc] initWithFrame:rect];
-    [sTimeLabel setTextAlignment:UITextAlignmentCenter];
-//        [sTimeLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-//        [sTimeLabel setText:@"sTime"];
-    [self addSubview:sTimeLabel];
+    self.sTimeLabel = [[UILabel alloc] initWithFrame:rect];
+    [self.sTimeLabel setTextAlignment:UITextAlignmentCenter];
+    [self.sTimeLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+//        [self.sTimeLabel setText:@"sTime"];
+    [self addSubview:self.sTimeLabel];
     
     rect = CGRectMake((self.bounds.size.width/2)+10, 3, 50, 25);
-    tTimeLabel = [[UILabel alloc] initWithFrame:rect];
-    [tTimeLabel setTextAlignment:UITextAlignmentCenter];
-//        [tTimeLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-//        [tTimeLabel setText:@"tTime"];
-    [self addSubview:tTimeLabel];
+    self.tTimeLabel = [[UILabel alloc] initWithFrame:rect];
+    [self.tTimeLabel setTextAlignment:UITextAlignmentCenter];
+    [self.tTimeLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+//        [self.tTimeLabel setText:@"tTime"];
+    [self addSubview:self.tTimeLabel];
     
     rect = CGRectMake(self.bounds.size.width-70, 3, 60.0, 25);
-    durationLabel = [[UILabel alloc] initWithFrame:rect];
-    [durationLabel setTextAlignment:UITextAlignmentLeft];
-//        [durationLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-//        [durationLabel setText:@"duration"];
-    [durationLabel setMinimumFontSize:10.0];
-    [durationLabel setAdjustsFontSizeToFitWidth:YES];
-    [durationLabel setTextColor:[UIColor lightGrayColor]];
-    [self addSubview:durationLabel];
+    self.durationLabel = [[UILabel alloc] initWithFrame:rect];
+    [self.durationLabel setTextAlignment:UITextAlignmentLeft];
+    [self.durationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+//        [self.durationLabel setText:@"duration"];
+    [self.durationLabel setMinimumFontSize:10.0];
+    [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
+    [self.durationLabel setTextColor:[UIColor lightGrayColor]];
+    [self addSubview:self.durationLabel];
 }
 
 -(void)setDisplaySingleIcon
 {
-    CGRect rect = CGRectMake((65-27)/2, (self.bounds.size.height-23)/2, 27, 23);
+//    CGRect rect = CGRectMake((65-27)/2, (self.bounds.size.height-23)/2, 27, 23);
+    CGRect rect = CGRectMake(10, (self.bounds.size.height-23)/2, 27, 23);
     [self.firstAirlineIcon setFrame:rect];
     [self.secondAirlineIcon setHidden:YES];
     
@@ -99,10 +100,10 @@
 
 -(void)setDisplayDoubleIcon
 {
-    CGRect rect = CGRectMake(3, (self.bounds.size.height-23)/2, 27, 23);
+    CGRect rect = CGRectMake(10, (self.bounds.size.height-23)/2, 27, 23);
     [self.firstAirlineIcon setFrame:rect];
     
-    rect = CGRectMake(33, (self.bounds.size.height-23)/2, 27, 23);
+    rect = CGRectMake(40, (self.bounds.size.height-23)/2, 27, 23);
     [self.secondAirlineIcon setFrame:rect];
     [self.secondAirlineIcon setHidden:NO];
 }

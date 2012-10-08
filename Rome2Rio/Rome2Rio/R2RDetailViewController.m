@@ -27,6 +27,7 @@
 #import "R2RTransitSegment.h"
 #import "R2RTransitItinerary.h"
 #import "R2RTransitLeg.h"
+#import "R2RTransitLine.h"
 #import "R2RTransitHop.h"
 #import "R2RFlightSegment.h"
 #import "R2RFlightItinerary.h"
@@ -43,7 +44,7 @@
 
 @implementation R2RDetailViewController
 
-@synthesize route, airlines, airports;
+@synthesize route, airlines, airports, agencies;// agencyIcons;
 
 #pragma mark - Managing the detail item
 
@@ -99,80 +100,60 @@
     //    // Return the number of rows in the section.
     //    return 0;
     
-    return (([self.route.segments count] * 2)+1)*2;
-    //return (([self.route.segments count] * 2)+1);
+//    return (([self.route.segments count] * 2)+1)*2;
+    return (([self.route.segments count] * 2)+1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    int aCount = (([self.route.segments count] * 2)+1);
-    if ((indexPath.row%aCount) % 2 == 0)
-    //if (indexPath.row % 2 == 0)
+//    int aCount = (([self.route.segments count] * 2)+1);
+//    if ((indexPath.row%aCount) % 2 == 0)
+    if (indexPath.row % 2 == 0)
     {
-        int row = indexPath.row;
-        int routeIndex = floor((row%aCount)/2.0);//  floor((indexPath.row%(([self.route.segments count] * 2)+1))/2);
-        //int routeIndex = floor(indexPath.row/2);
+//        int row = indexPath.row;
+//        int routeIndex = floor((row%aCount)/2.0);//  floor((indexPath.row%(([self.route.segments count] * 2)+1))/2);
+        int routeIndex = floor(indexPath.row/2);
         
         NSString *CellIdentifier = @"NameCell";
-    
+        
         R2RNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         R2RStop *stop = [self.route.stops objectAtIndex:routeIndex];
         
-        [[cell nameLabel] setText:stop.name];
+        [cell.nameLabel setText:stop.name];
         
-        
+        R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
         
         if (routeIndex == 0)
-        //if (indexPath.row == 0)
+            //if (indexPath.row == 0)
         {
-//           connectTop.hidden = true;
-            
-//            cell.connectTop.hidden = true;
-//            cell.topConnection.hidden = true;
+            [cell.connectTop setHidden:YES];
         }
         else
         {
-            R2RImageView *connectTop = [[R2RImageView alloc] initWithFrame:CGRectMake(23, 0, 6, cell.contentView.bounds.size.height/2)];
-            CGRect rect = [self getConnectionRect:[self.route.segments objectAtIndex:routeIndex-1]];
-            [connectTop setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :rect];
-            [cell.contentView addSubview:connectTop];
-            
-            
-//            cell.topConnection.hidden = false;
-//            UIColor *color = [self getConnectionColor:[self.route.segments objectAtIndex:routeIndex-1]];
-//            [cell.topConnection setBackgroundColor:color];
+            [cell.connectTop setHidden:NO];
+            [cell.connectTop setImage:[segmentHandler getConnectionImage:[self.route.segments objectAtIndex:routeIndex-1]]];
         }
-        
-        
         
         if (routeIndex == [self.route.segments count])
-        //if (indexPath.row == ([self.route.segments count] * 2))
+            //if (indexPath.row == ([self.route.segments count] * 2))
         {
-//            connectBottom.hidden = true;
-//            cell.connectBottom.hidden = true;
+            [cell.connectBottom setHidden:YES];
         }
         else
         {
-            R2RImageView *connectBottom = [[R2RImageView alloc] initWithFrame:CGRectMake(23, cell.contentView.bounds.size.height/2, 6, cell.contentView.bounds.size.height/2)];
-            CGRect rect = [self getConnectionRect:[self.route.segments objectAtIndex:routeIndex]];
-            [connectBottom setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :rect];
-            [cell.contentView addSubview:connectBottom];
-
-            
-//            cell.bottomConnection.hidden = false;
-//            UIColor *color = [self getConnectionColor:[self.route.segments objectAtIndex:routeIndex]];
-//            [cell.bottomConnection setBackgroundColor:color];
+            [cell.connectBottom setHidden:NO];
+            [cell.connectBottom setImage:[segmentHandler getConnectionImage:[self.route.segments objectAtIndex:routeIndex]]];
         }
-       
+              
+        CGPoint iconOffset = CGPointMake(267, 46);
+        CGSize iconSize = CGSizeMake (12, 12);
         
-        R2RImageView *icon = [[R2RImageView alloc] initWithFrame:CGRectMake(20, cell.contentView.bounds.size.height/2-6, 12, 12)];
-        [icon setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(267, 46, 12, 12)];
+        R2RSprite *icon = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"sprites6.png"] :iconOffset :iconSize ];
         
-        [cell.contentView addSubview:icon];
-
-//        [cell.contentView setBackgroundColor:[UIColor greenColor]];
+        [cell.icon setImage:icon.sprite];
+        
         [cell.contentView setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
         
         return cell;
@@ -188,76 +169,41 @@
         
         cell = [self configureHopCell:cell :[self.route.segments objectAtIndex:routeIndex]];
         
-//        float duration = [self getSegmentDuration:[self.route.segments objectAtIndex:routeIndex]];
-//        NSString *kind = [self getSegmentKind:[self.route.segments objectAtIndex:routeIndex]];
-//        NSString *hopDescription = [NSString stringWithFormat:@"%.0f minutes by %@", duration, kind];
-//        
-//        [[cell hopLabel] setText:hopDescription];
-//        
-//        R2RImageView *connectTop = [[R2RImageView alloc] initWithFrame:CGRectMake(23, 0, 6, cell.contentView.bounds.size.height/2)];
-//        
-//        CGRect rect = [self getConnectionRect:[self.route.segments objectAtIndex:routeIndex-1]];
-//        [connectTop setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :rect];
-//        [cell.contentView addSubview:connectTop];
-
-        
         return cell;
     }
     
 }
 
-//-(NSString*) getSegmentSourceName:(id) segment
+//- (CGRect) getConnectionRect: (id) segment
 //{
-//    NSMutableString *sourceName = [[NSMutableString alloc] init];
-//    /////////  REDO THIS SECTION
-//    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
-//    {
-//        R2RWalkDriveSegment *currentSegment = segment;
-//        [sourceName appendString:currentSegment.sName];
-//    }
-//    else if([segment isKindOfClass:[R2RTransitSegment class]])
-//    {
-//        R2RTransitSegment *currentSegment = segment;
-//        [sourceName appendString:currentSegment.sName];
-//    }
-//    else if([segment isKindOfClass:[R2RFlightSegment class]])
-//    {
-//        R2RFlightSegment *currentSegment = segment;
-//        [sourceName appendString:currentSegment.sCode];
-//    }
+//    NSString *kind = [self getSegmentKind:segment];
 //    
-//    return sourceName;
-//
+//    if ([kind isEqualToString:@"flight"])
+//    {
+//        return CGRectMake(0, 0, 10, 50);
+//    }
+//    if ([kind isEqualToString:@"train"])
+//    {
+//        return CGRectMake(10, 0, 10, 50);
+//    }
+//    else if ([kind isEqualToString:@"bus"])
+//    {
+//        return CGRectMake(20, 0, 10, 50);
+//    }
+//    else if ([kind isEqualToString:@"car"])
+//    {
+//        return CGRectMake(30, 0, 10, 50);
+//    }
+//    else if ([kind isEqualToString:@"ferry"])
+//    {
+//        return CGRectMake(40, 0, 10, 50);
+//    }
+//    else if ([kind isEqualToString:@"walk"])
+//    {
+//        return CGRectMake(50, 0, 10, 50);
+//    }
+//    return CGRectMake(60, 0, 10, 50);
 //}
-//
-
-- (CGRect) getConnectionRect: (id) segment
-{
-    NSString *kind = [self getSegmentKind:segment];
-    
-    if ([kind isEqualToString:@"flight"])
-    {
-        return CGRectMake(0, 0, 10, 50);
-    }
-    if ([kind isEqualToString:@"train"])
-    {
-        return CGRectMake(10, 0, 10, 50);
-    }
-    else if ([kind isEqualToString:@"bus"])
-    {
-        return CGRectMake(20, 0, 10, 50);
-    }
-    else if ([kind isEqualToString:@"car"])
-    {
-        return CGRectMake(30, 0, 10, 50);
-    }
-    else if ([kind isEqualToString:@"ferry"])
-    {
-        return CGRectMake(40, 0, 10, 50);
-    }
-    
-    return CGRectMake(50, 0, 10, 50);
-}
 
 //- (UIColor *) getConnectionColor: (id) segment
 //{
@@ -323,131 +269,64 @@
     return nil;
 }
 
+//Hop cells are now very similar so could be refactored to a single cell type
+//IMPORTANT: current each cell type has a different segue
+//           we would need to do the segue programmatically to go to the correct segment view
+
 -(R2RFlightHopCell *) configureFlightHopCell:(R2RFlightHopCell *) cell:(R2RFlightSegment *) segment
 {
-    CGRect lineRect;
-    CGRect iconRect;
-    if ([segment.kind isEqualToString:@"flight"])
-    {
-        lineRect = CGRectMake(0, 0, 10, 50);
-        iconRect = CGRectMake(0, 80, 18, 18);
-    }
-    else
-    {
-        lineRect = CGRectMake(50, 0, 10, 50);
-        iconRect = CGRectMake(0, 170, 18, 18);
-    }
-        
     R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
     
     NSString *hopDescription = [formatter formatFlightHopCellDescription:segment.duration :0];
-//    NSString *hopDescription = [NSString stringWithFormat:@"%.0f minutes by %@", segment.duration, segment.kind];
-    [[cell hopLabel] setText:hopDescription];
+    [cell.hopLabel setText:hopDescription];
     
-    R2RImageView *connectTop = [[R2RImageView alloc] initWithFrame:CGRectMake(23, 0, 6, cell.contentView.bounds.size.height/2)];
-    [connectTop setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :lineRect];
-    [cell.contentView addSubview:connectTop];
+    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
     
-    R2RImageView *connectBottom = [[R2RImageView alloc] initWithFrame:CGRectMake(23, cell.contentView.bounds.size.height/2, 6, cell.contentView.bounds.size.height/2)];
-    [connectBottom setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :lineRect];
-    [cell.contentView addSubview:connectBottom];
+    UIImage *connectionImage = [segmentHandler getConnectionImage:segment];
+    [cell.connectTop setImage:connectionImage];
+    [cell.connectBottom setImage:connectionImage];
     
-//    NSLog(@"%f\t%f\t", cell.contentView.bounds.size.height, 0.0);
-    
-    R2RImageView *icon = [[R2RImageView alloc] initWithFrame:CGRectMake(17, cell.contentView.bounds.size.height/2-9, 18, 18)];
-    [icon setCroppedImage:[UIImage imageNamed:@"sprites6"] :iconRect];
-    [cell.contentView addSubview:icon];
+    [cell.icon setImage:[segmentHandler getRouteIcon:segment.kind]];
 
     return cell;
 }
 
 -(R2RTransitHopCell *) configureTransitHopCell:(R2RTransitHopCell *) cell:(R2RTransitSegment *) segment
-{
-    CGRect lineRect;
-    CGRect iconRect;
-    if ([segment.kind isEqualToString:@"train"])
-    {
-        lineRect = CGRectMake(10, 0, 10, 50);
-        iconRect = CGRectMake(0, 98, 18, 18);
-    }
-    else if ([segment.kind isEqualToString:@"bus"])
-    {
-        lineRect = CGRectMake(20, 0, 10, 50);
-        iconRect = CGRectMake(0, 188, 18, 18);
-    }
-    else if ([segment.kind isEqualToString:@"ferry"])
-    {
-        lineRect = CGRectMake(30, 0, 10, 50);
-        iconRect = CGRectMake(0, 206, 18, 18);
-    }
-    else
-    {
-        lineRect = CGRectMake(50, 0, 10, 50);
-        iconRect = CGRectMake(0, 170, 18, 18);
-    }
-    
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
-    NSInteger changes = [segmentHandler getTransitChanges:segment];
-    NSString *vehicle = [segmentHandler getTransitVehicle:segment];
-    NSInteger frequency = [segmentHandler getTransitFrequency:segment];
-    
+{    
     R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
+    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    
+    NSInteger changes = [segmentHandler getTransitChanges:segment];
+    NSString *vehicle = segment.kind;//[segmentHandler getTransitVehicle:segment];
+    NSInteger frequency = [segmentHandler getTransitFrequency:segment];
     NSString *hopDescription = [formatter formatTransitHopDescription:segment.duration :changes :frequency :vehicle];
-//    NSString *hopDescription = [NSString stringWithFormat:@"%.0f minutes by %@", segment.duration, segment.kind];
-    [[cell hopLabel] setText:hopDescription];
+    [cell.hopLabel setText:hopDescription];
     
-    R2RImageView *connectTop = [[R2RImageView alloc] initWithFrame:CGRectMake(23, 0, 6, cell.contentView.bounds.size.height/2)];
-    [connectTop setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :lineRect];
-    [cell.contentView addSubview:connectTop];
+    UIImage *connectionImage = [segmentHandler getConnectionImage:segment];
+    [cell.connectTop setImage:connectionImage];
+    [cell.connectBottom setImage:connectionImage];
     
-    //CGRectMake(23, 20, 6, 20);
-//     R2RImageView *connectBottom = [[R2RImageView alloc] initWithFrame:CGRectMake(5, 1, 6, 40)];
-    R2RImageView *connectBottom = [[R2RImageView alloc] initWithFrame:CGRectMake(23, cell.contentView.bounds.size.height/2, 6, cell.contentView.bounds.size.height/2)];
-    [connectBottom setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :lineRect];
-    [cell.contentView addSubview:connectBottom];
-    
-    R2RImageView *icon = [[R2RImageView alloc] initWithFrame:CGRectMake(17, cell.contentView.bounds.size.height/2-9, 18, 18)];
-    [icon setCroppedImage:[UIImage imageNamed:@"sprites6"] :iconRect];
-    [cell.contentView addSubview:icon];
-    
-//    NSLog(@"%f\t%f\t", cell.contentView.bounds.size.height, cell.contentView.bounds.origin.y);
+    [cell.icon setImage:[segmentHandler getRouteIcon:segment.kind]];
     
     return cell;
+
 }
 
 -(R2RWalkDriveHopCell *) configureWalkDriveHopCell:(R2RWalkDriveHopCell *) cell:(R2RWalkDriveSegment *) segment
 {
-    CGRect lineRect;
-    CGRect iconRect;
-    if ([segment.kind isEqualToString:@"car"])
-    {
-        lineRect = CGRectMake(30, 0, 10, 50);
-        iconRect = CGRectMake(0, 152, 18, 18);
-    }
-    else
-    {
-        lineRect = CGRectMake(50, 0, 10, 50);
-        iconRect = CGRectMake(0, 170, 18, 18);
-    }
-    
     R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
-    NSString *hopDescription = [formatter formatWalkDriveHopCellDescription:segment.duration :segment.distance];
-//    NSString *hopDescription = [NSString stringWithFormat:@"%.0f minutes by %@", segment.duration, segment.kind];
-    [[cell hopLabel] setText:hopDescription];
     
-    R2RImageView *connectTop = [[R2RImageView alloc] initWithFrame:CGRectMake(23, 0, 6, cell.contentView.bounds.size.height/2)];
-    [connectTop setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :lineRect];
-    [cell.contentView addSubview:connectTop];
+    NSString *hopDescription = [formatter formatWalkDriveHopCellDescription:segment.duration :segment.distance: segment.kind];
+    [cell.hopLabel setText:hopDescription];
     
-    R2RImageView *connectBottom = [[R2RImageView alloc] initWithFrame:CGRectMake(23, cell.contentView.bounds.size.height/2, 6, cell.contentView.bounds.size.height/2)];
-    [connectBottom setCroppedImage:[UIImage imageNamed:@"ConnectionLines"] :lineRect];
-    [cell.contentView addSubview:connectBottom];
+    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
     
-    R2RImageView *icon = [[R2RImageView alloc] initWithFrame:CGRectMake(17, cell.contentView.bounds.size.height/2-9, 18, 18)];
-    [icon setCroppedImage:[UIImage imageNamed:@"sprites6"] :iconRect];
-    [cell.contentView addSubview:icon];
+    UIImage *connectionImage = [segmentHandler getConnectionImage:segment];
+    [cell.connectTop setImage:connectionImage];
+    [cell.connectBottom setImage:connectionImage];
     
-//    NSLog(@"%f\t%f\t", cell.contentView.bounds.size.height, 0.0);
+    [cell.icon setImage:[segmentHandler getRouteIcon:segment.kind]];
+    
     return cell;
 }
 
@@ -517,6 +396,7 @@
     {
         R2RTransitSegmentViewController *segmentViewController = [segue destinationViewController];
         segmentViewController.transitSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
+        segmentViewController.agencies = self.agencies;
     }
     if ([[segue identifier] isEqualToString:@"showWalkDriveSegment"])
     {

@@ -28,6 +28,18 @@
     return self;
 }
 
+-(id)initWithImage:(UIImage *)image :(CGRect)rect
+{
+    self = [super init];
+    if (self)
+    {
+        self.spriteOffset = CGPointMake(rect.origin.x, rect.origin.y);
+        self.spriteSize = CGSizeMake(rect.size.width, rect.size.height);
+        [self setSpriteFromImage:image];
+    }
+    return self;
+}
+
 -(id)initWithImage:(UIImage *)image :(CGPoint)offset :(CGSize)size
 {
     self = [super init];
@@ -47,6 +59,8 @@
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
     
     self.sprite = [UIImage imageWithCGImage:imageRef];
+
+    CGImageRelease(imageRef);
 }
 
 -(void)setSpriteFromImage:(UIImage *)image :(CGPoint)offset :(CGSize)size
