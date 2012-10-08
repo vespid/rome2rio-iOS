@@ -10,4 +10,6 @@
 
 @implementation R2RAgency
 
+@synthesize code, name, url, iconOffset, iconPath, icon;
+
 @end

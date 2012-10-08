@@ -10,4 +10,11 @@
 
 @interface R2RAgency : NSObject
 
+@property (strong, nonatomic) NSString *code;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSURL *url;
+@property (nonatomic) CGPoint iconOffset;
+@property (strong, nonatomic) NSString *iconPath;
+@property (strong, nonatomic) UIImage *icon;
+
 @end
