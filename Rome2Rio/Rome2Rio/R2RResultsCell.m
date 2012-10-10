@@ -41,7 +41,8 @@
 
 - (void) initSubviews
 {
-    CGRect rect = CGRectMake(15, 5, self.bounds.size.width-10, 25);
+    
+    CGRect rect = CGRectMake(15, 5, self.bounds.size.width-25, 25);
     self.resultDescripionLabel = [[UILabel alloc] initWithFrame:rect];
     [self.resultDescripionLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.resultDescripionLabel];

@@ -15,5 +15,6 @@
 @property (strong, nonatomic) R2RTransitSegment *transitSegment;
 @property (strong, nonatomic) NSArray *agencies;
 //@property (strong, nonatomic) NSMutableDictionary *agencyIcons;
+- (IBAction)ReturnToSearch:(id)sender;
 
 @end

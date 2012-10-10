@@ -15,6 +15,7 @@
 #import "R2RAirport.h"
 #import "R2RStringFormatters.h"
 #import "R2RSprite.h"
+#import "R2RFlightGroup.h"
 
 @interface R2RFlightSegmentViewController ()
 
@@ -49,6 +50,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
     
     self.navigationItem.title = @"Fly";
     
@@ -97,7 +100,7 @@
     // Return the number of rows in the section.
     //return [flightSegment.itineraries count];
 
-    FlightGroup *flightGroup = [self.flightGroups objectAtIndex:section];
+    R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:section];
 //    int count = [flightGroup.flights count];
 //    return count;
     return [flightGroup.flights count];
@@ -109,7 +112,7 @@
     
     R2RFlightSegmentSectionHeader *header = [[R2RFlightSegmentSectionHeader alloc] initWithFrame:rect];
 
-    FlightGroup *flightGroup = [self.flightGroups objectAtIndex:section];
+    R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:section];
     [header.titleLabel setText:flightGroup.name];
     
     NSString *from = [[NSString alloc] initWithString:self.flightSegment.sCode];
@@ -138,6 +141,11 @@
 //	return [flightGroup name];
 //}
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [cell setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"FlightSegmentCell";
@@ -148,7 +156,7 @@
 //    UITableView *table = self.tableView;
 //    NSLog(@"%@", table);
     
-    FlightGroup *flightGroup = [self.flightGroups objectAtIndex:indexPath.section];
+    R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:indexPath.section];
     
     R2RFlightItinerary *flightItinerary = [flightGroup.flights objectAtIndex:indexPath.row];
     
@@ -286,6 +294,11 @@
      */
 }
 
+- (IBAction)ReturnToSearch:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 -(void) sortFlightSegment
 {
     self.flightGroups = [[NSMutableArray alloc] init]; //
@@ -303,9 +316,9 @@
             continue;
         }
         
-        FlightGroup *flightGroup = nil;
+        R2RFlightGroup *flightGroup = nil;
         
-        for (FlightGroup *group in self.flightGroups)
+        for (R2RFlightGroup *group in self.flightGroups)
         {
             if (group.hops == hops)
             {
@@ -316,7 +329,7 @@
         
         if (flightGroup == nil)
         {
-            flightGroup = [[FlightGroup alloc] initWithHops:hops];
+            flightGroup = [[R2RFlightGroup alloc] initWithHops:hops];
             [self.flightGroups addObject:flightGroup];
         }
         
@@ -487,37 +500,5 @@
 //    [iconDownloadsInProgress removeObjectForKey:delegateIconLoader.airline.code];
 //    
 //}
-
-@end
-
-//@interface FlightGroup()
-//
-//
-//
-//@end
-
-
-@implementation FlightGroup
-
-@synthesize flights, hops, name;
-
--(id) initWithHops: (NSInteger) initHops
-{
-    self = [super init];
-    if (self != nil)
-    {
-        self.flights = [[NSMutableArray alloc] init];
-        self.hops = initHops;
-        if (self.hops == 1)
-        {
-            self.name = @"Direct Flights";
-        }
-        else
-        {
-            self.name = [NSString stringWithFormat:@"%d stopver flights", self.hops-1];
-        }
-    }
-    return self;
-}
 
 @end

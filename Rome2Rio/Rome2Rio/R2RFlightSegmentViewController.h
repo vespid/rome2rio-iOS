@@ -21,16 +21,8 @@
 
 //- (void)iconDidLoad:(NSIndexPath *)indexPath;
 
+- (IBAction)ReturnToSearch:(id)sender;
 -(void) sortFlightSegment;
 
 @end
 
-@interface FlightGroup : NSObject
-
-@property NSInteger hops;
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSMutableArray *flights;
-
--(id) initWithHops: (NSInteger) hops;
-
-@end

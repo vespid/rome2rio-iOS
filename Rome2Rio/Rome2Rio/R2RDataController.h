@@ -35,6 +35,7 @@
 //-(void) clearGeoCoderTo;
 //-(void) clearSearch;
 
+- (void) refreshStatusMessage: (id) sender;
 - (void) FromEditingDidBegin;
 - (void) FromEditingDidEnd:(NSString *)query;
 - (void) ToEditingDidBegin;

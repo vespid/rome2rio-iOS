@@ -32,5 +32,7 @@
 -(float) getTransitFrequency: (R2RTransitSegment *)segment;
 - (UIImage *) getConnectionImage: (id) segment;
 
+-(NSInteger) getFlightChanges: (R2RFlightSegment *) segment;
+
 
 @end

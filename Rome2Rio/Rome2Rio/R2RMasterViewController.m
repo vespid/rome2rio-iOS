@@ -26,6 +26,8 @@
 //@property (weak, nonatomic) R2RResultsViewController *resultsViewController;
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
+@property (nonatomic) BOOL keyboardShowing;
+
 
 //@property (strong, nonatomic) NSString *myLocation;
 
@@ -55,29 +57,73 @@ enum R2RState
 @synthesize dataController, fromTextField, toTextField;
 
 
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+//        self.keyboardShowing = NO;
+    }
+    return self;
+}
+
 //- (void)awakeFromNib
 //{
 //    [super awakeFromNib];
 //}
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+    
+    if (self.dataController.geoCoderFrom.geoCodeResponse.place.longName)
+        self.fromTextField.text = self.dataController.geoCoderFrom.geoCodeResponse.place.longName;
+    
+    if (self.dataController.geoCoderTo.geoCodeResponse.place.longName)
+        self.toTextField.text = self.dataController.geoCoderTo.geoCodeResponse.place.longName;
+    
+    [self setStatusMessage:self.dataController.statusMessage];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+//    self.keyboardShowing = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFromTextField:) name:@"refreshFromTextField" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshToTextField:) name:@"refreshToTextField" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+    
+	[self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    [self.toTextField resignFirstResponder];
+    [self.fromTextField resignFirstResponder];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshFromTextField" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshToTextField" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
  
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFromTextField:) name:@"refreshFromTextField" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshToTextField:) name:@"refreshToTextField" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
-
-    [self displayIcons];
+//    [self displayIcons];
 
     [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-    
-    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, 360.0, 320.0, 30.0)];
+
+    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
     //self.statusButton = [R2RStatusButton buttonWithType:UIButtonTypeCustom];
-    
+
     [self.view addSubview:self.statusButton];
-    
-    [self setStatusMessage:self.dataController.statusMessage];
+
+//    [self setStatusMessage:self.dataController.statusMessage];
     
     //[self drawIcons];
 //    
@@ -89,83 +135,11 @@ enum R2RState
 //    
 }
 
-
-
-- (void) displayIcons
-{
-    //Header Image
-    CGPoint position = CGPointMake(10, 20); //position to place icon
-    CGSize size = CGSizeMake(300, 70); // size of icon  //make size exact and adjust position based on screen size
-    CGPoint imageLocation = CGPointMake(70, 100); //position of icon in image
-    CGSize imageSize = CGSizeMake(386, 83); //size of icon in image
-    
-    R2RImageView *view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
-    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
-    [self.view addSubview:view];
-    
-    NSInteger xPos = (self.view.bounds.size.width/7);
-    
-    //plane
-    position = CGPointMake(1*xPos+5, 265); //position to place icon
-    size = CGSizeMake(50, 36); // size of icon
-    imageSize = CGSizeMake(42, 36); //size of icon in image
-    imageLocation = CGPointMake(0, 0); //position of icon in image
-    
-    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x+5, position.y, size.width, size.height)];
-    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
-    [self.view addSubview:view];
-    
-    //train
-    position = CGPointMake(3*xPos, 265); //position to place icon
-    size = CGSizeMake(58, 36); // size of icon
-    imageSize = CGSizeMake(58, 36); //size of icon in image
-    imageLocation = CGPointMake(102, 0); //position of icon in image
-
-    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
-    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
-    [self.view addSubview:view];
-    
-    //bus
-    position = CGPointMake(5*xPos, 265); //position to place icon
-    size = CGSizeMake(55, 36); // size of icon
-    imageSize = CGSizeMake(55, 36); //size of icon in image
-    imageLocation = CGPointMake(174, 40); //position of icon in image
-    
-    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
-    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
-    [self.view addSubview:view];
-    
-    //ferry
-    position = CGPointMake(2*xPos/*+(xPos/2)*/, 310); //position to place icon
-    size = CGSizeMake(67, 36); // size of icon
-    imageSize = CGSizeMake(67, 36); //size of icon in image
-    imageLocation = CGPointMake(162, 0); //position of icon in image
-    
-    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
-    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
-    [self.view addSubview:view];
-    
-    //car
-    position = CGPointMake(4*xPos/*+(xPos/2)*/, 310); //position to place icon
-    size = CGSizeMake(57, 36); // size of icon
-    imageSize = CGSizeMake(57, 36); //size of icon in image
-    imageLocation = CGPointMake(43, 0); //position of icon in image
-    
-    view = [[R2RImageView alloc] initWithFrame:CGRectMake(position.x, position.y, size.width, size.height)];
-    [view setCroppedImage:[UIImage imageNamed:@"sprites6.png"] :CGRectMake(imageLocation.x, imageLocation.y, imageSize.width, imageSize.height)];
-    [self.view addSubview:view];
-    
-    
-    
-}
-
 - (void)viewDidUnload
 {
     
     //here or dealloc???
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshFromTextField" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshToTextField" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
+
     
     [self setFromTextField:nil];
     [self setToTextField:nil];
@@ -192,6 +166,11 @@ enum R2RState
 {
     if ([[segue identifier] isEqualToString:@"showSearchResults"])
     {
+
+//        R2RResultsViewController *resultsViewController = (R2RResultsViewController *)[[[segue destinationViewController] viewControllers] objectAtIndex:0];
+//        
+//        resultsViewController.dataController = self.dataController;
+
          
         R2RResultsViewController *resultsViewController = [segue destinationViewController];
         
@@ -199,6 +178,90 @@ enum R2RState
         
     }
 }
+
+#define kOFFSET_FOR_KEYBOARD 80.0
+
+-(void)keyboardWillShow {
+    // Animate the current view out of the way
+
+    if (self.view.frame.origin.y >= 0)
+    {
+        [self setViewMovedUp:YES];
+    }
+    
+    self.keyboardShowing = YES;
+    
+//    if (self.view.frame.origin.y >= 0)
+//    {
+//        [self setViewMovedUp:YES];
+//    }
+//    else if (self.view.frame.origin.y < 0)
+//    {
+//        [self setViewMovedUp:NO];
+//    }
+}
+
+-(void)keyboardWillHide
+{
+    if (self.view.frame.origin.y < 0)
+    {
+        [self setViewMovedUp:NO];
+    }
+    
+    self.keyboardShowing = NO;
+}
+
+//-(void)textFieldDidBeginEditing:(UITextField *)sender
+//{
+//    if ([sender isEqual:self.fromTextField] || [sender isEqual:self.toTextField])
+//    {
+//        //move the main view, so that the keyboard does not hide it.
+//        if  (self.view.frame.origin.y >= 0)
+//        {
+//            [self setViewMovedUp:YES];
+//        }
+//    }
+//}
+
+//method to move the view up/down whenever the keyboard is shown/dismissed
+-(void)setViewMovedUp:(BOOL)movedUp
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
+    
+    CGRect rect = self.view.frame;
+    if (movedUp)
+    {
+        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
+        // 2. increase the size of the view so that the area behind the keyboard is covered up.
+        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
+        rect.size.height += kOFFSET_FOR_KEYBOARD;
+    }
+    else
+    {
+        // revert back to the normal state.
+        rect.origin.y += kOFFSET_FOR_KEYBOARD;
+        rect.size.height -= kOFFSET_FOR_KEYBOARD;
+    }
+    self.view.frame = rect;
+    
+    [UIView commitAnimations];
+}
+
+//method to move the view up/down whenever the keyboard is shown/dismissed
+//-(void)moveView:(NSInteger) height
+//{
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
+//    
+//    CGRect rect = self.view.frame;
+//
+//    rect.origin.y += height;
+//    
+//    self.view.frame = rect;
+//    
+//    [UIView commitAnimations];
+//}
 
 - (IBAction)FromEditingDidBegin:(id)sender
 {
@@ -261,6 +324,9 @@ enum R2RState
 
 - (IBAction)SearchTouchUpInside:(id)sender
 {
+    [self.toTextField resignFirstResponder];
+    [self.fromTextField resignFirstResponder];
+    
     if ([self.fromTextField.text length] == 0)
     { 
         [self WarningMessage:@"Please enter origin":@"from"];        
@@ -281,6 +347,13 @@ enum R2RState
 
 - (IBAction)currentLocationTouchUpInside:(id)sender
 {
+
+    [self.fromTextField setText:@""];    
+    [self.fromTextField setPlaceholder:@"Finding current location"];
+    [self.fromTextField resignFirstResponder];
+    
+    [self.dataController refreshStatusMessage:self];
+
     [self.dataController currentLocationTouchUpInside];
 }
 
@@ -351,6 +424,7 @@ enum R2RState
 
 -(void) refreshFromTextField:(NSNotification *) notification
 {
+    [self.fromTextField setPlaceholder:@"Origin"];
     self.fromTextField.text = self.dataController.geoCoderFrom.geoCodeResponse.place.longName;
 }
 

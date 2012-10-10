@@ -13,5 +13,6 @@
 @interface R2RWalkDriveSegmentViewController : UITableViewController
 
 @property (strong, nonatomic) R2RWalkDriveSegment *walkDriveSegment;
+- (IBAction)ReturnToSearch:(id)sender;
 
 @end

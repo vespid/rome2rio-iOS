@@ -90,7 +90,9 @@ enum {
     
     NSLog(@"%@ %d %@", @"Geocode Started", self.retryCount, self.query);
     
+
     self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:getCoderUrl delegate:self];
+
     
     //self.responseCompletionState = stateEditingDidEnd;
     self.responseCompletionState = stateResolving;
@@ -108,7 +110,9 @@ enum {
     
     NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:self.r2rConnection.responseData options:kNilOptions error:&error];
     
-    // show all values/////////////////////////////
+    
+//    NSLog(@"%@", @"values");
+//    // show all values/////////////////////////////
 //    for(id key in responseData) {
 //        
 //        id value = [responseData objectForKey:key];
@@ -141,9 +145,10 @@ enum {
     }
     else
     {
+        [self geocodeFallback:self.query];
         //sendStatusNotification
-        self.responseCompletionState = stateError;
-        self.responseMessage = @"Location not found ";
+//        self.responseCompletionState = stateError;
+//        self.responseMessage = @"Location not found ";
     }
     
     
@@ -187,20 +192,43 @@ enum {
 
 - (void) R2RConnectionProcessData:(R2RConnection *) delegateConnection
 {
+    if (self.r2rConnection == delegateConnection)
+    {
+        [self parseJson];
+        if ( self.responseCompletionState == stateResolved)
+        {
+            NSLog(@"%s", "Geocode Parsed");
+            [[self delegate] R2RGeoCoderResolved:self];
+        }
+    }
+    
+//    if (self.responseCompletionState != stateResolved)
+//    {
+//        [self parseJson];
+//        
+////        self.responseCompletionState = stateResolved;
+//        
+//        NSLog(@"%s", "Geocode Parsed");
+//        
+//        [[self delegate] R2RGeoCoderResolved:self];
+//        //        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
+//    }
+//    else
+//    {
+//        NSLog(@"%s", "Ignore Response, state already resolved");
+//    }
     
     //delay before parsing data
-    [self performSelector:@selector(parseJson) withObject:nil afterDelay:0.0];
+//    [self performSelector:@selector(parseJson) withObject:nil afterDelay:0.0];
 //    [self parseJson];
     
     ////set status to complete/resolved
     ////then call delegate for R2RViewController to set text box to place.Name;
     
     //delay testing
-    //[[self delegate] R2RGeoCoderResolved:self];
+//    [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
+//    [[self delegate] R2RGeoCoderResolved:self];
     
-      
-    
-    [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
 //    [self GeoCoderDelegateDelayTest];
     
     //self.responseCompletionState = stateResolved;
@@ -222,7 +250,8 @@ enum {
         self.responseCompletionState = stateError;
         self.responseMessage = @"Unable to resolve ";
         
-        [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
+        [[self delegate] R2RGeoCoderResolved:self];
+//        [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
     }
 }
 
@@ -235,23 +264,123 @@ enum {
             NSLog(@"%@", @"Connection Failed, too many retries (timeout)");
             self.responseCompletionState = stateError;
             self.responseMessage = @"Unable to resolve ";
-            [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
+            
+            [[self delegate] R2RGeoCoderResolved:self];
+//            [self performSelector:@selector(GeoCoderDelegateDelayTest) withObject:nil afterDelay:0.0];
         }
         
         else if (self.retryCount == [retryNumber integerValue])
         {
+            self.retryCount++;
             NSLog(@"%@ %@ %d", @"Timeout, Retrying Connection", retryNumber, [retryNumber integerValue]);
             [self sendAsynchronousRequest];
-            self.retryCount++;
+
         }
     }
 }
 
-- (void) GeoCoderDelegateDelayTest
+//- (void) GeoCoderDelegateDelayTest
+//{
+//    
+//    [[self delegate] R2RGeoCoderResolved:self];
+//   
+//}
+
+-(void)geocodeFallback:(NSString *)query
 {
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder geocodeAddressString:query completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         if ([placemarks count] > 0)
+         {
+             CLPlacemark *placemark = [placemarks objectAtIndex:0];
+             //            self.myLocation = placemark.name;
+             
+             NSString *a = placemark.country;
+             NSString *b = placemark.inlandWater;
+             NSString *c = placemark.ISOcountryCode;
+             NSString *d = placemark.locality;
+             NSString *e = placemark.name;
+             NSString *f = placemark.ocean;
+             NSString *g = placemark.postalCode;
+             NSString *h = @"";// [placemark.region description];
+             NSString *i = placemark.subAdministrativeArea;
+             NSString *j = placemark.subLocality;
+             NSString *k = placemark.subThoroughfare;
+             NSString *l = placemark.thoroughfare;
+              
+             CLRegion *region = placemark.region;
+             float lat = region.center.latitude;
+             float lng = region.center.longitude;
+             float rad = region.radius;
+             
+             NSLog(@"Forward\tcountry %@, inlandWater %@, ISOcountryCode %@, locality %@, name %@, ocean %@, postalCode %@, region %@, subAdministrativeArea %@, subLocality %@, subThoroughfare %@, thoroughfare %@, lat %f, lng %f, rad %f", a, b, c, d, e, f, g, h, i, j, k, l, lat, lng, rad);
+             
+             if (!self.geoCodeResponse)
+             {
+                 self.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
+             }
+             
+             R2RPlace *place = [[R2RPlace alloc] init];
+             
+             NSMutableString *longName = [[NSMutableString alloc] init];
+             NSMutableString *shortName = [[NSMutableString alloc] init];
+             if ([placemark.subThoroughfare length] > 0)
+             {
+                 [longName appendFormat:@"%@ ", placemark.subThoroughfare];
+                 [shortName appendFormat:@"%@ ", placemark.subThoroughfare];
+             }
+             
+             if ([placemark.thoroughfare length] > 0)
+             {
+                 [longName appendFormat:@"%@, ", placemark.thoroughfare];
+                 [shortName appendFormat:@"%@", placemark.thoroughfare];
+                 place.kind = @":veryspecific";
+             }
+             
+             if ([placemark.subLocality length] > 0)
+                 [longName appendFormat:@"%@ ", placemark.subLocality];
+             
+             if ([placemark.locality length] > 0)
+             {
+                 [longName appendFormat:@"%@, ", placemark.locality];
+                 if ([place.kind length] == 0)
+                     place.kind = @"city";
+                 if ([shortName length] == 0)
+                     [shortName appendString:query];
+             }
+             
+             if ([placemark.country length] > 0)
+             {
+                 [longName appendFormat:@"%@", placemark.country];
+                 if ([place.kind length] == 0)
+                     place.kind = @"country";
+                 if ([shortName length] == 0)
+                     [shortName appendString:query];
+             }
+             
+             place.longName = [NSString stringWithString:longName];
+             place.shortName = [NSString stringWithString:shortName];
+             place.lat = placemark.region.center.latitude;
+             place.lng = placemark.region.center.longitude;
+             
+             self.geoCodeResponse.place = place;
+             self.responseCompletionState = stateResolved;
+             
+             NSLog(@"%s", "Geocode Falback");
+             [[self delegate] R2RGeoCoderResolved:self];
+       
+         }
+         else
+         {
+             self.responseMessage = @"Location Not Found";
+             self.responseCompletionState = stateError;
+             
+             NSLog(@"%s", "Geocode Failed");
+             [[self delegate] R2RGeoCoderResolved:self];
+         }
+     }];
     
-    [[self delegate] R2RGeoCoderResolved:self];
-   
 }
 
 

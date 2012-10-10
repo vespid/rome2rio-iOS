@@ -760,33 +760,35 @@ enum {
 
 - (void) R2RConnectionProcessData:(R2RConnection *) delegateConnection
 {
-    if (self.responseCompletionState != stateResolved)
+    if (self.r2rConnection == delegateConnection)
     {
-        [self parseJson];
-        
-        self.responseCompletionState = stateResolved;
-        
-        NSLog(@"%s", "Search Parsed");
-        
-        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
+        if (self.responseCompletionState != stateResolved)
+        {
+            [self parseJson];
+            
+            self.responseCompletionState = stateResolved;
+            
+            NSLog(@"%s", "Search Parsed");
+            
+            [[self delegate] R2RSearchResolved:self];
+            //        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
+        }
+        else
+        {
+            NSLog(@"%s", "Ignore Response, state already resolved");
+        }
+
     }
-    else
-    {
-        NSLog(@"%s", "Ignore Response, state already resolved");
-    }
-    
     
     //[[self delegate] R2RSearchResolved:self];
-    
-    
-    
+   
 }
 
-- (void) delayTest
-{
-    NSLog(@"%@", @"Search resolved");
-    [[self delegate] R2RSearchResolved:self];
-}
+//- (void) delayTest
+//{
+//    NSLog(@"%@", @"Search resolved");
+//    [[self delegate] R2RSearchResolved:self];
+//}
 
 
 - (void) R2RConnectionError:(R2RConnection *)delegateConnection
@@ -804,7 +806,8 @@ enum {
         self.responseCompletionState = stateError;
         self.responseMessage = @"Unable to resolve ";
         
-        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
+        [[self delegate] R2RSearchResolved:self];
+//        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
     }
 }
 
@@ -818,14 +821,16 @@ enum {
             self.responseCompletionState = stateError;
             self.responseMessage = @"Unable to resolve ";
             
-            [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
+            [[self delegate] R2RSearchResolved:self];
+//            [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
         }
         
         else if (self.retryCount == [retryNumber integerValue])
         {
+            self.retryCount++;
             NSLog(@"%@ %@ %d", @"Search: Timeout, Retrying Connection", retryNumber, [retryNumber integerValue]);
             [self sendAsynchronousRequest];
-            self.retryCount++;
+
         }
     }
 }

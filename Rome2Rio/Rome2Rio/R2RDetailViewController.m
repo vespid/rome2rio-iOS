@@ -38,9 +38,6 @@
 #import "R2RPosition.h"
 #import "R2RStop.h"
 
-@interface R2RDetailViewController ()
-- (void)configureView;
-@end
 
 @implementation R2RDetailViewController
 
@@ -58,20 +55,51 @@
 //    }
 //}
 
-- (void)configureView
-{
-    // Update the user interface for the detail item.
+//- (void)configureView
+//{
+//    // Update the user interface for the detail item.
+//
+////    if (self.detailItem) {
+////        self.detailDescriptionLabel.text = [self.detailItem description];
+////    }
+//}
 
-//    if (self.detailItem) {
-//        self.detailDescriptionLabel.text = [self.detailItem description];
-//    }
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    
+//    UIImage* image3 = [UIImage imageNamed:@"32px-Home_icon"];
+//    CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
+//    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
+//    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
+//    [someButton addTarget:self action:@selector(sendmail)
+//         forControlEvents:UIControlEventTouchUpInside];
+//    [someButton setShowsTouchWhenHighlighted:YES];
+//    
+//    UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
+//    
+//    [self.navigationItem.rightBarButtonItems push]
+//    self.navigationItem.rightBarButtonItem=mailbutton;
+//    [someButton release];
+//    
+//    
+//	[super viewWillAppear:animated];
+//    
+//	[self.navigationController.navigationItem.rightBarButtonItem set setNavigationBarHidden:YES animated:YES];
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated {
+//	[super viewWillDisappear:animated];
+//    
+//	[self.navigationController setNavigationBarHidden:NO animated:YES];
+//}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+    
 	// Do any additional setup after loading the view, typically from a nib.
-    [self configureView];
+//    [self configureView];
 }
 
 - (void)viewDidUnload
@@ -92,6 +120,11 @@
     //#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [cell setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -121,7 +154,14 @@
         
         R2RStop *stop = [self.route.stops objectAtIndex:routeIndex];
         
-        [cell.nameLabel setText:stop.name];
+        if ([stop.kind isEqualToString:@"airport"])
+        {
+            [cell.nameLabel setText: [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code]];
+        }
+        else
+        {
+            [cell.nameLabel setText:stop.name];
+        }
         
         R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
         
@@ -276,11 +316,12 @@
 -(R2RFlightHopCell *) configureFlightHopCell:(R2RFlightHopCell *) cell:(R2RFlightSegment *) segment
 {
     R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
-    
-    NSString *hopDescription = [formatter formatFlightHopCellDescription:segment.duration :0];
-    [cell.hopLabel setText:hopDescription];
-    
     R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    
+    NSInteger changes = [segmentHandler getFlightChanges:segment];
+    
+    NSString *hopDescription = [formatter formatFlightHopCellDescription:segment.duration :changes];
+    [cell.hopLabel setText:hopDescription];
     
     UIImage *connectionImage = [segmentHandler getConnectionImage:segment];
     [cell.connectTop setImage:connectionImage];
@@ -296,8 +337,8 @@
     R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
     R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
     
-    NSInteger changes = [segmentHandler getTransitChanges:segment];
-    NSString *vehicle = segment.kind;//[segmentHandler getTransitVehicle:segment];
+    NSInteger changes = [segmentHandler getTransitChanges:segment]; 
+    NSString *vehicle = segment.kind;//adding segment.vehicle to API //[segmentHandler getTransitVehicle:segment];
     NSInteger frequency = [segmentHandler getTransitFrequency:segment];
     NSString *hopDescription = [formatter formatTransitHopDescription:segment.duration :changes :frequency :vehicle];
     [cell.hopLabel setText:hopDescription];

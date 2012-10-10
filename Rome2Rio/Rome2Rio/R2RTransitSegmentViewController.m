@@ -502,4 +502,8 @@
     NSLog(@"%@", agencyButton);
 }
 
+- (IBAction)ReturnToSearch:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 @end

@@ -75,6 +75,8 @@ enum R2RState
 {
     [super viewDidLoad];
     
+    [self.navigationController.navigationBar setHidden:NO];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTitle:) name:@"refreshTitle" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshResults:) name:@"refreshResults" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
@@ -86,6 +88,8 @@ enum R2RState
 
     [self refreshResultsViewTitle];
     
+    [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+
 //    self.statusMessage = [[R2RStatusLabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height -100, self.view.bounds.size.width, 30.0)];
 //    [self.view addSubview:self.statusMessage];
 
@@ -93,7 +97,8 @@ enum R2RState
 //    [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:self.statusButton];
     
-    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, 360.0, 320.0, 30.0)];
+//    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, 360.0, 320.0, 30.0)];
+    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
     [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
     
@@ -112,6 +117,15 @@ enum R2RState
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+//    UIBarButtonItem *back = self.navigationController.navigationItem.backBarButtonItem;
+//    
+//    
+//    self.navigationItem.leftBarButtonItem = back;
+    
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.tableFooterView = footer;
+    
 }
 
 - (void)viewDidUnload
@@ -157,11 +171,18 @@ enum R2RState
     return [self.dataController.search.searchResponse.routes count]; //added plus one to temporarily include the message cell
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [cell setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
         
     static NSString *CellIdentifier = @"ResultsCell";
     R2RResultsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+//    [cell setBackgroundColor:[UIColor blueColor]];
     
     R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:indexPath.row];
     
@@ -170,6 +191,7 @@ enum R2RState
     R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
     
     [cell.resultDurationLabel setText:[formatter formatDuration:route.duration]];
+    
     
     R2RSegmentHandler *segmentHandler  = [[R2RSegmentHandler alloc] init];
     
@@ -361,6 +383,11 @@ enum R2RState
 -(void) setStatusMessage: (NSString *) message
 {
     [self.statusButton setTitle:message forState:UIControlStateNormal];
+}
+
+- (IBAction)ReturnToSearch:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

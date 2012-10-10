@@ -68,10 +68,12 @@
     self.transitVehicleIcon = [[UIImageView alloc] initWithFrame:rect];
     [self addSubview:self.transitVehicleIcon];
     
-    rect = CGRectMake(paddingX, 30, self.bounds.size.width - (2*paddingX), 25);
+    rect = CGRectMake(paddingX, 30, self.bounds.size.width - (paddingX + 5), 25);
     self.durationLabel = [[UILabel alloc] initWithFrame:rect];
     [self.durationLabel setTextAlignment:UITextAlignmentCenter];
     [self.durationLabel setTextColor:[UIColor lightGrayColor]];
+    [self.durationLabel setMinimumFontSize:10.0];
+    [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
     [self.durationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.durationLabel];
     

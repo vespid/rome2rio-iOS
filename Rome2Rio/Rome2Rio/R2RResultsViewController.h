@@ -20,5 +20,6 @@
 //@property (strong, nonatomic) R2RSearchResponse *searchResponse;
 
 //-(void) UpdateResults;
+- (IBAction)ReturnToSearch:(id)sender;
 
 @end

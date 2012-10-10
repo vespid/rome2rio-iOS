@@ -146,4 +146,8 @@
      */
 }
 
+- (IBAction)ReturnToSearch:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 @end

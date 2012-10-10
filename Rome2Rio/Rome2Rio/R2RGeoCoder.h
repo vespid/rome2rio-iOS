@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 #import "R2RConnection.h"
 #import "R2RGeoCodeResponse.h"

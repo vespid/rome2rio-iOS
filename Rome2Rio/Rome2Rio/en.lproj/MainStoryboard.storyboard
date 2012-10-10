@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="11G56" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="3">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
     </dependencies>
     <scenes>
@@ -9,8 +8,9 @@
         <scene sceneID="11">
             <objects>
                 <navigationController id="3" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4">
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" barStyle="blackOpaque" id="4">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </navigationBar>
                     <connections>
                         <segue destination="KQv-tN-kqn" kind="relationship" relationship="rootViewController" id="FN2-3G-yfa"/>
@@ -24,47 +24,45 @@
         <scene sceneID="fka-M7-pHc">
             <objects>
                 <viewController title="Master" id="KQv-tN-kqn" customClass="R2RMasterViewController" sceneMemberID="viewController">
-                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" id="ELB-Za-A4f">
+                    <view key="view" contentMode="scaleToFill" id="EjQ-oy-ZFr">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="always" id="OV4-73-MRK">
-                                <rect key="frame" x="20" y="104" width="280" height="31"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="bg-retina.png" id="6VQ-er-QCf">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origin" minimumFontSize="14" clearButtonMode="always" id="OV4-73-MRK">
+                                <rect key="frame" x="20" y="195" width="270" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" returnKeyType="done"/>
                                 <connections>
                                     <action selector="FromEditingDidBegin:" destination="KQv-tN-kqn" eventType="editingDidBegin" id="EKx-B2-Apu"/>
                                     <action selector="FromEditingDidEnd:" destination="KQv-tN-kqn" eventType="editingDidEnd" id="iaz-jt-uFk"/>
                                     <outlet property="delegate" destination="KQv-tN-kqn" id="gOG-ji-jym"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="⬇" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CCm-ii-oPN">
-                                <rect key="frame" x="140" y="129" width="40" height="62"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="29"/>
-                                <color key="textColor" red="0.56078431370000004" green="0.6588235294" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="always" id="Puj-uC-cuN">
-                                <rect key="frame" x="20" y="172" width="280" height="31"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" minimumFontSize="14" clearButtonMode="always" id="Puj-uC-cuN">
+                                <rect key="frame" x="20" y="234" width="270" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" returnKeyType="done"/>
                                 <connections>
                                     <action selector="ToEditingDidBegin:" destination="KQv-tN-kqn" eventType="editingDidBegin" id="amA-1v-x5Y"/>
                                     <action selector="ToEditingDidEnd:" destination="KQv-tN-kqn" eventType="editingDidEnd" id="tfK-t3-hvz"/>
                                     <outlet property="delegate" destination="KQv-tN-kqn" id="3Ff-xF-KFb"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gex-vl-wF7">
-                                <rect key="frame" x="105" y="211" width="111" height="37"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" id="gex-vl-wF7">
+                                <rect key="frame" x="60" y="281" width="200" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="tintColor" red="0.94901960784313721" green="0.40392156862745099" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Search">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -74,24 +72,8 @@
                                     <action selector="SearchTouchUpInside:" destination="KQv-tN-kqn" eventType="touchUpInside" id="Wt3-4x-J20"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qx3-OZ-4lS">
-                                <rect key="frame" x="239" y="136" width="61" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.92156862745098034" green="0.89411764705882346" blue="0.8784313725490196" alpha="1" colorSpace="deviceRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title="From Here">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="currentLocationTouchUpInside:" destination="KQv-tN-kqn" eventType="touchUpInside" id="B6T-2c-Cfk"/>
-                                </connections>
-                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0vH-Ss-SfC">
-                                <rect key="frame" x="20" y="136" width="111" height="28"/>
+                                <rect key="frame" x="20" y="324" width="111" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92156862750000001" green="0.89411764709999997" blue="0.87843137250000003" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -106,9 +88,33 @@
                                     <action selector="geoCodeFrom:" destination="KQv-tN-kqn" eventType="touchUpInside" id="khe-vm-Lz0"/>
                                 </connections>
                             </button>
+                            <view alpha="0.69999999999999996" contentMode="scaleToFill" id="zsF-bD-ZKY">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="r2r-retina.png" id="1sT-98-geU">
+                                <rect key="frame" x="10" y="10" width="300" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qx3-OZ-4lS">
+                                <rect key="frame" x="293" y="199" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="From Here" image="targetIcon_orange.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="deviceRGB"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="currentLocationTouchUpInside:" destination="KQv-tN-kqn" eventType="touchUpInside" id="B6T-2c-Cfk"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.95736416903409094" green="0.93463689630681823" blue="0.91759144176136365" alpha="1" colorSpace="deviceRGB"/>
-                    </scrollView>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
                     <navigationItem key="navigationItem" title="Search" id="9te-Wv-lIN"/>
                     <connections>
                         <outlet property="fromTextField" destination="OV4-73-MRK" id="5NX-dE-MwW"/>
@@ -129,7 +135,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="0.97443181818181823" blue="0.95736416903409094" alpha="1" colorSpace="deviceRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsCell" id="oP6-zY-2QM" customClass="R2RResultsCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsCell" id="oP6-zY-2QM" customClass="R2RResultsCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -147,7 +153,13 @@
                             <outlet property="delegate" destination="V3N-FG-aoW" id="yVE-pa-QTV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Results" id="XCH-um-NMF"/>
+                    <navigationItem key="navigationItem" title="Results" id="XCH-um-NMF">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="1yi-iW-K5b">
+                            <connections>
+                                <action selector="ReturnToSearch:" destination="V3N-FG-aoW" id="0TB-2K-Jh9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jRU-vJ-c5Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -183,7 +195,7 @@
                                     <outlet property="nameLabel" destination="gvl-Ln-Jp5" id="IcB-hd-gKf"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FlightHopCell" id="Buf-LT-RlA" customClass="R2RFlightHopCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FlightHopCell" id="Buf-LT-RlA" customClass="R2RFlightHopCell">
                                 <rect key="frame" x="0.0" y="59" width="320" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -206,7 +218,7 @@
                                     <segue destination="ZBu-OJ-Q4H" kind="push" identifier="showFlightSegment" id="ZaQ-qs-Gq4"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TransitHopCell" id="AnI-JM-jIF" customClass="R2RTransitHopCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TransitHopCell" id="AnI-JM-jIF" customClass="R2RTransitHopCell">
                                 <rect key="frame" x="0.0" y="96" width="320" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -228,7 +240,7 @@
                                     <segue destination="nJH-fD-BfM" kind="push" identifier="showTransitSegment" id="yJa-on-95R"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WalkDriveHopCell" id="oqK-nn-iww" customClass="R2RWalkDriveHopCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WalkDriveHopCell" id="oqK-nn-iww" customClass="R2RWalkDriveHopCell">
                                 <rect key="frame" x="0.0" y="133" width="320" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -253,7 +265,7 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" title="Route" id="26">
-                        <barButtonItem key="rightBarButtonItem" title="Search" id="hid-mn-TGI">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" width="10" id="hid-mn-TGI">
                             <connections>
                                 <action selector="ReturnToSearch:" destination="21" id="1v8-zg-o4p"/>
                             </connections>
@@ -273,7 +285,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="FlightSegmentCell" id="cj9-Q4-0Zf" customClass="R2RFlightSegmentCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FlightSegmentCell" id="cj9-Q4-0Zf" customClass="R2RFlightSegmentCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -288,7 +300,13 @@
                             <outlet property="delegate" destination="ZBu-OJ-Q4H" id="7fO-sK-uT0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Flight Segment" id="6VK-wA-HMf"/>
+                    <navigationItem key="navigationItem" title="Flight Segment" id="6VK-wA-HMf">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="CS2-vl-U98">
+                            <connections>
+                                <action selector="ReturnToSearch:" destination="ZBu-OJ-Q4H" id="RaV-yF-1eS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nDo-cm-HEU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -327,7 +345,13 @@
                             <outlet property="delegate" destination="nJH-fD-BfM" id="mVf-GQ-SV8"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Transit Segment" id="eCL-UN-fWQ"/>
+                    <navigationItem key="navigationItem" title="Transit Segment" id="eCL-UN-fWQ">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="Q5D-ra-6yV">
+                            <connections>
+                                <action selector="ReturnToSearch:" destination="nJH-fD-BfM" id="SvA-OR-ZA5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qKD-m9-sXM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -342,7 +366,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="WalkDriveSegmentCell" id="b5m-Dv-Fuq" customClass="R2RWalkDriveSegmentCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WalkDriveSegmentCell" id="b5m-Dv-Fuq" customClass="R2RWalkDriveSegmentCell">
                                 <rect key="frame" x="0.0" y="46" width="320" height="87"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -357,13 +381,25 @@
                             <outlet property="delegate" destination="8P3-X6-9wT" id="28E-o4-U0E"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="WalkDrive Segment" id="Z1m-N7-XP0"/>
+                    <navigationItem key="navigationItem" title="WalkDrive Segment" id="Z1m-N7-XP0">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="ibF-uL-LvY">
+                            <connections>
+                                <action selector="ReturnToSearch:" destination="8P3-X6-9wT" id="ZRJ-iA-S71"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5XO-jG-7VO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1938" y="690"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Home_Icon_White.png" width="18" height="18"/>
+        <image name="bg-retina.png" width="640" height="1136"/>
+        <image name="r2r-retina.png" width="600" height="120"/>
+        <image name="targetIcon_orange.png" width="48" height="48"/>
+    </resources>
     <classes>
         <class className="R2RDetailViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RDetailViewController.h"/>
@@ -382,6 +418,9 @@
         </class>
         <class className="R2RFlightSegmentViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="ReturnToSearch:"/>
+            </relationships>
         </class>
         <class className="R2RMasterViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMasterViewController.h"/>
@@ -408,6 +447,9 @@
         </class>
         <class className="R2RResultsViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="ReturnToSearch:"/>
+            </relationships>
         </class>
         <class className="R2RTransitHopCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitHopCell.h"/>
@@ -420,6 +462,9 @@
         </class>
         <class className="R2RTransitSegmentViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="ReturnToSearch:"/>
+            </relationships>
         </class>
         <class className="R2RWalkDriveHopCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveHopCell.h"/>
@@ -432,6 +477,9 @@
         </class>
         <class className="R2RWalkDriveSegmentViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="ReturnToSearch:"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

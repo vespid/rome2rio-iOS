@@ -23,7 +23,9 @@
         
         //[self setHidden:false];
         [self setHidden:true];
-        [self setBackgroundColor:[UIColor darkGrayColor]];
+        [self setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.7]];
+//        [self setBackgroundColor:[UIColor colorWithRed:(25/255.0) green:(25/255.0) blue:(25/255.0) alpha:0.8]];
+//        [self setBackgroundColor:[UIColor darkGrayColor]];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
     }

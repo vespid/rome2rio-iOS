@@ -57,7 +57,7 @@
     
     if (duration.totalHours >= 48)
     {
-        return [NSString stringWithFormat:@"%ddays %@hrs", duration.days, [self padNumber:duration.hours]];
+        return [NSString stringWithFormat:@"%ddays %dhrs", duration.days, duration.hours];
     }
     else if (duration.totalHours < 1)
     {
@@ -71,7 +71,7 @@
         }
         else
         {
-            return [NSString stringWithFormat:@"%dhrs %@min", duration.totalHours, [self padNumber:duration.minutes]];
+            return [NSString stringWithFormat:@"%dhrs %dmin", duration.totalHours, duration.minutes];
         }
     }
 }

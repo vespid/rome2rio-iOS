@@ -105,11 +105,11 @@
     }
     else if ([kind isEqualToString:@"car"])
     {
-        return CGRectMake(300, 60, 14, 12);
+        return CGRectMake(300, 60, 18, 12);
     }
     else if ([kind isEqualToString:@"walk"])
     {
-        return CGRectMake(402, 60, 18, 12);
+        return CGRectMake(402, 60, 14, 12);
     }
     else
     {
@@ -156,17 +156,26 @@
     return nil;
 }
 
+-(NSInteger) getTransitHopCount:(R2RTransitSegment *)segment
+{
+    NSInteger hopCount = 0;
+
+    if ([segment.itineraries count] >= 1)
+    {
+        R2RTransitItinerary *itinerary = [segment.itineraries objectAtIndex:0];
+        for (R2RTransitLeg *leg in itinerary.legs)
+        {
+            hopCount += [leg.hops count];
+        }
+    }
+    
+    return hopCount;
+}
+
 -(NSInteger) getTransitChanges:(R2RTransitSegment *)segment
 {
-    
-    NSArray *hops = [self getTransitHops:segment];
-    
-    if ([hops count] > 1)
-    {
-        return ([hops count] -1);
-    }
-
-    return 0;
+    NSInteger hopCount = [self getTransitHopCount:segment];
+    return (hopCount - 1);//1 less change than hops;
 }
 
 //this used to contain overly complex code to return transit lines for detail view description
@@ -179,14 +188,16 @@
 //        return nil;
 //    }
 //    return segment.kind;
-// }
+//}
 
 -(float) getTransitFrequency: (R2RTransitSegment *)segment
 {
-    NSArray *hops = [self getTransitHops:segment];
-    if ([hops count] == 1)
+    NSInteger hopCount = [self getTransitHopCount:segment];
+    if (hopCount == 1)
     {
-        R2RTransitHop *hop = [hops objectAtIndex:0];
+        R2RTransitItinerary *itinerary = [segment.itineraries objectAtIndex:0];
+        R2RTransitLeg *transitLeg = [itinerary.legs objectAtIndex:0];
+        R2RTransitHop *hop = [transitLeg.hops objectAtIndex:0];
         return hop.frequency;
     }
     return 0.0;
@@ -262,6 +273,23 @@
     CGSize spriteSize = CGSizeMake(10, 50);
     R2RSprite *connectionSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"ConnectionLines"] :spriteOffset :spriteSize];
     return connectionSprite.sprite;
+}
+
+-(NSInteger)getFlightChanges:(R2RFlightSegment *)segment
+{
+    int hops = 5;
+    for (R2RFlightItinerary *itinerary in segment.itineraries)
+    {
+        for (R2RFlightLeg *leg in itinerary.legs)
+        {
+            if ([leg.hops count] < hops)
+            {
+                hops = [leg.hops count];
+            }
+        }
+    }
+    return (hops - 1); // 1 less change than hops
+    
 }
 
 @end
