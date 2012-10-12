@@ -67,21 +67,24 @@
     rect = CGRectMake((self.bounds.size.width/2)-10-50, 3, 50, 25);
     self.sTimeLabel = [[UILabel alloc] initWithFrame:rect];
     [self.sTimeLabel setTextAlignment:UITextAlignmentCenter];
-    [self.sTimeLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.sTimeLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.sTimeLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
 //        [self.sTimeLabel setText:@"sTime"];
     [self addSubview:self.sTimeLabel];
     
     rect = CGRectMake((self.bounds.size.width/2)+10, 3, 50, 25);
     self.tTimeLabel = [[UILabel alloc] initWithFrame:rect];
     [self.tTimeLabel setTextAlignment:UITextAlignmentCenter];
-    [self.tTimeLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.tTimeLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.tTimeLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
 //        [self.tTimeLabel setText:@"tTime"];
     [self addSubview:self.tTimeLabel];
     
     rect = CGRectMake(self.bounds.size.width-70, 3, 60.0, 25);
     self.durationLabel = [[UILabel alloc] initWithFrame:rect];
     [self.durationLabel setTextAlignment:UITextAlignmentLeft];
-    [self.durationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.durationLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.durationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
 //        [self.durationLabel setText:@"duration"];
     [self.durationLabel setMinimumFontSize:10.0];
     [self.durationLabel setAdjustsFontSizeToFitWidth:YES];

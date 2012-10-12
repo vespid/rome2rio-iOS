@@ -46,7 +46,8 @@
     [self.agencyNameLabel.titleLabel setTextAlignment:UITextAlignmentCenter];
     [self.agencyNameLabel.titleLabel setMinimumFontSize:10.0];
     [self.agencyNameLabel.titleLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.agencyNameLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+    [self.agencyNameLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.agencyNameLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
     [self.agencyNameLabel setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
     [self addSubview:self.agencyNameLabel];
 

@@ -38,7 +38,11 @@
 
 -(void)sendAsynchronousRequest
 {
+#if DEBUG
     NSString *iconString = [NSString stringWithFormat:@"http://prototype.rome2rio.com%@", self.iconPath];
+#else
+    NSString *iconString = [NSString stringWithFormat:@"http://ios.rome2rio.com%@", self.iconPath];
+#endif
     
     NSString *iconEncoded = [iconString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     

@@ -24,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *toTextField;
 //@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 //@property (weak, nonatomic) R2RResultsViewController *resultsViewController;
+@property (weak, nonatomic) IBOutlet UIView *headerBackground;
+@property (weak, nonatomic) IBOutlet UIImageView *headerImage;
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
 @property (nonatomic) BOOL keyboardShowing;
@@ -144,13 +146,15 @@ enum R2RState
     [self setFromTextField:nil];
     [self setToTextField:nil];
 //    [self setMessageLabel:nil];
+    [self setHeaderBackground:nil];
+    [self setHeaderImage:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -230,20 +234,28 @@ enum R2RState
     [UIView setAnimationDuration:0.3]; // if you want to slide up the view
     
     CGRect rect = self.view.frame;
+    CGRect headerBackgroundRect = self.headerBackground.frame;
+    CGRect headerImageRect = self.headerImage.frame;
     if (movedUp)
     {
         // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
         // 2. increase the size of the view so that the area behind the keyboard is covered up.
         rect.origin.y -= kOFFSET_FOR_KEYBOARD;
         rect.size.height += kOFFSET_FOR_KEYBOARD;
+        headerBackgroundRect.origin.y += kOFFSET_FOR_KEYBOARD;
+        headerImageRect.origin.y += kOFFSET_FOR_KEYBOARD;
     }
     else
     {
         // revert back to the normal state.
         rect.origin.y += kOFFSET_FOR_KEYBOARD;
         rect.size.height -= kOFFSET_FOR_KEYBOARD;
+        headerBackgroundRect.origin.y -= kOFFSET_FOR_KEYBOARD;
+        headerImageRect.origin.y -= kOFFSET_FOR_KEYBOARD;
     }
     self.view.frame = rect;
+    self.headerBackground.frame = headerBackgroundRect;
+    self.headerImage.frame = headerImageRect;
     
     [UIView commitAnimations];
 }
@@ -352,7 +364,7 @@ enum R2RState
     [self.fromTextField setPlaceholder:@"Finding current location"];
     [self.fromTextField resignFirstResponder];
     
-    [self.dataController refreshStatusMessage:self];
+//    [self.dataController refreshStatusMessage:self];
 
     [self.dataController currentLocationTouchUpInside];
 }
@@ -435,8 +447,7 @@ enum R2RState
 
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-    
-    
+
     
     [self setStatusMessage:self.dataController.statusMessage];
     

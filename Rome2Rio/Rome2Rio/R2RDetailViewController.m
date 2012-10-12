@@ -110,7 +110,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - Table view data source
@@ -213,65 +213,6 @@
     }
     
 }
-
-//- (CGRect) getConnectionRect: (id) segment
-//{
-//    NSString *kind = [self getSegmentKind:segment];
-//    
-//    if ([kind isEqualToString:@"flight"])
-//    {
-//        return CGRectMake(0, 0, 10, 50);
-//    }
-//    if ([kind isEqualToString:@"train"])
-//    {
-//        return CGRectMake(10, 0, 10, 50);
-//    }
-//    else if ([kind isEqualToString:@"bus"])
-//    {
-//        return CGRectMake(20, 0, 10, 50);
-//    }
-//    else if ([kind isEqualToString:@"car"])
-//    {
-//        return CGRectMake(30, 0, 10, 50);
-//    }
-//    else if ([kind isEqualToString:@"ferry"])
-//    {
-//        return CGRectMake(40, 0, 10, 50);
-//    }
-//    else if ([kind isEqualToString:@"walk"])
-//    {
-//        return CGRectMake(50, 0, 10, 50);
-//    }
-//    return CGRectMake(60, 0, 10, 50);
-//}
-
-//- (UIColor *) getConnectionColor: (id) segment
-//{
-//    NSString *kind = [self getSegmentKind:segment];
-//    
-//    if ([kind isEqualToString:@"flight"])
-//    {
-//        return [UIColor colorWithRed:(241.0/256.0) green:(96.0/256.0) blue:(36.0/256.0) alpha:1.0];
-//    }
-//    else if ([kind isEqualToString:@"train"])
-//    {
-//        return [UIColor colorWithRed:(48.0/256.0) green:(124.0/256.0) blue:(192.0/256.0) alpha:1.0];
-//    }
-//    else if ([kind isEqualToString:@"bus"])
-//    {
-//        return [UIColor colorWithRed:(98.0/256.0) green:(144.0/256.0) blue:(46.0/256.0) alpha:1.0];
-//    }
-//    else if ([kind isEqualToString:@"ferry"])
-//    {
-//        return [UIColor colorWithRed:(64.0/256.0) green:(170.0/256.0) blue:(196.0/256.0) alpha:1.0];
-//    }
-//    else if ([kind isEqualToString:@"car"])
-//    {
-//        return [UIColor blackColor];
-//    }
-//    
-//    return [UIColor whiteColor];
-//}
 
 -(NSString*) getCellIdentifier:(id) segment
 {

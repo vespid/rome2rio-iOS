@@ -42,17 +42,20 @@
 - (void) initSubviews
 {
     
-    CGRect rect = CGRectMake(15, 5, self.bounds.size.width-25, 25);
+    CGRect rect = CGRectMake(15, 5, self.bounds.size.width-45, 25);
     self.resultDescripionLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.resultDescripionLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.resultDescripionLabel setMinimumFontSize:10.0];
+    [self.resultDescripionLabel setAdjustsFontSizeToFitWidth:YES];
+    [self.resultDescripionLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.resultDescripionL/abel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.resultDescripionLabel];
     
-    rect = CGRectMake(self.bounds.size.width-100-40, 30, 100.0, 20);
+    rect = CGRectMake(self.bounds.size.width-100-30, 30, 100.0, 20);
     self.resultDurationLabel = [[UILabel alloc] initWithFrame:rect];
     [self.resultDurationLabel setTextAlignment:UITextAlignmentRight];
     [self.resultDurationLabel setFont:[UIFont fontWithName:@"Helvetica" size:15.0]];
-    [self.resultDurationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
-    //        [self.resultDurationLabel setText:@"duration"];
+    [self.resultDurationLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.resultDurationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self.resultDurationLabel setMinimumFontSize:10.0];
     [self.resultDurationLabel setAdjustsFontSizeToFitWidth:YES];
     [self.resultDurationLabel setTextColor:[UIColor lightGrayColor]];

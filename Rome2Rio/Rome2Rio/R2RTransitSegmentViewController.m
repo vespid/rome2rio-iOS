@@ -253,7 +253,19 @@
     
     R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
 //    NSString *vehicle = [stringFormatter formatTransitHopVehicle: transitHop.vehicle];
-                
+    
+//    self
+//    R2RStop *stop = [self.route.stops objectAtIndex:routeIndex];
+//    
+//    if ([stop.kind isEqualToString:@"airport"])
+//    {
+//        [cell.nameLabel setText: [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code]];
+//    }
+//    else
+//    {
+//        [cell.nameLabel setText:stop.name];
+//    }
+    
     [cell.fromLabel setText:transitHop.sName];
     [cell.toLabel setText:transitHop.tName];
     
@@ -499,7 +511,7 @@
     {
         [[UIApplication sharedApplication] openURL:agencyButton.url];
     }
-    NSLog(@"%@", agencyButton);
+//    NSLog(@"%@", agencyButton);
 }
 
 - (IBAction)ReturnToSearch:(id)sender

@@ -85,11 +85,11 @@
     [cell.kindIcon setImage:[segmentHandler getRouteIcon:self.walkDriveSegment.kind]];
 
     R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
-    [cell.fromLabel setText:walkDriveSegment.sName];
-    [cell.toLabel setText:walkDriveSegment.tName];
+    [cell.fromLabel setText:self.walkDriveSegment.sName];
+    [cell.toLabel setText:self.walkDriveSegment.tName];
     
-    [cell.distanceLabel setText:[stringFormatter formatDistance:walkDriveSegment.distance]];
-    [cell.durationLabel setText:[stringFormatter formatDuration:walkDriveSegment.duration]];
+    [cell.distanceLabel setText:[stringFormatter formatDistance:self.walkDriveSegment.distance]];
+    [cell.durationLabel setText:[stringFormatter formatDuration:self.walkDriveSegment.duration]];
     
     return cell;
 }

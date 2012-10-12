@@ -88,13 +88,17 @@ enum {
 -(void) sendAsynchronousRequest
 {
     
+#if DEBUG
     NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind];
+#else
+    NSString *searchString = [NSString stringWithFormat:@"http://ios.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind];
+#endif
     
     NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
     
-    NSLog(@"%@ %d", @"Search Started", self.retryCount);
+//    NSLog(@"%@ %d", @"Search Started", self.retryCount);
     self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:searchUrl delegate:self];
     
     self.responseCompletionState = stateResolving;
@@ -174,7 +178,7 @@ enum {
 {
     if ([positionResponseString length] == 0)
     {
-        NSLog(@"%@", @"position nil or empty in parsePositionString");
+//        NSLog(@"%@", @"position nil or empty in parsePositionString");
         //R2RPosition *emptyPosition = [R2RPosition alloc];
         //return emptyPosition;
         return nil;
@@ -198,7 +202,7 @@ enum {
     
     if ([positionArrayString length] == 0)
     {
-        NSLog(@"%@", @"positionArray nil or empty in parsePositionArray");
+//        NSLog(@"%@", @"positionArray nil or empty in parsePositionArray");
 
         return nil;
     }
@@ -406,7 +410,7 @@ enum {
         else            
         {
             //////////////////////////////////
-            NSLog(@"unknown segment kind or error%@", @"." );
+//            NSLog(@"unknown segment kind or error%@", @"." );
             //////////////////////////////////
         }
         
@@ -424,6 +428,11 @@ enum {
     segment.kind = [segmentResponse objectForKey:@"kind"];
     segment.distance = [[segmentResponse objectForKey:@"distance"] floatValue];
     segment.duration = [[segmentResponse objectForKey:@"duration"] floatValue];
+    
+//    id sName = [segmentResponse objectForKey:@"sName"];
+//    id tName = [segmentResponse objectForKey:@"tName"];
+
+//    NSLog(@"\n\n\n%@, %@\n\n", [sName class], [tName class]);
     segment.sName = [segmentResponse objectForKey:@"sName"];
     
     NSString *sPosString = [segmentResponse objectForKey:@"sPos"];
@@ -768,14 +777,14 @@ enum {
             
             self.responseCompletionState = stateResolved;
             
-            NSLog(@"%s", "Search Parsed");
+//            NSLog(@"%s", "Search Parsed");
             
             [[self delegate] R2RSearchResolved:self];
             //        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
         }
         else
         {
-            NSLog(@"%s", "Ignore Response, state already resolved");
+//            NSLog(@"%s", "Ignore Response, state already resolved");
         }
 
     }
@@ -796,15 +805,15 @@ enum {
     if (self.retryCount < 5)
     {
         //on error resend request after 1 second
-        NSLog(@"%@ %d", @"Search: Retrying Connection", self.retryCount);
+//        NSLog(@"%@ %d", @"Search: Retrying Connection", self.retryCount);
         [self performSelector:@selector(sendAsynchronousRequest) withObject:nil afterDelay:1.0];
         self.retryCount++;
     }
     else
     {
-        NSLog(@"%@", @"Search: Connection Failed, too many retries");
+//        NSLog(@"%@", @"Search: Connection Failed, too many retries");
         self.responseCompletionState = stateError;
-        self.responseMessage = @"Unable to resolve ";
+        self.responseMessage = @"Unable to find location";
         
         [[self delegate] R2RSearchResolved:self];
 //        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
@@ -817,9 +826,9 @@ enum {
     {
         if (self.retryCount >= 5)
         {
-            NSLog(@"%@", @"Search: Connection Failed, too many retries (timeout)");
+//            NSLog(@"%@", @"Search: Connection Failed, too many retries (timeout)");
             self.responseCompletionState = stateError;
-            self.responseMessage = @"Unable to resolve ";
+            self.responseMessage = @"Unable to find location";
             
             [[self delegate] R2RSearchResolved:self];
 //            [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
@@ -828,7 +837,7 @@ enum {
         else if (self.retryCount == [retryNumber integerValue])
         {
             self.retryCount++;
-            NSLog(@"%@ %@ %d", @"Search: Timeout, Retrying Connection", retryNumber, [retryNumber integerValue]);
+//            NSLog(@"%@ %@ %d", @"Search: Timeout, Retrying Connection", retryNumber, [retryNumber integerValue]);
             [self sendAsynchronousRequest];
 
         }

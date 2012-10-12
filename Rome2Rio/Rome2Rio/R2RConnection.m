@@ -56,7 +56,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"didReceiveResponse");
+//    NSLog(@"didReceiveResponse");
     [self.responseData setLength:0];
 }	
 
@@ -67,16 +67,16 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"didFailWithError");
-    NSLog(@"Connection failed: %@", [error localizedDescription]);
+//    NSLog(@"didFailWithError");
+//    NSLog(@"Connection failed: %@", [error localizedDescription]);
     
     [[self delegate] R2RConnectionError:self];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     
-    NSLog(@"connectionDidFinishLoading");
-    NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
+//    NSLog(@"connectionDidFinishLoading");
+//    NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
     
     
 //    NSError *error = nil;

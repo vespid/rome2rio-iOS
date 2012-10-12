@@ -86,7 +86,15 @@ enum {
     self.statusMessage = @"";
     [self refreshStatusMessage:self.geoCoderTo];
     
-    self.geoCoderTo = [[R2RGeoCoder alloc] initWithSearchString:query delegate:self];
+    if (self.geoCoderFrom.geoCodeResponse)
+    {
+        self.geoCoderTo = [[R2RGeoCoder alloc] initWithSearch:query :self.geoCoderFrom.geoCodeResponse.place.countryCode :nil delegate:self];
+    }
+    else
+    {
+        self.geoCoderTo = [[R2RGeoCoder alloc] initWithSearchString:query delegate:self];
+    }
+    
     [self.geoCoderTo sendAsynchronousRequest];
     self.state = RESOLVING_TO;
     
@@ -171,7 +179,7 @@ enum {
     
     if (self.geoCoderFrom.responseCompletionState == stateResolved && self.geoCoderTo.responseCompletionState == stateResolved)
     {
-        NSLog(@"from\t%@\tto%@\t...", self.geoCoderFrom.geoCodeResponse.place.shortName, self.geoCoderTo.geoCodeResponse.place.shortName);
+//        NSLog(@"from\t%@\tto%@\t...", self.geoCoderFrom.geoCodeResponse.place.shortName, self.geoCoderTo.geoCodeResponse.place.shortName);
         
         //simulate delay. return to original code after testing
 //        [self performSelector:@selector(initSearch) withObject:nil afterDelay:0.0];
@@ -269,7 +277,7 @@ enum {
             
             if (self.geoCoderFrom != nil && self.geoCoderFrom == sender)
             {
-                self.statusMessage = [NSString stringWithFormat:@"%@: %@", @"Origin", @"Resolving"];
+                self.statusMessage = [NSString stringWithFormat:@"%@: %@", @"Origin", @"Finding location"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];
             }
             break;
@@ -278,7 +286,7 @@ enum {
             
             if (self.geoCoderTo != nil && self.geoCoderTo == sender)
             {
-                self.statusMessage = [NSString stringWithFormat:@"%@: %@", @"Destination", @"Resolving"];
+                self.statusMessage = [NSString stringWithFormat:@"%@: %@", @"Destination", @"Finding location"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];
             }
             break;
@@ -288,7 +296,7 @@ enum {
             if (self.search != nil && self.search == sender)
             {
                 self.statusMessage = [NSString stringWithFormat:@"%@", @"Searching"];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSearchMessage" object:nil];
             }
             break;
             
@@ -345,6 +353,12 @@ enum {
 
 - (void) currentLocationTouchUpInside
 {
+    self.fromText = @"";
+    self.geoCoderFrom = nil;
+    self.search = nil;
+    
+    [self refreshStatusMessage:nil];
+        
     if (nil == self.locationManager)
         self.locationManager = [[CLLocationManager alloc] init];
     
@@ -352,12 +366,39 @@ enum {
     self.locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
     self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters; // 100 m
     [self.locationManager startUpdatingLocation];
+    
+    //if location services are disabled we sometime do not get a didFailWithError callback.
+    //Calling it twice seems to fix that
+    [self.locationManager startUpdatingLocation];
+    
 }
+
+
 
 -(void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+    [self.locationManager stopUpdatingLocation];
+
+    if (!self.geoCoderFrom)
+    {
+        self.geoCoderFrom = [[R2RGeoCoder alloc] init];
+        //                self.geoCoderFrom.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
+    }
+    self.geoCoderFrom.geoCodeResponse = nil;
+    self.geoCoderFrom.responseMessage = @"Unable to find location";
+    if (!CLLocationManager.locationServicesEnabled)
+    {
+        self.geoCoderFrom.responseMessage = @"Location services are off";
+    }
+    else if (error.code == kCLErrorDenied)
+    {
+        self.geoCoderFrom.responseMessage = @"Location services are off";
+    }
     
-    NSLog(@"%@", error);
+    self.geoCoderFrom.responseCompletionState = stateError;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
+    [self refreshStatusMessage:self];
     
 }
 
@@ -374,20 +415,20 @@ enum {
 //            self.myLocation = placemark.name;
            
             R2RPlace *newPlace = [[R2RPlace alloc] init];
-            NSString *a = placemark.country;
-            NSString *b = placemark.inlandWater;
-            NSString *c = placemark.ISOcountryCode;
-            NSString *d = placemark.locality;
-            NSString *e = placemark.name;
-            NSString *f = placemark.ocean;
-            NSString *g = placemark.postalCode;
-            NSString *h = [placemark.region description];
-            NSString *i = placemark.subAdministrativeArea;
-            NSString *j = placemark.subLocality;
-            NSString *k = placemark.subThoroughfare;
-            NSString *l = placemark.thoroughfare;
-            
-            NSLog(@"%@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@,", a, b, c, d, e, f, g, h, i, j, k, l);
+//            NSString *a = placemark.country;
+//            NSString *b = placemark.inlandWater;
+//            NSString *c = placemark.ISOcountryCode;
+//            NSString *d = placemark.locality;
+//            NSString *e = placemark.name;
+//            NSString *f = placemark.ocean;
+//            NSString *g = placemark.postalCode;
+//            NSString *h = [placemark.region description];
+//            NSString *i = placemark.subAdministrativeArea;
+//            NSString *j = placemark.subLocality;
+//            NSString *k = placemark.subThoroughfare;
+//            NSString *l = placemark.thoroughfare;
+//            
+//            NSLog(@"%@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@,", a, b, c, d, e, f, g, h, i, j, k, l);
             
             NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
             newPlace.longName = longName;
@@ -409,8 +450,26 @@ enum {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
             
+            [self refreshStatusMessage:self];
             [self ResolvedStateChanged];
+            
         }
+        else
+        {
+            if (!self.geoCoderFrom)
+            {
+                self.geoCoderFrom = [[R2RGeoCoder alloc] init];
+//                self.geoCoderFrom.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
+            }
+            self.geoCoderFrom.geoCodeResponse = nil;
+            self.geoCoderFrom.responseMessage = @"Unable to find location";
+            self.geoCoderFrom.responseCompletionState = stateError;
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
+            [self refreshStatusMessage:self];
+            
+        }
+
     }];
     
 
@@ -426,69 +485,69 @@ enum {
 
 -(void)geoCodeFrom:(NSString *)query
 {
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder geocodeAddressString:query completionHandler:^(NSArray *placemarks, NSError *error)
-    {
-        if ([placemarks count] > 0)
-        {
-            CLPlacemark *placemark = [placemarks objectAtIndex:0];
-            //            self.myLocation = placemark.name;
-            
-            R2RPlace *newPlace = [[R2RPlace alloc] init];
-            NSString *a = placemark.country;
-            NSString *b = placemark.inlandWater;
-            NSString *c = placemark.ISOcountryCode;
-            NSString *d = placemark.locality;
-            NSString *e = placemark.name;
-            NSString *f = placemark.ocean;
-            NSString *g = placemark.postalCode;
-            NSString *h = [placemark.region description];
-            NSString *i = placemark.subAdministrativeArea;
-            NSString *j = placemark.subLocality;
-            NSString *k = placemark.subThoroughfare;
-            NSString *l = placemark.thoroughfare;
-            
-            NSLog(@"Forward\tcountry %@, inlandWater %@, ISOcountryCode %@, locality %@, name %@, ocean %@, postalCode %@, region %@, subAdministrativeArea %@, subLocality %@, subThoroughfare %@, thoroughfare %@,", a, b, c, d, e, f, g, h, i, j, k, l);
-            
-            NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
-            newPlace.longName = longName;
-            newPlace.shortName = placemark.name;
-            newPlace.lat = self.location.coordinate.latitude;
-            newPlace.lng = self.location.coordinate.longitude;
-            newPlace.kind = @":veryspecific";
-            
-            
-            if (!self.geoCoderTo)
-            {
-                self.geoCoderTo = [[R2RGeoCoder alloc] init];
-                self.geoCoderTo.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
-            }
-            
-            self.geoCoderTo.geoCodeResponse.place = newPlace;
-            //this is all bad and should be in datacontroller for consistency with geocoder
-            self.geoCoderTo.responseCompletionState = 3;
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshToTextField" object:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
-        }
-        else
-        {
-            if (!self.geoCoderFrom)
-            {
-                self.geoCoderFrom = [[R2RGeoCoder alloc] init];
-                self.geoCoderFrom.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
-            }
-            
-            self.geoCoderFrom.responseMessage = @"Location Still Not Found";
-            self.geoCoderFrom.responseCompletionState = stateError;
-            
-            
-            self.statusMessage = [NSString stringWithFormat:@"%@: %@", @"Origin 2", self.geoCoderFrom.responseMessage];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];
-            
-  
-        }
-    }];
+//    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+//    [geocoder geocodeAddressString:query completionHandler:^(NSArray *placemarks, NSError *error)
+//    {
+//        if ([placemarks count] > 0)
+//        {
+//            CLPlacemark *placemark = [placemarks objectAtIndex:0];
+//            //            self.myLocation = placemark.name;
+//            
+//            R2RPlace *newPlace = [[R2RPlace alloc] init];
+//            NSString *a = placemark.country;
+//            NSString *b = placemark.inlandWater;
+//            NSString *c = placemark.ISOcountryCode;
+//            NSString *d = placemark.locality;
+//            NSString *e = placemark.name;
+//            NSString *f = placemark.ocean;
+//            NSString *g = placemark.postalCode;
+//            NSString *h = [placemark.region description];
+//            NSString *i = placemark.subAdministrativeArea;
+//            NSString *j = placemark.subLocality;
+//            NSString *k = placemark.subThoroughfare;
+//            NSString *l = placemark.thoroughfare;
+//            
+//            NSLog(@"Forward\tcountry %@, inlandWater %@, ISOcountryCode %@, locality %@, name %@, ocean %@, postalCode %@, region %@, subAdministrativeArea %@, subLocality %@, subThoroughfare %@, thoroughfare %@,", a, b, c, d, e, f, g, h, i, j, k, l);
+//            
+//            NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
+//            newPlace.longName = longName;
+//            newPlace.shortName = placemark.name;
+//            newPlace.lat = self.location.coordinate.latitude;
+//            newPlace.lng = self.location.coordinate.longitude;
+//            newPlace.kind = @":veryspecific";
+//            
+//            
+//            if (!self.geoCoderTo)
+//            {
+//                self.geoCoderTo = [[R2RGeoCoder alloc] init];
+//                self.geoCoderTo.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
+//            }
+//            
+//            self.geoCoderTo.geoCodeResponse.place = newPlace;
+//            //this is all bad and should be in datacontroller for consistency with geocoder
+//            self.geoCoderTo.responseCompletionState = 3;
+//            
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshToTextField" object:nil];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
+//        }
+//        else
+//        {
+//            if (!self.geoCoderFrom)
+//            {
+//                self.geoCoderFrom = [[R2RGeoCoder alloc] init];
+//                self.geoCoderFrom.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
+//            }
+//            
+//            self.geoCoderFrom.responseMessage = @"Location Still Not Found";
+//            self.geoCoderFrom.responseCompletionState = stateError;
+//            
+//            
+//            self.statusMessage = [NSString stringWithFormat:@"%@: %@", @"Origin 2", self.geoCoderFrom.responseMessage];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];
+//            
+//  
+//        }
+//    }];
     
 }
 

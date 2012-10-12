@@ -53,7 +53,8 @@
     [self.fromLabel setTextAlignment:UITextAlignmentLeft];
     [self.fromLabel setMinimumFontSize:10.0];
     [self.fromLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.fromLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.fromLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.fromLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.fromLabel];
     
     rect = CGRectMake(paddingX, 55, self.bounds.size.width - (2*paddingX), 25);
@@ -61,7 +62,8 @@
     [self.toLabel setTextAlignment:UITextAlignmentLeft];
     [self.toLabel setMinimumFontSize:10.0];
     [self.toLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.toLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.toLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.toLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.toLabel];
     
     rect = CGRectMake(paddingX, 30, 18, 18);
@@ -74,7 +76,8 @@
     [self.durationLabel setTextColor:[UIColor lightGrayColor]];
     [self.durationLabel setMinimumFontSize:10.0];
     [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.durationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.durationLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.durationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.durationLabel];
     
     rect = CGRectMake(paddingX+indent, 55, self.bounds.size.width - (2*paddingX)-indent, 25);
@@ -82,7 +85,8 @@
     [self.lineLabel setTextAlignment:UITextAlignmentLeft];
     [self.lineLabel setMinimumFontSize:10.0];
     [self.lineLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.lineLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.lineLabel setBackgroundColor:[UIColor clearColor]];
+//    [self.lineLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self.lineLabel setTextColor:[UIColor lightGrayColor]];
     [self.lineLabel setHidden:YES];
     [self addSubview:self.lineLabel];

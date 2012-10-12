@@ -80,6 +80,7 @@ enum R2RState
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTitle:) name:@"refreshTitle" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshResults:) name:@"refreshResults" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshSearchMessage:) name:@"refreshSearchMessage" object:nil];
     
     [self.tableView setSectionHeaderHeight:35.0];
     CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, self.tableView.sectionHeaderHeight);
@@ -135,6 +136,7 @@ enum R2RState
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTitle" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshResults" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshSearchMessage" object:nil];
     
 //    [self setSearchLabel:nil];
     [super viewDidUnload];
@@ -378,6 +380,11 @@ enum R2RState
 //    {
 //        [self.statusButton setHidden:false];
 //    }
+}
+
+-(void) refreshSearchMessage:(NSNotification *) notification
+{
+    [self setStatusMessage:self.dataController.statusMessage];
 }
 
 -(void) setStatusMessage: (NSString *) message

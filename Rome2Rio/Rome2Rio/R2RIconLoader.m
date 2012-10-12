@@ -40,7 +40,12 @@
 
 -(void)sendAsynchronousRequest
 {
+    
+#if DEBUG
     NSString *iconString = [NSString stringWithFormat:@"http://prototype.rome2rio.com%@", self.iconPath];
+#else
+    NSString *iconString = [NSString stringWithFormat:@"http://ios.rome2rio.com%@", self.iconPath];
+#endif
     
     NSString *iconEncoded = [iconString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -54,11 +59,11 @@
     if (self.connection == delegateConnection)
     {
         self.icon = [[UIImage alloc] initWithData:self.connection.responseData];
-        if (!self.icon)
-        {
-            NSString *string = [[NSString alloc] initWithData:self.connection.responseData encoding:NSUTF8StringEncoding];
-            NSLog(@"%@", string);
-        }
+//        if (!self.icon)
+//        {
+//            NSString *string = [[NSString alloc] initWithData:self.connection.responseData encoding:NSUTF8StringEncoding];
+//            NSLog(@"%@", string);
+//        }
 //        NSLog(@"%@", self.icon);
         
         [[self delegate] R2RIconLoaded:self];

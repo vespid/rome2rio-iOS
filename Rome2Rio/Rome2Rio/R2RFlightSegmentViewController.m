@@ -416,10 +416,10 @@
         }
         
     }
-    else
-    {
-        NSLog(@"%@", @"break");
-    }
+//    else
+//    {
+//        NSLog(@"%@", @"break");
+//    }
     
     [iconDownloadsInProgress removeObjectForKey:delegateIconLoader.airline.code];
     

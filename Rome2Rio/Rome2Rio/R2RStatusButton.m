@@ -19,6 +19,8 @@
     {
         self.titleLabel.font = [UIFont boldSystemFontOfSize:20.];
         self.titleLabel.textAlignment = UITextAlignmentCenter;
+        [self.titleLabel setMinimumFontSize:10.0];
+        [self.titleLabel setAdjustsFontSizeToFitWidth:YES];
         //button.hidden = false;
         
         //[self setHidden:false];
