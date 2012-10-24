@@ -21,8 +21,8 @@
 -(NSString *) formatDuration: (float) minutes;
 -(NSString *) formatFrequency: (float) frequency;
 -(NSString *) formatDistance: (float) distance;
+-(NSString *) formatDays: (int) days;
 
 -(NSString *) capitaliseFirstLetter: (NSString *) string;
-
 
 @end
