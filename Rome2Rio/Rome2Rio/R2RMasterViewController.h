@@ -14,6 +14,6 @@
 
 @interface R2RMasterViewController : UIViewController <UITextFieldDelegate/*, R2RGeoCoderDelegate, R2RSearchDelegate*/>
 
-@property R2RDataController *dataController;
+@property (strong, nonatomic) R2RDataController *dataController;
 
 @end	

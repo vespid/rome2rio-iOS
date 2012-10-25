@@ -42,7 +42,6 @@
 - (IBAction)ToEditingDidEnd:(id)sender;
 - (IBAction)SearchTouchUpInside:(id)sender;
 - (IBAction)currentLocationTouchUpInside:(id)sender;
-- (IBAction)geoCodeFrom:(id)sender;
 
 enum R2RState
 {
@@ -350,8 +349,8 @@ enum R2RState
         return;
     }
     
-    //clear warning message
-    //[self ClearMessage:<#(NSString *)#>];
+    //If not geocoding or searching and there is no searchResponse restart process
+    [self.dataController refreshSearchIfNoResponse];
     
     [self performSegueWithIdentifier:@"showSearchResults" sender:self];
     
@@ -368,13 +367,6 @@ enum R2RState
 
     [self.dataController currentLocationTouchUpInside];
 }
-
-- (IBAction)geoCodeFrom:(id)sender
-{
-    [self.dataController geoCodeFrom:self.fromTextField.text];
-}
-
-
 
 - (void)WarningMessage: (NSString *) message: (NSString *) textField
 {
@@ -395,44 +387,6 @@ enum R2RState
     
     //self.messageLabel.text = message;
 }
-
-//-(void) clearMessage
-//{
-//    self.statusButton.hidden = true;
-//    //[self.view removeFromSuperview];
-//}
-
-//-(void) refreshView:(NSNotification *) notification
-//{
-//    if ([notification.name isEqualToString:@"refreshFromTextField"])
-//    {
-//        [self refreshFromTextField];
-//        return;
-//    }
-//    if ([notification.name isEqualToString:@"refreshToTextField"])
-//    {
-//        [self refreshToTextField];
-//        return;
-//    }
-//    if ([notification.name isEqualToString:@"refreshStatusMessage"])
-//    {
-//        [self refreshStatusMessage];
-//        return;
-//    }
-//    
-//    if ([notification.name isEqualToString:@"displayStatusMessage"])
-//    {
-//        //[self displayStatusMessage];
-//        return;
-//    }
-//    if ([notification.name isEqualToString:@"clearStatusMessage"])
-//    {
-//        //[self clearStatusMessage];
-//        return;
-//    }
-//    
-//    
-//}
 
 -(void) refreshFromTextField:(NSNotification *) notification
 {

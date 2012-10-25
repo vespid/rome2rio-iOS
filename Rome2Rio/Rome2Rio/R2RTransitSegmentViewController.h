@@ -7,14 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
 #import "R2RTransitSegment.h"
+#import "R2RSpriteStore.h"
+#import "R2RDataController.h"
 
-@interface R2RTransitSegmentViewController : UITableViewController
+@interface R2RTransitSegmentViewController : UITableViewController <MKMapViewDelegate, UIActionSheetDelegate>
 
+@property (strong, nonatomic) R2RDataController *dataController;
+@property (strong, nonatomic) R2RRoute *route;
 @property (strong, nonatomic) R2RTransitSegment *transitSegment;
-@property (strong, nonatomic) NSArray *agencies;
-//@property (strong, nonatomic) NSMutableDictionary *agencyIcons;
+
 - (IBAction)ReturnToSearch:(id)sender;
 
 @end

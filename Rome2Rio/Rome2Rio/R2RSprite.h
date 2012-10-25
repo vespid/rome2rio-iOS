@@ -6,23 +6,29 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-// Only retaining the sprites image, not the combined image it is taken from 
+//CODECHECK don't like that this is used 2 different ways.
 
 #import <Foundation/Foundation.h>
 
 @interface R2RSprite : NSObject
 
-@property (strong, nonatomic) UIImage *sprite;
-@property (nonatomic) CGPoint spriteOffset;
-@property (nonatomic) CGSize spriteSize;
-@property (strong, nonatomic) NSString *imagePath;
+@property (nonatomic) CGPoint offset;
+@property (nonatomic) CGSize size;
+@property (strong, nonatomic) NSString *path;
+
+//-(id) initWithImage:(UIImage *) image :(CGPoint)offset :(CGSize)size;
+//-(id) initWithImage:(UIImage *)image :(CGRect)rect;
 
 -(id) initWithPath:(NSString *) path :(CGPoint)offset :(CGSize)size;
--(id)initWithImage:(UIImage *)image :(CGRect)rect;
--(id) initWithImage:(UIImage *) image :(CGPoint)offset :(CGSize)size;
 
--(void) setSpriteFromImage:(UIImage *)image;
--(void) setSpriteFromImage:(UIImage *)image :(CGPoint)offset :(CGSize)size;
+-(UIImage *) getSprite:(UIImage *) image;
+
+//-(UIImage *) getSprite; //used for local images if initWithImage
+
+
+//-(void) setSpriteFromImage:(UIImage *)image;
+//-(void) setSpriteFromImage:(UIImage *)image :(CGPoint)offset :(CGSize)size;
+
 
 
 @end

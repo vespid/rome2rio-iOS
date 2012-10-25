@@ -7,17 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
 #import "R2RRoute.h"
+#import "R2RDataController.h"
 
-@interface R2RDetailViewController : UITableViewController
+@interface R2RDetailViewController : UITableViewController <MKMapViewDelegate>
 
+@property (strong, nonatomic) R2RDataController *dataController;
 @property (strong, nonatomic) R2RRoute *route;
-@property (strong, nonatomic) NSArray *airlines;
-@property (strong, nonatomic) NSArray *airports;
-@property (strong, nonatomic) NSArray *agencies;
 
-//@property (strong, nonatomic) NSMutableDictionary *agencyIcons;
+//@property (weak, nonatomic) IBOutlet MKMapView *routeMap;
+//@property (strong, nonatomic) MKMapView *routeMap;
 
 - (IBAction)ReturnToSearch:(id)sender;
 

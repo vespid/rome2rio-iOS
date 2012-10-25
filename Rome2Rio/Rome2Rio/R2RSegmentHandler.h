@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "R2RSprite.h"
+#import "R2RDataController.h"
+
 #import "R2RWalkDriveSegment.h"
 #import "R2RTransitSegment.h"
 #import "R2RTransitItinerary.h"
@@ -22,15 +25,26 @@
 
 @interface R2RSegmentHandler : NSObject
 
--(UIImage *) getRouteIcon:(NSString *) kind;
--(UIImage *) getSegmentResultIcon:(id) segment;
+-(id) initWithData: (R2RDataController *) data;
+
+-(R2RSprite *) getRouteSprite:(NSString *) kind;
+//-(UIImage *) getRouteIcon:(NSString *) kind;
+-(R2RSprite *) getSegmentResultSprite:(id) segment;
+//-(UIImage *) getSegmentResultIcon:(id) segment;
+-(R2RSprite *) getConnectionSprite: (id) segment;
+//-(UIImage *) getConnectionImage: (id) segment;
+
 -(BOOL) getSegmentIsMajor:(id) segment;
+-(NSString*) getSegmentKind:(id) segment;
+-(NSString*) getSegmentPath:(id) segment;
+-(R2RPosition *) getSegmentSPos:(id) segment;
+-(R2RPosition *) getSegmentTPos:(id) segment;
 
 -(NSInteger) getTransitChanges: (R2RTransitSegment *) segment;
 //-(NSString *) getTransitVehicle: (R2RTransitSegment *) segment;
 //-(NSString *) getFrequencyText: (R2RTransitSegment *) segment;
 -(float) getTransitFrequency: (R2RTransitSegment *)segment;
-- (UIImage *) getConnectionImage: (id) segment;
+
 
 -(NSInteger) getFlightChanges: (R2RFlightSegment *) segment;
 

@@ -20,6 +20,8 @@
 @property(strong, nonatomic)NSString *rad;
 @property(strong, nonatomic)NSString *regionCode;
 @property(strong, nonatomic)NSString *regionName;
+@property(strong, nonatomic)NSString *code;
+
 
 
 @end

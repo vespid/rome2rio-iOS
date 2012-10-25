@@ -75,29 +75,12 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     
-//    NSLog(@"connectionDidFinishLoading");
-//    NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
+//    R2RLog(@"Succeeded! Received %d bytes of data from %@",[self.responseData length], self.connectionString);
     
-    
-//    NSError *error = nil;
-//    
-//    NSDictionary *rData = [NSJSONSerialization JSONObjectWithData:self.responseData options:kNilOptions error:&error];
-//    
-//    NSLog(@"%@", error);
-//    // show all values/////////////////////////////
-//    for(id key in rData) {
-//        
-//        id value = [rData objectForKey:key];
-//        
-//        NSString *keyAsString = (NSString *)key;
-//        NSString *valueAsString = (NSString *)value;
-//        
-//        NSLog(@"key: %@", keyAsString);
-//        NSLog(@"value: %@", valueAsString);
-//    }/////////////////////////////////////////////
     //Is anyone listening
     //if([delegate respondsToSelector:@selector(connectionDidFinishLoading:)])
     //{
+        
     
         [[self delegate] R2RConnectionProcessData:self];
     

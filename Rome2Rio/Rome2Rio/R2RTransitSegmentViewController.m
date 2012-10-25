@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "R2RTransitSegmentViewController.h"
 #import "R2RTransitSegmentCell.h"
 #import "R2RTitleLabel.h"
@@ -14,21 +16,21 @@
 
 #import "R2RStringFormatters.h"
 #import "R2RSegmentHandler.h"
-#import "R2RTransitAgencyIconLoader.h"
 #import "R2RButtonWithUrl.h"
 #import "R2RTransitLine.h"
+#import "R2RMapCell.h"
+#import "R2RMKAnnotation.h"
+#import "R2RMapHelper.h"
 
-@interface R2RTransitSegmentViewController () <R2RTransitAgencyIconLoaderDelegate>
+@interface R2RTransitSegmentViewController ()
 
-//@property (strong, nonatomic) R2RTransitSegmentHeader *header;
-@property (strong, nonatomic) NSMutableDictionary *iconDownloadsInProgress;
 @property (strong, nonatomic) NSMutableArray *legs;
 
 @end
 
 @implementation R2RTransitSegmentViewController
 
-@synthesize transitSegment, agencies;// agencyIcons;
+@synthesize dataController, route, transitSegment;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -43,13 +45,11 @@
 {
     [super viewDidLoad];
     
-    self.iconDownloadsInProgress = [NSMutableDictionary dictionary];  //maybe move this to init
-    
     [self.tableView setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
     
-    [self.tableView setSectionFooterHeight:10.0];
-    [self.tableView setSectionHeaderHeight:40];
-    
+//    [self.tableView setSectionFooterHeight:10.0];
+//    [self.tableView setSectionHeaderHeight:40];
+//    
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView = footer;
     
@@ -59,6 +59,17 @@
     
     self.legs = [NSMutableArray array];
     [self sortLegs];
+    
+    
+    CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, 30);
+    UIView *view = [[UIView alloc] initWithFrame:rect];
+//    [view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+    [view setBackgroundColor:[UIColor purpleColor]];
+    view.layer.shadowOffset = CGSizeMake(0,5);
+    view.layer.shadowRadius = 5;
+    view.layer.shadowOpacity = 0.5;
+    
+    [self.view.superview addSubview:view];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -83,6 +94,19 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    if (section == [self.legs count])
+    {
+//        CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, 30);
+//        UIView *view = [[UIView alloc] initWithFrame:rect];
+//        [view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+//        //        [view setBackgroundColor:[UIColor purpleColor]];
+//        view.layer.shadowOffset = CGSizeMake(0,5);
+//        view.layer.shadowRadius = 5;
+//        view.layer.shadowOpacity = 0.5;
+//        
+//        return view;
+        return nil;
+    }
     CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, 35);
     
     R2RTransitSegmentHeader *header = [[R2RTransitSegmentHeader alloc] initWithFrame:rect];
@@ -99,11 +123,10 @@
     R2RTransitLeg *transitLeg = [self.legs objectAtIndex:section];
     R2RTransitHop *transitHop = [transitLeg.hops objectAtIndex:0];
     
-    
-    [header.agencyIconView addTarget:self action:@selector(agencyClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [header.agencyNameLabel addTarget:self action:@selector(agencyClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [header.agencyIconView setUrl:transitLeg.url];
-    [header.agencyNameLabel setUrl:transitLeg.url];
+//    [header.agencyIconView addTarget:self action:@selector(agencyClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [header.agencyNameLabel addTarget:self action:@selector(agencyClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [header.agencyIconView setUrl:transitLeg.url];
+//    [header.agencyNameLabel setUrl:transitLeg.url];
 
     NSString *agencyName = nil;
     
@@ -127,7 +150,7 @@
     [header.agencyIconView setFrame:rect];
 //    UIImage *agencyIcon = nil;
     
-    for (R2RAgency *agency in self.agencies)
+    for (R2RAgency *agency in self.dataController.search.searchResponse.agencies)
     {
         if ([agency.code isEqualToString:transitLine.agency])
         {
@@ -142,53 +165,20 @@
                 
                 [header.agencyIconView setFrame:rect];
                 R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
-                [header.agencyIconView setImage:[segmentHandler getRouteIcon:transitSegment.kind] forState:UIControlStateNormal];
-                //        [header.agencyIconView setImage:[segmentHandler getRouteIcon:transitSegment.kind]];
+                
+                R2RSprite *sprite = [segmentHandler getRouteSprite:transitSegment.kind];
+                [self.dataController.spriteStore setSpriteInView:sprite :header.agencyIconView];
+//                [self.dataController.spriteStore setSpriteInButton:sprite : header.agencyIconView];
             }
             else
             {
-//                agencyIcon = [self.agencyIcons objectForKey:agency];
-                if (agency.icon)
-                {
-                    [header.agencyIconView setImage:agency.icon forState:UIControlStateNormal];
-                }
-                else
-                {
-                    [self startIconDownload:agency forIndexPath:section];
-                    [header.agencyIconView setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-                }
+                R2RSprite *sprite = [[R2RSprite alloc] initWithPath:agency.iconPath :agency.iconOffset :agency.iconSize];
+                [self.dataController.spriteStore setSpriteInView:sprite : header.agencyIconView];
+//                [self.dataController.spriteStore setSpriteInButton:sprite : header.agencyIconView];
             }
-            
         }
-
     }
-//    
-//    if ([transitHop.iconPath length] == 0)
-//    {
-//        //allow for smaller icon
-//        iconSize = CGSizeMake(18, 18);
-//        iconPadding = 9;
-//        startX = 19;
-//        rect = CGRectMake(startX, 11, iconSize.width, iconSize.height);
-//
-//        [header.agencyIconView setFrame:rect];
-//        R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
-//        [header.agencyIconView setImage:[segmentHandler getRouteIcon:transitSegment.kind] forState:UIControlStateNormal];
-////        [header.agencyIconView setImage:[segmentHandler getRouteIcon:transitSegment.kind]];
-//    }
-//    else
-//    {
-//        agencyIcon = [self.agencyIcons objectForKey:agency];
-//        if (agencyIcon)
-//        {
-//            [header.agencyIconView setImage:agencyIcon forState:UIControlStateNormal];
-//        }
-//        else
-//        {
-//            [self startIconDownload:transitHop forIndexPath:section];
-//            [header.agencyIconView setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-//        }
-//    }
+
     if ([agencyName length] == 0)
     {
         R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
@@ -199,32 +189,36 @@
     rect = CGRectMake(startX + iconSize.width + iconPadding, 8, agencyNameLabelSize.width, 25);
     
     [header.agencyNameLabel setFrame:rect];
-    [header.agencyNameLabel setTitle:agencyName forState:UIControlStateNormal];
+    [header.agencyNameLabel setText:agencyName];
+    
+    [header.linkButton setImage:[UIImage imageNamed:@"externalLinkIconGray"] forState:UIControlStateNormal];
+    [header.linkButton addTarget:self action:@selector(showLinkMenu) forControlEvents:UIControlEventTouchUpInside];
         
     return header;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return nil;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    
-//    if ([self.legs count] == 0) return 0;
-//    
-//    R2RTransitItinerary *transitItinerary = [self.transitSegment.itineraries objectAtIndex:0];
-//
-//    return [transitItinerary.legs count];
 
-    return [self.legs count];
+    return ([self.legs count] + 1);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == [self.legs count])//map cell
+    {
+        return 1;
+    }
+    
     // Return the number of rows in the section.
     
     if ([self.transitSegment.itineraries count] == 0) return 0;
     
-//    R2RTransitItinerary *transitItinerary = [self.transitSegment.itineraries objectAtIndex:0];
-//    R2RTransitLeg *transitLeg = [transitItinerary.legs objectAtIndex:section];
     R2RTransitLeg *transitLeg = [self.legs objectAtIndex:section];
     
     return [transitLeg.hops count];
@@ -233,12 +227,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == [self.legs count])//map cell
+    {
+        NSString *CellIdentifier = @"MapCell";
+        R2RMapCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        [self configureMapCell:cell];
+        return cell;
+    }
+    
     static NSString *CellIdentifier = @"TransitSegmentCell";	
     R2RTransitSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    
-    // Configure the cell...
     
     if ([self.transitSegment.itineraries count] == 0)
     {
@@ -246,53 +244,25 @@
         return cell; 
     }
     
-//    R2RTransitItinerary *transitItinerary = [self.transitSegment.itineraries objectAtIndex:0];
-//    R2RTransitLeg *transitLeg = [transitItinerary.legs objectAtIndex:indexPath.section];
     R2RTransitLeg *transitLeg = [self.legs objectAtIndex:indexPath.section];
     R2RTransitHop *transitHop = [transitLeg.hops objectAtIndex:indexPath.row];
     
     R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
-//    NSString *vehicle = [stringFormatter formatTransitHopVehicle: transitHop.vehicle];
-    
-//    self
-//    R2RStop *stop = [self.route.stops objectAtIndex:routeIndex];
-//    
-//    if ([stop.kind isEqualToString:@"airport"])
-//    {
-//        [cell.nameLabel setText: [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code]];
-//    }
-//    else
-//    {
-//        [cell.nameLabel setText:stop.name];
-//    }
     
     [cell.fromLabel setText:transitHop.sName];
     [cell.toLabel setText:transitHop.tName];
     
-    
-    // the resizing of frames in not necessary with current static positioned labels
     NSString *duration = [stringFormatter formatDuration:transitHop.duration];
     NSString *frequency = [stringFormatter formatFrequency:transitHop.frequency];
     NSString *description = [NSString stringWithFormat:@"%@, %@", duration, frequency];
     CGSize durationSize = [description sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17.0]];
     
-//    CGSize iconSize = CGSizeMake(18, 18);
-//    NSInteger iconPadding = 5;
     NSInteger startX = 40;//(cell.bounds.size.width-(durationSize.width + iconSize.width + iconPadding))/2;
     
-//    CGRect rect = CGRectMake(startX, 34, iconSize.width, iconSize.height);
-//    [cell.transitVehicleIcon setFrame:rect];
-//    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
-//    [cell.transitVehicleIcon setImage:[segmentHandler getRouteIcon:self.transitSegment.kind]];
-//    
-//    rect = CGRectMake(startX + iconSize.width + iconPadding, 30, durationSize.width, 25);
-
     CGRect rect = CGRectMake(startX, 30, durationSize.width, 25);
     [cell.durationLabel setFrame:rect];
     [cell.durationLabel setText:description];
-//    
-//    [cell.frequencyLabel setText:[stringFormatter formatFrequency:transitHop.frequency]];
-    
+   
     NSMutableString *lineLabel = [[NSMutableString alloc] init];
     
     for (R2RTransitLine *line in transitHop.lines)
@@ -321,13 +291,36 @@
         rect = CGRectMake(20, 55, cell.toLabel.bounds.size.width, 25);
         [cell.toLabel setFrame:rect];
     }
-    
-        
+   
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == [self.legs count])
+    {
+        return 1;
+    }
+    
+    return 35;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == [self.legs count])
+    {
+        return 1;
+    }
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == [self.legs count])
+    {
+        return [self calculateMapHeight];//-61;//make cell smaller so map covers header and footer areas
+    }
+    
     R2RTransitLeg *transitLeg = [self.legs objectAtIndex:indexPath.section];
     R2RTransitHop *transitHop = [transitLeg.hops objectAtIndex:indexPath.row];
     
@@ -348,46 +341,6 @@
     }
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -399,40 +352,6 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-}
-
-- (void)startIconDownload:(R2RAgency *)agency forIndexPath:(NSInteger )section
-{
-    R2RTransitAgencyIconLoader *iconLoader = [self.iconDownloadsInProgress objectForKey:agency.code];
-    if (iconLoader == nil)
-    {
-        iconLoader = [[R2RTransitAgencyIconLoader alloc] initWithIconPath:agency.iconPath delegate:self];
-        iconLoader.agency = agency;
-        iconLoader.iconOffset = agency.iconOffset;
-        iconLoader.section = section;
-        
-        [self.iconDownloadsInProgress setObject:iconLoader forKey:agency.code];
-
-        [iconLoader sendAsynchronousRequest];
-    }
-}
-
--(void) r2rTransitAgencyIconLoaded:(R2RTransitAgencyIconLoader *)delegateIconLoader
-{
-    R2RTransitAgencyIconLoader *iconLoader = [self.iconDownloadsInProgress objectForKey:delegateIconLoader.agency.code];
-    if (iconLoader)
-    {
-        iconLoader.agency.icon = iconLoader.sprite.sprite;
-        
-        
-//        [self.agencyIcons setObject:delegateIconLoader.sprite.sprite forKey:delegateIconLoader.agency];
-        
-//        [self.tableView reloadSectionIndexTitles];
-        
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:delegateIconLoader.section] withRowAnimation:UITableViewRowAnimationNone];
-                
-    }
-
 }
 
 -(void) sortLegs
@@ -482,22 +401,72 @@
             
         }
     }
-    
-//    NSInteger i = 0;
-//    NSInteger j = 0;
-//    for (R2RTransitLeg *leg in self.legs)
-//    {
-//        for (R2RTransitHop *hop in leg.hops)
-//        {
-//            NSLog(@"%d\t%d\t%@", i, j, hop.sName);
-//            j++;
-//        }
-//        j = 0;
-//        i++;
-//    }
-    
 }
 
+
+-(float) calculateMapHeight
+{
+    CGRect viewRect = self.view.bounds;
+    return viewRect.size.height*2/3;
+}
+
+-(void) configureMapCell:(R2RMapCell *) cell
+{
+    [cell.mapView setDelegate:self];
+    
+    CGRect mapFrame = cell.mapView.frame;
+    
+    mapFrame.origin.x = -10;
+    mapFrame.origin.y = 0;//-30; //to cover header area
+    mapFrame.size.height = [self calculateMapHeight];
+    
+    [cell.mapView setFrame:mapFrame];
+    
+    for (R2RStop *stop in self.route.stops)
+    {
+        CLLocationCoordinate2D pos;
+        pos.latitude = stop.pos.lat;
+        pos.longitude = stop.pos.lng;
+        
+        R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name address:stop.kind coordinate:pos];
+        [cell.mapView addAnnotation:annotation];
+    }
+    
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataController];
+    
+    for (id segment in self.route.segments)
+    {
+        NSArray *paths = [mapHelper getPolylines:segment];
+        for (id path in paths)
+        {
+            [cell.mapView addOverlay:path];
+        }
+//        id path = [mapHelper getPolyline:segment];//] :points :count ];
+//        if (path)
+//        {
+//            [cell.mapView addOverlay:path];
+//        }
+    }
+    
+    MKMapRect zoomRect = [mapHelper getSegmentZoomRect:self.transitSegment];
+    
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(zoomRect);
+    region.span.latitudeDelta *=1.1;
+    region.span.longitudeDelta *=1.1;
+    
+    [cell.mapView setRegion:region];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+    cell.backgroundView = view;
+}
+
+#pragma mark MKMapViewDelegate
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id) overlay// (id <MKOverlay>)overlay
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+	
+    return [mapHelper getPolylineView:overlay];
+}
 
 //-(void)agencyClicked
 //{
@@ -518,4 +487,39 @@
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+
+- (void) showLinkMenu
+{
+    UIActionSheet *linkMenuSheet = [[UIActionSheet alloc] initWithTitle:@"Schedules"
+                                                     delegate:self
+                                            cancelButtonTitle:nil
+                                       destructiveButtonTitle:nil
+                                            otherButtonTitles:nil];
+    
+    for (R2RTransitLeg *leg in self.legs)
+    {
+        [linkMenuSheet addButtonWithTitle:leg.host];
+    }
+    
+    [linkMenuSheet addButtonWithTitle:@"cancel"];
+    [linkMenuSheet setCancelButtonIndex:[self.legs count]];
+
+    [linkMenuSheet showInView:self.view];
+    
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == [self.legs count])
+        return;
+    
+    R2RLog(@"Button %d", buttonIndex);
+    
+    R2RTransitLeg *leg = [self.legs objectAtIndex:buttonIndex];
+    if ([[leg.url absoluteString] length] > 0)
+    {
+        [[UIApplication sharedApplication] openURL:leg.url];
+    }
+}
+
 @end

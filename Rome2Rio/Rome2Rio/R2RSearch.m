@@ -41,7 +41,7 @@ enum {
 @synthesize searchResponse, responseCompletionState, responseMessage;
 @synthesize delegate;
 
-- (id) initWithSearch:(NSString *)oName :(NSString *)dName :(NSString *)oPos :(NSString *)dPos :(NSString *)oKind :(NSString *)dKind delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
+- (id) initWithSearch:(NSString *)oName :(NSString *)dName :(NSString *)oPos :(NSString *)dPos :(NSString *)oKind :(NSString *)dKind delegate: (NSString *) oCode: (NSString *) dCode: (id<R2RSearchDelegate>)r2rSearchDelegate
 {
     self = [super init];
     
@@ -98,7 +98,7 @@ enum {
     
     NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
     
-//    NSLog(@"%@ %d", @"Search Started", self.retryCount);
+//    R2RLog(@"%@ %d", @"Search Started", self.retryCount);
     self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:searchUrl delegate:self];
     
     self.responseCompletionState = stateResolving;
@@ -178,9 +178,6 @@ enum {
 {
     if ([positionResponseString length] == 0)
     {
-//        NSLog(@"%@", @"position nil or empty in parsePositionString");
-        //R2RPosition *emptyPosition = [R2RPosition alloc];
-        //return emptyPosition;
         return nil;
     }
     
@@ -197,36 +194,17 @@ enum {
 
 }
 
--(NSMutableArray*) parsePositionArray:(NSString *) positionArrayString
-{
-    
-    if ([positionArrayString length] == 0)
-    {
-//        NSLog(@"%@", @"positionArray nil or empty in parsePositionArray");
-
-        return nil;
-    }
-    
-    NSMutableArray *positions = [[NSMutableArray alloc] init];
-    
-    ///commented out while changes are made to API
-//    NSScanner *scanner = [NSScanner scannerWithString:positionArrayString];
-//    [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
+//-(NSMutableArray*) parsePositionArray:(NSString *) positionArrayString
+//{
 //    
-//    while (![scanner isAtEnd])
+//    if ([positionArrayString length] == 0)
 //    {
-//        float lat,lng;
-//        [scanner scanFloat:&lat];
-//        [scanner scanFloat:&lng];
-//        
-//        R2RPosition *position = [self parsePosition:lat:lng];
-//        
-//        [positions addObject:position];
+//        return nil;
 //    }
-    
-    return positions;
-    
-}
+//    
+//    NSMutableArray *positions = [[NSMutableArray alloc] init];
+//    return positions;
+//}
 
 -(R2RPosition*) parsePosition:(float) lat: (float) lng
 {
@@ -263,16 +241,44 @@ enum {
     
     NSString *urlString = [airlineResponse objectForKey:@"url"];
     airline.url = [NSURL URLWithString:urlString];
-     
-    NSScanner *scanner = [NSScanner scannerWithString:[airlineResponse objectForKey:@"iconOffset"]];
-    [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
     
     float x,y;
-    [scanner scanFloat:&x];
-    [scanner scanFloat:&y];
-    
+    NSString *string = [airlineResponse objectForKey:@"iconOffset"];
+    if ([string length] > 0)
+    {
+        NSScanner *scanner = [NSScanner scannerWithString:[airlineResponse objectForKey:@"iconOffset"]];
+        [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
+        [scanner scanFloat:&x];
+        [scanner scanFloat:&y];
+    }
+    else //default icon offset
+    {
+        x = 0;
+        y = 0;
+    }
     airline.iconOffset = CGPointMake(x, y);
+    
+    string = [airlineResponse objectForKey:@"iconSize"];
+    if ([string length] > 0)
+    {
+        NSScanner *scanner = [NSScanner scannerWithString:string];
+        [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
+        [scanner scanFloat:&x];
+        [scanner scanFloat:&y];
+    }
+    else //default icon size
+    {
+        x = 27;
+        y = 23;
+    }
+    
+    airline.iconSize = CGSizeMake(x, y);
+    
+    
+    
     airline.iconPath = [airlineResponse objectForKey:@"iconPath"];
+    
+    
     
 //    NSLog(@"airline\t%@\t%@\t%f\t%f", airline.url, airline.iconPath, airline.iconOffset.x, airline.iconOffset.y);
     
@@ -303,14 +309,36 @@ enum {
     NSString *urlString = [agencyResponse objectForKey:@"url"];
     agency.url = [NSURL URLWithString:urlString];
     
-    NSScanner *scanner = [NSScanner scannerWithString:[agencyResponse objectForKey:@"iconOffset"]];
-    [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
-    
     float x,y;
-    [scanner scanFloat:&x];
-    [scanner scanFloat:&y];
-    
+    NSString *string = [agencyResponse objectForKey:@"iconOffset"];
+    if ([string length] > 0)
+    {
+        NSScanner *scanner = [NSScanner scannerWithString:[agencyResponse objectForKey:@"iconOffset"]];
+        [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
+        [scanner scanFloat:&x];
+        [scanner scanFloat:&y];
+    }
+    else //default icon offset
+    {
+        x = 0;
+        y = 0;
+    }
     agency.iconOffset = CGPointMake(x, y);
+    
+    string = [agencyResponse objectForKey:@"iconSize"];
+    if ([string length] > 0)
+    {
+        NSScanner *scanner = [NSScanner scannerWithString:string];
+        [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString:@","]];
+        [scanner scanFloat:&x];
+        [scanner scanFloat:&y];
+    }
+    else //default icon size
+    {
+        x = 27;
+        y = 23;
+    }
+    
     agency.iconPath = [agencyResponse objectForKey:@"iconPath"];
     
     //    NSLog(@"airline\t%@\t%@\t%f\t%f", airline.url, airline.iconPath, airline.iconOffset.x, airline.iconOffset.y);
@@ -471,6 +499,10 @@ enum {
     NSInteger isMajor = [[segmentResponse objectForKey:@"isMajor"] integerValue];
     segment.isMajor = (isMajor == 1) ? YES : NO;
     
+    segment.vehicle = [segmentResponse objectForKey:@"vehicle"];
+    
+    segment.path = [segmentResponse objectForKey:@"path"];
+    
     NSArray *itinerariesResponse = [segmentResponse objectForKey:@"itineraries"];
     
     segment.itineraries = [self parseTransitItineraries:itinerariesResponse];
@@ -564,11 +596,6 @@ enum {
     
     transitHop.duration = [[transitHopResponse objectForKey:@"duration"] floatValue];
     transitHop.frequency = [[transitHopResponse objectForKey:@"frequency"] floatValue];
-    
-    transitHop.path = [transitHopResponse objectForKey:@"path"];
-//    NSString *pathPostionArrayString = [transitHopResponse objectForKey:@"path"];
-//    transitHop.path = [self parsePositionArray:pathPostionArrayString];
-    
     
     NSArray *transitLinesResponse = [transitHopResponse objectForKey:@"lines"];
     

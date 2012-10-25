@@ -8,6 +8,8 @@
 
 #import "R2RResultsViewController.h"
 #import "R2RDetailViewController.h"
+#import "R2RTransitSegmentViewController.h"
+#import "R2RWalkDriveSegmentViewController.h"
 
 #import "R2RStatusButton.h"
 #import "R2RResultSectionHeader.h"
@@ -91,39 +93,12 @@ enum R2RState
     
     [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
 
-//    self.statusMessage = [[R2RStatusLabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height -100, self.view.bounds.size.width, 30.0)];
-//    [self.view addSubview:self.statusMessage];
-
-//    self.statusButton = [R2RStatusButton buttonWithType:UIButtonTypeCustom];
-//    [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:self.statusButton];
-    
-//    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, 360.0, 320.0, 30.0)];
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
     [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
     
     [self setStatusMessage:self.dataController.statusMessage];
 
-//    //retry search if search has failed
-//    if (self.dataController.state == IDLE && self.dataController.search.responseCompletionState == stateError)
-//    {
-//        [self.dataController.search sendAsynchronousRequest];
-//    }
-    
-    //[self configureResultsView];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-//    UIBarButtonItem *back = self.navigationController.navigationItem.backBarButtonItem;
-//    
-//    
-//    self.navigationItem.leftBarButtonItem = back;
-    
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView = footer;
     
@@ -132,7 +107,6 @@ enum R2RState
 - (void)viewDidUnload
 {
     
-    //here or dealloc???
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTitle" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshResults" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
@@ -180,13 +154,36 @@ enum R2RState
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        
-    static NSString *CellIdentifier = @"ResultsCell";
+    R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:indexPath.row];
+    R2RSegmentHandler *segmentHandler  = [[R2RSegmentHandler alloc] init];
+    NSString *CellIdentifier = @"ResultsCell";
+    
+    if ([route.segments count] == 1)
+    {
+        NSString *kind = [segmentHandler getSegmentKind:[route.segments objectAtIndex:0]];
+        if ([kind isEqualToString:@"bus"] || [kind isEqualToString:@"train"] || [kind isEqualToString:@"ferry"])
+        {
+            ////// testing
+            R2RTransitSegment *segment = [route.segments objectAtIndex:0];
+            R2RLog(@"%@", segment.sName);
+            //////
+            
+            int changes = [segmentHandler getTransitChanges:[route.segments objectAtIndex:0]];
+            if (changes == 0)
+            {
+                CellIdentifier = @"ResultsCellTransit";
+            }
+        }
+        else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"walk"])
+        {
+            CellIdentifier = @"ResultsCellWalkDrive";
+        }
+    }
+    
     R2RResultsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
 //    [cell setBackgroundColor:[UIColor blueColor]];
     
-    R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:indexPath.row];
     
     [cell.resultDescripionLabel setText:route.name];
     
@@ -195,7 +192,6 @@ enum R2RState
     [cell.resultDurationLabel setText:[formatter formatDuration:route.duration]];
     
     
-    R2RSegmentHandler *segmentHandler  = [[R2RSegmentHandler alloc] init];
     
     NSInteger iconCount = 0;
     float xOffset = 0;
@@ -212,12 +208,13 @@ enum R2RState
                 xOffset = iconView.frame.origin.x;
             }
             
-            UIImage *icon = [segmentHandler getSegmentResultIcon:segment];
+            R2RSprite *sprite = [segmentHandler getSegmentResultSprite:segment];
             
-            CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, icon.size.width, icon.size.height);
-            
+            CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, sprite.size.width, sprite.size.height);
             [iconView setFrame:iconFrame];
-            [iconView setImage:icon];
+            
+            [self.dataController.spriteStore setSpriteInView:sprite :iconView];
+//            [iconView setImage:icon];
             
             xOffset = iconView.frame.origin.x + iconView.frame.size.width + 7; //xPos of next icon
 
@@ -282,36 +279,47 @@ enum R2RState
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
-
-//-(void) refreshView:(NSNotification *) notification
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 //{
-//    if ([notification.name isEqualToString:@"refreshTitle"])
+//    R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:indexPath.row];
+//    if ([route.segments count] == 1)
 //    {
-//        [self refreshResultsViewTitle];
-//        return;
+//        R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+//        NSString *kind = [segmentHandler getSegmentKind:[route.segments objectAtIndex:0]];
+//        if ([kind isEqualToString:@"bus"] || [kind isEqualToString:@"train"] || [kind isEqualToString:@"ferry"])
+//        {
+//            R2RTransitSegmentViewController *segmentViewController = [[R2RTransitSegmentViewController alloc] init];// [segue destinationViewController];
+//            segmentViewController.dataController = self.dataController;
+//            segmentViewController.route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+//            [self.navigationController pushViewController:segmentViewController animated:YES];
+//        }
+//        else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"walk"])
+//        {
+////            [self performSegueWithIdentifier:@"showWalkDriveSegment" sender:self];
+//            R2RWalkDriveSegmentViewController *segmentViewController = [[R2RWalkDriveSegmentViewController alloc] init];
+//            segmentViewController.dataController = self.dataController;
+//            segmentViewController.route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+//            [self.navigationController pushViewController:segmentViewController animated:YES];
+//        }
+//        else
+//        {
+//            R2RDetailViewController *detailsViewController = [[R2RDetailViewController alloc] init];
+//            detailsViewController.dataController = self.dataController;
+//            detailsViewController.route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+//            [self.navigationController pushViewController:detailsViewController animated:YES];
+//            [self performSegueWithIdentifier:@"showRouteDetails" sender:self];
+//        }
 //    }
-//    if ([notification.name isEqualToString:@"refreshResults"])
+//    else
 //    {
-//        [self refreshResults];
+//        R2RDetailViewController *detailsViewController = [[R2RDetailViewController alloc] init];
+//        detailsViewController.dataController = self.dataController;
+//        detailsViewController.route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+//        [self.navigationController pushViewController:detailsViewController animated:YES];
+////        [self performSegueWithIdentifier:@"showRouteDetails" sender:self];
 //    }
 //    
-//}
-
-//-(void) configureResultsView
-//{
-//    self.searchLabel.text = [NSString stringWithFormat:@"%@ to %@", self.dataController.geoCoderFrom.geoCodeResponse.place.shortName, self.dataController.geoCoderTo.geoCodeResponse.place.shortName];
 //
-//    NSLog(@"%@", @"results view");
 //}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -319,12 +327,26 @@ enum R2RState
     if ([[segue identifier] isEqualToString:@"showRouteDetails"])
     {
         R2RDetailViewController *detailsViewController = [segue destinationViewController];
+        detailsViewController.dataController = self.dataController;
         detailsViewController.route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-        detailsViewController.airlines = self.dataController.search.searchResponse.airlines;
-        detailsViewController.airports = self.dataController.search.searchResponse.airports;
-        detailsViewController.agencies = self.dataController.search.searchResponse.agencies;
-//        detailsViewController.agencyIcons = self.dataController.agencyIcons;
     }
+    if ([[segue identifier] isEqualToString:@"showTransitSegment"])
+    {
+        R2RTransitSegmentViewController *segmentViewController = [segue destinationViewController];
+        R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row]; 
+        segmentViewController.dataController = self.dataController;
+        segmentViewController.route = route;
+        segmentViewController.transitSegment = [route.segments objectAtIndex:0];
+    }
+    if ([[segue identifier] isEqualToString:@"showWalkDriveSegment"])
+    {
+        R2RWalkDriveSegmentViewController *segmentViewController = [segue destinationViewController];
+        R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        segmentViewController.dataController = self.dataController;
+        segmentViewController.route = route;
+        segmentViewController.walkDriveSegment = [route.segments objectAtIndex:0];
+    }
+
 }
 
 -(void) statusButtonClicked

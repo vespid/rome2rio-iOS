@@ -15,7 +15,7 @@
 @property (nonatomic) float duration;
 @property (nonatomic) float frequency;
 @property (strong, nonatomic) NSMutableArray *lines;
-@property (strong, nonatomic) NSMutableArray *path;
+//@property (strong, nonatomic) NSString *path;
 @property (strong, nonatomic) NSString *sName;
 @property (strong, nonatomic) R2RPosition *sPos;
 @property (strong, nonatomic) NSString *tName;

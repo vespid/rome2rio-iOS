@@ -5,5 +5,6 @@
 
 + (NSString *)encode:(R2RPath *)path;
 + (R2RPath *)decode:(NSString *)data;
++ (R2RPath *)decode:(NSString *)data:(R2RPath *)path;
 
 @end

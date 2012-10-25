@@ -42,8 +42,16 @@
 
 + (R2RPath *)decode:(NSString *)data
 {
-	R2RPath *path = [[R2RPath alloc] init];
-	
+    return [self decode:data :nil];
+}
+
++(R2RPath *)decode:(NSString *)data :(R2RPath *)path
+{
+    if (!path)
+    {
+        path = [[R2RPath alloc] init];
+	}
+    
 	int length = [data length];
 	int index = 0;
 	int lat = 0;

@@ -15,11 +15,7 @@
 @interface R2RResultsViewController : UITableViewController
 
 @property (strong, nonatomic) R2RDataController *dataController;
-//@property (strong, nonatomic) R2RPlace *fromSearchPlace;
-//@property (strong, nonatomic) R2RPlace *toSearchPlace;
-//@property (strong, nonatomic) R2RSearchResponse *searchResponse;
 
-//-(void) UpdateResults;
 - (IBAction)ReturnToSearch:(id)sender;
 
 @end

@@ -12,9 +12,10 @@
 
 @interface R2RTransitSegmentHeader : UIView
 
-@property (strong, nonatomic) R2RButtonWithUrl *agencyIconView;
-@property (strong, nonatomic) R2RButtonWithUrl *agencyNameLabel;
-//@property (strong, nonatomic) UIImageView *agencyIconView;
-//@property (strong, nonatomic) UILabel *agencyNameLabel;
+//@property (strong, nonatomic) R2RButtonWithUrl *agencyIconView;
+//@property (strong, nonatomic) R2RButtonWithUrl *agencyNameLabel;
+@property (strong, nonatomic) UIImageView *agencyIconView;
+@property (strong, nonatomic) UILabel *agencyNameLabel;
+@property (strong, nonatomic) UIButton *linkButton;
 
 @end

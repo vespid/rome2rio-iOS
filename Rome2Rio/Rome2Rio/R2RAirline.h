@@ -13,8 +13,8 @@
 @property (strong, nonatomic) NSString *code;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSURL *url;
-@property (nonatomic) CGPoint iconOffset;
 @property (strong, nonatomic) NSString *iconPath;
-@property (strong, nonatomic) UIImage *icon;
+@property (nonatomic) CGPoint iconOffset;
+@property (nonatomic) CGSize iconSize;
 
 @end

@@ -10,6 +10,6 @@
 
 @implementation R2RTransitHop
 
-@synthesize duration, frequency, lines, path, sName, sPos, tName, tPos;
+@synthesize duration, frequency, lines, sName, sPos, tName, tPos;
 
 @end

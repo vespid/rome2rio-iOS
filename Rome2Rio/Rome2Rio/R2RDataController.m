@@ -56,7 +56,7 @@ enum {
     
     if (self != nil)
     {
-//        self.agencyIcons = [[NSMutableDictionary alloc] init];
+        self.spriteStore = [[R2RSpriteStore alloc] init];
         self.state = IDLE;
     }
     
@@ -65,8 +65,6 @@ enum {
 
 -(void) geoCodeFromQuery:(NSString *)query
 {
-    //reset status message
-    //[self RefreshStatusMessage:nil];
     self.statusMessage = @"";
     [self refreshStatusMessage:self.geoCoderFrom];
     
@@ -75,14 +73,13 @@ enum {
     [self.geoCoderFrom sendAsynchronousRequest];
     self.state = RESOLVING_FROM;
     
-    self.statusMessage = @"Resolving Origin";
+    self.statusMessage = @"Finding Origin";
     
     [self performSelector:@selector(refreshStatusMessage:) withObject:self.geoCoderFrom afterDelay:2.0];
 }
 
 -(void) geoCodeToQuery:(NSString *)query
 {
-    //[self RefreshStatusMessage:nil]; //reset status message while state is still IDLE
     self.statusMessage = @"";
     [self refreshStatusMessage:self.geoCoderTo];
     
@@ -98,26 +95,10 @@ enum {
     [self.geoCoderTo sendAsynchronousRequest];
     self.state = RESOLVING_TO;
     
-    self.statusMessage = @"Resolving Destination";
+    self.statusMessage = @"Finding Destination";
     
-    //[self performSelector:@selector(setStatusMessage:) withObject:@"Resolving to" afterDelay:2.0];
     [self performSelector:@selector(refreshStatusMessage:) withObject:self.geoCoderTo afterDelay:2.0];
 }
-
-//-(void) clearGeoCoderFrom
-//{
-//    self.geoCoderFrom = nil;
-//}
-//
-//-(void) clearGeoCoderTo
-//{
-//    self.geoCoderTo = nil;
-//}
-//
-//-(void) clearSearch
-//{
-//    self.search = nil;
-//}
 
 -(void) R2RGeoCoderResolved:(R2RGeoCoder *)delegateGeoCoder
 {
@@ -132,15 +113,10 @@ enum {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
         }
-        else
-        {
-            
-        }
        
         //if (self.geoCoderTo != nil && self.geoCoderTo.responseCompletionState != stateResolved)
         if (self.geoCoderTo == nil && [self.toText length] > 0)
         {
-            //[self.geoCoderTo sendAsynchronousRequest];
             [self geoCodeToQuery:self.toText];
             return;
         }
@@ -156,9 +132,8 @@ enum {
         }
       
         //if (self.geoCoderFrom != nil && self.geoCoderFrom.responseCompletionState != stateResolved)
-        if (self.geoCoderFrom == nil && [self.fromText length] > 0)
+        if (self.geoCoderFrom !=  nil && [self.fromText length] > 0)
         {
-            //[self.geoCoderFrom sendAsynchronousRequest];
             [self geoCodeFromQuery:self.fromText];
             return;
         }
@@ -176,14 +151,9 @@ enum {
     {
         return;
     }
-    
     if (self.geoCoderFrom.responseCompletionState == stateResolved && self.geoCoderTo.responseCompletionState == stateResolved)
     {
-//        NSLog(@"from\t%@\tto%@\t...", self.geoCoderFrom.geoCodeResponse.place.shortName, self.geoCoderTo.geoCodeResponse.place.shortName);
-        
-        //simulate delay. return to original code after testing
-//        [self performSelector:@selector(initSearch) withObject:nil afterDelay:0.0];
-        [self initSearch];        
+        [self initSearch];
     }
 }
 
@@ -198,16 +168,13 @@ enum {
     NSString *dPos = [NSString stringWithFormat:@"%f,%f", self.geoCoderTo.geoCodeResponse.place.lat, self.geoCoderTo.geoCodeResponse.place.lng];
     NSString *oKind = self.geoCoderFrom.geoCodeResponse.place.kind;
     NSString *dKind = self.geoCoderTo.geoCodeResponse.place.kind;
+    NSString *oCode = self.geoCoderFrom.geoCodeResponse.place.code;
+    NSString *dCode = self.geoCoderTo.geoCodeResponse.place.code;
     
-    self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind delegate:self];
-    
-//    self.statusMessage = @"Searching";
+    self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind :oCode :dCode :<#(NSString *)#> :<#(NSString *)#> delegate:<#(id<R2RSearchDelegate>)#> initWithSearch:oName :dName :oPos :dPos :oKind :dKind: oCode: dCode delegate:self];
     
     self.state = SEARCHING;
     [self performSelector:@selector(refreshStatusMessage:) withObject:self.search afterDelay:2.0];
-    
-    //self.search = [[R2RSearch alloc] initWithFromToStrings:self.geoCoderFrom.searchString :self.geoCoderTo.searchString delegate:self];
-    //self.search = [[R2RSearch alloc] initWithFromToStrings:self.fromSearchPlace.longName :self.toSearchPlace.longName delegate:self];
 }
 
 - (void) R2RSearchResolved:(R2RSearch *)delegateSearch;
@@ -215,28 +182,19 @@ enum {
     
     if (self.search == delegateSearch && self.state == SEARCHING)
     {
-//        if (self.search.responseCompletionState == stateError)
-//        {
-//            self.statusMessage = [NSString stringWithFormat:@"%@: %@", @"Search", self.search.responseMessage];
-//        }
-        
         if (self.search.responseCompletionState == stateResolved)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
 //            self.statusMessage = @"";
         }
         
-        //self.statusMessage = @"Search Finished";
+        [self loadAirlineImages];
+        [self loadAgencyImages];
+        
         self.state = IDLE;
         
         [self refreshStatusMessage:self.search];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];
     }
-    //[self setResultsViewControllerData];
-    
-    //use notification
-    //self.statusMessage = nil;
-    //[self.resultsViewController UpdateResults];
 }
 
 
@@ -303,8 +261,28 @@ enum {
         default:
             break;
     }
-    
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:sender];
+}
+
+-(void)refreshSearchIfNoResponse
+{
+    if (self.state == IDLE && self.search.responseCompletionState != stateResolved)
+    {
+        if (self.geoCoderFrom && self.geoCoderFrom.responseCompletionState != stateResolved)
+        {
+            if (self.geoCoderTo && self.geoCoderTo.responseCompletionState != stateResolved)
+            {
+                self.geoCoderTo = nil;
+            }
+            [self geoCodeFromQuery:self.fromText];
+            return;
+        }
+        if (self.geoCoderTo && self.geoCoderTo.responseCompletionState != stateResolved)
+        {
+            [self geoCodeToQuery:self.toText];
+            return;
+        }
+        [self initSearch];
+    }
 }
 
 - (void) FromEditingDidBegin
@@ -471,84 +449,22 @@ enum {
         }
 
     }];
-    
-
 }
 
-//// Delegate method from the CLLocationManagerDelegate protocol.
-//- (void)locationManager:(CLLocationManager *)manager
-//     didUpdateLocations:(NSArray *)locations {
-//
-//    [self.locationManager stopUpdatingLocation];
-//
-//}
-
--(void)geoCodeFrom:(NSString *)query
+-(void) loadAirlineImages
 {
-//    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-//    [geocoder geocodeAddressString:query completionHandler:^(NSArray *placemarks, NSError *error)
-//    {
-//        if ([placemarks count] > 0)
-//        {
-//            CLPlacemark *placemark = [placemarks objectAtIndex:0];
-//            //            self.myLocation = placemark.name;
-//            
-//            R2RPlace *newPlace = [[R2RPlace alloc] init];
-//            NSString *a = placemark.country;
-//            NSString *b = placemark.inlandWater;
-//            NSString *c = placemark.ISOcountryCode;
-//            NSString *d = placemark.locality;
-//            NSString *e = placemark.name;
-//            NSString *f = placemark.ocean;
-//            NSString *g = placemark.postalCode;
-//            NSString *h = [placemark.region description];
-//            NSString *i = placemark.subAdministrativeArea;
-//            NSString *j = placemark.subLocality;
-//            NSString *k = placemark.subThoroughfare;
-//            NSString *l = placemark.thoroughfare;
-//            
-//            NSLog(@"Forward\tcountry %@, inlandWater %@, ISOcountryCode %@, locality %@, name %@, ocean %@, postalCode %@, region %@, subAdministrativeArea %@, subLocality %@, subThoroughfare %@, thoroughfare %@,", a, b, c, d, e, f, g, h, i, j, k, l);
-//            
-//            NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
-//            newPlace.longName = longName;
-//            newPlace.shortName = placemark.name;
-//            newPlace.lat = self.location.coordinate.latitude;
-//            newPlace.lng = self.location.coordinate.longitude;
-//            newPlace.kind = @":veryspecific";
-//            
-//            
-//            if (!self.geoCoderTo)
-//            {
-//                self.geoCoderTo = [[R2RGeoCoder alloc] init];
-//                self.geoCoderTo.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
-//            }
-//            
-//            self.geoCoderTo.geoCodeResponse.place = newPlace;
-//            //this is all bad and should be in datacontroller for consistency with geocoder
-//            self.geoCoderTo.responseCompletionState = 3;
-//            
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshToTextField" object:nil];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
-//        }
-//        else
-//        {
-//            if (!self.geoCoderFrom)
-//            {
-//                self.geoCoderFrom = [[R2RGeoCoder alloc] init];
-//                self.geoCoderFrom.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
-//            }
-//            
-//            self.geoCoderFrom.responseMessage = @"Location Still Not Found";
-//            self.geoCoderFrom.responseCompletionState = stateError;
-//            
-//            
-//            self.statusMessage = [NSString stringWithFormat:@"%@: %@", @"Origin 2", self.geoCoderFrom.responseMessage];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];
-//            
-//  
-//        }
-//    }];
-    
+    for (R2RAirline *airline in self.search.searchResponse.airlines)
+    {
+        [self.spriteStore loadImage:airline.iconPath]; //pre cache airline images.
+    }
+}
+
+-(void) loadAgencyImages
+{
+    for (R2RAgency *agency in self.search.searchResponse.agencies)
+    {
+        [self.spriteStore loadImage:agency.iconPath];
+    }
 }
 
 @end

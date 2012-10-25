@@ -10,6 +10,6 @@
 
 @implementation R2RPlace
 
-@synthesize longName, shortName, countryCode, countryName, kind, lat, lng, rad, regionCode, regionName;
+@synthesize longName, shortName, countryCode, countryName, kind, lat, lng, rad, regionCode, regionName, code;
 
 @end

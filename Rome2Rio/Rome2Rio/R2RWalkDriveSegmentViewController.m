@@ -11,6 +11,9 @@
 
 #import "R2RSegmentHandler.h"
 #import "R2RStringFormatters.h"
+#import "R2RMapCell.h"
+#import "R2RMKAnnotation.h"
+#import "R2RMapHelper.h"
 
 @interface R2RWalkDriveSegmentViewController ()
 
@@ -18,7 +21,7 @@
 
 @implementation R2RWalkDriveSegmentViewController
 
-@synthesize walkDriveSegment;
+@synthesize dataController, route, walkDriveSegment;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -67,7 +70,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -78,11 +81,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 1)
+    {
+        NSString *CellIdentifier = @"MapCell";
+        
+        R2RMapCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        [self configureMapCell:cell];
+        
+//        cell.mapView.autoresizingMask =  UIViewAutoresizingFlexibleWidth;
+
+        return cell;
+    }
+    
     static NSString *CellIdentifier = @"WalkDriveSegmentCell";
     R2RWalkDriveSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
-    [cell.kindIcon setImage:[segmentHandler getRouteIcon:self.walkDriveSegment.kind]];
+    
+    R2RSprite *sprite = [segmentHandler getRouteSprite:self.walkDriveSegment.kind];
+    [self.dataController.spriteStore setSpriteInView:sprite :cell.kindIcon];
+    
+//    [cell.kindIcon setImage:[segmentHandler getRouteIcon:self.walkDriveSegment.kind]];
 
     R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
     [cell.fromLabel setText:self.walkDriveSegment.sName];
@@ -144,6 +164,92 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 1)
+    {
+        return [self calculateMapHeight]-16;//-5 for top padding, -10 for map to cover footer
+    }
+    
+    return 85;//default height for walkDrive segment cell
+}
+
+-(float) calculateMapHeight
+{
+    CGRect viewRect = self.view.bounds;
+    CGRect sectRect = [self.tableView rectForSection:0]; //route section;
+    
+    if (sectRect.size.height < (viewRect.size.height/3))
+    {
+        int height = (viewRect.size.height - sectRect.size.height);
+        return height;
+    }
+    else
+    {
+        return viewRect.size.height*2/3;
+    }
+}
+
+-(void) configureMapCell:(R2RMapCell *) cell
+{
+    [cell.mapView setDelegate:self];
+    
+    CGRect mapFrame = cell.mapView.frame;
+    
+    mapFrame.origin.x = -10;
+    mapFrame.origin.y = -5;
+    mapFrame.size.height = [self calculateMapHeight];
+    
+    //    [self.routeMap setFrame:mapFrame];
+    [cell.mapView setFrame:mapFrame];
+    
+    for (R2RStop *stop in self.route.stops)
+    {
+        CLLocationCoordinate2D pos;
+        pos.latitude = stop.pos.lat;
+        pos.longitude = stop.pos.lng;
+        
+        R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name address:stop.kind coordinate:pos];
+        [cell.mapView addAnnotation:annotation];
+    }
+    
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataController];
+    
+    for (id segment in self.route.segments)
+    {
+        NSArray *paths = [mapHelper getPolylines:segment];
+        for (id path in paths)
+        {
+            [cell.mapView addOverlay:path];
+        }
+//        id path = [mapHelper getPolyline:segment];//] :points :count ];
+//        if (path)
+//        {
+//            [cell.mapView addOverlay:path];
+//        }
+    }
+    
+    MKMapRect zoomRect = [mapHelper getSegmentZoomRect:self.walkDriveSegment];
+    
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(zoomRect);
+    region.span.latitudeDelta *=1.1;
+    region.span.longitudeDelta *=1.1;
+    
+    [cell.mapView setRegion:region];
+   
+    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+    cell.backgroundView = view;
+    
+}
+
+#pragma mark MKMapViewDelegate
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id) overlay// (id <MKOverlay>)overlay
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+	
+    return [mapHelper getPolylineView:overlay];
 }
 
 - (IBAction)ReturnToSearch:(id)sender

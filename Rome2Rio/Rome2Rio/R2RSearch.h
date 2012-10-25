@@ -40,7 +40,7 @@
 
 //-(id) initWithFromToStrings:(NSString *)fromString:(NSString *)toString delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
 
-- (id) initWithSearch:(NSString *)oName:(NSString *)dName:(NSString *)oPos:(NSString *)dPos:(NSString *)oType:(NSString *)dType delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
+- (id) initWithSearch:(NSString *)oName:(NSString *)dName:(NSString *)oPos:(NSString *)dPos:(NSString *)oKind:(NSString *)dKind:(NSString *)oCode:(NSString *)dCode delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
 
 -(void) sendAsynchronousRequest;
 

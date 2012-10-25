@@ -7,9 +7,24 @@
 //
 
 #import "R2RSegmentHandler.h"
-#import "R2RSprite.h"
+
+@interface R2RSegmentHandler()
+
+@property (strong, nonatomic) R2RDataController *data;
+
+@end
 
 @implementation R2RSegmentHandler
+
+-(id)initWithData:(R2RDataController *)data
+{
+    self = [super init];
+    if (self)
+    {
+        self.data = data;
+    }
+    return self;
+}
 
 -(BOOL) getSegmentIsMajor:(id) segment
 {
@@ -48,6 +63,93 @@
     {
         R2RFlightSegment *currentSegment = segment;
         return currentSegment.kind;
+    }
+    
+    return nil;
+}
+
+-(NSString*) getSegmentPath:(id)segment
+{
+    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
+    {
+        R2RWalkDriveSegment *currentSegment = segment;
+        return currentSegment.path;
+    }
+    else if([segment isKindOfClass:[R2RTransitSegment class]])
+    {
+        R2RTransitSegment *currentSegment = segment;
+        return currentSegment.path;
+    }
+    else if([segment isKindOfClass:[R2RFlightSegment class]])
+    {
+        return nil;
+    }
+    
+    return nil;
+}
+
+
+//used to return start coordinate for any segment including flights
+-(R2RPosition *) getSegmentSPos:(id) segment
+{
+    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
+    {
+        R2RWalkDriveSegment *currentSegment = segment;
+        return currentSegment.sPos;
+    }
+    else if([segment isKindOfClass:[R2RTransitSegment class]])
+    {
+        R2RTransitSegment *currentSegment = segment;
+        return currentSegment.sPos;
+    }
+    else if([segment isKindOfClass:[R2RFlightSegment class]])
+    {
+        R2RFlightSegment *currentSegment = segment;
+        R2RFlightItinerary *itinerary = [currentSegment.itineraries objectAtIndex:0];
+        R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
+        R2RFlightHop *hop = [leg.hops objectAtIndex:0];
+        
+        for (R2RAirport *airport in self.data.search.searchResponse.airports)
+        {
+            if ([airport.code isEqualToString:hop.sCode])
+            {
+                return airport.pos;
+                break;
+            }
+        }
+    }
+    
+    return nil;
+}
+
+//used to return end coordinate for any segment including flights
+-(R2RPosition *) getSegmentTPos:(id) segment
+{
+    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
+    {
+        R2RWalkDriveSegment *currentSegment = segment;
+        return currentSegment.tPos;
+    }
+    else if([segment isKindOfClass:[R2RTransitSegment class]])
+    {
+        R2RTransitSegment *currentSegment = segment;
+        return currentSegment.tPos;
+    }
+    else if([segment isKindOfClass:[R2RFlightSegment class]])
+    {
+        R2RFlightSegment *currentSegment = segment;
+        R2RFlightItinerary *itinerary = [currentSegment.itineraries objectAtIndex:0];
+        R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
+        R2RFlightHop *hop = [leg.hops lastObject];
+        
+        for (R2RAirport *airport in self.data.search.searchResponse.airports)
+        {
+            if ([airport.code isEqualToString:hop.tCode])
+            {
+                return airport.pos;
+                break;
+            }
+        }
     }
     
     return nil;
@@ -118,26 +220,19 @@
 
 }
 
--(UIImage *) getSegmentResultIcon:(id)segment
+-(R2RSprite *) getSegmentResultSprite:(id)segment
 {
     NSString *kind = [self getSegmentKind:segment];
     CGRect rect = [self getResultIconRect:kind];
-    
-    R2RSprite *iconSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"sprites6"]: rect];
-    
-    return iconSprite.sprite; //return just the correct subimage
-
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6" :rect.origin :rect.size];
+    return sprite;
 }
 
--(UIImage *) getRouteIcon:(NSString *) kind
+-(R2RSprite *) getRouteSprite:(NSString *)kind
 {
-
     CGRect rect = [self getRouteIconRect:kind];
-    
-    R2RSprite *iconSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"sprites6"]: rect];
-    
-    return iconSprite.sprite; //return just the correct subimage
-    
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6" :rect.origin :rect.size];
+    return sprite;
 }
 
 
@@ -222,57 +317,56 @@
 //    }
 //    return nil;
 //}
-
-- (UIImage *) getConnectionImage: (id) segment
+-(R2RSprite *)getConnectionSprite:(id)segment
 {
     NSString *kind = [self getSegmentKind:segment];
     
     if ([kind isEqualToString:@"flight"])
     {
-        CGPoint spriteOffset = CGPointMake(0, 0);
-        CGSize spriteSize = CGSizeMake(10, 50);
-        R2RSprite *connectionSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"ConnectionLines"] :spriteOffset :spriteSize];
-        return connectionSprite.sprite;
+        CGPoint offset = CGPointMake(0, 0);
+        CGSize size = CGSizeMake(10, 50);
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        return sprite;
     }
     if ([kind isEqualToString:@"train"])
     {
-        CGPoint spriteOffset = CGPointMake(10, 0);
-        CGSize spriteSize = CGSizeMake(10, 50);
-        R2RSprite *connectionSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"ConnectionLines"] :spriteOffset :spriteSize];
-        return connectionSprite.sprite;
+        CGPoint offset = CGPointMake(10, 0);
+        CGSize size = CGSizeMake(10, 50);
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        return sprite;
     }
     else if ([kind isEqualToString:@"bus"])
     {
-        CGPoint spriteOffset = CGPointMake(20, 0);
-        CGSize spriteSize = CGSizeMake(10, 50);
-        R2RSprite *connectionSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"ConnectionLines"] :spriteOffset :spriteSize];
-        return connectionSprite.sprite;
+        CGPoint offset = CGPointMake(20, 0);
+        CGSize size = CGSizeMake(10, 50);
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        return sprite;
     }
     else if ([kind isEqualToString:@"car"])
     {
-        CGPoint spriteOffset = CGPointMake(30, 0);
-        CGSize spriteSize = CGSizeMake(10, 50);
-        R2RSprite *connectionSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"ConnectionLines"] :spriteOffset :spriteSize];
-        return connectionSprite.sprite;
+        CGPoint offset = CGPointMake(30, 0);
+        CGSize size = CGSizeMake(10, 50);
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        return sprite;
     }
     else if ([kind isEqualToString:@"ferry"])
     {
-        CGPoint spriteOffset = CGPointMake(40, 0);
-        CGSize spriteSize = CGSizeMake(10, 50);
-        R2RSprite *connectionSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"ConnectionLines"] :spriteOffset :spriteSize];
-        return connectionSprite.sprite;
+        CGPoint offset = CGPointMake(40, 0);
+        CGSize size = CGSizeMake(10, 50);
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        return sprite;
     }
     else if ([kind isEqualToString:@"walk"])
     {
-        CGPoint spriteOffset = CGPointMake(50, 0);
-        CGSize spriteSize = CGSizeMake(10, 50);
-        R2RSprite *connectionSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"ConnectionLines"] :spriteOffset :spriteSize];
-        return connectionSprite.sprite;
+        CGPoint offset = CGPointMake(50, 0);
+        CGSize size = CGSizeMake(10, 50);
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        return sprite;
     }
-    CGPoint spriteOffset = CGPointMake(60, 0);
-    CGSize spriteSize = CGSizeMake(10, 50);
-    R2RSprite *connectionSprite = [[R2RSprite alloc] initWithImage:[UIImage imageNamed:@"ConnectionLines"] :spriteOffset :spriteSize];
-    return connectionSprite.sprite;
+    CGPoint offset = CGPointMake(60, 0);
+    CGSize size = CGSizeMake(10, 50);
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+    return sprite;
 }
 
 -(NSInteger)getFlightChanges:(R2RFlightSegment *)segment

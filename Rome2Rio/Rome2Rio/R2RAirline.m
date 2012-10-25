@@ -10,6 +10,6 @@
 
 @implementation R2RAirline
 
-@synthesize code, name, url, iconOffset, iconPath, icon;
+@synthesize code, name, url, iconOffset, iconPath, iconSize;
 
 @end

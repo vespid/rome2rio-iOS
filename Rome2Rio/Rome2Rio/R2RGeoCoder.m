@@ -191,6 +191,7 @@ enum {
     place.rad = [placeResonse objectForKey:@"rad"];
     place.regionCode = [placeResonse objectForKey:@"regionCode"];
     place.regionName = [placeResonse objectForKey:@"regionName"];
+    place.code = [placeResonse objectForKey:@"code"];
     
     return place;
 }

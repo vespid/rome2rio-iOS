@@ -117,7 +117,7 @@
 
 -(void) printTransitHop:(R2RTransitHop*) hop
 {
-    NSLog(@"TranistHop\t%f\t%f\t%@\t%@\t%@\t%@\t%@", hop.duration, hop.frequency, hop.path, hop.sName, hop.sPos, hop.tName, hop.tPos);
+    NSLog(@"TranistHop\t%f\t%f\t%@\t%@\t%@\t%@", hop.duration, hop.frequency, hop.sName, hop.sPos, hop.tName, hop.tPos);
     
     for (R2RTransitLine *line in hop.lines)
     {

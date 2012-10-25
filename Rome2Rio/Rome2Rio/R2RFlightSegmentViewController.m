@@ -11,41 +11,29 @@
 #import "R2RFlightSegmentCell.h"
 #import "R2RFlightSegmentSectionHeader.h"
 #import "R2RTitleLabel.h"
-#import "R2RAirline.h"
-#import "R2RAirport.h"
 #import "R2RStringFormatters.h"
-#import "R2RSprite.h"
+//#import "R2RAirline.h"
+//#import "R2RAirport.h"
+//#import "R2RSprite.h"
 #import "R2RFlightGroup.h"
 
 @interface R2RFlightSegmentViewController ()
 
 @property (strong, nonatomic) NSMutableArray *flightGroups;
+@property (strong, nonatomic) NSIndexPath *selectedRowIndex; //current selected row. used for unselecting cell on second click
+
+@property (strong, nonatomic) UIActionSheet *linkMenuSheet;
+//@property (strong, nonatomic) UIView *linkMenuView;
+
+@property (strong, nonatomic) NSMutableArray *links;
 
 @end
 
 @implementation R2RFlightSegmentViewController
 
-@synthesize flightSegment, airports, airlines, iconDownloadsInProgress;
+@synthesize dataController, route, flightSegment;
 
-//
-//-(id)initWithCoder:(NSCoder *)aDecoder
-//{
-//    self = [super initWithCoder:aDecoder];
-//    if (self) {
-//        
-//        // Custom initialization
-//    }
-//    return self;
-//}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+#define MAX_FLIGHT_STOPS 5
 
 - (void)viewDidLoad
 {
@@ -55,29 +43,23 @@
     
     self.navigationItem.title = @"Fly";
     
-    self.iconDownloadsInProgress = [NSMutableDictionary dictionary];
     [self.tableView setSectionHeaderHeight:55];
     
-//    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280, 30)];
-//    [label setText:@"this is a header"];
-//    [header addSubview:label];
+    self.links = [[NSMutableArray alloc] init];
+    
+//    CGRect rect = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 150);
 //    
-////    [self.view addSubview:header];
-////    [super.view addSubview:header];
-//                      
-//    self.tableView.tableHeaderView = header;
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+//    self.linkMenuView = [[UIView alloc] initWithFrame:rect];
+//    [self.linkMenuView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.5]];
+//    [self.linkMenuView setHidden:YES];
+//    [self.view addSubview:self.linkMenuView];
+    
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -143,12 +125,29 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [cell setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
+    {
+        [cell setBackgroundColor:[UIColor colorWithRed:244.0/256.0 green:238.0/256.0 blue:234.0/256.0 alpha:1.0]];
+    }
+    else
+    {
+        [cell setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    bool selected = NO;
+    if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
+    {
+        selected = YES;
+    }
+        
+//    R2RLog(@"%@\t%@", indexPath, self.selectedRowIndex);
+    
     static NSString *CellIdentifier = @"FlightSegmentCell";
+ 
     R2RFlightSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
@@ -166,21 +165,34 @@
     cell.flightLeg = flightLeg;
     if (flightLeg == nil) return cell;
     
-//    for (UIView *view in cell.subviews)
-//    {
-//        [view removeFromSuperview];
-//    }
-//    
-    
     NSInteger hops = [flightLeg.hops count];
     
     NSString *sTime = [[flightLeg.hops objectAtIndex:0] sTime];
     NSString *tTime = [[flightLeg.hops objectAtIndex:(hops-1)] tTime];
     
-    float duration = 0.0;
+    [cell.sTimeLabel setText:sTime];
+    [cell.tTimeLabel setText:tTime];
     
+    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
+    stringFormatter.showMinutesIfZero = YES;
+    
+    CGRect frame = cell.linkButton.frame;
+    frame.origin.y = 30 + (25* (hops-1));
+    
+    [cell.linkButton setFrame:frame];
+    [cell.linkButton setImage:[UIImage imageNamed:@"externalLinkIconGray"] forState:UIControlStateNormal];
+    [cell.linkButton addTarget:self action:@selector(showLinkMenu) forControlEvents:UIControlEventTouchUpInside];
+    
+    frame = cell.frequencyLabel.frame;
+    frame.origin.y = 30 + (25* (hops-1));
+    [cell.frequencyLabel setFrame:frame];
+    [cell.frequencyLabel setText:@"Operates Mon to Sun"];
+    
+    float duration = 0.0;
     NSString *firstAirlineCode = nil;
     NSString *secondAirlineCode = nil;
+    int hopNumber = 0;
+    
     for (R2RFlightHop *flightHop in flightLeg.hops)
     {
         duration += flightHop.duration;
@@ -199,46 +211,74 @@
             [cell setDisplayDoubleIcon];
             secondAirlineCode = flightHop.airline;
         }
+
+        UILabel *label;
+//        for (R2RAirline *airline in self.dataController.search.searchResponse.airlines)
+//        {
+//            if ([airline.code isEqualToString:flightHop.airline])
+//            {
+//                R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+//                [self.dataController.spriteStore setSpriteInView:sprite :[cell.airlineIcons objectAtIndex:hopNumber]];
+//                label = [cell.airlineNameLabels objectAtIndex:hopNumber];
+//                [label setText:airline.name];
+//                break;
+//            }
+//        }
+//        
+//        label = [cell.flightNameLabels objectAtIndex:hopNumber];
+//        [label setText:[NSString stringWithFormat:@"%@%@", flightHop.airline, flightHop.flight]];
+//        
+//        label = [cell.hopDurationLabels objectAtIndex:hopNumber];
+//        [label setText:[stringFormatter formatDuration:flightHop.duration]];
+        
+        if (flightHop.lDuration > 0 && hopNumber > 0) //the layover should always be in the second hop but adding this for safety
+        {
+            label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
+            [label setText:[NSString stringWithFormat:@"%@ layover at %@", [stringFormatter formatDuration:flightHop.lDuration], flightHop.sCode]];
+            [label setHidden:NO];
+            
+//            for (R2RAirport *airport in self.dataController.search.searchResponse.airports)
+//            {
+//                if ([airport.code isEqualToString:flightHop.sCode])
+//                {
+//                    label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
+//                    [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
+//                }
+//            }
+//            
+//            label = [cell.layoverDurationLabels objectAtIndex:(hopNumber - 1)];
+//            [label setText:[stringFormatter formatDuration:flightHop.lDuration]];
+            
+            duration += flightHop.lDuration;
+        } 
+        hopNumber++;
     }
     
-    for (R2RAirline *airline in self.airlines)
+    [cell.durationLabel setText:[stringFormatter formatDuration:duration]];
+    
+    for (R2RAirline *airline in self.dataController.search.searchResponse.airlines)
     {
         if ([airline.code isEqualToString:firstAirlineCode])
         {
-            if (!airline.icon) //caching
-            {
-                [self startIconDownload:airline forIndexPath:indexPath];
-                [cell.firstAirlineIcon setImage:[UIImage imageNamed:@""]];//placeholder image
-                continue;
-            }
-            else
-            {
-                [cell.firstAirlineIcon setImage:airline.icon];
-            }
             
+            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+            [self.dataController.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
         }
         if ([airline.code isEqualToString:secondAirlineCode])
         {
-            if (!airline.icon) //caching
-            {
-                [self startIconDownload:airline forIndexPath:indexPath];
-                [cell.secondAirlineIcon setImage:[UIImage imageNamed:@""]];//placeholder image
-                continue;
-            }
-            else
-            {
-                [cell.secondAirlineIcon setImage:airline.icon];
-            }
+            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+            [self.dataController.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
         }
     }
     
-    [cell.sTimeLabel setText:sTime];
-    [cell.tTimeLabel setText:tTime];
+    //1 less layover than stops
+    for (int i = hops; i < MAX_FLIGHT_STOPS; i++)
+    {
+        UILabel *label = [cell.layoverNameLabels objectAtIndex:(i-1)];
+        [label setHidden:YES];
+    }
     
-    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
-    stringFormatter.showMinutesIfZero = YES;
-    [cell.durationLabel setText:[stringFormatter formatDuration:duration]];
-    
+
     return cell;
 }
 
@@ -285,13 +325,43 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [self dismissLinkMenu];
+    
+//    R2RLog(@"%@\t%@", self.selectedRowPath, indexPath);
+    NSIndexPath *prevIndex = self.selectedRowIndex;
+
+    if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
+    {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        self.selectedRowIndex = nil;
+    }
+    else
+    {
+        self.selectedRowIndex = indexPath;
+    }
+
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] initWithCapacity:2];
+    if (prevIndex)
+        [indexPaths addObject:prevIndex];
+    if (self.selectedRowIndex)
+        [indexPaths addObject:self.selectedRowIndex];
+    
+//    [self.tableView reloadSections: [NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //check if the index actually exists
+    if(self.selectedRowIndex && indexPath.row == self.selectedRowIndex.row && indexPath.section == self.selectedRowIndex.section)
+    {
+        R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:indexPath.section];
+        R2RFlightItinerary *flightItinerary = [flightGroup.flights objectAtIndex:indexPath.row];
+        R2RFlightLeg *flightLeg = [flightItinerary.legs objectAtIndex:0];
+        NSInteger hops = [flightLeg.hops count];
+        return (55+(25*(hops-1)));
+    }
+    return 30;
 }
 
 - (IBAction)ReturnToSearch:(id)sender
@@ -337,168 +407,108 @@
         
     }
     
-//    int itinCount = [self.flightSegment.itineraries count];
-//
-//    NSLog(@"%d", itinCount);
-//    
-//    for (FlightGroup *group in self.flightGroups)
-//    {
-//            NSLog(@"%d", [group.flights count]);
-//    }
-
-}
-
-
-//- (void)startIconDownload:(R2RAirline *)airline
-//{
-//    R2RIconLoader *iconLoader = [iconDownloadsInProgress objectForKey:airline.code];
-//    if (iconLoader == nil)
-//    {
-//        iconLoader = [[R2RIconLoader alloc] initWithIconPath:airline.iconPath delegate:self];
-//        //        iconLoader = [[R2RIconLoader alloc] initWithIconPath:airline.iconPath delegate:self];
-//        iconLoader.airline = airline;
-//        [iconDownloadsInProgress setObject:iconLoader forKey:airline.code];
-//        [iconLoader sendAsynchronousRequest];
-//    }
-//}
-
-- (void)startIconDownload:(R2RAirline *)airline forIndexPath:(NSIndexPath *)indexPath
-{
-    R2RAirlineIconLoader *iconLoader = [iconDownloadsInProgress objectForKey:airline.code];
-    if (iconLoader == nil)
+    for (R2RFlightGroup *flightGroup in self.flightGroups)
     {
-        iconLoader = [[R2RAirlineIconLoader alloc] initWithIconPath:airline.iconPath delegate:self];
-        //        iconLoader = [[R2RIconLoader alloc] initWithIconPath:airline.iconPath delegate:self];
-        iconLoader.airline = airline;
-        iconLoader.cellPaths = [[NSMutableArray alloc] initWithObjects:indexPath, nil ];
-//        [iconLoader.cellPaths addObject:indexPath];
-        [iconDownloadsInProgress setObject:iconLoader forKey:airline.code];
-        [iconLoader sendAsynchronousRequest];
-    }
-    else
-    {
-        if (![iconLoader.cellPaths containsObject:indexPath])
-        {
-            [iconLoader.cellPaths addObject:indexPath];
-        }
-    }
-}
-    
--(void) r2rAirlineIconLoaded:(R2RAirlineIconLoader *)delegateIconLoader
-{
-    R2RAirlineIconLoader *iconLoader = [iconDownloadsInProgress objectForKey:delegateIconLoader.airline.code];
-    
-    if (iconLoader)
-    {
-        iconLoader.airline.icon = iconLoader.sprite.sprite;
+        [flightGroup.flights sortUsingComparator:^(R2RFlightItinerary *itin1, R2RFlightItinerary *itin2){
+            R2RFlightLeg *leg1 = [itin1.legs objectAtIndex:0];
+            R2RFlightLeg *leg2 = [itin2.legs objectAtIndex:0];
+            R2RFlightHop *hop1 = [leg1.hops objectAtIndex:0];
+            R2RFlightHop *hop2 = [leg2.hops objectAtIndex:0];
+            return [hop1.sTime compare:hop2.sTime];
+        }];
         
-        for (NSIndexPath *indexPath in iconLoader.cellPaths)
+        [flightGroup.flights sortUsingComparator:^(R2RFlightItinerary *itin1, R2RFlightItinerary *itin2){
+            R2RFlightLeg *leg1 = [itin1.legs objectAtIndex:0];
+            R2RFlightLeg *leg2 = [itin2.legs objectAtIndex:0];
+            R2RFlightHop *hop1 = [leg1.hops objectAtIndex:0];
+            R2RFlightHop *hop2 = [leg2.hops objectAtIndex:0];
+            return [hop1.airline compare:hop2.airline];
+        }];
+    }
+
+}
+
+- (void) showLinkMenu
+{
+
+    
+    
+    NSIndexPath *indexPath = self.selectedRowIndex;
+    
+    R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:indexPath.section];
+    R2RFlightItinerary *flightItinerary = [flightGroup.flights objectAtIndex:indexPath.row];
+    R2RFlightLeg *flightLeg = [flightItinerary.legs objectAtIndex:0];
+    
+    
+    self.linkMenuSheet = [[UIActionSheet alloc] initWithTitle:@"External Links"
+                                                     delegate:self
+                                            cancelButtonTitle:nil
+                                       destructiveButtonTitle:nil
+                                            otherButtonTitles:nil];
+
+    NSMutableArray *airlines = [[NSMutableArray alloc] init];
+    
+    for (R2RFlightHop *flightHop in flightLeg.hops)
+    {
+        bool airlineFound = NO;
+        for (R2RAirline *airline in airlines)
         {
-            R2RFlightSegmentCell *cell = (R2RFlightSegmentCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-            
-            if (cell)
+            if ([flightHop.airline isEqualToString:airline.code])
             {
-                R2RFlightHop *flightHop = [cell.flightLeg.hops objectAtIndex:0];
-                if ([flightHop.airline isEqualToString:iconLoader.airline.code]) //if icon belongs to first airline display in first position
-                {
-                    [cell.firstAirlineIcon setImage:iconLoader.sprite.sprite];
-                }
-                else
-                {
-                    [cell.secondAirlineIcon setImage:iconLoader.sprite.sprite];
-                }
-                //            [cell setBackgroundColor:[UIColor greenColor]];
-            }
-            else
-            {
-//                NSLog(@"%@", self.tableView);
+                airlineFound = YES;
+                break;
             }
         }
-        
+        if (!airlineFound)
+        {
+            for (R2RAirline *airline in self.dataController.search.searchResponse.airlines)
+            {
+                if ([flightHop.airline isEqualToString:airline.code])
+                {
+                    [self.linkMenuSheet addButtonWithTitle:airline.name];
+                    [airlines addObject:airline];
+                    [self.links addObject:airline.url];
+                    break;
+                }
+            }
+        }
     }
-//    else
-//    {
-//        NSLog(@"%@", @"break");
-//    }
     
-    [iconDownloadsInProgress removeObjectForKey:delegateIconLoader.airline.code];
+    [self.linkMenuSheet addButtonWithTitle:@"cancel"];
+    [self.linkMenuSheet setCancelButtonIndex:[airlines count]];
     
-//    R2RAirlineIconLoader *iconLoader = [iconDownloadsInProgress objectForKey:delegateIconLoader.indexPathInTableView];
-//    
-//    if (iconLoader)
-//    {
-//        iconLoader.airline.icon = iconLoader.sprite.sprite;
-//        
-////        UITableView *table = self.tableView;
-//
-//        R2RFlightSegmentCell *cell = (R2RFlightSegmentCell *)[self.tableView cellForRowAtIndexPath:iconLoader.indexPathInTableView];
-//        
-//        if (cell)
-//        {
-//            R2RFlightHop *flightHop = [cell.flightLeg.hops objectAtIndex:0];
-//            if ([flightHop.airline isEqualToString:iconLoader.airline.code]) //if icon belongs to first airline display in first position
-//            {
-//                [cell.firstAirlineIcon setImage:iconLoader.sprite.sprite];
-//            }
-//            else
-//            {
-//                [cell.secondAirlineIcon setImage:iconLoader.sprite.sprite];
-//            }
-////            [cell setBackgroundColor:[UIColor greenColor]];
-//        }
-//        else
-//        {
-//        
-//            NSLog(@"%@", table);
-//        }
-//    }
-//    else
-//    {
-//        NSLog(@"%@", @"break");
-//    }
-//    
-//    [iconDownloadsInProgress removeObjectForKey:delegateIconLoader.indexPathInTableView];
-    
+    [self.linkMenuSheet showInView:self.view];
 }
 
+- (void) dismissLinkMenu
+{
+    
+    
+//    [UIView beginAnimations:nil context: nil];
+//    [UIView setAnimationDuration: 1.5];
+//    
+//    //
+//    //    CGRect rect = CGRectMake(0, self.view.bounds.size.height-60, self.view.bounds.size.width, 60);
+//    //    UIView *view = [[UIView alloc] initWithFrame:rect];
+//    //    [view setBackgroundColor:[UIColor darkGrayColor]];
+//    //
+//    CGRect rect = CGRectMake(0, self.view.bounds.size.width, self.view.frame.size.height, 90);
+//    [self.linkMenuView setFrame:rect];
+//    
+//    [self.linkMenuView setHidden:YES];
+}
 
-//-(void) R2RIconLoaded:(R2RIconLoader *)delegateIconLoader
-//{
-//    R2RIconLoader *iconLoader = [iconDownloadsInProgress objectForKey:delegateIconLoader.airline.code];
-//
-//    if (iconLoader && iconLoader == delegateIconLoader)
-//    {
-//        iconLoader.airline.icon = iconLoader.icon;
-//        
-//        for (R2RFlightSegmentCell *cell in self.tableView.visibleCells)
-//        {
-//            if (cell.firstAirlineIcon.image == nil)
-//            {
-//                [cell.firstAirlineIcon setCroppedImage:iconLoader.airline.icon :CGRectMake(iconLoader.airline.iconOffset.x, iconLoader.airline.iconOffset.y, 27, 23)];
-//                [cell setBackgroundColor:[UIColor greenColor]];
-//                //                [cell.firstAirlineIcon setImage:iconLoader.airline.icon];
-//                [cell setNeedsDisplay];
-//                continue;
-//            }
-//            if (cell.secondAirlineIcon && !cell.secondAirlineIcon.image)
-//            {
-//                //                [cell.secondAirlineIcon setImage:iconLoader.airline.icon];
-//                //                [cell setNeedsDisplay];
-//            }
-//        }
-//        //        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:iconLoader.indexPathInTableView];
-//        //        R2RFlightSegmentCell *cell = c;//[self.tableView cellForRowAtIndexPath:iconLoader.indexPathInTableView];
-//        //        [cell setNeedsDisplay];
-//        //        cell.firstAirlineIcon.image = iconLoader.icon;
-//    }
-//    else
-//    {
-//        NSLog(@"%@", @"break");
-//    }
-//    
-//
-//    [iconDownloadsInProgress removeObjectForKey:delegateIconLoader.airline.code];
-//    
-//}
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == [self.links count])
+        return;
+    
+    R2RLog(@"Button %d", buttonIndex);
+    NSURL *url = [self.links objectAtIndex:buttonIndex];
+    if ([[url absoluteString] length] > 0)
+    {
+        [[UIApplication sharedApplication] openURL:url];
+    }
+}
 
 @end
