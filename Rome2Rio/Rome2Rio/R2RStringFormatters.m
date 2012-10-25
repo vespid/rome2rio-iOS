@@ -161,6 +161,35 @@
     }
 }
 
+-(NSString *) formatDays: (int) days
+{
+	NSString *labels[] = { @"Sun", @"Mon", @"Tue", @"Wed", @"Thu", @"Fri", @"Sat" };
+
+	if (days = 0x7F)		// every day
+		return @"daily";
+
+	else if (days == 0x3E)	// week days
+		return @"Mon to Fri";
+
+	else
+	{
+		NSMutableString *result = [[NSMutableString alloc] init];
+		NSString *separator = @"";
+
+		for (NSNumber day = 0; day < 7; day++)
+		{
+			if ((days & (1 << day)) != 0)
+			{
+				[result appendString:separator];
+				[result appendString:labels[day]];
+				separator = @" ";
+			}
+		}
+
+		return result;
+	}
+}
+
 -(NSString *) padNumber: (NSInteger) number
 {
     if (number < 10)
