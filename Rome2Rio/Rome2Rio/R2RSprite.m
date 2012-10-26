@@ -69,6 +69,12 @@
     return sprite;
 }
 
+-(NSString *) getSpriteString
+{
+    R2RLog(@"%@,%f,%f,%f,%f", self.path, self.offset.x, self.offset.y, self.size.width, self.size.height);
+    return [NSString stringWithFormat:@"%@,%f,%f,%f,%f", self.path, self.offset.x, self.offset.y, self.size.width, self.size.height];
+}
+
 //-(UIImage *)getSprite
 //{
 //    if (self.image)

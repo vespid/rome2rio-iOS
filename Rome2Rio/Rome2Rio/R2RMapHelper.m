@@ -386,7 +386,6 @@
     MKMapPoint *points = [data mutableBytes];
     int count = 0;
     
-    //CODECHECK: refactor out for all transitsegments but need count;
     for (R2RPosition *r2rPos in path.positions)
     {
         CLLocationCoordinate2D pos;
@@ -394,7 +393,6 @@
         pos.longitude = r2rPos.lng;
         MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
         points[count++] = mapPoint;
-        //        R2RLog(@"%@", r2rPos);
     }
     
     return (R2RTrainPolyline *)[R2RTrainPolyline polylineWithPoints:points count:count];
@@ -409,7 +407,6 @@
     MKMapPoint *points = [data mutableBytes];
     int count = 0;
     
-    //CODECHECK: refactor out for all transitsegments but need count;
     for (R2RPosition *r2rPos in path.positions)
     {
         CLLocationCoordinate2D pos;
@@ -431,7 +428,6 @@
     MKMapPoint *points = [data mutableBytes];
     int count = 0;
     
-    //CODECHECK: refactor out for all transitsegments but need count;
     for (R2RPosition *r2rPos in path.positions)
     {
         CLLocationCoordinate2D pos;
@@ -453,7 +449,6 @@
     MKMapPoint *points = [data mutableBytes];
     int count = 0;
     
-    //CODECHECK: refactor out for all transitsegments but need count;
     for (R2RPosition *r2rPos in path.positions)
     {
         CLLocationCoordinate2D pos;
@@ -461,7 +456,6 @@
         pos.longitude = r2rPos.lng;
         MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
         points[count++] = mapPoint;
-        //        R2RLog(@"%@", r2rPos);
     }
     
     return (R2RWalkDrivePolyline *)[R2RWalkDrivePolyline polylineWithPoints:points count:count];
@@ -529,8 +523,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.fillColor = [UIColor orangeColor];
-        self.strokeColor = [UIColor orangeColor];
+        self.strokeColor = [UIColor colorWithRed:241/255.0 green:96/255.0 blue:36/255.0 alpha:1.0];
         self.lineWidth = 4;
     }
     return self;
@@ -545,8 +538,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.fillColor = [UIColor greenColor];
-        self.strokeColor = [UIColor greenColor];
+        self.strokeColor = [UIColor colorWithRed:98/255.0 green:144/255.0 blue:46/255.0 alpha:1.0];
         self.lineWidth = 4;
     }
     return self;
@@ -561,8 +553,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.fillColor = [UIColor blueColor];
-        self.strokeColor = [UIColor blueColor];
+        self.strokeColor = [UIColor colorWithRed:48/255.0 green:124/255.0 blue:192/255.0 alpha:1.0];
         self.lineWidth = 4;
     }
     return self;
@@ -577,8 +568,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.fillColor = [UIColor purpleColor];
-        self.strokeColor = [UIColor purpleColor];
+        self.strokeColor = [UIColor colorWithRed:64/255.0 green:170/255.0 blue:196/255.0 alpha:1.0];
         self.lineWidth = 4;
     }
     return self;
@@ -593,7 +583,6 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.fillColor = [UIColor blackColor];
         self.strokeColor = [UIColor blackColor];
         self.lineWidth = 4;
     }

@@ -56,7 +56,7 @@
     [self.agencyNameLabel setMinimumFontSize:10.0];
     [self.agencyNameLabel setAdjustsFontSizeToFitWidth:YES];
     [self.agencyNameLabel setBackgroundColor:[UIColor clearColor]];
-    [self.agencyNameLabel setTextColor:[UIColor darkTextColor]];
+    [self.agencyNameLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
     [self addSubview:self.agencyNameLabel];
 
     rect = CGRectMake(280, 8, 27, 23);

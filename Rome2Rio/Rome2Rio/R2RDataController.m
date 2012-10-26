@@ -171,7 +171,7 @@ enum {
     NSString *oCode = self.geoCoderFrom.geoCodeResponse.place.code;
     NSString *dCode = self.geoCoderTo.geoCodeResponse.place.code;
     
-    self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind :oCode :dCode :<#(NSString *)#> :<#(NSString *)#> delegate:<#(id<R2RSearchDelegate>)#> initWithSearch:oName :dName :oPos :dPos :oKind :dKind: oCode: dCode delegate:self];
+    self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind: oCode: dCode delegate:self];
     
     self.state = SEARCHING;
     [self performSelector:@selector(refreshStatusMessage:) withObject:self.search afterDelay:2.0];

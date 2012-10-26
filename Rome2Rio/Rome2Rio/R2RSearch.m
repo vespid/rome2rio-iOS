@@ -20,6 +20,8 @@
 @property(strong, nonatomic) NSString *dPos;
 @property(strong, nonatomic) NSString *oKind;
 @property(strong, nonatomic) NSString *dKind;
+@property(strong, nonatomic) NSString *oCode;
+@property(strong, nonatomic) NSString *dCode;
 
 @property (nonatomic) NSInteger retryCount;
 
@@ -41,7 +43,7 @@ enum {
 @synthesize searchResponse, responseCompletionState, responseMessage;
 @synthesize delegate;
 
-- (id) initWithSearch:(NSString *)oName :(NSString *)dName :(NSString *)oPos :(NSString *)dPos :(NSString *)oKind :(NSString *)dKind delegate: (NSString *) oCode: (NSString *) dCode: (id<R2RSearchDelegate>)r2rSearchDelegate
+-(id)initWithSearch:(NSString *)oName :(NSString *)dName :(NSString *)oPos :(NSString *)dPos :(NSString *)oKind :(NSString *)dKind :(NSString *)oCode :(NSString *)dCode delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
 {
     self = [super init];
     
@@ -56,6 +58,8 @@ enum {
         self.dPos = dPos;
         self.oKind = oKind;
         self.dKind = dKind;
+        self.oCode = oCode;
+        self.dCode = dCode;
         
         [self sendAsynchronousRequest];
     }
@@ -89,9 +93,9 @@ enum {
 {
     
 #if DEBUG
-    NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind];
+    NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@&oCode=%@&dCode=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind, self.oCode, self.dCode];
 #else
-    NSString *searchString = [NSString stringWithFormat:@"http://ios.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind];
+    NSString *searchString = [NSString stringWithFormat:@"http://ios.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@&oCode=%@&dCode=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind, self.oCode, self.dCode];
 #endif
     
     NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -703,6 +707,7 @@ enum {
     NSArray *flightHopsResponse = [flightLegResponse objectForKey:@"hops"];
     
     flightLeg.hops = [self parseFlightHops:flightHopsResponse];
+    flightLeg.days = [[flightLegResponse objectForKey:@"days"] intValue];
     
     return flightLeg;
 }

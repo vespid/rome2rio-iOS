@@ -185,8 +185,9 @@
         agencyName = [formatter capitaliseFirstLetter:transitLine.vehicle];
     }
     
-    CGSize agencyNameLabelSize = [agencyName sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17.0]];
-    rect = CGRectMake(startX + iconSize.width + iconPadding, 8, agencyNameLabelSize.width, 25);
+//    CGSize agencyNameLabelSize = [agencyName sizeWithFont:[UIFont systemFontOfSize:17.0]];
+    
+    rect = CGRectMake(startX + iconSize.width + iconPadding, 8, 280-(startX + iconSize.width + iconPadding), 25);
     
     [header.agencyNameLabel setFrame:rect];
     [header.agencyNameLabel setText:agencyName];
@@ -249,15 +250,36 @@
     
     R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
     
-    [cell.fromLabel setText:transitHop.sName];
-    [cell.toLabel setText:transitHop.tName];
+    NSString *sName = transitHop.sName;
+    NSString *tName = transitHop.tName;
+    
+    for (R2RStop *stop in self.route.stops)
+    {
+        if ([transitHop.sName isEqualToString:stop.name])
+        {
+            if ( [stop.kind isEqualToString:@"airport"])
+            {
+                sName = [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code];
+            }
+        }
+        if ([transitHop.tName isEqualToString:stop.name])
+        {
+            if ( [stop.kind isEqualToString:@"airport"])
+            {
+                [cell.toLabel setText:[NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code]];
+            }
+        }
+    }
+    
+    [cell.fromLabel setText:sName];
+    [cell.toLabel setText:tName];
     
     NSString *duration = [stringFormatter formatDuration:transitHop.duration];
     NSString *frequency = [stringFormatter formatFrequency:transitHop.frequency];
     NSString *description = [NSString stringWithFormat:@"%@, %@", duration, frequency];
     CGSize durationSize = [description sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17.0]];
     
-    NSInteger startX = 40;//(cell.bounds.size.width-(durationSize.width + iconSize.width + iconPadding))/2;
+    NSInteger startX = 40;
     
     CGRect rect = CGRectMake(startX, 30, durationSize.width, 25);
     [cell.durationLabel setFrame:rect];

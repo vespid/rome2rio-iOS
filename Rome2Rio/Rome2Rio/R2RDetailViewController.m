@@ -252,9 +252,7 @@
     
     if ([stop.kind isEqualToString:@"airport"])
     {
-#warning stop names change between transit and flight segments
         [cell.nameLabel setText: [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code]];
-//        [cell.nameLabel setText: [NSString stringWithFormat:@"%@", stop.name]];
     }
     else
     {
@@ -288,7 +286,7 @@
     CGPoint iconOffset = CGPointMake(267, 46);
     CGSize iconSize = CGSizeMake (12, 12);
     
-    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6.png" :iconOffset :iconSize ];
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6" :iconOffset :iconSize ];
     
     [self.dataController.spriteStore setSpriteInView:sprite :cell.icon];
     

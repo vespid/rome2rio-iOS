@@ -24,10 +24,13 @@
 // for expanded cell view
 @property (strong, nonatomic) NSMutableArray *airlineIcons;
 @property (strong, nonatomic) NSMutableArray *airlineNameLabels;
-@property (strong, nonatomic) NSMutableArray *flightNameLabels;
 @property (strong, nonatomic) NSMutableArray *layoverNameLabels;
 @property (strong, nonatomic) NSMutableArray *hopDurationLabels;
 @property (strong, nonatomic) NSMutableArray *layoverDurationLabels;
+@property (strong, nonatomic) NSMutableArray *joinerLabels;
+@property (strong, nonatomic) NSMutableArray *flightNameLabels;
+@property (strong, nonatomic) NSMutableArray *sAirportLabels;
+@property (strong, nonatomic) NSMutableArray *tAirportLabels;
 
 
 -(void) setDisplaySingleIcon;

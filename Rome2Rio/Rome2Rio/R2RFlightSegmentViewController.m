@@ -44,16 +44,6 @@
     self.navigationItem.title = @"Fly";
     
     [self.tableView setSectionHeaderHeight:55];
-    
-    self.links = [[NSMutableArray alloc] init];
-    
-//    CGRect rect = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 150);
-//    
-//    self.linkMenuView = [[UIView alloc] initWithFrame:rect];
-//    [self.linkMenuView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.5]];
-//    [self.linkMenuView setHidden:YES];
-//    [self.view addSubview:self.linkMenuView];
-    
 }
 
 - (void)viewDidUnload
@@ -99,29 +89,13 @@
     
     NSString *from = [[NSString alloc] initWithString:self.flightSegment.sCode];
     NSString *to = [[NSString alloc] initWithString:self.flightSegment.tCode];
-    
-//    NSString *joiner = @" to ";
-//    CGSize joinerSize = [joiner sizeWithFont:header.titleLabel.font]; //change to font of choice
-//    rect = CGRectMake((self.view.bounds.size.width/2)-(joinerSize.width/2), 30, joinerSize.width, 25);
-//    [header.joinerLabel setFrame:rect];
-    
-//    rect = CGRectMake(0, 30, (self.view.bounds.size.width/2)-(joinerSize.width/2), 25);
-//    [header.fromLabel setFrame:rect];
+
     [header.fromLabel setText:from];
    
-//    rect = CGRectMake((self.view.bounds.size.width/2)+(joinerSize.width/2), 30, (self.view.bounds.size.width/2)-(joinerSize.width/2), 25);
-//    [header.toLabel setFrame:rect];
     [header.toLabel setText:to];
     
     return header;
 }
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//	// The header for the section is the region name -- get this from the region at the section index.
-//    
-//    FlightGroup *flightGroup = [self.flightGroups objectAtIndex:section];
-//	return [flightGroup name];
-//}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -137,29 +111,18 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    bool selected = NO;
-    if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
-    {
-        selected = YES;
-    }
-        
-//    R2RLog(@"%@\t%@", indexPath, self.selectedRowIndex);
-    
     static NSString *CellIdentifier = @"FlightSegmentCell";
  
     R2RFlightSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+ 
     // Configure the cell...
-    
-//    UITableView *table = self.tableView;
-//    NSLog(@"%@", table);
     
     R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:indexPath.section];
     
     R2RFlightItinerary *flightItinerary = [flightGroup.flights objectAtIndex:indexPath.row];
     
     R2RFlightLeg *flightLeg = ([flightItinerary.legs count] > 0) ? [flightItinerary.legs objectAtIndex:0] : nil;
+ 
     if (cell.flightLeg == flightLeg) return cell;
     
     cell.flightLeg = flightLeg;
@@ -177,16 +140,17 @@
     stringFormatter.showMinutesIfZero = YES;
     
     CGRect frame = cell.linkButton.frame;
-    frame.origin.y = 30 + (25* (hops-1));
+    frame.origin.y = 75 + (50* (hops-1));
     
     [cell.linkButton setFrame:frame];
     [cell.linkButton setImage:[UIImage imageNamed:@"externalLinkIconGray"] forState:UIControlStateNormal];
     [cell.linkButton addTarget:self action:@selector(showLinkMenu) forControlEvents:UIControlEventTouchUpInside];
     
     frame = cell.frequencyLabel.frame;
-    frame.origin.y = 30 + (25* (hops-1));
+    frame.origin.y = 75 + (50* (hops-1));
     [cell.frequencyLabel setFrame:frame];
-    [cell.frequencyLabel setText:@"Operates Mon to Sun"];
+    
+    [cell.frequencyLabel setText:[stringFormatter formatDays:flightLeg.days]];
     
     float duration = 0.0;
     NSString *firstAirlineCode = nil;
@@ -196,10 +160,6 @@
     for (R2RFlightHop *flightHop in flightLeg.hops)
     {
         duration += flightHop.duration;
-        if (flightHop.lDuration > 0)
-        {
-            duration += flightHop.lDuration;
-        }
         
         if (firstAirlineCode == nil)
         {
@@ -213,44 +173,50 @@
         }
 
         UILabel *label;
-//        for (R2RAirline *airline in self.dataController.search.searchResponse.airlines)
-//        {
-//            if ([airline.code isEqualToString:flightHop.airline])
-//            {
-//                R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
-//                [self.dataController.spriteStore setSpriteInView:sprite :[cell.airlineIcons objectAtIndex:hopNumber]];
-//                label = [cell.airlineNameLabels objectAtIndex:hopNumber];
-//                [label setText:airline.name];
-//                break;
-//            }
-//        }
-//        
-//        label = [cell.flightNameLabels objectAtIndex:hopNumber];
-//        [label setText:[NSString stringWithFormat:@"%@%@", flightHop.airline, flightHop.flight]];
-//        
-//        label = [cell.hopDurationLabels objectAtIndex:hopNumber];
-//        [label setText:[stringFormatter formatDuration:flightHop.duration]];
-        
+
         if (flightHop.lDuration > 0 && hopNumber > 0) //the layover should always be in the second hop but adding this for safety
         {
-            label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
-            [label setText:[NSString stringWithFormat:@"%@ layover at %@", [stringFormatter formatDuration:flightHop.lDuration], flightHop.sCode]];
-            [label setHidden:NO];
+            for (R2RAirport *airport in self.dataController.search.searchResponse.airports)
+            {
+                if ([airport.code isEqualToString:flightHop.sCode])
+                {
+                    label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
+                    [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
+                    [label setHidden:NO];
+                }
+            }
             
-//            for (R2RAirport *airport in self.dataController.search.searchResponse.airports)
-//            {
-//                if ([airport.code isEqualToString:flightHop.sCode])
-//                {
-//                    label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
-//                    [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
-//                }
-//            }
-//            
-//            label = [cell.layoverDurationLabels objectAtIndex:(hopNumber - 1)];
-//            [label setText:[stringFormatter formatDuration:flightHop.lDuration]];
+            label = [cell.layoverDurationLabels objectAtIndex:(hopNumber - 1)];
+            [label setText:[stringFormatter formatDuration:flightHop.lDuration]];
+            [label setHidden:NO];
             
             duration += flightHop.lDuration;
         } 
+        
+        for (R2RAirline *airline in self.dataController.search.searchResponse.airlines)
+        {
+            if ([airline.code isEqualToString:flightHop.airline])
+            {   
+                UIImageView *imageView =[cell.airlineIcons objectAtIndex:hopNumber];
+                R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+                [self.dataController.spriteStore setSpriteInView:sprite :imageView];
+                [imageView setHidden:NO];
+                break;
+            }
+        }
+        
+        label = [cell.sAirportLabels objectAtIndex:hopNumber];
+        [label setText:flightHop.sCode];
+        [label setHidden:NO];
+        
+        label = [cell.tAirportLabels objectAtIndex:hopNumber];
+        [label setText:flightHop.tCode];
+        [label setHidden:NO];
+        
+        label = [cell.hopDurationLabels objectAtIndex:hopNumber];
+        [label setText:[stringFormatter formatDuration:flightHop.duration]];
+        [label setHidden:NO];
+        
         hopNumber++;
     }
     
@@ -260,7 +226,6 @@
     {
         if ([airline.code isEqualToString:firstAirlineCode])
         {
-            
             R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
             [self.dataController.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
         }
@@ -275,6 +240,22 @@
     for (int i = hops; i < MAX_FLIGHT_STOPS; i++)
     {
         UILabel *label = [cell.layoverNameLabels objectAtIndex:(i-1)];
+        [label setHidden:YES];
+        label = [cell.layoverDurationLabels objectAtIndex:(i-1)];
+        [label setHidden:YES];
+        
+        
+        UIImageView *view = [cell.airlineIcons objectAtIndex:i];
+        [view setHidden:YES];
+        label = [cell.flightNameLabels objectAtIndex:i];
+        [label setHidden:YES];
+        label = [cell.hopDurationLabels objectAtIndex:i];
+        [label setHidden:YES];
+        label = [cell.sAirportLabels objectAtIndex:i];
+        [label setHidden:YES];
+        label = [cell.tAirportLabels objectAtIndex:i];
+        [label setHidden:YES];
+        label = [cell.joinerLabels objectAtIndex:i];
         [label setHidden:YES];
     }
     
@@ -327,7 +308,6 @@
 {
     [self dismissLinkMenu];
     
-//    R2RLog(@"%@\t%@", self.selectedRowPath, indexPath);
     NSIndexPath *prevIndex = self.selectedRowIndex;
 
     if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
@@ -346,7 +326,6 @@
     if (self.selectedRowIndex)
         [indexPaths addObject:self.selectedRowIndex];
     
-//    [self.tableView reloadSections: [NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 
 }
@@ -359,7 +338,7 @@
         R2RFlightItinerary *flightItinerary = [flightGroup.flights objectAtIndex:indexPath.row];
         R2RFlightLeg *flightLeg = [flightItinerary.legs objectAtIndex:0];
         NSInteger hops = [flightLeg.hops count];
-        return (55+(25*(hops-1)));
+        return (115+(50*(hops-1)));
     }
     return 30;
 }
@@ -431,7 +410,7 @@
 - (void) showLinkMenu
 {
 
-    
+    self.links = [[NSMutableArray alloc] init];
     
     NSIndexPath *indexPath = self.selectedRowIndex;
     

@@ -115,36 +115,17 @@ enum R2RState
 {
     [super viewDidLoad];
  
-//    [self displayIcons];
-
     [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
 
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
-    //self.statusButton = [R2RStatusButton buttonWithType:UIButtonTypeCustom];
 
     [self.view addSubview:self.statusButton];
-
-//    [self setStatusMessage:self.dataController.statusMessage];
-    
-    //[self drawIcons];
-//    
-//    if (nil == self.locationManager)
-//        self.locationManager = [[CLLocationManager alloc] init];
-//    
-//    self.locationManager.delegate = self;
-//    [self.locationManager startMonitoringSignificantLocationChanges];
-//    
 }
 
 - (void)viewDidUnload
 {
-    
-    //here or dealloc???
-
-    
     [self setFromTextField:nil];
     [self setToTextField:nil];
-//    [self setMessageLabel:nil];
     [self setHeaderBackground:nil];
     [self setHeaderImage:nil];
     [super viewDidUnload];
@@ -169,16 +150,9 @@ enum R2RState
 {
     if ([[segue identifier] isEqualToString:@"showSearchResults"])
     {
-
-//        R2RResultsViewController *resultsViewController = (R2RResultsViewController *)[[[segue destinationViewController] viewControllers] objectAtIndex:0];
-//        
-//        resultsViewController.dataController = self.dataController;
-
-         
         R2RResultsViewController *resultsViewController = [segue destinationViewController];
         
         resultsViewController.dataController = self.dataController;
-        
     }
 }
 
@@ -193,15 +167,6 @@ enum R2RState
     }
     
     self.keyboardShowing = YES;
-    
-//    if (self.view.frame.origin.y >= 0)
-//    {
-//        [self setViewMovedUp:YES];
-//    }
-//    else if (self.view.frame.origin.y < 0)
-//    {
-//        [self setViewMovedUp:NO];
-//    }
 }
 
 -(void)keyboardWillHide
@@ -213,18 +178,6 @@ enum R2RState
     
     self.keyboardShowing = NO;
 }
-
-//-(void)textFieldDidBeginEditing:(UITextField *)sender
-//{
-//    if ([sender isEqual:self.fromTextField] || [sender isEqual:self.toTextField])
-//    {
-//        //move the main view, so that the keyboard does not hide it.
-//        if  (self.view.frame.origin.y >= 0)
-//        {
-//            [self setViewMovedUp:YES];
-//        }
-//    }
-//}
 
 //method to move the view up/down whenever the keyboard is shown/dismissed
 -(void)setViewMovedUp:(BOOL)movedUp
@@ -259,37 +212,14 @@ enum R2RState
     [UIView commitAnimations];
 }
 
-//method to move the view up/down whenever the keyboard is shown/dismissed
-//-(void)moveView:(NSInteger) height
-//{
-//    [UIView beginAnimations:nil context:NULL];
-//    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
-//    
-//    CGRect rect = self.view.frame;
-//
-//    rect.origin.y += height;
-//    
-//    self.view.frame = rect;
-//    
-//    [UIView commitAnimations];
-//}
-
 - (IBAction)FromEditingDidBegin:(id)sender
 {
     [self.dataController FromEditingDidBegin];
-    
-//    self.dataController.fromText = @"";
-//    [self.dataController clearGeoCoderFrom];
-//    [self.dataController clearSearch];
 }
 
 - (IBAction)ToEditingDidBegin:(id)sender
 {
     [self.dataController ToEditingDidBegin];
-    
-//    self.dataController.toText = @"";
-//    [self.dataController clearGeoCoderTo];
-//    [self.dataController clearSearch];
 }
 
 - (IBAction)FromEditingDidEnd:(id)sender
@@ -298,19 +228,6 @@ enum R2RState
     {
         [self.dataController FromEditingDidEnd:self.fromTextField.text];
     }
-    
-//    self.dataController.fromText = self.fromTextField.text;
-//    
-//    if ([self.fromTextField.text length] == 0)
-//    {
-//        return;
-//    }
-//    
-//    if (self.dataController.state == IDLE || self.dataController.state == RESOLVING_FROM)
-//    {
-//        [self.dataController geoCodeFromQuery:self.fromTextField.text];
-//    }
-
 }
 
 - (IBAction)ToEditingDidEnd:(id)sender
@@ -319,18 +236,6 @@ enum R2RState
     {
         [self.dataController ToEditingDidEnd:self.toTextField.text];
     }
-    
-//    self.dataController.toText = self.toTextField.text;
-//    
-//    if ([self.toTextField.text length] == 0)
-//    {
-//        return;
-//    }
-//    
-//    if (self.dataController.state == IDLE || self.dataController.state == RESOLVING_TO)
-//    {
-//        [self.dataController geoCodeToQuery:self.toTextField.text];
-//    }
 }
 
 - (IBAction)SearchTouchUpInside:(id)sender
@@ -363,29 +268,12 @@ enum R2RState
     [self.fromTextField setPlaceholder:@"Finding current location"];
     [self.fromTextField resignFirstResponder];
     
-//    [self.dataController refreshStatusMessage:self];
-
     [self.dataController currentLocationTouchUpInside];
 }
 
 - (void)WarningMessage: (NSString *) message: (NSString *) textField
 {
-
-//    
-//    self.statusButton.hidden = false;
-//    self.statusButton.titleLabel.text = message;
-//    
-//    [self performSelector:@selector(clearMessage) withObject:nil afterDelay:3.0];
-//    
-    
     [self setStatusMessage:message];
-    //[self performSelector:@selector(setStatusMessage:) withObject:@"" afterDelay:3.0];
-    
-    //maybe enum the textField
-    
-    //messageState = textField;
-    
-    //self.messageLabel.text = message;
 }
 
 -(void) refreshFromTextField:(NSNotification *) notification
@@ -401,24 +289,12 @@ enum R2RState
 
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-
-    
     [self setStatusMessage:self.dataController.statusMessage];
-    
-    //[self.statusButton setTitle:self.dataController.statusMessage forState:UIControlStateNormal];
-    
-//    if ([self.dataController.statusMessage length] == 0)
-//    {
-//        [self.statusButton setHidden:true];
-//    }
-//    else
-//    {
-//        [self.statusButton setHidden:false];
-//    }
 }
 
 -(void) setStatusMessage: (NSString *) message
 {
+    //TODO
     //added this to have a selector for setting message to nil.
     //will probably change when resolving of multiple messages is sorted
     
@@ -436,40 +312,6 @@ enum R2RState
 
     [self.statusButton setTitle:message forState:UIControlStateNormal];
 
-}
-
-- (void) drawIcons
-{
-    //self.view.backgroundColor = [UIColor blueColor];
-    // Initialization code
-    //UIImageView *planeView = [[UIImageView alloc] initWithImage:]
-    //UIImage *plane = [[UIImage alloc] init];
-    UIImage *sprites = [UIImage imageNamed:@"sprites6.png"];
-    
-    //plane
-    CGPoint point = CGPointMake(100, 50);
-    //        UIRectClip(CGRectMake(20, 50, 42, 36));
-    [sprites drawAtPoint:point];
-    
-//    //train
-//    point = CGPointMake(80-102, 50);
-//    //        UIRectClip(CGRectMake(20, 50, 58, 36));
-//    [sprites drawAtPoint:point];
-//    
-//    //bus
-//    point = CGPointMake(140-174, 50-40);
-//    //        UIRectClip(CGRectMake(20, 50, 55, 36));
-//    [sprites drawAtPoint:point];
-//    
-//    //ferry
-//    point = CGPointMake(200-162, 50);
-//    //        UIRectClip(CGRectMake(20, 50, 67, 36));
-//    [sprites drawAtPoint:point];
-//    
-//    //car
-//    point = CGPointMake(260-43, 50);
-//    //        UIRectClip(CGRectMake(20, 50, 57, 36));
-//    [sprites drawAtPoint:point];
 }
 
 

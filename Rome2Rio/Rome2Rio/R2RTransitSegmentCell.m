@@ -54,6 +54,7 @@
     [self.fromLabel setMinimumFontSize:10.0];
     [self.fromLabel setAdjustsFontSizeToFitWidth:YES];
     [self.fromLabel setBackgroundColor:[UIColor clearColor]];
+    [self.fromLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
 //    [self.fromLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.fromLabel];
     
@@ -63,6 +64,7 @@
     [self.toLabel setMinimumFontSize:10.0];
     [self.toLabel setAdjustsFontSizeToFitWidth:YES];
     [self.toLabel setBackgroundColor:[UIColor clearColor]];
+    [self.toLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
 //    [self.toLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.toLabel];
     
@@ -73,7 +75,8 @@
     rect = CGRectMake(paddingX, 30, self.bounds.size.width - (paddingX + 5), 25);
     self.durationLabel = [[UILabel alloc] initWithFrame:rect];
     [self.durationLabel setTextAlignment:UITextAlignmentCenter];
-    [self.durationLabel setTextColor:[UIColor lightGrayColor]];
+//    [self.durationLabel setTextColor:[UIColor lightGrayColor]];
+    [self.durationLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
     [self.durationLabel setMinimumFontSize:10.0];
     [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
     [self.durationLabel setBackgroundColor:[UIColor clearColor]];
@@ -87,7 +90,8 @@
     [self.lineLabel setAdjustsFontSizeToFitWidth:YES];
     [self.lineLabel setBackgroundColor:[UIColor clearColor]];
 //    [self.lineLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
-    [self.lineLabel setTextColor:[UIColor lightGrayColor]];
+//    [self.lineLabel setTextColor:[UIColor lightGrayColor]];
+    [self.lineLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
     [self.lineLabel setHidden:YES];
     [self addSubview:self.lineLabel];
 //    rect = CGRectMake(paddingX, 55, self.bounds.size.width - (2*paddingX), 25);

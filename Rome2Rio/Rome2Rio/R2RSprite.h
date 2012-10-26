@@ -22,6 +22,7 @@
 -(id) initWithPath:(NSString *) path :(CGPoint)offset :(CGSize)size;
 
 -(UIImage *) getSprite:(UIImage *) image;
+-(NSString *) getSpriteString;
 
 //-(UIImage *) getSprite; //used for local images if initWithImage
 

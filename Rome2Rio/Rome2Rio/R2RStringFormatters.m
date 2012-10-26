@@ -165,8 +165,8 @@
 {
 	NSString *labels[] = { @"Sun", @"Mon", @"Tue", @"Wed", @"Thu", @"Fri", @"Sat" };
 
-	if (days = 0x7F)		// every day
-		return @"daily";
+	if (days == 0x7F)		// every day
+		return @"Daily";
 
 	else if (days == 0x3E)	// week days
 		return @"Mon to Fri";
@@ -176,7 +176,7 @@
 		NSMutableString *result = [[NSMutableString alloc] init];
 		NSString *separator = @"";
 
-		for (NSNumber day = 0; day < 7; day++)
+		for (NSInteger day = 0; day < 7; day++)
 		{
 			if ((days & (1 << day)) != 0)
 			{

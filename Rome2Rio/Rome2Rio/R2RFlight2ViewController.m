@@ -121,11 +121,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    bool selected = NO;
-    if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
-    {
-        selected = YES;
-    }
+//    bool selected = NO;
+//    if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
+//    {
+//        selected = YES;
+//    }
     
     //    R2RLog(@"%@\t%@", indexPath, self.selectedRowIndex);
     

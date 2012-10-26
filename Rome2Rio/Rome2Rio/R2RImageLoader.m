@@ -17,7 +17,7 @@
 
 @implementation R2RImageLoader
 
-@synthesize delegate;
+@synthesize delegate, path = _path;
 
 -(id)initWithPath:(NSString *)path
 {

@@ -47,6 +47,7 @@
     [self.resultDescripionLabel setMinimumFontSize:10.0];
     [self.resultDescripionLabel setAdjustsFontSizeToFitWidth:YES];
     [self.resultDescripionLabel setBackgroundColor:[UIColor clearColor]];
+    [self.resultDescripionLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
 //    [self.resultDescripionL/abel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.resultDescripionLabel];
     
@@ -58,7 +59,7 @@
 //    [self.resultDurationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self.resultDurationLabel setMinimumFontSize:10.0];
     [self.resultDurationLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.resultDurationLabel setTextColor:[UIColor lightGrayColor]];
+    [self.resultDurationLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
     [self addSubview:self.resultDurationLabel];
     
     self.icons = [[NSMutableArray alloc] initWithCapacity:5];

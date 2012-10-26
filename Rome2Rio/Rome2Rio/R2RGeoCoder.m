@@ -353,7 +353,7 @@ enum {
                  if ([place.kind length] == 0)
                      place.kind = @"city";
                  if ([shortName length] == 0)
-                     [shortName appendString:query];
+                     [shortName appendString:placemark.locality];
              }
              
              if ([placemark.country length] > 0)
@@ -362,7 +362,7 @@ enum {
                  if ([place.kind length] == 0)
                      place.kind = @"country";
                  if ([shortName length] == 0)
-                     [shortName appendString:query];
+                     [shortName appendString:placemark.country];
              }
              
              place.longName = [NSString stringWithString:longName];

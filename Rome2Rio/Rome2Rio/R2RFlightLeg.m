@@ -10,6 +10,6 @@
 
 @implementation R2RFlightLeg
 
-@synthesize hops;
+@synthesize hops, days;
 
 @end

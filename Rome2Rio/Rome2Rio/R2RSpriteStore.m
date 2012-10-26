@@ -8,13 +8,13 @@
 
 #import "R2RSpriteStore.h"
 #import "R2RImageLoader.h"
-#import "R2RSpriteViewsModel.h"
+#import "R2RSpriteView.h"
 
 @interface R2RSpriteStore() <R2RImageLoaderDelegate>
 
 @property (strong, nonatomic) NSMutableDictionary *imageStore; //key path, object image
 @property (strong, nonatomic) NSMutableDictionary *imageLoaders; //store of loaders currently downloading images. key path, object imageLoader
-@property (strong, nonatomic) NSMutableDictionary *spriteViews; //store of views awaiting images currently downloading images. key path, object view array
+@property (strong, nonatomic) NSMutableArray *spriteViews; //store of views awaiting images currently downloading images. key path, object view array
 
 @end
 
@@ -28,7 +28,7 @@
     {
         self.imageStore = [[NSMutableDictionary alloc] init];
         self.imageLoaders = [[NSMutableDictionary alloc] init];
-        self.spriteViews = [[NSMutableDictionary alloc] init];
+        self.spriteViews = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -55,88 +55,84 @@
             [self.imageLoaders setObject:loader forKey:path];
         }
     }
-    if (!image) image = [[UIImage alloc] init];
     
     return image;
 }
 
--(void)setSpriteInButton:(R2RSprite *)sprite :(id)button
+-(void)setSpriteInButton:(R2RSprite *)sprite :(UIButton *)button
 {
-    if(![button isKindOfClass:[UIButton class]])
-    {
-        return;
-    }
+    [self dequeueSpriteView:sprite:button];
     
     UIImage *image = [self loadImage:sprite.path];
-    //    UIImage *image = [self.imageStore objectForKey:sprite.path];
     if (image)
     {
         [button setImage:[sprite getSprite:image] forState:UIControlStateNormal];
          return;
     }
-    
-    //if this is reached, image is being requested so store view for delegate to load image in
-    R2RSpriteViewsModel *spriteView = [self.spriteViews objectForKey:sprite.path];
-    if (!spriteView)
-    {
-        spriteView = [[R2RSpriteViewsModel alloc] init];
-    }
-    spriteView.sprite = sprite;
-    [spriteView.views addObject:button];
-    [self.spriteViews setObject:spriteView forKey:sprite.path];
 
+    [self enqueueSpriteView:sprite:button];
 }
 
 
 -(void)setSpriteInView:(R2RSprite *)sprite :(UIImageView *)view
 {
+    [self dequeueSpriteView:sprite:view];
+    
     UIImage *image = [self loadImage:sprite.path];
-//    UIImage *image = [self.imageStore objectForKey:sprite.path];
     if (image)
     {
         [view setImage:[sprite getSprite:image]];
         return;
     }
-
-    //if this is reached, image is being requested so store view for delegate to load image in
-    R2RSpriteViewsModel *spriteView = [self.spriteViews objectForKey:sprite.path];
-    if (!spriteView)
-    {
-        spriteView = [[R2RSpriteViewsModel alloc] init];
-    }
-    spriteView.sprite = sprite;
-    [spriteView.views addObject:view];
-    [self.spriteViews setObject:spriteView forKey:sprite.path];
     
+    [self enqueueSpriteView:sprite:view];
 }
 
--(void)r2rImageDidLoad:(R2RImageLoader *)delegateImageLoader
+-(void)r2rImageDidLoad:(R2RImageLoader *)imageLoader
 {
-    R2RImageLoader *loader = [self.imageLoaders objectForKey:delegateImageLoader.path];
-    if (loader)
+    [self.imageStore setObject:imageLoader.image forKey:imageLoader.path];
+    
+    for (int i = [self.spriteViews count]-1; i >= 0; i--)
     {
-        [self.imageStore setObject:delegateImageLoader.image forKey:delegateImageLoader.path];
-//        R2RLog(@"loaded %@, %@", delegateImageLoader.path, delegateImageLoader.image);
-        
-        R2RSpriteViewsModel *spriteView = [self.spriteViews objectForKey:delegateImageLoader.path];
-        if ([spriteView.views count] > 0) //if any views are waiting for image, set it
+        R2RSpriteView *spriteView = [self.spriteViews objectAtIndex:i];
+        if ([spriteView.sprite.path isEqualToString:imageLoader.path])
         {
-            for (id view in spriteView.views)
+            if ([spriteView.view isKindOfClass:[UIButton class]])
             {
-                if ([view isKindOfClass:[UIButton class]])
-                {
-                    [view setImage:[spriteView.sprite getSprite:delegateImageLoader.image] forState:UIControlStateNormal];
-                }
-                else
-                {
-                    [view setImage:[spriteView.sprite getSprite:delegateImageLoader.image]];
-                }
+                [spriteView.view setImage:[spriteView.sprite getSprite:imageLoader.image] forState:UIControlStateNormal];
             }
-            [self.spriteViews removeObjectForKey:delegateImageLoader.path];
+            else
+            {
+                [spriteView.view setImage:[spriteView.sprite getSprite:imageLoader.image]];
+            }
+            [self.spriteViews removeObjectAtIndex:i];
         }
-        
-        [self.imageLoaders removeObjectForKey:delegateImageLoader.path];
+    }
+
+    [self.imageLoaders removeObjectForKey:imageLoader.path];
+}
+
+-(void) enqueueSpriteView: (R2RSprite *) sprite: (id) view
+{
+    if ([sprite.path length] == 0) return;
+    
+    R2RSpriteView *spriteView = [[R2RSpriteView alloc] init];
+    
+    spriteView.sprite = sprite;
+    spriteView.view = view;
+    
+    [self.spriteViews addObject:spriteView];
+}
+
+-(void) dequeueSpriteView: (R2RSprite *) sprite : (id) view
+{
+    for (NSInteger i = [self.spriteViews count]-1; i >= 0; i--)
+    {
+        R2RSpriteView *candidateSpriteView = [self.spriteViews objectAtIndex:i];
+        if (candidateSpriteView.view == view)
+        {
+            [self.spriteViews removeObjectAtIndex:i];
+        }
     }
 }
-
 @end

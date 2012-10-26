@@ -84,7 +84,7 @@ enum R2RState
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshSearchMessage:) name:@"refreshSearchMessage" object:nil];
     
-    [self.tableView setSectionHeaderHeight:35.0];
+    [self.tableView setSectionHeaderHeight:37.0];
     CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, self.tableView.sectionHeaderHeight);
     
     self.header = [[R2RResultSectionHeader alloc] initWithFrame:rect];
@@ -356,6 +356,7 @@ enum R2RState
 
 -(void) refreshResultsViewTitle
 {
+    
     NSString *from = self.dataController.fromText;
     if (self.dataController.geoCoderFrom.responseCompletionState == stateResolved)
     {
@@ -368,9 +369,40 @@ enum R2RState
         to = [[NSString alloc] initWithString:self.dataController.geoCoderTo.geoCodeResponse.place.shortName];
     }
     
+    NSString *joiner = @" to ";
+    CGSize joinerSize = [joiner sizeWithFont:[UIFont systemFontOfSize:17.0]];
+    joinerSize.width += 2;
+    CGSize fromSize = [from sizeWithFont:[UIFont systemFontOfSize:17.0]];
+    CGSize toSize = [to sizeWithFont:[UIFont systemFontOfSize:17.0]];
+    
+    NSInteger viewWidth = self.view.bounds.size.width;
+    NSInteger fromWidth = fromSize.width;
+    NSInteger toWidth = toSize.width;
+    
+    if (fromSize.width+joinerSize.width+toSize.width > viewWidth)
+    {
+        fromWidth = (fromSize.width/(fromSize.width+toSize.width))*(viewWidth-joinerSize.width);
+        toWidth = (fromSize.width/(fromSize.width+toSize.width))*(viewWidth-joinerSize.width);
+    }
+    
+    CGRect fromFrame = self.header.fromLabel.frame;
+    fromFrame.size.width = fromWidth;
+    fromFrame.origin.x = (viewWidth-(fromWidth+joinerSize.width+toWidth))/2;
+    [self.header.fromLabel setFrame:fromFrame];
+    
+    CGRect joinerFrame = self.header.joinerLabel.frame;
+    joinerFrame.size.width = joinerSize.width;
+    joinerFrame.origin.x = fromFrame.origin.x + fromFrame.size.width;
+    [self.header.joinerLabel setFrame:joinerFrame];
+    
+    CGRect toFrame = self.header.toLabel.frame;
+    toFrame.size.width = toWidth;
+    toFrame.origin.x = joinerFrame.origin.x + joinerFrame.size.width;
+    [self.header.toLabel setFrame:toFrame];
+    
     [self.header.fromLabel setText:from];
     [self.header.toLabel setText:to];
-//    self.searchLabel.text = [NSString stringWithFormat:@"%@ to %@", from, to];
+    [self.header.joinerLabel setText:joiner];
     
 }
 

@@ -16,7 +16,7 @@
     if (self) {
         // Initialization code
         [self setTextAlignment:UITextAlignmentRight];
-        [self setTextColor:[UIColor orangeColor]];
+        [self setTextColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
         [self setMinimumFontSize:5.0];
         [self setAdjustsFontSizeToFitWidth:YES];
         [self setBackgroundColor:[UIColor clearColor]];

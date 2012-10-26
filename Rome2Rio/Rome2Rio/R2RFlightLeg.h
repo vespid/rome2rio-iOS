@@ -13,5 +13,6 @@
 @interface R2RFlightLeg : NSObject
 
 @property (strong, nonatomic) NSMutableArray *hops;
+@property (nonatomic) NSInteger days;
 
 @end
