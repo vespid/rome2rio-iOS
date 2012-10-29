@@ -146,11 +146,10 @@
         NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*count)];
         MKMapPoint *points = [data mutableBytes];
         
-        CLLocationCoordinate2D sPos;
-        CLLocationCoordinate2D tPos;
-        CLLocationCoordinate2D mPos;
+        CLLocationCoordinate2D sPos = {};
+        CLLocationCoordinate2D tPos = {};
+        CLLocationCoordinate2D mPos = {};
         
-               
         for (R2RAirport *airport in self.data.search.searchResponse.airports)
         {
             if ([airport.code isEqualToString:hop.sCode])

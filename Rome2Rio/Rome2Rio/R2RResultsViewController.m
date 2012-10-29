@@ -163,16 +163,7 @@ enum R2RState
         NSString *kind = [segmentHandler getSegmentKind:[route.segments objectAtIndex:0]];
         if ([kind isEqualToString:@"bus"] || [kind isEqualToString:@"train"] || [kind isEqualToString:@"ferry"])
         {
-            ////// testing
-            R2RTransitSegment *segment = [route.segments objectAtIndex:0];
-            R2RLog(@"%@", segment.sName);
-            //////
-            
-            int changes = [segmentHandler getTransitChanges:[route.segments objectAtIndex:0]];
-            if (changes == 0)
-            {
-                CellIdentifier = @"ResultsCellTransit";
-            }
+            CellIdentifier = @"ResultsCellTransit";
         }
         else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"walk"])
         {
