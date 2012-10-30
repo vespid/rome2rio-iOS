@@ -93,9 +93,31 @@ enum {
 {
     
 #if DEBUG
-    NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@&oCode=%@&dCode=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind, self.oCode, self.dCode];
+    
+    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@", self.oName, self.dName, self.oPos, self.dPos];
+    
+    if ([self.oKind length] != 0)
+        [searchString appendFormat:@"&oKind=%@", self.oKind];
+    if ([self.dKind length] != 0)
+        [searchString appendFormat:@"&dKind=%@", self.dKind];
+    if ([self.oCode length] != 0)
+        [searchString appendFormat:@"&oCode=%@", self.oCode];
+    if ([self.dCode length] != 0)
+        [searchString appendFormat:@"&dCode=%@", self.dCode];
+    
 #else
-    NSString *searchString = [NSString stringWithFormat:@"http://ios.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@&oKind=%@&dKind=%@&oCode=%@&dCode=%@", self.oName, self.dName, self.oPos, self.dPos, self.oKind, self.dKind, self.oCode, self.dCode];
+    
+    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://ios.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@", self.oName, self.dName, self.oPos, self.dPos];
+    
+    if ([self.oKind length] != 0)
+        [searchString appendFormat:@"&oKind=%@", self.oKind];
+    if ([self.dKind length] != 0)
+        [searchString appendFormat:@"&dKind=%@", self.dKind];
+    if ([self.oCode length] != 0)
+        [searchString appendFormat:@"&oCode=%@", self.oCode];
+    if ([self.dCode length] != 0)
+        [searchString appendFormat:@"&dCode=%@", self.dCode];
+    
 #endif
     
     NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -119,17 +141,17 @@ enum {
     NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:self.r2rConnection.responseData options:kNilOptions error:&error];
 //    if responseData is nil send an error message
     
-//    // show all values/////////////////////////////
-//    for(id key in responseData) {
-//        
-//        id value = [responseData objectForKey:key];
-//        
-//        NSString *keyAsString = (NSString *)key;
-//        NSString *valueAsString = (NSString *)value;
-//        
-//        NSLog(@"key: %@", keyAsString);
-//        NSLog(@"value: %@", valueAsString);
-//    }/////////////////////////////////////////////
+    // show all values/////////////////////////////
+    for(id key in responseData) {
+        
+        id value = [responseData objectForKey:key];
+        
+        NSString *keyAsString = (NSString *)key;
+        NSString *valueAsString = (NSString *)value;
+        
+        R2RLog(@"key: %@", keyAsString);
+        R2RLog(@"value: %@", valueAsString);
+    }/////////////////////////////////////////////
     
     self.searchResponse = [self parseResponse:responseData];
     

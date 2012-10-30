@@ -88,31 +88,29 @@
     
     R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
     
+    NSString *sName = self.walkDriveSegment.sName;
+    NSString *tName = self.walkDriveSegment.tName;
+    
     for (R2RStop *stop in self.route.stops)
     {
         if ([self.walkDriveSegment.sName isEqualToString:stop.name])
         {
             if ( [stop.kind isEqualToString:@"airport"])
             {
-                [cell.fromLabel setText:[NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code]];
-            }
-            else
-            {
-                [cell.fromLabel setText:stop.name];
+                sName = [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code];
             }
         }
         if ([self.walkDriveSegment.tName isEqualToString:stop.name])
         {
             if ( [stop.kind isEqualToString:@"airport"])
             {
-                [cell.toLabel setText:[NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code]];
-            }
-            else
-            {
-                [cell.toLabel setText:stop.name];
+                tName = [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code];
             }
         }
     }
+    
+    [cell.fromLabel setText:sName];
+    [cell.toLabel setText:tName];
     
     [cell.distanceLabel setText:[stringFormatter formatDistance:self.walkDriveSegment.distance]];
     [cell.durationLabel setText:[stringFormatter formatDuration:self.walkDriveSegment.duration]];

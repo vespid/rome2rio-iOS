@@ -208,7 +208,7 @@
         {
             if ( [stop.kind isEqualToString:@"airport"])
             {
-                [cell.toLabel setText:[NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code]];
+                tName = [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.code];
             }
         }
     }
