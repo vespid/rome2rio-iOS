@@ -141,17 +141,17 @@ enum {
     NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:self.r2rConnection.responseData options:kNilOptions error:&error];
 //    if responseData is nil send an error message
     
-    // show all values/////////////////////////////
-    for(id key in responseData) {
-        
-        id value = [responseData objectForKey:key];
-        
-        NSString *keyAsString = (NSString *)key;
-        NSString *valueAsString = (NSString *)value;
-        
-        R2RLog(@"key: %@", keyAsString);
-        R2RLog(@"value: %@", valueAsString);
-    }/////////////////////////////////////////////
+//    // show all values/////////////////////////////
+//    for(id key in responseData) {
+//        
+//        id value = [responseData objectForKey:key];
+//        
+//        NSString *keyAsString = (NSString *)key;
+//        NSString *valueAsString = (NSString *)value;
+//        
+//        R2RLog(@"key: %@", keyAsString);
+//        R2RLog(@"value: %@", valueAsString);
+//    }/////////////////////////////////////////////
     
     self.searchResponse = [self parseResponse:responseData];
     

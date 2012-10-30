@@ -1,6 +1,6 @@
 //
 //  R2RDataController.m
-//  R2RApp
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 12/09/12.
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
@@ -21,17 +21,17 @@ enum R2RState
     SEARCHING,
 };
 
-enum R2REvent
-{
-    EDIT_FROM_BEGIN = 0,
-    EDIT_FROM_END,
-    EDIT_TO_BEGIN,
-    EDIT_TO_END,
-    FINISHED,
-    ERROR,
-    TIMEOUT,
-    STATUS    
-};
+//enum R2REvent
+//{
+//    EDIT_FROM_BEGIN = 0,
+//    EDIT_FROM_END,
+//    EDIT_TO_BEGIN,
+//    EDIT_TO_END,
+//    FINISHED,
+//    ERROR,
+//    TIMEOUT,
+//    STATUS    
+//};
 
 
 enum {
@@ -114,7 +114,6 @@ enum {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
         }
        
-        //if (self.geoCoderTo != nil && self.geoCoderTo.responseCompletionState != stateResolved)
         if (self.geoCoderTo == nil && [self.toText length] > 0)
         {
             [self geoCodeToQuery:self.toText];
@@ -131,7 +130,6 @@ enum {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
         }
       
-        //if (self.geoCoderFrom != nil && self.geoCoderFrom.responseCompletionState != stateResolved)
         if (self.geoCoderFrom !=  nil && [self.fromText length] > 0)
         {
             [self geoCodeFromQuery:self.fromText];
@@ -141,11 +139,11 @@ enum {
     
     self.state = IDLE;
     
-    [self ResolvedStateChanged];
+    [self resolvedStateChanged];
     
 }
 
-- (void) ResolvedStateChanged
+- (void) resolvedStateChanged
 {
     if (self.geoCoderFrom == nil || self.geoCoderTo == nil)
     {
@@ -185,7 +183,6 @@ enum {
         if (self.search.responseCompletionState == stateResolved)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
-//            self.statusMessage = @"";
         }
         
         [self loadAirlineImages];
@@ -285,7 +282,7 @@ enum {
     }
 }
 
-- (void) FromEditingDidBegin
+- (void) fromEditingDidBegin
 {
     self.fromText = @"";
     self.geoCoderFrom = nil;
@@ -297,7 +294,7 @@ enum {
     }
 }
 
-- (void) FromEditingDidEnd:(NSString *)query
+- (void) fromEditingDidEnd:(NSString *)query
 {
     self.fromText = query;
 
@@ -307,7 +304,7 @@ enum {
     }
 }
 
-- (void) ToEditingDidBegin
+- (void) toEditingDidBegin
 {
     self.toText = @"";
     self.geoCoderTo = nil;
@@ -319,7 +316,7 @@ enum {
     }
 }
 
-- (void) ToEditingDidEnd:(NSString *)query
+- (void) toEditingDidEnd:(NSString *)query
 {
     self.toText = query;
     
@@ -390,7 +387,6 @@ enum {
         if ([placemarks count] > 0)
         {
             CLPlacemark *placemark = [placemarks objectAtIndex:0];
-//            self.myLocation = placemark.name;
            
             R2RPlace *newPlace = [[R2RPlace alloc] init];
 //            NSString *a = placemark.country;
@@ -429,7 +425,7 @@ enum {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
             
             [self refreshStatusMessage:self];
-            [self ResolvedStateChanged];
+            [self resolvedStateChanged];
             
         }
         else
@@ -437,7 +433,6 @@ enum {
             if (!self.geoCoderFrom)
             {
                 self.geoCoderFrom = [[R2RGeoCoder alloc] init];
-//                self.geoCoderFrom.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
             }
             self.geoCoderFrom.geoCodeResponse = nil;
             self.geoCoderFrom.responseMessage = @"Unable to find location";
@@ -445,9 +440,7 @@ enum {
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
             [self refreshStatusMessage:self];
-            
         }
-
     }];
 }
 

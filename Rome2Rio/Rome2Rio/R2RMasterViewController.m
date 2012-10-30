@@ -1,17 +1,16 @@
 //
 //  R2RMasterViewController.m
-//  R2RApp
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 6/09/12.
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import "R2RMasterViewController.h"
-#import "R2RDetailViewController.h"
 #import "R2RResultsViewController.h"
 #import "R2RStatusButton.h"
 
-#import "R2RImageView.h"
+#import "R2RConstants.h"
 
 @interface R2RMasterViewController ()
 
@@ -24,11 +23,11 @@
 
 @property (nonatomic) BOOL keyboardShowing;
 
-- (IBAction)FromEditingDidBegin:(id)sender;
-- (IBAction)ToEditingDidBegin:(id)sender;
-- (IBAction)FromEditingDidEnd:(id)sender;
-- (IBAction)ToEditingDidEnd:(id)sender;
-- (IBAction)SearchTouchUpInside:(id)sender;
+- (IBAction)fromEditingDidBegin:(id)sender;
+- (IBAction)toEditingDidBegin:(id)sender;
+- (IBAction)fromEditingDidEnd:(id)sender;
+- (IBAction)toEditingDidEnd:(id)sender;
+- (IBAction)searchTouchUpInside:(id)sender;
 - (IBAction)currentLocationTouchUpInside:(id)sender;
 
 enum R2RState
@@ -45,17 +44,6 @@ enum R2RState
 
 @synthesize dataController, fromTextField, toTextField;
 
-
--(id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-//        self.keyboardShowing = NO;
-    }
-    return self;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
     
@@ -69,7 +57,6 @@ enum R2RState
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
-//    self.keyboardShowing = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
     
@@ -98,9 +85,9 @@ enum R2RState
 {
     [super viewDidLoad];
  
-    [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+    [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
 
-    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
+    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.frame.size.height-30), self.view.frame.size.width, 30.0)];
 
     [self.view addSubview:self.statusButton];
 }
@@ -195,33 +182,33 @@ enum R2RState
     [UIView commitAnimations];
 }
 
-- (IBAction)FromEditingDidBegin:(id)sender
+- (IBAction)fromEditingDidBegin:(id)sender
 {
-    [self.dataController FromEditingDidBegin];
+    [self.dataController fromEditingDidBegin];
 }
 
-- (IBAction)ToEditingDidBegin:(id)sender
+- (IBAction)toEditingDidBegin:(id)sender
 {
-    [self.dataController ToEditingDidBegin];
+    [self.dataController toEditingDidBegin];
 }
 
-- (IBAction)FromEditingDidEnd:(id)sender
+- (IBAction)fromEditingDidEnd:(id)sender
 {
     if ([self.fromTextField.text length]> 0)
     {
-        [self.dataController FromEditingDidEnd:self.fromTextField.text];
+        [self.dataController fromEditingDidEnd:self.fromTextField.text];
     }
 }
 
-- (IBAction)ToEditingDidEnd:(id)sender
+- (IBAction)toEditingDidEnd:(id)sender
 {
     if ([self.toTextField.text length]> 0)
     {
-        [self.dataController ToEditingDidEnd:self.toTextField.text];
+        [self.dataController toEditingDidEnd:self.toTextField.text];
     }
 }
 
-- (IBAction)SearchTouchUpInside:(id)sender
+- (IBAction)searchTouchUpInside:(id)sender
 {
     [self.toTextField resignFirstResponder];
     [self.fromTextField resignFirstResponder];
@@ -277,25 +264,7 @@ enum R2RState
 
 -(void) setStatusMessage: (NSString *) message
 {
-    //TODO
-    //added this to have a selector for setting message to nil.
-    //will probably change when resolving of multiple messages is sorted
-    
-    
     [self.statusButton setTitle:message forState:UIControlStateNormal];
-    //-(void) setStatusMessage {
-    //[self.statusButton setTitle:self.dataController.statusMessage forState:UIControlStateNormal];
-    //}
 }
-
--(void) setStatusMessage: (NSString *) message: (NSString *) sender
-{
-    //added this to have a selector for setting message to nil.
-    //will probably change when resolving of multiple messages is sorted
-
-    [self.statusButton setTitle:message forState:UIControlStateNormal];
-
-}
-
 
 @end
