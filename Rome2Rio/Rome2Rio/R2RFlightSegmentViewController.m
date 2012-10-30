@@ -11,9 +11,6 @@
 #import "R2RFlightSegmentCell.h"
 #import "R2RFlightSegmentSectionHeader.h"
 #import "R2RStringFormatters.h"
-//#import "R2RAirline.h"
-//#import "R2RAirport.h"
-//#import "R2RSprite.h"
 #import "R2RFlightGroup.h"
 
 @interface R2RFlightSegmentViewController ()
@@ -22,7 +19,6 @@
 @property (strong, nonatomic) NSIndexPath *selectedRowIndex; //current selected row. used for unselecting cell on second click
 
 @property (strong, nonatomic) UIActionSheet *linkMenuSheet;
-//@property (strong, nonatomic) UIView *linkMenuView;
 
 @property (strong, nonatomic) NSMutableArray *links;
 
@@ -304,9 +300,7 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self dismissLinkMenu];
-    
+{    
     NSIndexPath *prevIndex = self.selectedRowIndex;
 
     if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
@@ -456,24 +450,6 @@
     [self.linkMenuSheet setCancelButtonIndex:[airlines count]];
     
     [self.linkMenuSheet showInView:self.view];
-}
-
-- (void) dismissLinkMenu
-{
-    
-    
-//    [UIView beginAnimations:nil context: nil];
-//    [UIView setAnimationDuration: 1.5];
-//    
-//    //
-//    //    CGRect rect = CGRectMake(0, self.view.bounds.size.height-60, self.view.bounds.size.width, 60);
-//    //    UIView *view = [[UIView alloc] initWithFrame:rect];
-//    //    [view setBackgroundColor:[UIColor darkGrayColor]];
-//    //
-//    CGRect rect = CGRectMake(0, self.view.bounds.size.width, self.view.frame.size.height, 90);
-//    [self.linkMenuView setFrame:rect];
-//    
-//    [self.linkMenuView setHidden:YES];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex

@@ -9,11 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #import "R2RDataController.h"
-//#import "R2RFlightSegment.h"
-////#import "R2RSpriteStore.h"
 
-
-@interface R2RFlightSegmentViewController : UITableViewController <UIActionSheetDelegate>// <R2RAirlineIconLoaderDelegate>
+@interface R2RFlightSegmentViewController : UITableViewController <UIActionSheetDelegate>
 
 @property (strong, nonatomic) R2RDataController *dataController;
 @property (strong, nonatomic) R2RRoute *route;

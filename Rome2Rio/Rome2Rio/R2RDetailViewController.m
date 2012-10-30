@@ -41,7 +41,7 @@
 {
     [super viewDidLoad];
     
-    [self.view setBackgroundColor:[UIColor purpleColor]]; //[R2RConstants getBackgroundColor]];
+    [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];

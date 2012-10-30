@@ -50,7 +50,6 @@
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
     self.tableView.layer.shadowRadius = 5;
     self.tableView.layer.shadowOpacity = 0.5;
-//    self.tableView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.tableView.layer.bounds].CGPath;
     self.tableView.layer.masksToBounds = NO;
     [self.view sendSubviewToBack:self.mapView];
     

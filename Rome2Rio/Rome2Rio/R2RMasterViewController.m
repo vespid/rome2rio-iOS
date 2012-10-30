@@ -15,26 +15,14 @@
 
 @interface R2RMasterViewController ()
 
-//@property (strong, nonatomic) R2RGeoCoder *geoCoderFrom;
-//@property (strong, nonatomic) R2RGeoCoder *geoCoderTo;
-//@property (strong, nonatomic) R2RSearch *search;
-//@property (strong, nonatomic) R2RPlace *fromSearchPlace;
-//@property (strong, nonatomic) R2RPlace *toSearchPlace;
 @property (weak, nonatomic) IBOutlet UITextField *fromTextField;
 @property (weak, nonatomic) IBOutlet UITextField *toTextField;
-//@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-//@property (weak, nonatomic) R2RResultsViewController *resultsViewController;
+
 @property (weak, nonatomic) IBOutlet UIView *headerBackground;
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
 @property (nonatomic) BOOL keyboardShowing;
-
-
-//@property (strong, nonatomic) NSString *myLocation;
-
-//@property (strong, nonatomic) UIView *statusMessageView;
-
 
 - (IBAction)FromEditingDidBegin:(id)sender;
 - (IBAction)ToEditingDidBegin:(id)sender;
@@ -67,11 +55,6 @@ enum R2RState
     }
     return self;
 }
-
-//- (void)awakeFromNib
-//{
-//    [super awakeFromNib];
-//}
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];

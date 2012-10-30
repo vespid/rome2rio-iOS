@@ -25,11 +25,11 @@
             <objects>
                 <viewController title="Master" id="KQv-tN-kqn" customClass="R2RMasterViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EjQ-oy-ZFr">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="bg-retina.png" id="6VQ-er-QCf">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="656"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origin" minimumFontSize="14" clearButtonMode="always" id="OV4-73-MRK">
@@ -117,7 +117,7 @@
             <objects>
                 <tableViewController id="V3N-FG-aoW" customClass="R2RResultsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="9tV-8h-vJa">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="0.97443181818181823" blue="0.95736416903409094" alpha="1" colorSpace="deviceRGB"/>
                         <prototypes>
@@ -180,11 +180,11 @@
             <objects>
                 <viewController title="Transit Segment" id="mjw-xX-aua" customClass="R2RTransitSegmentViewController" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="OgI-Pe-N8P">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="85" sectionHeaderHeight="100" sectionFooterHeight="10" id="qlj-Xz-wWF" customClass="R2RTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="9999"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="12114"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -200,12 +200,18 @@
                                 </prototypes>
                             </tableView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="hfw-FP-6Kr">
-                                <rect key="frame" x="1" y="320" width="320" height="350"/>
+                                <rect key="frame" x="1" y="408" width="320" height="350"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </mapView>
                         </subviews>
                     </scrollView>
-                    <navigationItem key="navigationItem" id="rcT-du-krC"/>
+                    <navigationItem key="navigationItem" title="Transit" id="rcT-du-krC">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="J6R-k2-vIh">
+                            <connections>
+                                <action selector="ReturnToSearch:" destination="mjw-xX-aua" id="WVJ-O0-Ugo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="hfw-FP-6Kr" id="EfM-p2-VMX"/>
                         <outlet property="tableView" destination="qlj-Xz-wWF" id="QfT-zE-TVI"/>
@@ -220,11 +226,11 @@
             <objects>
                 <viewController title="Details View" id="Yhw-Qi-8V7" customClass="R2RDetailViewController" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="jBw-TL-iH6">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="D1c-h2-mzA" customClass="R2RTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="10000"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="10088"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -319,12 +325,18 @@
                                 </prototypes>
                             </tableView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="5lD-4k-jpI">
-                                <rect key="frame" x="0.0" y="320" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="320" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
                         </subviews>
                     </scrollView>
-                    <navigationItem key="navigationItem" id="QRl-Bx-YDC"/>
+                    <navigationItem key="navigationItem" title="Route" id="QRl-Bx-YDC">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="Aky-77-xDu">
+                            <connections>
+                                <action selector="ReturnToSearch:" destination="Yhw-Qi-8V7" id="m1t-Is-Lgf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="5lD-4k-jpI" id="kts-oS-SRQ"/>
                         <outlet property="tableView" destination="D1c-h2-mzA" id="dom-OJ-g1K"/>
@@ -339,7 +351,7 @@
             <objects>
                 <tableViewController title="FlightSegment" id="ZBu-OJ-Q4H" customClass="R2RFlightSegmentViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="30" sectionHeaderHeight="22" sectionFooterHeight="22" id="lJW-33-20J">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -377,18 +389,18 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nDo-cm-HEU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1962" y="-526"/>
+            <point key="canvasLocation" x="1962" y="-583"/>
         </scene>
         <!--Walk Drive Segment View Controller - Walk Drive Segment-->
         <scene sceneID="wLo-FN-BDN">
             <objects>
                 <viewController title="Walk Drive Segment" id="1ix-uE-0ex" customClass="R2RWalkDriveSegmentViewController" sceneMemberID="viewController">
-                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Rfw-Lf-VZ6">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="Rfw-Lf-VZ6">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="85" sectionHeaderHeight="10" sectionFooterHeight="10" id="vdB-Bm-a2a" customClass="R2RTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="9956"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="10044"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -404,12 +416,18 @@
                                 </prototypes>
                             </tableView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="mWm-yi-xsE">
-                                <rect key="frame" x="0.0" y="200" width="320" height="276"/>
+                                <rect key="frame" x="0.0" y="200" width="320" height="364"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
                         </subviews>
                     </scrollView>
-                    <navigationItem key="navigationItem" id="1pz-JF-LtS"/>
+                    <navigationItem key="navigationItem" title="WalkDrive" id="1pz-JF-LtS">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="p6z-Vx-2SA">
+                            <connections>
+                                <action selector="ReturnToSearch:" destination="1ix-uE-0ex" id="Ih0-k0-hep"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="mWm-yi-xsE" id="i4Q-IV-SOO"/>
                         <outlet property="tableView" destination="vdB-Bm-a2a" id="Tap-Ax-Isl"/>
@@ -417,7 +435,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o2x-NM-bCI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1962" y="645"/>
+            <point key="canvasLocation" x="1962" y="705"/>
         </scene>
     </scenes>
     <resources>
@@ -521,7 +539,7 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="tCJ-q2-xQV"/>
