@@ -17,7 +17,7 @@
     {
         [self setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
         
-        self.titleLabel = [[R2RTitleLabel alloc] initWithFrame:CGRectMake(0, 5, self.bounds.size.width, 25)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, self.bounds.size.width, 25)];
         [self.titleLabel setTextAlignment:UITextAlignmentCenter];
         
         [self.titleLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];

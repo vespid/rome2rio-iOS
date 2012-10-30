@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "R2RButtonWithUrl.h"
-
 @interface R2RTransitSegmentHeader : UIView
 
 //@property (strong, nonatomic) R2RButtonWithUrl *agencyIconView;

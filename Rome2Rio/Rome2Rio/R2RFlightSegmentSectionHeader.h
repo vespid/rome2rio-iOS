@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "R2RTitleLabel.h"
 
 @interface R2RFlightSegmentSectionHeader : UIView
 
-@property (strong, nonatomic) R2RTitleLabel *titleLabel;
+@property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *joinerLabel;
 @property (strong, nonatomic) UILabel *fromLabel;
 @property (strong, nonatomic) UILabel *toLabel;

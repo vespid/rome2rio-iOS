@@ -1,5 +1,5 @@
 //
-//  R2RTSViewController.m
+//  R2RTransitSegmentViewController.m
 //  Rome2Rio
 //
 //  Created by Ash Verdoorn on 29/10/12.
@@ -8,7 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#import "R2RTSViewController.h"
+#import "R2RTransitSegmentViewController.h"
 #import "R2RStringFormatters.h"
 #import "R2RConstants.h"
 
@@ -18,13 +18,13 @@
 #import "R2RMapHelper.h"
 #import "R2RMKAnnotation.h"
 
-@interface R2RTSViewController ()
+@interface R2RTransitSegmentViewController ()
 
 @property (strong, nonatomic) NSMutableArray *legs;
 
 @end
 
-@implementation R2RTSViewController
+@implementation R2RTransitSegmentViewController
 
 @synthesize dataController, route, transitSegment;
 
@@ -74,8 +74,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidUnload {
-    [self setScrollView:nil];
+- (void)viewDidUnload
+{
     [self setTableView:nil];
     [self setMapView:nil];
     [super viewDidUnload];
@@ -262,30 +262,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == [self.legs count])
-    {
-        return 1;
-    }
-    
     return 35;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == [self.legs count])
-    {
-        return 1;
-    }
     return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == [self.legs count])
-    {
-        return [self calculateMapHeight];
-    }
-    
     R2RTransitLeg *transitLeg = [self.legs objectAtIndex:indexPath.section];
     R2RTransitHop *transitHop = [transitLeg.hops objectAtIndex:indexPath.row];
     
@@ -307,17 +293,6 @@
 }
 
 #pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
 
 -(void) sortLegs
 {
@@ -373,12 +348,9 @@
     
     CGRect mapFrame = self.mapView.frame;
     mapFrame.origin.y = self.tableView.frame.size.height;
-    mapFrame.origin.x = 50; //REMOVE
     mapFrame.size.height = [self calculateMapHeight];
     
     [self.mapView setFrame:mapFrame];
-    
-
     
     CGSize scrollviewSize = self.view.frame.size;
     scrollviewSize.height = self.tableView.frame.size.height + mapFrame.size.height;
@@ -388,8 +360,18 @@
 
 -(float) calculateMapHeight
 {
-    CGRect viewRect = self.view.bounds;
-    return viewRect.size.height*2/3;
+    CGRect viewRect = self.view.frame;
+    CGRect tableRect = self.tableView.frame;
+    
+    if (tableRect.size.height < (viewRect.size.height/3))
+    {
+        int height = (viewRect.size.height - tableRect.size.height);
+        return height;
+    }
+    else
+    {
+        return viewRect.size.height*2/3;
+    }
 }
 
 -(void) configureMap
@@ -432,15 +414,6 @@
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	
     return [mapHelper getPolylineView:overlay];
-}
-
--(void)agencyClicked:(R2RButtonWithUrl *) agencyButton
-{
-    NSString *urlString = [agencyButton.url absoluteString];
-    if ([urlString length] > 0)
-    {
-        [[UIApplication sharedApplication] openURL:agencyButton.url];
-    }
 }
 
 - (IBAction)ReturnToSearch:(id)sender
