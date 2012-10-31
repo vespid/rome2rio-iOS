@@ -35,4 +35,6 @@
 - (void) toEditingDidEnd:(NSString *)query;
 - (void) currentLocationTouchUpInside;
 
+- (BOOL) isGeocoderResolved:(R2RGeoCoder *) geocoder;
+
 @end

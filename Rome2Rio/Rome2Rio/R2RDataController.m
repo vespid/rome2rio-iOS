@@ -326,6 +326,16 @@ enum {
     }
 }
 
+-(BOOL) isGeocoderResolved:(R2RGeoCoder *)geocoder
+{
+    if (geocoder.responseCompletionState == stateResolved)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (void) currentLocationTouchUpInside
 {
     self.fromText = @"";
@@ -348,8 +358,6 @@ enum {
     
 }
 
-
-
 -(void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     [self.locationManager stopUpdatingLocation];
@@ -357,7 +365,6 @@ enum {
     if (!self.geoCoderFrom)
     {
         self.geoCoderFrom = [[R2RGeoCoder alloc] init];
-        //                self.geoCoderFrom.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
     }
     self.geoCoderFrom.geoCodeResponse = nil;
     self.geoCoderFrom.responseMessage = @"Unable to find location";

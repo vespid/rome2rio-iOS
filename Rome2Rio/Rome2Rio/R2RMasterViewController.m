@@ -126,8 +126,6 @@ enum R2RState
     }
 }
 
-#define kOFFSET_FOR_KEYBOARD 80.0
-
 -(void)keyboardWillShow {
     // Animate the current view out of the way
 
