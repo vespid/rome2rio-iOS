@@ -28,15 +28,6 @@
 
 @synthesize dataController, route, transitSegment;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -56,8 +47,7 @@
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView = footer;
     
-    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
-    NSString *navigationTitle = [stringFormatter capitaliseFirstLetter:transitSegment.kind];
+    NSString *navigationTitle = [R2RStringFormatters capitaliseFirstLetter:transitSegment.kind];
     self.navigationItem.title = navigationTitle;
     
     self.legs = [NSMutableArray array];
@@ -84,7 +74,7 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, 35);
+    CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, 35);
     
     R2RTransitSegmentHeader *header = [[R2RTransitSegmentHeader alloc] initWithFrame:rect];
     
@@ -144,8 +134,7 @@
     
     if ([agencyName length] == 0)
     {
-        R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
-        agencyName = [formatter capitaliseFirstLetter:transitLine.vehicle];
+        agencyName = [R2RStringFormatters capitaliseFirstLetter:transitLine.vehicle];
     }
     
     rect = CGRectMake(startX + iconSize.width + iconPadding, 8, 280-(startX + iconSize.width + iconPadding), 25);
@@ -190,8 +179,6 @@
     R2RTransitLeg *transitLeg = [self.legs objectAtIndex:indexPath.section];
     R2RTransitHop *transitHop = [transitLeg.hops objectAtIndex:indexPath.row];
     
-    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
-    
     NSString *sName = transitHop.sName;
     NSString *tName = transitHop.tName;
     
@@ -216,8 +203,8 @@
     [cell.fromLabel setText:sName];
     [cell.toLabel setText:tName];
     
-    NSString *duration = [stringFormatter formatDuration:transitHop.duration];
-    NSString *frequency = [stringFormatter formatFrequency:transitHop.frequency];
+    NSString *duration = [R2RStringFormatters formatDuration:transitHop.duration];
+    NSString *frequency = [R2RStringFormatters formatFrequency:transitHop.frequency];
     NSString *description = [NSString stringWithFormat:@"%@, %@", duration, frequency];
     CGSize durationSize = [description sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17.0]];
     
@@ -246,13 +233,13 @@
         [cell.lineLabel setHidden:NO];
         NSString *line = [NSString stringWithFormat:@"Line: %@", lineLabel];
         [cell.lineLabel setText:line];
-        rect = CGRectMake(20, 80, cell.toLabel.bounds.size.width, 25);
+        rect = CGRectMake(20, 80, cell.toLabel.frame.size.width, 25);
         [cell.toLabel setFrame:rect];
     }
     else
     {
         [cell.lineLabel setHidden:YES];
-        rect = CGRectMake(20, 55, cell.toLabel.bounds.size.width, 25);
+        rect = CGRectMake(20, 55, cell.toLabel.frame.size.width, 25);
         [cell.toLabel setFrame:rect];
     }
     
@@ -415,7 +402,7 @@
     return [mapHelper getPolylineView:overlay];
 }
 
-- (IBAction)ReturnToSearch:(id)sender
+- (IBAction)returnToSearch:(id)sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

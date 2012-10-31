@@ -120,8 +120,7 @@
     R2RResultsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     [cell.resultDescripionLabel setText:route.name];
-    R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
-    [cell.resultDurationLabel setText:[formatter formatDuration:route.duration]];
+    [cell.resultDurationLabel setText:[R2RStringFormatters formatDuration:route.duration]];
     
     NSInteger iconCount = 0;
     float xOffset = 0;

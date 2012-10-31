@@ -214,12 +214,11 @@
 
 -(R2RFlightHopCell *) configureFlightHopCell:(R2RFlightHopCell *) cell:(R2RFlightSegment *) segment
 {
-    R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
     R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
     
     NSInteger changes = [segmentHandler getFlightChanges:segment];
     
-    NSString *hopDescription = [formatter formatFlightHopCellDescription:segment.duration :changes];
+    NSString *hopDescription = [R2RStringFormatters formatFlightHopCellDescription:segment.duration :changes];
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
@@ -234,13 +233,12 @@
 
 -(R2RTransitHopCell *) configureTransitHopCell:(R2RTransitHopCell *) cell:(R2RTransitSegment *) segment
 {
-    R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
     R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
     
     NSInteger changes = [segmentHandler getTransitChanges:segment];
     NSString *vehicle = segment.vehicle;
     NSInteger frequency = [segmentHandler getTransitFrequency:segment];
-    NSString *hopDescription = [formatter formatTransitHopDescription:segment.duration :changes :frequency :vehicle];
+    NSString *hopDescription = [R2RStringFormatters formatTransitHopDescription:segment.duration :changes :frequency :vehicle];
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
@@ -255,9 +253,7 @@
 
 -(R2RWalkDriveHopCell *) configureWalkDriveHopCell:(R2RWalkDriveHopCell *) cell:(R2RWalkDriveSegment *) segment
 {
-    R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
-    
-    NSString *hopDescription = [formatter formatWalkDriveHopCellDescription:segment.duration :segment.distance: segment.kind];
+    NSString *hopDescription = [R2RStringFormatters formatWalkDriveHopCellDescription:segment.duration :segment.distance: segment.kind];
     [cell.hopLabel setText:hopDescription];
     
     R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];

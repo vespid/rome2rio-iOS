@@ -12,18 +12,22 @@
 
 @implementation R2RStringFormatters
 
-@synthesize showMinutesIfZero;
-
--(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops
++(id) alloc
 {
-    return [NSString stringWithFormat:@"%@ by plane, %@", [self formatDuration:minutes], [self formatStopovers:stops]];
+    [NSException raise:@"R2RStringFormatters is static" format:@"R2RStringFormatters is static"];
+    return nil;
 }
 
--(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle
++(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops
+{
+    return [NSString stringWithFormat:@"%@ by plane, %@", [R2RStringFormatters formatDuration:minutes], [R2RStringFormatters formatStopovers:stops]];
+}
+
++(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle
 {
     if (changes == 0)
     {
-        return [NSString stringWithFormat:@"%@ by %@, %@", [self formatDuration:minutes], vehicle, [self formatFrequency:frequency]];
+        return [NSString stringWithFormat:@"%@ by %@, %@", [R2RStringFormatters formatDuration:minutes], vehicle, [R2RStringFormatters formatFrequency:frequency]];
     }
     else if (changes == 1)
     {
@@ -36,7 +40,7 @@
     return nil;
 }
 
--(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance: (NSString *) kind
++(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance: (NSString *) kind
 {
     if ([kind isEqualToString:@"walk"])
     {
@@ -49,11 +53,9 @@
     
 }
 
--(NSString *) formatDuration: (float) minutes
++(NSString *) formatDuration: (float) minutes
 {
     R2RDuration *duration = [[R2RDuration alloc] initWithMinutes:minutes];
-    
-    //NSString *durationString = [[NSString alloc] init];
     
     if (duration.totalHours >= 48)
     {
@@ -65,7 +67,7 @@
     }
     else
     {
-        if (duration.minutes == 0 && !self.showMinutesIfZero)
+        if (duration.minutes == 0)
         {
             return [NSString stringWithFormat:@"%dhrs", duration.totalHours];
         }
@@ -76,7 +78,25 @@
     }
 }
 
--(NSString *) formatFrequency: (float) frequency
++(NSString *) formatDurationZeroPadded:(float)minutes
+{
+    R2RDuration *duration = [[R2RDuration alloc] initWithMinutes:minutes];
+    
+    if (duration.totalHours >= 48)
+    {
+        return [NSString stringWithFormat:@"%ddays %dhrs", duration.days, duration.hours];
+    }
+    else if (duration.totalHours < 1)
+    {
+        return [NSString stringWithFormat:@"%dmin", duration.minutes];
+    }
+    else
+    {
+        return [NSString stringWithFormat:@"%dhrs %dmin", duration.totalHours, duration.minutes];
+    }
+}
+
++(NSString *) formatFrequency: (float) frequency
 {
     int weekFrequency = lroundf(frequency);
     if (weekFrequency <= 1)
@@ -145,7 +165,7 @@
     return @"every 5 minutes";
 }
 
--(NSString *) formatDistance: (float) distance
++(NSString *) formatDistance: (float) distance
 {
     if (distance < 1)
     {
@@ -161,7 +181,7 @@
     }
 }
 
--(NSString *) formatDays: (int) days
++(NSString *) formatDays: (int) days
 {
 	NSString *labels[] = { @"Sun", @"Mon", @"Tue", @"Wed", @"Thu", @"Fri", @"Sat" };
 
@@ -190,7 +210,7 @@
 	}
 }
 
--(NSString *) padNumber: (NSInteger) number
++(NSString *) padNumber: (NSInteger) number
 {
     if (number < 10)
     {
@@ -202,7 +222,7 @@
     }
 }
 
--(NSString *) formatStopovers: (NSInteger) stops
++(NSString *) formatStopovers: (NSInteger) stops
 {
     if (stops == 0)
     {
@@ -219,14 +239,14 @@
     return @"";
 }
 
--(NSString *)formatTransitHopVehicle:(NSString *) vehicle
++(NSString *)formatTransitHopVehicle:(NSString *) vehicle
 {
     vehicle = [vehicle stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[vehicle substringToIndex:1] uppercaseString]];
     vehicle = [vehicle stringByAppendingString:@" from"];
     return vehicle;
 }
 
--(NSString *) capitaliseFirstLetter: (NSString *) string
++(NSString *) capitaliseFirstLetter: (NSString *) string
 {
     string = [string stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[string substringToIndex:1] uppercaseString]];
     return string;

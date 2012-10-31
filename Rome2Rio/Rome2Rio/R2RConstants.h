@@ -16,6 +16,7 @@
 +(UIColor *) getLightTextColor;
 +(UIColor *) getDarkTextColor;
 
+#define MAX_FLIGHT_STOPS 5
 #define MAX_ICONS 5
 #define kOFFSET_FOR_KEYBOARD 80.0
 

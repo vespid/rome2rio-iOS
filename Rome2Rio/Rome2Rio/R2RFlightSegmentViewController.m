@@ -6,20 +6,19 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-
 #import "R2RFlightSegmentViewController.h"
 #import "R2RFlightSegmentCell.h"
 #import "R2RFlightSegmentSectionHeader.h"
-#import "R2RStringFormatters.h"
 #import "R2RFlightGroup.h"
+
+#import "R2RStringFormatters.h"
+#import "R2RConstants.h"
 
 @interface R2RFlightSegmentViewController ()
 
 @property (strong, nonatomic) NSMutableArray *flightGroups;
 @property (strong, nonatomic) NSIndexPath *selectedRowIndex; //current selected row. used for unselecting cell on second click
-
 @property (strong, nonatomic) UIActionSheet *linkMenuSheet;
-
 @property (strong, nonatomic) NSMutableArray *links;
 
 @end
@@ -28,13 +27,11 @@
 
 @synthesize dataController, route, flightSegment;
 
-#define MAX_FLIGHT_STOPS 5
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self.view setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+    [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     self.navigationItem.title = @"Fly";
     
@@ -44,9 +41,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -58,24 +52,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return [self.flightGroups count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    //return [flightSegment.itineraries count];
-
     R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:section];
-//    int count = [flightGroup.flights count];
-//    return count;
     return [flightGroup.flights count];
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, 50);
+    CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, 50);
     
     R2RFlightSegmentSectionHeader *header = [[R2RFlightSegmentSectionHeader alloc] initWithFrame:rect];
 
@@ -131,9 +119,6 @@
     [cell.sTimeLabel setText:sTime];
     [cell.tTimeLabel setText:tTime];
     
-    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
-    stringFormatter.showMinutesIfZero = YES;
-    
     CGRect frame = cell.linkButton.frame;
     frame.origin.y = 75 + (50* (hops-1));
     
@@ -145,7 +130,7 @@
     frame.origin.y = 75 + (50* (hops-1));
     [cell.frequencyLabel setFrame:frame];
     
-    [cell.frequencyLabel setText:[stringFormatter formatDays:flightLeg.days]];
+    [cell.frequencyLabel setText:[R2RStringFormatters formatDays:flightLeg.days]];
     
     float duration = 0.0;
     NSString *firstAirlineCode = nil;
@@ -155,6 +140,10 @@
     for (R2RFlightHop *flightHop in flightLeg.hops)
     {
         duration += flightHop.duration;
+        if (flightHop.lDuration > 0)
+        {
+            duration += flightHop.lDuration;
+        }
         
         if (firstAirlineCode == nil)
         {
@@ -167,55 +156,12 @@
             secondAirlineCode = flightHop.airline;
         }
 
-        UILabel *label;
-
-        if (flightHop.lDuration > 0 && hopNumber > 0) //the layover should always be in the second hop but adding this for safety
-        {
-            for (R2RAirport *airport in self.dataController.search.searchResponse.airports)
-            {
-                if ([airport.code isEqualToString:flightHop.sCode])
-                {
-                    label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
-                    [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
-                    [label setHidden:NO];
-                }
-            }
-            
-            label = [cell.layoverDurationLabels objectAtIndex:(hopNumber - 1)];
-            [label setText:[stringFormatter formatDuration:flightHop.lDuration]];
-            [label setHidden:NO];
-            
-            duration += flightHop.lDuration;
-        } 
-        
-        for (R2RAirline *airline in self.dataController.search.searchResponse.airlines)
-        {
-            if ([airline.code isEqualToString:flightHop.airline])
-            {   
-                UIImageView *imageView =[cell.airlineIcons objectAtIndex:hopNumber];
-                R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
-                [self.dataController.spriteStore setSpriteInView:sprite :imageView];
-                [imageView setHidden:NO];
-                break;
-            }
-        }
-        
-        label = [cell.sAirportLabels objectAtIndex:hopNumber];
-        [label setText:flightHop.sCode];
-        [label setHidden:NO];
-        
-        label = [cell.tAirportLabels objectAtIndex:hopNumber];
-        [label setText:flightHop.tCode];
-        [label setHidden:NO];
-        
-        label = [cell.hopDurationLabels objectAtIndex:hopNumber];
-        [label setText:[stringFormatter formatDuration:flightHop.duration]];
-        [label setHidden:NO];
+        [self setExpandedCellValues:cell :flightHop :hopNumber];
         
         hopNumber++;
     }
     
-    [cell.durationLabel setText:[stringFormatter formatDuration:duration]];
+    [cell.durationLabel setText:[R2RStringFormatters formatDurationZeroPadded:duration]];
     
     for (R2RAirline *airline in self.dataController.search.searchResponse.airlines)
     {
@@ -231,6 +177,59 @@
         }
     }
     
+    [self setUnusedViewsHidden:cell :hops];
+
+    return cell;
+}
+
+-(void) setExpandedCellValues:(R2RFlightSegmentCell *) cell: (R2RFlightHop *) flightHop: (NSInteger) hopNumber
+{
+    UILabel *label;
+    
+    if (flightHop.lDuration > 0 && hopNumber > 0) //the layover should always be in the second hop but adding this for safety
+    {
+        for (R2RAirport *airport in self.dataController.search.searchResponse.airports)
+        {
+            if ([airport.code isEqualToString:flightHop.sCode])
+            {
+                label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
+                [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
+                [label setHidden:NO];
+            }
+        }
+        
+        label = [cell.layoverDurationLabels objectAtIndex:(hopNumber - 1)];
+        [label setText:[R2RStringFormatters formatDurationZeroPadded:flightHop.lDuration]];
+        [label setHidden:NO];
+    }
+    
+    for (R2RAirline *airline in self.dataController.search.searchResponse.airlines)
+    {
+        if ([airline.code isEqualToString:flightHop.airline])
+        {
+            UIImageView *imageView =[cell.airlineIcons objectAtIndex:hopNumber];
+            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+            [self.dataController.spriteStore setSpriteInView:sprite :imageView];
+            [imageView setHidden:NO];
+            break;
+        }
+    }
+    
+    label = [cell.sAirportLabels objectAtIndex:hopNumber];
+    [label setText:flightHop.sCode];
+    [label setHidden:NO];
+    
+    label = [cell.tAirportLabels objectAtIndex:hopNumber];
+    [label setText:flightHop.tCode];
+    [label setHidden:NO];
+    
+    label = [cell.hopDurationLabels objectAtIndex:hopNumber];
+    [label setText:[R2RStringFormatters formatDurationZeroPadded:flightHop.duration]];
+    [label setHidden:NO];
+}
+
+-(void) setUnusedViewsHidden:(R2RFlightSegmentCell *) cell: (NSInteger) hops
+{
     //1 less layover than stops
     for (int i = hops; i < MAX_FLIGHT_STOPS; i++)
     {
@@ -238,7 +237,6 @@
         [label setHidden:YES];
         label = [cell.layoverDurationLabels objectAtIndex:(i-1)];
         [label setHidden:YES];
-        
         
         UIImageView *view = [cell.airlineIcons objectAtIndex:i];
         [view setHidden:YES];
@@ -253,49 +251,8 @@
         label = [cell.joinerLabels objectAtIndex:i];
         [label setHidden:YES];
     }
-    
-
-    return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{ 
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -336,7 +293,7 @@
     return 30;
 }
 
-- (IBAction)ReturnToSearch:(id)sender
+- (IBAction)returnToSearch:(id)sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

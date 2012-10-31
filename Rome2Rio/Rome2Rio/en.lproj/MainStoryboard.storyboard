@@ -208,7 +208,7 @@
                     <navigationItem key="navigationItem" title="Transit" id="rcT-du-krC">
                         <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="J6R-k2-vIh">
                             <connections>
-                                <action selector="ReturnToSearch:" destination="mjw-xX-aua" id="WVJ-O0-Ugo"/>
+                                <action selector="returnToSearch:" destination="mjw-xX-aua" id="4L6-jb-wJL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -382,14 +382,14 @@
                     <navigationItem key="navigationItem" title="Flight Segment" id="6VK-wA-HMf">
                         <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="CS2-vl-U98">
                             <connections>
-                                <action selector="ReturnToSearch:" destination="ZBu-OJ-Q4H" id="RaV-yF-1eS"/>
+                                <action selector="returnToSearch:" destination="ZBu-OJ-Q4H" id="toW-FC-ZeL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nDo-cm-HEU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1962" y="-583"/>
+            <point key="canvasLocation" x="1962" y="-654"/>
         </scene>
         <!--Walk Drive Segment View Controller - Walk Drive Segment-->
         <scene sceneID="wLo-FN-BDN">
@@ -424,7 +424,7 @@
                     <navigationItem key="navigationItem" title="WalkDrive" id="1pz-JF-LtS">
                         <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="p6z-Vx-2SA">
                             <connections>
-                                <action selector="ReturnToSearch:" destination="1ix-uE-0ex" id="Ih0-k0-hep"/>
+                                <action selector="returnToSearch:" destination="1ix-uE-0ex" id="LzM-2X-gNi"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -448,7 +448,6 @@
         <class className="R2RDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="ReturnToSearch:"/>
                 <relationship kind="action" name="returnToSearch:"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
@@ -466,7 +465,7 @@
         <class className="R2RFlightSegmentViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentViewController.h"/>
             <relationships>
-                <relationship kind="action" name="ReturnToSearch:"/>
+                <relationship kind="action" name="returnToSearch:"/>
             </relationships>
         </class>
         <class className="R2RMasterViewController" superclassName="UIViewController">
@@ -496,7 +495,6 @@
         <class className="R2RResultsViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
             <relationships>
-                <relationship kind="action" name="ReturnToSearch:"/>
                 <relationship kind="action" name="returnToSearch:"/>
             </relationships>
         </class>
@@ -515,7 +513,7 @@
         <class className="R2RTransitSegmentViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentViewController.h"/>
             <relationships>
-                <relationship kind="action" name="ReturnToSearch:"/>
+                <relationship kind="action" name="returnToSearch:"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
@@ -532,7 +530,7 @@
         <class className="R2RWalkDriveSegmentViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentViewController.h"/>
             <relationships>
-                <relationship kind="action" name="ReturnToSearch:"/>
+                <relationship kind="action" name="returnToSearch:"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>

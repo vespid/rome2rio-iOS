@@ -16,7 +16,7 @@
 @property (strong, nonatomic) R2RRoute *route;
 @property (strong, nonatomic) R2RFlightSegment *flightSegment;
 
-- (IBAction)ReturnToSearch:(id)sender;
+- (IBAction)returnToSearch:(id)sender;
 -(void) sortFlightSegment;
 
 @end

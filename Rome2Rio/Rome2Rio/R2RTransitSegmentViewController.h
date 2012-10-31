@@ -20,6 +20,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
-- (IBAction)ReturnToSearch:(id)sender;
+- (IBAction)returnToSearch:(id)sender;
 
 @end

@@ -11,18 +11,19 @@
 
 @interface R2RStringFormatters : NSObject
 
-@property BOOL showMinutesIfZero;
+//@property BOOL showMinutesIfZero;
 
--(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops;
--(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle;
--(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance: (NSString *) kind;
--(NSString *) formatTransitHopVehicle: (NSString *) vehicle;
++(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops;
++(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle;
++(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance: (NSString *) kind;
++(NSString *) formatTransitHopVehicle: (NSString *) vehicle;
 
--(NSString *) formatDuration: (float) minutes;
--(NSString *) formatFrequency: (float) frequency;
--(NSString *) formatDistance: (float) distance;
--(NSString *) formatDays: (int) days;
++(NSString *) formatDuration: (float) minutes;
++(NSString *) formatDurationZeroPadded: (float) minutes;
++(NSString *) formatFrequency: (float) frequency;
++(NSString *) formatDistance: (float) distance;
++(NSString *) formatDays: (int) days;
 
--(NSString *) capitaliseFirstLetter: (NSString *) string;
++(NSString *) capitaliseFirstLetter: (NSString *) string;
 
 @end

@@ -28,9 +28,7 @@
 {
     [super viewDidLoad];
     
-    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
-    
-    self.navigationItem.title = [stringFormatter capitaliseFirstLetter:walkDriveSegment.kind];
+    self.navigationItem.title = [R2RStringFormatters capitaliseFirstLetter:walkDriveSegment.kind];
     
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
@@ -86,8 +84,6 @@
     R2RSprite *sprite = [segmentHandler getRouteSprite:self.walkDriveSegment.kind];
     [self.dataController.spriteStore setSpriteInView:sprite :cell.kindIcon];
     
-    R2RStringFormatters *stringFormatter = [[R2RStringFormatters alloc] init];
-    
     NSString *sName = self.walkDriveSegment.sName;
     NSString *tName = self.walkDriveSegment.tName;
     
@@ -112,8 +108,8 @@
     [cell.fromLabel setText:sName];
     [cell.toLabel setText:tName];
     
-    [cell.distanceLabel setText:[stringFormatter formatDistance:self.walkDriveSegment.distance]];
-    [cell.durationLabel setText:[stringFormatter formatDuration:self.walkDriveSegment.duration]];
+    [cell.distanceLabel setText:[R2RStringFormatters formatDistance:self.walkDriveSegment.distance]];
+    [cell.durationLabel setText:[R2RStringFormatters formatDuration:self.walkDriveSegment.duration]];
     
     return cell;
 }
@@ -199,7 +195,7 @@
     return [mapHelper getPolylineView:overlay];
 }
 
-- (IBAction)ReturnToSearch:(id)sender
+- (IBAction)returnToSearch:(id)sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
