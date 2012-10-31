@@ -1,6 +1,6 @@
 //
 //  R2RResultsViewController.m
-//  R2RApp
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 6/09/12.
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
@@ -266,7 +266,7 @@
     [self.statusButton setTitle:message forState:UIControlStateNormal];
 }
 
-- (IBAction)ReturnToSearch:(id)sender
+- (IBAction)returnToSearch:(id)sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

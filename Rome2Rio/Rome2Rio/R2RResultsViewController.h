@@ -14,6 +14,6 @@
 
 @property (strong, nonatomic) R2RDataController *dataController;
 
-- (IBAction)ReturnToSearch:(id)sender;
+- (IBAction)returnToSearch:(id)sender;
 
 @end

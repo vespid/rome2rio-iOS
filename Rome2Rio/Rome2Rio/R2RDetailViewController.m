@@ -212,10 +212,6 @@
     return nil;
 }
 
-//Hop cells are now very similar so could be refactored to a single cell type
-//CODECHECK: current each cell type has a different segue
-//           we would need to do the segue programmatically to go to the correct segment view
-
 -(R2RFlightHopCell *) configureFlightHopCell:(R2RFlightHopCell *) cell:(R2RFlightSegment *) segment
 {
     R2RStringFormatters *formatter = [[R2RStringFormatters alloc] init];
@@ -277,7 +273,6 @@
     return cell;
 }
 
-
 -(NSString*) getSegmentKind:(id) segment
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
@@ -327,11 +322,9 @@
     
 }
 
-
-- (IBAction)ReturnToSearch:(id)sender
+- (IBAction)returnToSearch:(id)sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
-    
 }
 
 -(void)reloadDataDidFinish
