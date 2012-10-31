@@ -51,7 +51,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="done"/>
                                 <connections>
-                                    <action selector="ToEditingDidEnd:" destination="KQv-tN-kqn" eventType="editingDidEnd" id="tfK-t3-hvz"/>
                                     <action selector="toEditingDidBegin:" destination="KQv-tN-kqn" eventType="editingDidBegin" id="M2C-zU-oJ9"/>
                                     <action selector="toEditingDidEnd:" destination="KQv-tN-kqn" eventType="editingDidEnd" id="HrE-ZF-B3a"/>
                                     <outlet property="delegate" destination="KQv-tN-kqn" id="3Ff-xF-KFb"/>

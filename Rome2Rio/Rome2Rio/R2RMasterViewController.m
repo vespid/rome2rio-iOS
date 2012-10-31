@@ -215,12 +215,12 @@ enum R2RState
     
     if ([self.fromTextField.text length] == 0)
     { 
-        [self WarningMessage:@"Please enter origin":@"from"];        
+        [self warningMessage:@"Please enter origin":@"from"];
         return;
     }
     if ([self.toTextField.text length] == 0)
     {
-        [self WarningMessage:@"Please enter destination":@"to"];
+        [self warningMessage:@"Please enter destination":@"to"];
         return;
     }
     
@@ -231,7 +231,7 @@ enum R2RState
     
 }
 
-- (IBAction)currentLocationTouchUpInside:(id)sender
+- (IBAction) currentLocationTouchUpInside:(id)sender
 {
 
     [self.fromTextField setText:@""];    
@@ -241,7 +241,7 @@ enum R2RState
     [self.dataController currentLocationTouchUpInside];
 }
 
-- (void)WarningMessage: (NSString *) message: (NSString *) textField
+- (void) warningMessage: (NSString *) message: (NSString *) textField
 {
     [self setStatusMessage:message];
 }
