@@ -1,9 +1,9 @@
 //
-//  R2RGetRoutes.h
-//  HttpRequest
+//  R2RSearch.h
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 4/09/12.
-//  Copyright (c) 2012 Ash Verdoorn. All rights reserved.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -37,8 +37,6 @@
 @property (strong, nonatomic) R2RSearchResponse *searchResponse;
 @property (nonatomic) NSInteger responseCompletionState;
 @property (strong, nonatomic) NSString *responseMessage;
-
-//-(id) initWithFromToStrings:(NSString *)fromString:(NSString *)toString delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
 
 - (id) initWithSearch:(NSString *)oName:(NSString *)dName:(NSString *)oPos:(NSString *)dPos:(NSString *)oKind:(NSString *)dKind:(NSString *)oCode:(NSString *)dCode delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
 

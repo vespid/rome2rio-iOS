@@ -19,5 +19,6 @@
 // only ever use first result so no longer storing all results
 //@property (strong, nonatomic) NSMutableArray *places;
 @property (strong, nonatomic) R2RPlace *place;
+@property (strong, nonatomic) NSMutableArray *places;
 
 @end

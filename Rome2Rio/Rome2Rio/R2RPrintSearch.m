@@ -1,9 +1,9 @@
 //
 //  R2RPrintSearch.m
-//  HttpRequest
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 5/09/12.
-//  Copyright (c) 2012 Ash Verdoorn. All rights reserved.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import "R2RPrintSearch.h"
@@ -32,24 +32,23 @@
 {
     for (R2RAirline *airline in searchData.airlines)
     {
-        NSLog(@"Airline\t%@\t%@\t%@", airline.name, airline.code, airline.url);
+        R2RLog(@"Airline\t%@\t%@\t%@", airline.name, airline.code, airline.url);
     }
     
     for (R2RAirport *airport in searchData.airports)
     {
-        NSLog(@"Airport\t%@\t%@\t%f\t%f", airport.name, airport.code, airport.pos.lat, airport.pos.lng);
+        R2RLog(@"Airport\t%@\t%@\t%f\t%f", airport.name, airport.code, airport.pos.lat, airport.pos.lng);
     }
     
     for (R2RRoute *route in searchData.routes)
     {
         [self printRoute:route];
     }
-        
 }
 
 -(void) printRoute:(R2RRoute *) route
 {
-    NSLog(@"Route\t%@\t%f\t%f", route.name, route.distance, route.duration);
+    R2RLog(@"Route\t%@\t%f\t%f", route.name, route.distance, route.duration);
     
     for (R2RStop *stop in route.stops)
     {
@@ -58,7 +57,7 @@
     
     for (id segment in route.segments)
     {
-        NSLog(@"%@", [segment class]);
+        R2RLog(@"%@", [segment class]);
         
         if([segment isKindOfClass:[R2RWalkDriveSegment class]])
         {
@@ -79,17 +78,17 @@
 
 -(void) printStop:(R2RStop*) stop
 {
-    NSLog(@"Stop\t%@\t%f\t%f\t%@\t%@", stop.name, stop.pos.lat, stop.pos.lng, stop.kind, stop.code);
+    R2RLog(@"Stop\t%@\t%f\t%f\t%@\t%@", stop.name, stop.pos.lat, stop.pos.lng, stop.kind, stop.code);
 }
 
 -(void) printWalkDriveSegment:(R2RWalkDriveSegment*) segment
 {
-    NSLog(@"WalkDrive\t%@\t%f\t%f\t%@\t%f\t%f\t%@\t%f\t%f\t", segment.kind, segment.distance, segment.duration, segment.sName, segment.sPos.lat, segment.sPos.lng, segment.tName, segment.tPos.lat, segment.tPos.lng);
+    R2RLog(@"WalkDrive\t%@\t%f\t%f\t%@\t%f\t%f\t%@\t%f\t%f\t", segment.kind, segment.distance, segment.duration, segment.sName, segment.sPos.lat, segment.sPos.lng, segment.tName, segment.tPos.lat, segment.tPos.lng);
 }
 
 -(void) printTransitSegment:(R2RTransitSegment*) segment
 {
-    NSLog(@"Tranist\t%@\t%f\t%f\t%@\t%f\t%f\t%@\t%f\t%f\t", segment.kind, segment.distance, segment.duration, segment.sName, segment.sPos.lat, segment.sPos.lng, segment.tName, segment.tPos.lat, segment.tPos.lng);
+    R2RLog(@"Tranist\t%@\t%f\t%f\t%@\t%f\t%f\t%@\t%f\t%f\t", segment.kind, segment.distance, segment.duration, segment.sName, segment.sPos.lat, segment.sPos.lng, segment.tName, segment.tPos.lat, segment.tPos.lng);
     
     for (R2RTransitItinerary *itinerary in segment.itineraries)
     {
@@ -107,7 +106,7 @@
 
 -(void) printTransitLeg:(R2RTransitLeg*) leg
 {
-    NSLog(@"%@\t%@", leg.url, leg.host);
+    R2RLog(@"%@\t%@", leg.url, leg.host);
     
     for (R2RTransitHop *hop in leg.hops)
     {
@@ -117,7 +116,7 @@
 
 -(void) printTransitHop:(R2RTransitHop*) hop
 {
-    NSLog(@"TranistHop\t%f\t%f\t%@\t%@\t%@\t%@", hop.duration, hop.frequency, hop.sName, hop.sPos, hop.tName, hop.tPos);
+    R2RLog(@"TranistHop\t%f\t%f\t%@\t%@\t%@\t%@", hop.duration, hop.frequency, hop.sName, hop.sPos, hop.tName, hop.tPos);
     
     for (R2RTransitLine *line in hop.lines)
     {
@@ -127,12 +126,12 @@
 
 -(void) printTransitLine:(R2RTransitLine*) line 
 {
-    NSLog(@"TransitLine\t%@\t%@\t%f\t%@\t%@", line.agency, line.code, line.frequency, line.name, line.vehicle);
+    R2RLog(@"TransitLine\t%@\t%@\t%f\t%@\t%@", line.agency, line.code, line.frequency, line.name, line.vehicle);
 }
 
 -(void) printFlightSegment:(R2RFlightSegment*) segment
 {
-    NSLog(@"Flight\t%@\t%f\t%f\t%@\t%@\t", segment.kind, segment.distance, segment.duration, segment.sCode, segment.tCode);
+    R2RLog(@"Flight\t%@\t%f\t%f\t%@\t%@\t", segment.kind, segment.distance, segment.duration, segment.sCode, segment.tCode);
     
     for (R2RFlightItinerary *itinerary in segment.itineraries)
     {
@@ -162,14 +161,14 @@
 
 -(void) printFlightHop:(R2RFlightHop*) hop
 {
-    NSLog(@"Flight Hop\t%@\t%@\t%@\t%@\t%@\t%@\t%f\t%d\t%f\t%d", hop.sCode, hop.tCode, hop.sTime, hop.tTime, hop.airline, hop.flight, hop.duration, hop.dayChange, hop.lDuration, hop.lDayChange);
+    R2RLog(@"Flight Hop\t%@\t%@\t%@\t%@\t%@\t%@\t%f\t%d\t%f\t%d", hop.sCode, hop.tCode, hop.sTime, hop.tTime, hop.airline, hop.flight, hop.duration, hop.dayChange, hop.lDuration, hop.lDayChange);
 }
 
 -(void) printFlightTicketSets:(R2RFlightTicketSet*) ticketSet
 {
     for (R2RFlightTicket* ticket in ticketSet.tickets)
     {
-        NSLog(@"Flight Tickets\t%@\t%@\t%@\t%f\t%@\t%@\t%@\t", ticketSet.sCode, ticketSet.tCode, ticket.name, ticket.price, ticket.currency, ticket.message, ticket.url);
+        R2RLog(@"Flight Tickets\t%@\t%@\t%@\t%f\t%@\t%@\t%@\t", ticketSet.sCode, ticketSet.tCode, ticket.name, ticket.price, ticket.currency, ticket.message, ticket.url);
     }
 }
 

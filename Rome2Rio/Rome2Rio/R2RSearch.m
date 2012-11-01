@@ -1,9 +1,9 @@
-    //
-//  R2RGetRoutes.m
-//  HttpRequest
+//
+//  R2RSearch.m
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 4/09/12.
-//  Copyright (c) 2012 Ash Verdoorn. All rights reserved.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import "R2RSearch.h"
@@ -67,28 +67,6 @@ enum {
     return self;
 }
 
-//-(id) initWithFromToStrings:(NSString *)fromString :(NSString *)toString delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
-//{
-//    
-//    self = [super init];
-//    
-//    if (self != nil)
-//    {
-//        self.delegate = r2rSearchDelegate;
-//        	
-//        NSString *searchString = [NSString stringWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@", fromString, toString];
-//        
-//        NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-//        
-//        NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
-//        
-//        self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:searchUrl delegate:self];
-//                
-//    }
-//    
-//    return self;
-//}
-
 -(void) sendAsynchronousRequest
 {
     
@@ -124,7 +102,6 @@ enum {
     
     NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
     
-//    R2RLog(@"%@ %d", @"Search Started", self.retryCount);
     self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:searchUrl delegate:self];
     
     self.responseCompletionState = stateResolving;
@@ -134,24 +111,9 @@ enum {
 
 -(void) parseJson
 {
-//    NSLog(@"Succeeded! Received %d bytes of data from GetRoutes",[self.r2rConnection.responseData length]);
-    
     NSError *error = nil;
     
     NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:self.r2rConnection.responseData options:kNilOptions error:&error];
-//    if responseData is nil send an error message
-    
-//    // show all values/////////////////////////////
-//    for(id key in responseData) {
-//        
-//        id value = [responseData objectForKey:key];
-//        
-//        NSString *keyAsString = (NSString *)key;
-//        NSString *valueAsString = (NSString *)value;
-//        
-//        R2RLog(@"key: %@", keyAsString);
-//        R2RLog(@"value: %@", valueAsString);
-//    }/////////////////////////////////////////////
     
     self.searchResponse = [self parseResponse:responseData];
     
@@ -168,7 +130,6 @@ enum {
     parsedSearchResponse.routes = [self parseRoutes:[responseData objectForKey:@"routes"]];
     
     return parsedSearchResponse;
-    
 }
 
 -(NSMutableArray*) parseAirports:( NSArray *) airportsResponse
@@ -177,10 +138,8 @@ enum {
     
     for (id airportResponse in airportsResponse)
     {
-        
         R2RAirport *airport = [self parseAirport:airportResponse];
         [airports addObject:airport];
-
     }
     
     return airports;
@@ -220,18 +179,6 @@ enum {
 
 }
 
-//-(NSMutableArray*) parsePositionArray:(NSString *) positionArrayString
-//{
-//    
-//    if ([positionArrayString length] == 0)
-//    {
-//        return nil;
-//    }
-//    
-//    NSMutableArray *positions = [[NSMutableArray alloc] init];
-//    return positions;
-//}
-
 -(R2RPosition*) parsePosition:(float) lat: (float) lng
 {
     R2RPosition *position = [R2RPosition alloc];
@@ -240,7 +187,6 @@ enum {
     position.lng = lng;
     
     return  position;
-    
 }
 
 -(NSMutableArray*) parseAirlines:( NSArray *) airlinesResponse
@@ -249,10 +195,8 @@ enum {
     
     for (id airlineResponse in airlinesResponse)
     {
-        
         R2RAirline *airline = [self parseAirline:airlineResponse];
         [airlines addObject:airline];
-        
     }
     
     return airlines;
@@ -299,14 +243,7 @@ enum {
     }
     
     airline.iconSize = CGSizeMake(x, y);
-    
-    
-    
     airline.iconPath = [airlineResponse objectForKey:@"iconPath"];
-    
-    
-    
-//    NSLog(@"airline\t%@\t%@\t%f\t%f", airline.url, airline.iconPath, airline.iconOffset.x, airline.iconOffset.y);
     
     return airline;
 }
@@ -319,7 +256,6 @@ enum {
     {
         R2RAgency *agency = [self parseAgency:agencyResponse];
         [agencies addObject:agency];
-        
     }
     
     return agencies;
@@ -367,27 +303,20 @@ enum {
     
     agency.iconPath = [agencyResponse objectForKey:@"iconPath"];
     
-    //    NSLog(@"airline\t%@\t%@\t%f\t%f", airline.url, airline.iconPath, airline.iconOffset.x, airline.iconOffset.y);
-    
     return agency;
 }
 
 -(NSMutableArray*) parseRoutes: (NSArray *) routesResponse
 {
-    
     NSMutableArray *routes = [[NSMutableArray alloc] initWithCapacity:[routesResponse count]] ;
     
     for (id routeResponse in routesResponse)
     {
-        
         R2RRoute *route = [self parseRoute:routeResponse];
-        
         [routes addObject:route];
-        
     }
     
     return routes;
-    
 }
 
 -(R2RRoute*) parseRoute:(id) routeResponse
@@ -407,7 +336,6 @@ enum {
     route.segments = [self parseSegments:segmentsResponse];
     
     return route;
-    
 }
 
 -(NSMutableArray*) parseStops: (NSArray *) stopsResponse

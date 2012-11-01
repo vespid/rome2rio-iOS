@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
-@property (nonatomic) BOOL keyboardShowing;
+//@property (nonatomic) BOOL keyboardShowing;
 
 - (IBAction)fromEditingDidBegin:(id)sender;
 - (IBAction)toEditingDidBegin:(id)sender;
@@ -57,8 +57,8 @@ enum R2RState
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFromTextField:) name:@"refreshFromTextField" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshToTextField:) name:@"refreshToTextField" object:nil];
@@ -68,13 +68,13 @@ enum R2RState
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
     
-	[self.navigationController setNavigationBarHidden:NO animated:YES];
+//	[self.navigationController setNavigationBarHidden:NO animated:YES];
     
     [self.toTextField resignFirstResponder];
     [self.fromTextField resignFirstResponder];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshFromTextField" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshToTextField" object:nil];
@@ -98,6 +98,7 @@ enum R2RState
     [self setToTextField:nil];
     [self setHeaderBackground:nil];
     [self setHeaderImage:nil];
+    [self setTabBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -124,86 +125,100 @@ enum R2RState
         
         resultsViewController.dataController = self.dataController;
     }
+    
+    if ([[segue identifier] isEqualToString:@"showAutocomplete"])
+    {
+        R2RAutocompleteViewController *autocompleteViewController = [segue destinationViewController];
+        autocompleteViewController.delegate = self;
+        autocompleteViewController.textField = sender;
+
+    }
 }
 
--(void)keyboardWillShow {
-    // Animate the current view out of the way
+//-(void)keyboardWillShow {
+//    // Animate the current view out of the way
+//
+//    if (self.view.frame.origin.y >= 0)
+//    {
+//        [self setViewMovedUp:YES];
+//    }
+//    
+//    self.keyboardShowing = YES;
+//}
+//
+//-(void)keyboardWillHide
+//{
+//    if (self.view.frame.origin.y < 0)
+//    {
+//        [self setViewMovedUp:NO];
+//    }
+//    
+//    self.keyboardShowing = NO;
+//}
 
-    if (self.view.frame.origin.y >= 0)
-    {
-        [self setViewMovedUp:YES];
-    }
-    
-    self.keyboardShowing = YES;
-}
-
--(void)keyboardWillHide
-{
-    if (self.view.frame.origin.y < 0)
-    {
-        [self setViewMovedUp:NO];
-    }
-    
-    self.keyboardShowing = NO;
-}
-
-//method to move the view up/down whenever the keyboard is shown/dismissed
--(void)setViewMovedUp:(BOOL)movedUp
-{
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
-    
-    CGRect rect = self.view.frame;
-    CGRect headerBackgroundRect = self.headerBackground.frame;
-    CGRect headerImageRect = self.headerImage.frame;
-    if (movedUp)
-    {
-        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
-        // 2. increase the size of the view so that the area behind the keyboard is covered up.
-        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
-        rect.size.height += kOFFSET_FOR_KEYBOARD;
-        headerBackgroundRect.origin.y += kOFFSET_FOR_KEYBOARD;
-        headerImageRect.origin.y += kOFFSET_FOR_KEYBOARD;
-    }
-    else
-    {
-        // revert back to the normal state.
-        rect.origin.y += kOFFSET_FOR_KEYBOARD;
-        rect.size.height -= kOFFSET_FOR_KEYBOARD;
-        headerBackgroundRect.origin.y -= kOFFSET_FOR_KEYBOARD;
-        headerImageRect.origin.y -= kOFFSET_FOR_KEYBOARD;
-    }
-    self.view.frame = rect;
-    self.headerBackground.frame = headerBackgroundRect;
-    self.headerImage.frame = headerImageRect;
-    
-    [UIView commitAnimations];
-}
+////method to move the view up/down whenever the keyboard is shown/dismissed
+//-(void)setViewMovedUp:(BOOL)movedUp
+//{
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
+//    
+//    CGRect rect = self.view.frame;
+//    CGRect headerBackgroundRect = self.headerBackground.frame;
+//    CGRect headerImageRect = self.headerImage.frame;
+//    if (movedUp)
+//    {
+//        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
+//        // 2. increase the size of the view so that the area behind the keyboard is covered up.
+//        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
+//        rect.size.height += kOFFSET_FOR_KEYBOARD;
+//        headerBackgroundRect.origin.y += kOFFSET_FOR_KEYBOARD;
+//        headerImageRect.origin.y += kOFFSET_FOR_KEYBOARD;
+//    }
+//    else
+//    {
+//        // revert back to the normal state.
+//        rect.origin.y += kOFFSET_FOR_KEYBOARD;
+//        rect.size.height -= kOFFSET_FOR_KEYBOARD;
+//        headerBackgroundRect.origin.y -= kOFFSET_FOR_KEYBOARD;
+//        headerImageRect.origin.y -= kOFFSET_FOR_KEYBOARD;
+//    }
+//    self.view.frame = rect;
+//    self.headerBackground.frame = headerBackgroundRect;
+//    self.headerImage.frame = headerImageRect;
+//    
+//    [UIView commitAnimations];
+//}
 
 - (IBAction)fromEditingDidBegin:(id)sender
 {
     [self.dataController fromEditingDidBegin];
+    [self.fromTextField resignFirstResponder]; //TODO maybe change field to no longer be a text field so we don't have to worry about responder
+    [self performSegueWithIdentifier:@"showAutocomplete" sender:self.fromTextField];
 }
 
 - (IBAction)toEditingDidBegin:(id)sender
 {
     [self.dataController toEditingDidBegin];
+    [self.toTextField resignFirstResponder]; //TODO maybe change field to no longer be a text field so we don't have to worry about responder
+    [self performSegueWithIdentifier:@"showAutocomplete" sender:self.toTextField];
 }
 
+// TODO remove editing did end. Now handled in autocomplete delegate
 - (IBAction)fromEditingDidEnd:(id)sender
 {
-    if ([self.fromTextField.text length]> 0)
-    {
-        [self.dataController fromEditingDidEnd:self.fromTextField.text];
-    }
+//    if ([self.fromTextField.text length]> 0)
+//    {
+//        [self.dataController fromEditingDidEnd:self.fromTextField.text];
+//    }
 }
 
 - (IBAction)toEditingDidEnd:(id)sender
 {
-    if ([self.toTextField.text length]> 0)
-    {
-        [self.dataController toEditingDidEnd:self.toTextField.text];
-    }
+//    R2RLog(@"to editing did end");
+//    if ([self.toTextField.text length]> 0)
+//    {
+//        [self.dataController toEditingDidEnd:self.toTextField.text];
+//    }
 }
 
 - (IBAction)searchTouchUpInside:(id)sender
@@ -263,6 +278,55 @@ enum R2RState
 -(void) setStatusMessage: (NSString *) message
 {
     [self.statusButton setTitle:message forState:UIControlStateNormal];
+}
+
+- (void)autocompleteViewControllerDidCancel:(R2RAutocompleteViewController *)controller
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+-(void)autocompleteViewControllerDidSelect:(R2RAutocompleteViewController *)controller selection:(NSString *)selection textField:(UITextField *)textField
+{
+    [textField setText:selection];
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    if (textField == self.fromTextField && [self.fromTextField.text length]> 0)
+    {
+        [self.dataController fromEditingDidEnd:self.fromTextField.text];
+    }
+    if (textField == self.toTextField && [self.toTextField.text length]> 0)
+    {
+        [self.dataController toEditingDidEnd:self.toTextField.text];
+    }
+}
+
+-(void)autocompleteViewControllerDidSelectMyLocation:(R2RAutocompleteViewController *)controller textField:(UITextField *)textField
+{
+    [textField setText:@""];
+    [textField setPlaceholder:@"Finding current location"];
+    [textField resignFirstResponder];
+
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    if (textField == self.fromTextField)
+    {
+        [self.dataController currentLocationTouchUpInside];
+    }
+    else if (textField == self.toTextField)
+    {
+        //[self.dataController.]
+    }
+    
+}
+
+#pragma mark - UITabBar Delegate
+
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    if ([item.title isEqualToString:@"Info"])
+    {
+        [self performSegueWithIdentifier:@"showInfo" sender:self];
+    }
 }
 
 @end

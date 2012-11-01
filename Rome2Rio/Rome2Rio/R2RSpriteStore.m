@@ -95,6 +95,7 @@
     for (int i = [self.spriteViews count]-1; i >= 0; i--)
     {
         R2RSpriteView *spriteView = [self.spriteViews objectAtIndex:i];
+        
         if ([spriteView.sprite.path isEqualToString:imageLoader.path])
         {
             if ([spriteView.view isKindOfClass:[UIButton class]])

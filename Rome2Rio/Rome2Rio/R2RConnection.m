@@ -1,13 +1,12 @@
 //
 //  R2RConnection.m
-//  HttpRequest
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 30/08/12.
-//  Copyright (c) 2012 Ash Verdoorn. All rights reserved.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import "R2RConnection.h"
-#import "R2RPlace.h"
 
 @interface R2RConnection()
 
@@ -41,51 +40,27 @@
 //        NSLog(@"%@", [NSRunLoop currentRunLoop]);
         
     }
-    
     return self;
-    
 }
-
-//-(void) sendAsynchronousRequest
-//{
-//    NSURLRequest *request = [NSURLRequest requestWithURL:self.connectionUrl];
-//    
-//    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-//}
-
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-//    NSLog(@"didReceiveResponse");
     [self.responseData setLength:0];
 }	
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.responseData appendData:data];
-
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-//    NSLog(@"didFailWithError");
-//    NSLog(@"Connection failed: %@", [error localizedDescription]);
-    
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
     [[self delegate] R2RConnectionError:self];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    
-//    R2RLog(@"Succeeded! Received %d bytes of data from %@",[self.responseData length], self.connectionString);
-    
-    //Is anyone listening
-    //if([delegate respondsToSelector:@selector(connectionDidFinishLoading:)])
-    //{
-        
-    
-        [[self delegate] R2RConnectionProcessData:self];
-    
-    //}
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    [[self delegate] R2RConnectionProcessData:self];
 }
-
 
 @end

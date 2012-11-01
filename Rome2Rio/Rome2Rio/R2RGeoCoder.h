@@ -1,9 +1,9 @@
 //
-//  r2rGeoCoder.h
-//  HttpRequest
+//  R2RGeoCoder.h
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 30/08/12.
-//  Copyright (c) 2012 Ash Verdoorn. All rights reserved.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

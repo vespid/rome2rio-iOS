@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 #import "R2RDataController.h"
+#import "R2RAutocompleteViewController.h"
 
-@interface R2RMasterViewController : UIViewController <UITextFieldDelegate>
+@interface R2RMasterViewController : UIViewController <UITextFieldDelegate, R2RAutocompleteViewControllerDelegate, UITabBarDelegate>
 
 @property (strong, nonatomic) R2RDataController *dataController;
+@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end	

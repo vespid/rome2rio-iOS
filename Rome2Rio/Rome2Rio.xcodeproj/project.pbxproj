@@ -35,6 +35,9 @@
 		5E8DB5061619341900756321 /* R2RResultSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB5051619341800756321 /* R2RResultSectionHeader.m */; };
 		5E8DB50C16198E4100756321 /* R2RTransitSegmentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB50B16198E3F00756321 /* R2RTransitSegmentHeader.m */; };
 		5E8DB521161BE3B800756321 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E8DB520161BE3B500756321 /* CoreLocation.framework */; };
+		5EA48D4B1640E5A2008A0ADA /* R2RAutocompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D4A1640E5A1008A0ADA /* R2RAutocompleteViewController.m */; };
+		5EA48D561641017F008A0ADA /* R2RAutocomplete.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D551641017F008A0ADA /* R2RAutocomplete.m */; };
+		5EA48D5C164209FA008A0ADA /* R2RInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D5B164209FA008A0ADA /* R2RInfoViewController.m */; };
 		5EAC705B162B8BA300BE8378 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EAC705A162B8BA300BE8378 /* MapKit.framework */; };
 		5EAC705F162B906200BE8378 /* R2RMKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */; };
 		5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */; };
@@ -139,6 +142,12 @@
 		5E8DB50A16198E3E00756321 /* R2RTransitSegmentHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentHeader.h; sourceTree = "<group>"; };
 		5E8DB50B16198E3F00756321 /* R2RTransitSegmentHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentHeader.m; sourceTree = "<group>"; };
 		5E8DB520161BE3B500756321 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		5EA48D491640E5A1008A0ADA /* R2RAutocompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAutocompleteViewController.h; sourceTree = "<group>"; };
+		5EA48D4A1640E5A1008A0ADA /* R2RAutocompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAutocompleteViewController.m; sourceTree = "<group>"; };
+		5EA48D541641017F008A0ADA /* R2RAutocomplete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAutocomplete.h; sourceTree = "<group>"; };
+		5EA48D551641017F008A0ADA /* R2RAutocomplete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAutocomplete.m; sourceTree = "<group>"; };
+		5EA48D5A164209FA008A0ADA /* R2RInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RInfoViewController.h; sourceTree = "<group>"; };
+		5EA48D5B164209FA008A0ADA /* R2RInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RInfoViewController.m; sourceTree = "<group>"; };
 		5EAC705A162B8BA300BE8378 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5EAC705D162B906200BE8378 /* R2RMKAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RMKAnnotation.h; sourceTree = "<group>"; };
 		5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMKAnnotation.m; sourceTree = "<group>"; };
@@ -148,7 +157,7 @@
 		5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteStore.m; sourceTree = "<group>"; };
 		5EAC714E162D0F9000BE8378 /* R2RSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSpriteView.h; sourceTree = "<group>"; };
 		5EAC714F162D0F9000BE8378 /* R2RSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteView.m; sourceTree = "<group>"; };
-		5ED4B3471601D01C00E9FE42 /* Rome2Rio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rome2Rio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5ED4B3471601D01C00E9FE42 /* Rome2rio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rome2rio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ED4B34B1601D01C00E9FE42 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5ED4B34D1601D01C00E9FE42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5ED4B34F1601D01C00E9FE42 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -272,7 +281,7 @@
 		5ED4B3481601D01C00E9FE42 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5ED4B3471601D01C00E9FE42 /* Rome2Rio.app */,
+				5ED4B3471601D01C00E9FE42 /* Rome2rio.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -406,6 +415,10 @@
 				5E16F263163E021A00740B07 /* R2RTransitSegmentViewController.m */,
 				5E16F270163F548D00740B07 /* R2RWalkDriveSegmentViewController.h */,
 				5E16F271163F548D00740B07 /* R2RWalkDriveSegmentViewController.m */,
+				5EA48D491640E5A1008A0ADA /* R2RAutocompleteViewController.h */,
+				5EA48D4A1640E5A1008A0ADA /* R2RAutocompleteViewController.m */,
+				5EA48D5A164209FA008A0ADA /* R2RInfoViewController.h */,
+				5EA48D5B164209FA008A0ADA /* R2RInfoViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -417,6 +430,8 @@
 				5ED4B3731601D07000E9FE42 /* R2RConnection.m */,
 				5ED4B3861601D07000E9FE42 /* R2RGeoCoder.h */,
 				5ED4B3871601D07000E9FE42 /* R2RGeoCoder.m */,
+				5EA48D541641017F008A0ADA /* R2RAutocomplete.h */,
+				5EA48D551641017F008A0ADA /* R2RAutocomplete.m */,
 				5ED4B3921601D07000E9FE42 /* R2RPrintSearch.h */,
 				5ED4B3931601D07000E9FE42 /* R2RPrintSearch.m */,
 				5ED4B39A1601D07000E9FE42 /* R2RSearch.h */,
@@ -504,7 +519,7 @@
 			);
 			name = Rome2Rio;
 			productName = Rome2Rio;
-			productReference = 5ED4B3471601D01C00E9FE42 /* Rome2Rio.app */;
+			productReference = 5ED4B3471601D01C00E9FE42 /* Rome2rio.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -627,6 +642,9 @@
 				5E16F26F163E3A9800740B07 /* R2RConstants.m in Sources */,
 				5E16F272163F548E00740B07 /* R2RWalkDriveSegmentViewController.m in Sources */,
 				5E16F276163F623800740B07 /* R2RDetailViewController.m in Sources */,
+				5EA48D4B1640E5A2008A0ADA /* R2RAutocompleteViewController.m in Sources */,
+				5EA48D561641017F008A0ADA /* R2RAutocomplete.m in Sources */,
+				5EA48D5C164209FA008A0ADA /* R2RInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -710,8 +728,9 @@
 				GCC_PREFIX_HEADER = "Rome2Rio/Rome2Rio-Prefix.pch";
 				INFOPLIST_FILE = "Rome2Rio/Rome2Rio-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Rome2rio;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -725,10 +744,11 @@
 				GCC_PREFIX_HEADER = "Rome2Rio/Rome2Rio-Prefix.pch";
 				INFOPLIST_FILE = "Rome2Rio/Rome2Rio-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Rome2rio;
 				PROVISIONING_PROFILE = "1B9BA5D6-727C-4755-B34B-D1AB9D062DF8";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "23A1553B-83A9-437F-B634-582964AAD9C2";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
