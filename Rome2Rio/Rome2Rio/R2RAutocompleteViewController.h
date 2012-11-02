@@ -13,6 +13,8 @@
 
 @interface R2RAutocompleteViewController : UITableViewController <UISearchBarDelegate, R2RAutocompleteDelegate>
 
+//@property (strong, nonatomic) R2RDataController *dataController;
+
 @property (weak, nonatomic) id <R2RAutocompleteViewControllerDelegate> delegate;
 @property (strong, nonatomic) UITextField *textField;
 

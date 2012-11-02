@@ -34,7 +34,7 @@
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origin" minimumFontSize="14" clearButtonMode="always" id="OV4-73-MRK">
                                 <rect key="frame" x="20" y="195" width="270" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="done"/>
@@ -46,7 +46,7 @@
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" minimumFontSize="14" clearButtonMode="always" id="Puj-uC-cuN">
                                 <rect key="frame" x="20" y="234" width="270" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="done"/>
@@ -58,7 +58,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" id="gex-vl-wF7">
                                 <rect key="frame" x="60" y="281" width="200" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="tintColor" red="0.94901960784313721" green="0.40392156862745099" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Search">
@@ -96,18 +96,25 @@
                                     <action selector="currentLocationTouchUpInside:" destination="KQv-tN-kqn" eventType="touchUpInside" id="B6T-2c-Cfk"/>
                                 </connections>
                             </button>
-                            <tabBar contentMode="scaleToFill" id="0S1-Co-vyM">
-                                <rect key="frame" x="0.0" y="455" width="320" height="49"/>
+                            <view alpha="0.69999998807907104" contentMode="scaleToFill" id="Vda-d0-HAk">
+                                <rect key="frame" x="0.0" y="472" width="320" height="32"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <items>
-                                    <tabBarItem title="Info" image="rome2rio_globe_57.png" id="9iM-fU-56y"/>
-                                    <tabBarItem systemItem="more" id="QcL-mJ-B34"/>
-                                </items>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="5Je-41-51n">
+                                <rect key="frame" x="293" y="479" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
-                                    <outlet property="delegate" destination="KQv-tN-kqn" id="Gm1-0B-6Da"/>
+                                    <action selector="showInfoView:" destination="KQv-tN-kqn" eventType="touchUpInside" id="1vy-1p-WUk"/>
                                 </connections>
-                            </tabBar>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -116,7 +123,6 @@
                         <outlet property="fromTextField" destination="OV4-73-MRK" id="5NX-dE-MwW"/>
                         <outlet property="headerBackground" destination="zsF-bD-ZKY" id="Qro-jR-gqR"/>
                         <outlet property="headerImage" destination="1sT-98-geU" id="dtq-kZ-fbE"/>
-                        <outlet property="tabBar" destination="0S1-Co-vyM" id="w2Y-kh-vXm"/>
                         <outlet property="toTextField" destination="Puj-uC-cuN" id="GAd-t1-FBd"/>
                         <segue destination="V3N-FG-aoW" kind="push" identifier="showSearchResults" id="hdR-C1-VDI"/>
                         <segue destination="1WY-Zk-BjH" kind="modal" identifier="showAutocomplete" id="wXA-ng-O5n"/>
@@ -139,6 +145,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="656"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
+                            <view alpha="0.5" contentMode="scaleToFill" id="XdN-ML-zCU">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view alpha="0.69999998807907104" contentMode="scaleToFill" id="2DY-7C-44h">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -149,7 +160,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Kay-Rg-fU6">
-                                <rect key="frame" x="10" y="180" width="300" height="250"/>
+                                <rect key="frame" x="30" y="180" width="260" height="250"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -166,11 +177,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pbK-y6-mIV">
-                                <rect key="frame" x="10" y="440" width="140" height="44"/>
+                                <rect key="frame" x="90" y="440" width="140" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Send">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -187,18 +198,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tabBar contentMode="scaleToFill" id="Z8v-WX-SA3">
-                                <rect key="frame" x="0.0" y="499" width="320" height="49"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <items>
-                                    <tabBarItem title="Search" image="rome2rio_globe_57.png" id="IiJ-Nm-k1d"/>
-                                </items>
-                                <connections>
-                                    <outlet property="delegate" destination="egu-FJ-cxd" id="10B-pe-DhC"/>
-                                </connections>
-                            </tabBar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LCn-Nq-y1a">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LCn-Nq-y1a">
                                 <rect key="frame" x="170" y="440" width="140" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -213,12 +213,30 @@
                                     <action selector="sendFeedbackMail:" destination="egu-FJ-cxd" eventType="touchUpInside" id="hSi-vG-5MS"/>
                                 </connections>
                             </button>
+                            <view alpha="0.69999998807907104" contentMode="scaleToFill" id="o4Q-zd-87G">
+                                <rect key="frame" x="0.0" y="516" width="320" height="32"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="tZA-I5-ITd">
+                                <rect key="frame" x="293" y="522" width="18" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <state key="normal" image="Home_Icon_White@2x.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showMasterView:" destination="egu-FJ-cxd" eventType="touchUpInside" id="x05-YX-CCy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="feedbackTextView" destination="Kay-Rg-fU6" id="BsR-65-D9U"/>
-                        <outlet property="tabBar" destination="Z8v-WX-SA3" id="eGb-GL-b3Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jYS-UI-1sK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -292,7 +310,7 @@
         <scene sceneID="Hso-JT-YNV">
             <objects>
                 <tableViewController id="1WY-Zk-BjH" customClass="R2RAutocompleteViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="LS2-yh-Obk">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" id="LS2-yh-Obk">
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -309,54 +327,32 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="myLocationCell" textLabel="18E-uS-XA1" imageView="eAC-8x-4LA" style="IBUITableViewCellStyleDefault" id="WzE-6S-TkR">
-                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="My Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="18E-uS-XA1">
-                                            <rect key="frame" x="53" y="0.0" width="257" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="targetIcon_orange.png" id="eAC-8x-4LA">
-                                            <rect key="frame" x="0.0" y="0.0" width="43" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="autocompleteCell" textLabel="Lsc-b8-HtW" style="IBUITableViewCellStyleDefault" id="jEF-8y-48t">
-                                <rect key="frame" x="0.0" y="110" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="autocompleteCell" id="jEF-8y-48t" customClass="R2RAutocompleteCell">
+                                <rect key="frame" x="0.0" y="66" width="320" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lsc-b8-HtW">
-                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="targetIcon_orange.png" id="VoN-Fl-doB">
+                                            <rect key="frame" x="10" y="6" width="23" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Aqj-Zq-RKI">
+                                            <rect key="frame" x="41" y="6" width="275" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                            </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="Cell" id="sud-KH-7Hi">
-                                <rect key="frame" x="0.0" y="154" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
+                                <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="autocompleteImageView" destination="VoN-Fl-doB" id="VrE-og-8YI"/>
+                                    <outlet property="label" destination="Aqj-Zq-RKI" id="pP4-Od-Qy3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -637,11 +633,126 @@
     </scenes>
     <resources>
         <image name="Home_Icon_White.png" width="18" height="18"/>
+        <image name="Home_Icon_White@2x.png" width="36" height="36"/>
         <image name="bg-retina.png" width="640" height="1136"/>
         <image name="r2r-retina.png" width="600" height="120"/>
-        <image name="rome2rio_globe_57.png" width="57" height="57"/>
         <image name="targetIcon_orange.png" width="48" height="48"/>
     </resources>
+    <classes>
+        <class className="R2RAutocompleteCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="autocompleteImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="label" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RAutocompleteViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+            </relationships>
+        </class>
+        <class className="R2RDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RFlightHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RFlightSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentCell.h"/>
+        </class>
+        <class className="R2RFlightSegmentViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+            </relationships>
+        </class>
+        <class className="R2RInfoViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RInfoViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="sendFeedback:"/>
+                <relationship kind="action" name="sendFeedbackMail:"/>
+                <relationship kind="action" name="showMasterView:"/>
+                <relationship kind="outlet" name="feedbackTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="R2RMasterViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="currentLocationTouchUpInside:"/>
+                <relationship kind="action" name="fromEditingDidBegin:"/>
+                <relationship kind="action" name="fromEditingDidEnd:"/>
+                <relationship kind="action" name="searchTouchUpInside:"/>
+                <relationship kind="action" name="showInfoView:"/>
+                <relationship kind="action" name="toEditingDidBegin:"/>
+                <relationship kind="action" name="toEditingDidEnd:"/>
+                <relationship kind="outlet" name="fromTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="headerBackground" candidateClass="UIView"/>
+                <relationship kind="outlet" name="headerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="toTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="R2RNameCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RNameCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RResultsCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsCell.h"/>
+        </class>
+        <class className="R2RResultsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+            </relationships>
+        </class>
+        <class className="R2RTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTableView.h"/>
+        </class>
+        <class className="R2RTransitHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RTransitSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentCell.h"/>
+        </class>
+        <class className="R2RTransitSegmentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RWalkDriveHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RWalkDriveSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentCell.h"/>
+        </class>
+        <class className="R2RWalkDriveSegmentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

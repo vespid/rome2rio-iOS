@@ -8,7 +8,7 @@
 
 #import "R2RMasterViewController.h"
 #import "R2RResultsViewController.h"
-#import "R2RStatusButton.h"
+#import "R2RMasterViewStatusButton.h"
 
 #import "R2RConstants.h"
 
@@ -19,7 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *headerBackground;
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
-@property (strong, nonatomic) R2RStatusButton *statusButton;
+@property (strong, nonatomic) R2RMasterViewStatusButton *statusButton;
 
 //@property (nonatomic) BOOL keyboardShowing;
 
@@ -87,7 +87,7 @@ enum R2RState
  
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
 
-    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.frame.size.height-30), self.view.frame.size.width, 30.0)];
+    self.statusButton = [[R2RMasterViewStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.frame.size.height-30), self.view.frame.size.width-30, 30.0)];
 
     [self.view addSubview:self.statusButton];
 }
@@ -98,7 +98,6 @@ enum R2RState
     [self setToTextField:nil];
     [self setHeaderBackground:nil];
     [self setHeaderImage:nil];
-    [self setTabBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -319,14 +318,9 @@ enum R2RState
     
 }
 
-#pragma mark - UITabBar Delegate
-
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+- (IBAction)showInfoView:(id)sender
 {
-    if ([item.title isEqualToString:@"Info"])
-    {
-        [self performSegueWithIdentifier:@"showInfo" sender:self];
-    }
+    [self performSegueWithIdentifier:@"showInfo" sender:self];
 }
 
 @end

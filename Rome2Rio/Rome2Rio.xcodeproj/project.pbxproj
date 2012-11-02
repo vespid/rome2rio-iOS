@@ -38,6 +38,8 @@
 		5EA48D4B1640E5A2008A0ADA /* R2RAutocompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D4A1640E5A1008A0ADA /* R2RAutocompleteViewController.m */; };
 		5EA48D561641017F008A0ADA /* R2RAutocomplete.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D551641017F008A0ADA /* R2RAutocomplete.m */; };
 		5EA48D5C164209FA008A0ADA /* R2RInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D5B164209FA008A0ADA /* R2RInfoViewController.m */; };
+		5EA48D5F16422189008A0ADA /* R2RAutocompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D5E16422189008A0ADA /* R2RAutocompleteCell.m */; };
+		5EA48D6816436321008A0ADA /* R2RMasterViewStatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D6716436321008A0ADA /* R2RMasterViewStatusButton.m */; };
 		5EAC705B162B8BA300BE8378 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EAC705A162B8BA300BE8378 /* MapKit.framework */; };
 		5EAC705F162B906200BE8378 /* R2RMKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */; };
 		5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */; };
@@ -148,6 +150,10 @@
 		5EA48D551641017F008A0ADA /* R2RAutocomplete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAutocomplete.m; sourceTree = "<group>"; };
 		5EA48D5A164209FA008A0ADA /* R2RInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RInfoViewController.h; sourceTree = "<group>"; };
 		5EA48D5B164209FA008A0ADA /* R2RInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RInfoViewController.m; sourceTree = "<group>"; };
+		5EA48D5D16422189008A0ADA /* R2RAutocompleteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAutocompleteCell.h; sourceTree = "<group>"; };
+		5EA48D5E16422189008A0ADA /* R2RAutocompleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAutocompleteCell.m; sourceTree = "<group>"; };
+		5EA48D6616436321008A0ADA /* R2RMasterViewStatusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RMasterViewStatusButton.h; sourceTree = "<group>"; };
+		5EA48D6716436321008A0ADA /* R2RMasterViewStatusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMasterViewStatusButton.m; sourceTree = "<group>"; };
 		5EAC705A162B8BA300BE8378 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5EAC705D162B906200BE8378 /* R2RMKAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RMKAnnotation.h; sourceTree = "<group>"; };
 		5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMKAnnotation.m; sourceTree = "<group>"; };
@@ -472,6 +478,8 @@
 			children = (
 				5ED5C8CA16082D34004CFDC8 /* R2RStatusButton.h */,
 				5ED5C8CB16082D34004CFDC8 /* R2RStatusButton.m */,
+				5EA48D6616436321008A0ADA /* R2RMasterViewStatusButton.h */,
+				5EA48D6716436321008A0ADA /* R2RMasterViewStatusButton.m */,
 				5E16F26A163E320800740B07 /* R2RTableView.h */,
 				5E16F26B163E320900740B07 /* R2RTableView.m */,
 				5ED4B37E1601D07000E9FE42 /* R2RFlightSegmentCell.h */,
@@ -498,6 +506,8 @@
 				5E8DB50B16198E3F00756321 /* R2RTransitSegmentHeader.m */,
 				5E24384C16367D920044C8AD /* R2RLinkActionSheet.h */,
 				5E24384D16367D930044C8AD /* R2RLinkActionSheet.m */,
+				5EA48D5D16422189008A0ADA /* R2RAutocompleteCell.h */,
+				5EA48D5E16422189008A0ADA /* R2RAutocompleteCell.m */,
 			);
 			name = ViewPrototypes;
 			sourceTree = "<group>";
@@ -645,6 +655,8 @@
 				5EA48D4B1640E5A2008A0ADA /* R2RAutocompleteViewController.m in Sources */,
 				5EA48D561641017F008A0ADA /* R2RAutocomplete.m in Sources */,
 				5EA48D5C164209FA008A0ADA /* R2RInfoViewController.m in Sources */,
+				5EA48D5F16422189008A0ADA /* R2RAutocompleteCell.m in Sources */,
+				5EA48D6816436321008A0ADA /* R2RMasterViewStatusButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

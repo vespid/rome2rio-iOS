@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface R2RInfoViewController : UIViewController <UITabBarDelegate, UITextViewDelegate>
+@interface R2RInfoViewController : UIViewController <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *feedbackTextView;
-@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 - (IBAction)sendFeedback:(id)sender;
 - (IBAction)sendFeedbackMail:(id)sender;
+- (IBAction)showMasterView:(id)sender;
 
 @end

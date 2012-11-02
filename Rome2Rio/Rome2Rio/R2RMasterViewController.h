@@ -11,9 +11,10 @@
 #import "R2RDataController.h"
 #import "R2RAutocompleteViewController.h"
 
-@interface R2RMasterViewController : UIViewController <UITextFieldDelegate, R2RAutocompleteViewControllerDelegate, UITabBarDelegate>
+@interface R2RMasterViewController : UIViewController <UITextFieldDelegate, R2RAutocompleteViewControllerDelegate>
 
 @property (strong, nonatomic) R2RDataController *dataController;
-@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+
+- (IBAction)showInfoView:(id)sender;
 
 @end	

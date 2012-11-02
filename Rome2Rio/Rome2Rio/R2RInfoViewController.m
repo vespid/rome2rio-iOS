@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "R2RInfoViewController.h"
 
 @interface R2RInfoViewController ()
@@ -26,6 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.feedbackTextView.clipsToBounds = YES;
+    self.feedbackTextView.layer.cornerRadius = 10.0f;
 	// Do any additional setup after loading the view.
 }
 
@@ -37,9 +41,9 @@
 
 - (void)viewDidUnload {
     [self setFeedbackTextView:nil];
-    [self setTabBar:nil];
     [super viewDidUnload];
 }
+
 - (IBAction)sendFeedback:(id)sender
 {
     /* create mail subject */
@@ -94,14 +98,9 @@
     }
 }
 
-#pragma mark - UITabBar Delegate
-
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+- (IBAction)showMasterView:(id)sender
 {
-    if ([item.title isEqualToString:@"Search"])
-    {
-        [self dismissModalViewControllerAnimated:YES];
-    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - UITextView Delegate

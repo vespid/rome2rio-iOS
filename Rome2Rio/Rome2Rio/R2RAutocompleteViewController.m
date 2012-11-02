@@ -7,17 +7,21 @@
 //
 
 #import "R2RAutocompleteViewController.h"
+#import "R2RAutocompleteCell.h"
 
 @interface R2RAutocompleteViewController ()
 
 @property (strong, nonatomic) R2RAutocomplete *autocomplete;
 @property (strong, nonatomic) NSMutableArray *places;
 
+@property (strong, nonatomic) NSString *prevSearchText;
+@property (nonatomic) BOOL fallbackToCLGeocoder;
+
 @end
 
 @implementation R2RAutocompleteViewController
 
-@synthesize delegate;
+@synthesize delegate;//, dataController;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -31,10 +35,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
- 
+    
     self.searchBar.delegate = self;
     self.places = [[NSMutableArray alloc] init];
 
+    self.fallbackToCLGeocoder = NO;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -76,23 +81,23 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+{    
+    static NSString *CellIdentifier = @"autocompleteCell";
+    
+    R2RAutocompleteCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
     if (indexPath.row == [self.places count])
     {
-        NSString *CellIdentifier = @"myLocationCell";
+        [cell.autocompleteImageView setHidden:NO];
+        [cell.label setText:@"My location"];
         
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
         return cell;
     }
     
-    NSString *CellIdentifier = @"autocompleteCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     R2RPlace *place = [self.places objectAtIndex:indexPath.row];
     
-    [cell.textLabel setText:place.longName];
+    [cell.autocompleteImageView setHidden:YES];
+    [cell.label setText:place.longName];
     
     return cell;
     
@@ -169,11 +174,35 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if ([searchText length] >=3)
+    if ([searchText length] < [self.prevSearchText length])
+    {
+        self.fallbackToCLGeocoder = NO;
+    }
+    
+    if ([searchText length] >=2)
     {
         self.autocomplete = [[R2RAutocomplete alloc] initWithSearchString:searchText delegate:self];
-        [self.autocomplete sendAsynchronousRequest];
+        if (self.fallbackToCLGeocoder == YES)
+        {
+            [self sendCLGeocodeRequest:searchText];
+        }
+        else
+        {
+            [self.autocomplete sendAsynchronousRequest];
+        }
     }
+    self.prevSearchText = searchText;
+}
+
+-(void) sendAutocompleteRequest:(NSString *)query
+{
+    self.autocomplete = [[R2RAutocomplete alloc] initWithSearchString:query delegate:self];
+    [self.autocomplete sendAsynchronousRequest];
+}
+
+-(void) sendCLGeocodeRequest:(NSString *)query
+{
+    [self.autocomplete geocodeFallback:query];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -193,14 +222,27 @@
 
 #pragma mark - autocomplete delegate
 
--(void)autocompleteResolved:(R2RAutocomplete *)delegateAutocomplete
+-(void)autocompleteResolved:(R2RAutocomplete *)autocomplete
 {
-    if (self.autocomplete == delegateAutocomplete)
+    if (self.autocomplete == autocomplete)
     {
-        if (self.autocomplete.responseCompletionState == stateResolved)
+        if (autocomplete.responseCompletionState == stateResolved)
         {
-            self.places = self.autocomplete.geoCodeResponse.places;
-            [self.tableView reloadData];
+            R2RLog(@"resolved places %d", [autocomplete.geoCodeResponse.places count]);
+            
+            if ([autocomplete.geoCodeResponse.places count] > 0)
+            {
+                self.places = self.autocomplete.geoCodeResponse.places;
+                [self.tableView reloadData];
+            }
+            else
+            {
+                if (self.fallbackToCLGeocoder == NO)
+                {
+                    self.fallbackToCLGeocoder = YES;
+                    [self sendCLGeocodeRequest:autocomplete.searchString];
+                 }
+            }
         }
     }
 }

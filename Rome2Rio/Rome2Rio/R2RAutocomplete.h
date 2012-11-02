@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 #import "R2RConnection.h"
 #import "R2RGeoCodeResponse.h"
@@ -25,6 +26,7 @@
 -(id) initWithSearch:(NSString *) query: (NSString *) country: (NSString *) language delegate:(id<R2RAutocompleteDelegate>)r2rGeoCoderDelegate;
 -(id) initWithSearchString:(NSString *)initSearchString delegate:(id<R2RAutocompleteDelegate>)r2rGeoCoderDelegate;
 -(void) sendAsynchronousRequest;
+-(void)geocodeFallback:(NSString *)query;
 
 enum {
     stateEmpty = 0,
@@ -41,6 +43,6 @@ enum {
 
 @protocol R2RAutocompleteDelegate <NSObject>
 
-- (void)autocompleteResolved:(R2RAutocomplete *) delegateAutocomplete;
+- (void)autocompleteResolved:(R2RAutocomplete *) autocomplete;
 
 @end

@@ -18,8 +18,6 @@
 
 @property (nonatomic) NSInteger retryCount;
 
-
-
 @end
 
 @implementation R2RAutocomplete
@@ -106,16 +104,17 @@
     geoCode.language = [responseData objectForKey:@"language"];
     
     geoCode.places = [self parsePlaces:[responseData objectForKey:@"places"]];
-    if ([geoCode.places count] > 0)
-    {
+//    if ([geoCode.places count] > 0)
+//    {
 //        geoCode.place = [places objectAtIndex:0];
         self.responseCompletionState = stateResolved;
-    }
-    else
-    {
-//        [self geocodeFallback:self.query];
-        self.responseCompletionState = stateError; //remove this if geocodeFallback is added to autocomplete
-    }
+//    }
+//    else
+//    {
+//        
+////        [self geocodeFallback:self.query];
+//        self.responseCompletionState = stateError; //remove this if geocodeFallback is added to autocomplete
+//    }
     
     return geoCode;
 }
@@ -199,6 +198,90 @@
             
         }
     }
+}
+
+-(void)geocodeFallback:(NSString *)query
+{
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder geocodeAddressString:query completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         if ([placemarks count] > 0)
+         {
+             if (!self.geoCodeResponse)
+             {
+                 self.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
+             }
+             if (!self.geoCodeResponse.places)
+             {
+                 self.geoCodeResponse.places = [[NSMutableArray alloc] init];
+             }
+             
+             for (CLPlacemark *placemark in placemarks)
+             {
+                 R2RPlace *place = [[R2RPlace alloc] init];
+                 
+                 NSMutableString *longName = [[NSMutableString alloc] init];
+                 NSMutableString *shortName = [[NSMutableString alloc] init];
+                 if ([placemark.subThoroughfare length] > 0)
+                 {
+                     [longName appendFormat:@"%@ ", placemark.subThoroughfare];
+                     [shortName appendFormat:@"%@ ", placemark.subThoroughfare];
+                 }
+                 
+                 if ([placemark.thoroughfare length] > 0)
+                 {
+                     [longName appendFormat:@"%@, ", placemark.thoroughfare];
+                     [shortName appendFormat:@"%@", placemark.thoroughfare];
+                     place.kind = @":veryspecific";
+                 }
+                 
+                 if ([placemark.subLocality length] > 0)
+                     [longName appendFormat:@"%@, ", placemark.subLocality];
+                 
+                 if ([placemark.locality length] > 0)
+                 {
+                     [longName appendFormat:@"%@, ", placemark.locality];
+                     if ([place.kind length] == 0)
+                         place.kind = @"city";
+                     if ([shortName length] == 0)
+                         [shortName appendString:placemark.locality];
+                 }
+                 
+                 if ([placemark.country length] > 0)
+                 {
+                     [longName appendFormat:@"%@", placemark.country];
+                     if ([place.kind length] == 0)
+                         place.kind = @"country";
+                     if ([shortName length] == 0)
+                         [shortName appendString:placemark.country];
+                 }
+                 
+                 place.longName = [NSString stringWithString:longName];
+                 place.shortName = [NSString stringWithString:shortName];
+                 place.lat = placemark.region.center.latitude;
+                 place.lng = placemark.region.center.longitude;
+             
+                 [self.geoCodeResponse.places addObject:place];
+                 
+             }
+             
+             self.geoCodeResponse.place = [self.geoCodeResponse.places objectAtIndex:0];
+             self.responseCompletionState = stateResolved;
+             
+             R2RLog(@"fallback places %d", [self.geoCodeResponse.places count]);
+             
+             [[self delegate] autocompleteResolved:self];
+             
+         }
+         else
+         {
+//             self.responseMessage = @"Unable to find location";
+             self.responseCompletionState = stateError;
+             
+             [[self delegate] autocompleteResolved:self];
+         }
+     }];
+    
 }
 
 @end
