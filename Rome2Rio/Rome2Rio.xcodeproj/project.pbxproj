@@ -40,6 +40,8 @@
 		5EA48D5C164209FA008A0ADA /* R2RInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D5B164209FA008A0ADA /* R2RInfoViewController.m */; };
 		5EA48D5F16422189008A0ADA /* R2RAutocompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D5E16422189008A0ADA /* R2RAutocompleteCell.m */; };
 		5EA48D6816436321008A0ADA /* R2RMasterViewStatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D6716436321008A0ADA /* R2RMasterViewStatusButton.m */; };
+		5EA48DB81643969B008A0ADA /* R2RDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48DB71643969B008A0ADA /* R2RDataStore.m */; };
+		5EA48DBB16439DB9008A0ADA /* R2RDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48DBA16439DB8008A0ADA /* R2RDataManager.m */; };
 		5EAC705B162B8BA300BE8378 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EAC705A162B8BA300BE8378 /* MapKit.framework */; };
 		5EAC705F162B906200BE8378 /* R2RMKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */; };
 		5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */; };
@@ -154,6 +156,10 @@
 		5EA48D5E16422189008A0ADA /* R2RAutocompleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAutocompleteCell.m; sourceTree = "<group>"; };
 		5EA48D6616436321008A0ADA /* R2RMasterViewStatusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RMasterViewStatusButton.h; sourceTree = "<group>"; };
 		5EA48D6716436321008A0ADA /* R2RMasterViewStatusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMasterViewStatusButton.m; sourceTree = "<group>"; };
+		5EA48DB61643969A008A0ADA /* R2RDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RDataStore.h; sourceTree = "<group>"; };
+		5EA48DB71643969B008A0ADA /* R2RDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RDataStore.m; sourceTree = "<group>"; };
+		5EA48DB916439DB7008A0ADA /* R2RDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RDataManager.h; sourceTree = "<group>"; };
+		5EA48DBA16439DB8008A0ADA /* R2RDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RDataManager.m; sourceTree = "<group>"; };
 		5EAC705A162B8BA300BE8378 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5EAC705D162B906200BE8378 /* R2RMKAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RMKAnnotation.h; sourceTree = "<group>"; };
 		5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMKAnnotation.m; sourceTree = "<group>"; };
@@ -432,6 +438,10 @@
 		5ED4B3D91601D0FC00E9FE42 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5EA48DB61643969A008A0ADA /* R2RDataStore.h */,
+				5EA48DB71643969B008A0ADA /* R2RDataStore.m */,
+				5EA48DB916439DB7008A0ADA /* R2RDataManager.h */,
+				5EA48DBA16439DB8008A0ADA /* R2RDataManager.m */,
 				5ED4B3721601D07000E9FE42 /* R2RConnection.h */,
 				5ED4B3731601D07000E9FE42 /* R2RConnection.m */,
 				5ED4B3861601D07000E9FE42 /* R2RGeoCoder.h */,
@@ -657,6 +667,8 @@
 				5EA48D5C164209FA008A0ADA /* R2RInfoViewController.m in Sources */,
 				5EA48D5F16422189008A0ADA /* R2RAutocompleteCell.m in Sources */,
 				5EA48D6816436321008A0ADA /* R2RMasterViewStatusButton.m in Sources */,
+				5EA48DB81643969B008A0ADA /* R2RDataStore.m in Sources */,
+				5EA48DBB16439DB9008A0ADA /* R2RDataManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

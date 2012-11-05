@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "R2RSprite.h"
-#import "R2RDataController.h"
+#import "R2RDataStore.h"
 
 #import "R2RWalkDriveSegment.h"
 #import "R2RTransitSegment.h"
@@ -25,7 +25,7 @@
 
 @interface R2RSegmentHandler : NSObject
 
--(id) initWithData: (R2RDataController *) data;
+-(id) initWithData: (R2RDataStore *) dataStore;
 
 -(R2RSprite *) getRouteSprite:(NSString *) kind;
 //-(UIImage *) getRouteIcon:(NSString *) kind;

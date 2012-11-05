@@ -10,18 +10,18 @@
 
 @interface R2RSegmentHandler()
 
-@property (strong, nonatomic) R2RDataController *data;
+@property (strong, nonatomic) R2RDataStore *dataStore;
 
 @end
 
 @implementation R2RSegmentHandler
 
--(id)initWithData:(R2RDataController *)data
+-(id)initWithData:(R2RDataStore *)dataStore
 {
     self = [super init];
     if (self)
     {
-        self.data = data;
+        self.dataStore = dataStore;
     }
     return self;
 }
@@ -109,7 +109,7 @@
         R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
         R2RFlightHop *hop = [leg.hops objectAtIndex:0];
         
-        for (R2RAirport *airport in self.data.search.searchResponse.airports)
+        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
         {
             if ([airport.code isEqualToString:hop.sCode])
             {
@@ -142,7 +142,7 @@
         R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
         R2RFlightHop *hop = [leg.hops lastObject];
         
-        for (R2RAirport *airport in self.data.search.searchResponse.airports)
+        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
         {
             if ([airport.code isEqualToString:hop.tCode])
             {

@@ -33,7 +33,7 @@
 
 @implementation R2RDetailViewController
 
-@synthesize route, dataController;
+@synthesize route, dataStore;// dataController;
 
 #pragma mark - Managing the detail item
 
@@ -169,7 +169,7 @@
     {
         [cell.connectTop setHidden:NO];
         R2RSprite *sprite = [segmentHandler getConnectionSprite:[self.route.segments objectAtIndex:routeIndex-1]];
-        [self.dataController.spriteStore setSpriteInView:sprite :cell.connectTop];
+        [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectTop];
     }
     
     if (routeIndex == [self.route.segments count])
@@ -180,7 +180,7 @@
     {
         [cell.connectBottom setHidden:NO];
         R2RSprite *sprite = [segmentHandler getConnectionSprite:[self.route.segments objectAtIndex:routeIndex]];
-        [self.dataController.spriteStore setSpriteInView:sprite :cell.connectBottom];
+        [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
     }
     
     CGPoint iconOffset = CGPointMake(267, 46);
@@ -188,7 +188,7 @@
     
     R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6" :iconOffset :iconSize ];
     
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.icon];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.icon];
     
     [cell.contentView setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
     
@@ -222,11 +222,11 @@
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.connectTop];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.connectBottom];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectTop];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
     
     sprite = [segmentHandler getRouteSprite:segment.kind];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.icon];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.icon];
     
     return cell;
 }
@@ -242,11 +242,11 @@
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.connectTop];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.connectBottom];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectTop];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
     
     sprite = [segmentHandler getRouteSprite:segment.kind];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.icon];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.icon];
     
     return cell;
 }
@@ -259,11 +259,11 @@
     R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.connectTop];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.connectBottom];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectTop];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
     
     sprite = [segmentHandler getRouteSprite:segment.kind];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.icon];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.icon];
     
     
     return cell;
@@ -294,7 +294,7 @@
     if ([[segue identifier] isEqualToString:@"showFlightSegment"])
     {
         R2RFlightSegmentViewController *segmentViewController = [segue destinationViewController];
-        segmentViewController.dataController = self.dataController;
+        segmentViewController.dataStore = self.dataStore;
         segmentViewController.route = self.route;
         segmentViewController.flightSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
         
@@ -304,14 +304,14 @@
     if ([[segue identifier] isEqualToString:@"showTransitSegment"])
     {
         R2RTransitSegmentViewController *segmentViewController = [segue destinationViewController];
-        segmentViewController.dataController = self.dataController;
+        segmentViewController.dataStore = self.dataStore;
         segmentViewController.route = self.route;
         segmentViewController.transitSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
     }
     if ([[segue identifier] isEqualToString:@"showWalkDriveSegment"])
     {
         R2RWalkDriveSegmentViewController *segmentViewController = [segue destinationViewController];
-        segmentViewController.dataController = self.dataController;
+        segmentViewController.dataStore = self.dataStore;
         segmentViewController.route = self.route;
         segmentViewController.walkDriveSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
     }
@@ -369,7 +369,7 @@
         [self.mapView addAnnotation:annotation];
     }
     
-    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataController];
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
     
     MKMapRect zoomRect = MKMapRectNull;
     for (id segment in self.route.segments)

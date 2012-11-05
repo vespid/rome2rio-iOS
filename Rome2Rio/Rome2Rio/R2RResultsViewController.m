@@ -29,7 +29,7 @@
 
 @implementation R2RResultsViewController
 
-@synthesize dataController;
+@synthesize dataManager, dataStore;
 
 - (void)viewDidLoad
 {
@@ -55,7 +55,7 @@
     [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
     
-    [self setStatusMessage:self.dataController.statusMessage];
+//    [self setStatusMessage:self.dataController.statusMessage];
 
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView = footer;
@@ -90,7 +90,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataController.search.searchResponse.routes count];
+    return [self.dataManager.dataStore.searchResponse.routes count];
+//    return [self.dataController.search.searchResponse.routes count];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -100,7 +101,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:indexPath.row];
+    R2RRoute *route = [self.dataManager.dataStore.searchResponse.routes objectAtIndex:indexPath.row];
     R2RSegmentHandler *segmentHandler  = [[R2RSegmentHandler alloc] init];
     NSString *CellIdentifier = @"ResultsCell";
     
@@ -142,7 +143,7 @@
             CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, sprite.size.width, sprite.size.height);
             [iconView setFrame:iconFrame];
             
-            [self.dataController.spriteStore setSpriteInView:sprite :iconView];
+            [self.dataManager.dataStore.spriteStore setSpriteInView:sprite :iconView];
             
             xOffset = iconView.frame.origin.x + iconView.frame.size.width + 7; //xPos of next icon
 
@@ -162,22 +163,22 @@
     if ([[segue identifier] isEqualToString:@"showRouteDetails"])
     {
         R2RDetailViewController *detailsViewController = [segue destinationViewController];
-        detailsViewController.dataController = self.dataController;
-        detailsViewController.route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        detailsViewController.dataStore = self.dataStore;
+        detailsViewController.route = [self.dataStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
     }
     if ([[segue identifier] isEqualToString:@"showTransitSegment"])
     {
         R2RTransitSegmentViewController *segmentViewController = [segue destinationViewController];
-        R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row]; 
-        segmentViewController.dataController = self.dataController;
+        R2RRoute *route = [self.dataStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row]; 
+        segmentViewController.dataStore = self.dataStore;
         segmentViewController.route = route;
         segmentViewController.transitSegment = [route.segments objectAtIndex:0];
     }
     if ([[segue identifier] isEqualToString:@"showWalkDriveSegment"])
     {
         R2RWalkDriveSegmentViewController *segmentViewController = [segue destinationViewController];
-        R2RRoute *route = [self.dataController.search.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-        segmentViewController.dataController = self.dataController;
+        R2RRoute *route = [self.dataStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        segmentViewController.dataStore = self.dataStore;
         segmentViewController.route = route;
         segmentViewController.walkDriveSegment = [route.segments objectAtIndex:0];
     }
@@ -190,18 +191,20 @@
 
 -(void) refreshResultsViewTitle
 {
-    
-    NSString *from = self.dataController.fromText;
-    if ([self.dataController isGeocoderResolved:self.dataController.geoCoderFrom])
-    {
-        from = [[NSString alloc] initWithString:self.dataController.geoCoderFrom.geoCodeResponse.place.shortName];
-    }
-    
-    NSString *to = self.dataController.toText;
-    if ([self.dataController isGeocoderResolved:self.dataController.geoCoderTo])
-    {
-        to = [[NSString alloc] initWithString:self.dataController.geoCoderTo.geoCodeResponse.place.shortName];
-    }
+#warning change title to handle if current location not resolved yet
+//    NSString *from = self.dataController.fromText;
+//    if ([self.dataController isGeocoderResolved:self.dataController.geoCoderFrom])
+//    {
+//        from = [[NSString alloc] initWithString:self.dataController.geoCoderFrom.geoCodeResponse.place.shortName];
+//    }
+//    
+//    NSString *to = self.dataController.toText;
+//    if ([self.dataController isGeocoderResolved:self.dataController.geoCoderTo])
+//    {
+//        to = [[NSString alloc] initWithString:self.dataController.geoCoderTo.geoCodeResponse.place.shortName];
+//    }
+    NSString *from = self.dataManager.dataStore.fromPlace.shortName;
+    NSString *to = self.dataManager.dataStore.toPlace.shortName;
     
     NSString *joiner = @" to ";
     CGSize joinerSize = [joiner sizeWithFont:[UIFont systemFontOfSize:17.0]];
@@ -252,12 +255,13 @@
 
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-    [self setStatusMessage:self.dataController.statusMessage];
+#warning no status message
+//    [self setStatusMessage:self.dataController.statusMessage];
 }
 
 -(void) refreshSearchMessage:(NSNotification *) notification
 {
-    [self setStatusMessage:self.dataController.statusMessage];
+//    [self setStatusMessage:self.dataController.statusMessage];
 }
 
 -(void) setStatusMessage: (NSString *) message

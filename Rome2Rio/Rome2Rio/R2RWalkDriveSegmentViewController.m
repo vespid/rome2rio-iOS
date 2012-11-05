@@ -22,7 +22,7 @@
 
 @implementation R2RWalkDriveSegmentViewController
 
-@synthesize dataController, route, walkDriveSegment;
+@synthesize dataStore, route, walkDriveSegment;
 
 - (void)viewDidLoad
 {
@@ -82,7 +82,7 @@
     R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
     
     R2RSprite *sprite = [segmentHandler getRouteSprite:self.walkDriveSegment.kind];
-    [self.dataController.spriteStore setSpriteInView:sprite :cell.kindIcon];
+    [self.dataStore.spriteStore setSpriteInView:sprite :cell.kindIcon];
     
     NSString *sName = self.walkDriveSegment.sName;
     NSString *tName = self.walkDriveSegment.tName;
@@ -167,7 +167,7 @@
         [self.mapView addAnnotation:annotation];
     }
     
-    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataController];
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
     
     for (id segment in self.route.segments)
     {

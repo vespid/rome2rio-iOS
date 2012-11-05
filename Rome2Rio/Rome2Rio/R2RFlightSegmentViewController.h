@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "R2RDataController.h"
+#import "R2RDataStore.h"
 
 @interface R2RFlightSegmentViewController : UITableViewController <UIActionSheetDelegate>
 
-@property (strong, nonatomic) R2RDataController *dataController;
+//@property (strong, nonatomic) R2RDataController *dataController;
+@property (strong, nonatomic) R2RDataStore *dataStore;
 @property (strong, nonatomic) R2RRoute *route;
 @property (strong, nonatomic) R2RFlightSegment *flightSegment;
 

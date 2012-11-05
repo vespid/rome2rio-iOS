@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import "R2RDataController.h"
+#import "R2RDataStore.h"
 
 @interface R2RMapHelper : NSObject
 
--(id) initWithData: (R2RDataController *) data;
+-(id) initWithData: (R2RDataStore *) dataStore;
 
 -(id) getPolyline: (id) segment;
 -(NSArray *) getPolylines: (id) segment;

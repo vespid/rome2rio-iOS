@@ -10,6 +10,9 @@
 #import "R2RMasterViewController.h"
 #import "R2RDataController.h"
 
+#import "R2RDataStore.h"
+#import "R2RDataManager.h"
+
 
 @implementation R2RAppDelegate
 
@@ -21,9 +24,17 @@
     
     R2RMasterViewController *firstViewController = (R2RMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
     
-    R2RDataController *dataController = [[R2RDataController alloc] init];
+//    R2RDataController *dataController = [[R2RDataController alloc] init];
     
-    firstViewController.dataController = dataController;
+    R2RDataStore *dataStore = [[R2RDataStore alloc] init];
+    
+    R2RDataManager *dataManager = [[R2RDataManager alloc] init];
+    dataManager.dataStore = dataStore;
+    
+    firstViewController.dataManager = dataManager;
+    firstViewController.dataStore = dataStore;
+    
+//    firstViewController.dataController = dataController;
 
     return YES;
 }

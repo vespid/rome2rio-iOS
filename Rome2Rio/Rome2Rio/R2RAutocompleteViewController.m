@@ -21,7 +21,7 @@
 
 @implementation R2RAutocompleteViewController
 
-@synthesize delegate;//, dataController;
+@synthesize delegate, dataManager, fieldName;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -50,6 +50,20 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    
+    //TODO
+    if ([self.fieldName isEqualToString:@"from"])
+    {
+        [self.searchBar setText:self.dataManager.dataStore.fromPlace.longName];
+        [self startAutocomplete:self.dataManager.dataStore.fromPlace.longName];
+    }
+    if ([self.fieldName isEqualToString:@"to"])
+    {
+        [self.searchBar setText:self.dataManager.dataStore.toPlace.longName];
+        [self startAutocomplete:self.dataManager.dataStore.toPlace.longName];
+    }
+    
     
     [self.searchBar becomeFirstResponder];
 }
@@ -100,52 +114,7 @@
     [cell.label setText:place.longName];
     
     return cell;
-    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -153,26 +122,30 @@
 {
     if (indexPath.row == [self.places count])
     {
-        [self myLocationClicked];
-        return;
+//        [self sendMyLocationRequest];
+        [self currentLocationClicked];
+//        return;
     }
     else
     {
-        R2RPlace *place = [self.places objectAtIndex:indexPath.row];
-        [self.delegate autocompleteViewControllerDidSelect:self selection:place.longName textField:self.textField];
+//        R2RPlace *place = [self.places objectAtIndex:indexPath.row];
+//        self.autocomplete.geoCodeResponse.place = [self.places objectAtIndex:indexPath.row];
+        
+        [self placeClicked:[self.places objectAtIndex:indexPath.row]];
+        
+//        [self.delegate autocompleteViewControllerDidSelect:self response:self.autocomplete.geoCodeResponse textField:self.textField];
     }
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+
 }
 
 #pragma mark - Search bar delegate
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self startAutocomplete:searchText];
+}
+
+-(void) startAutocomplete: (NSString *) searchText
 {
     if ([searchText length] < [self.prevSearchText length])
     {
@@ -205,6 +178,32 @@
     [self.autocomplete geocodeFallback:query];
 }
 
+-(void) currentLocationClicked
+{
+    if ([self.fieldName isEqualToString:@"from"])
+    {
+        [self.dataManager setFromWithCurrentLocation];
+    }
+    if ([self.fieldName isEqualToString:@"to"])
+    {
+        [self.dataManager setToWithCurrentLocation];
+    }
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+-(void) placeClicked:(R2RPlace *) place;
+{
+    if ([self.fieldName isEqualToString:@"from"])
+    {
+        [self.dataManager setFromPlace:place];
+    }
+    if ([self.fieldName isEqualToString:@"to"])
+    {
+        [self.dataManager setToPlace:place];
+    }
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [self.delegate autocompleteViewControllerDidCancel:self];
@@ -212,13 +211,16 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [self.delegate autocompleteViewControllerDidSelect:self selection:searchBar.text textField:self.textField];
+//    [self.delegate autocompleteViewControllerDidSelect:self selection:searchBar.text textField:self.textField];
 }
 
--(void)myLocationClicked
-{
-    [self.delegate autocompleteViewControllerDidSelectMyLocation:self textField:self.textField];
-}
+//-(void)myLocationClicked
+//{
+//#warning 
+//
+//    [self sendMyLocationRequest];
+////    [self.delegate autocompleteViewControllerDidSelectMyLocation:self textField:self.textField];
+//}
 
 #pragma mark - autocomplete delegate
 
@@ -246,6 +248,14 @@
         }
     }
 }
+
+//-(void)myLocationResolved:(R2RAutocomplete *)autocomplete
+//{
+//    if (self.autocomplete == autocomplete)
+//    {
+//        [self.delegate autocompleteViewControllerDidSelect:self response:self.autocomplete.geoCodeResponse textField:self.textField];
+//    }
+//}
 
 
 @end

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "R2RAutocomplete.h"
+#import "R2RDataManager.h"
 
 @protocol R2RAutocompleteViewControllerDelegate;
 
@@ -15,17 +17,25 @@
 
 //@property (strong, nonatomic) R2RDataController *dataController;
 
+@property (strong, nonatomic) R2RDataManager *dataManager;
+
 @property (weak, nonatomic) id <R2RAutocompleteViewControllerDelegate> delegate;
-@property (strong, nonatomic) UITextField *textField;
+//@property (strong, nonatomic) UITextField *textField;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property (strong, nonatomic) NSString *fieldName;
 
 @end
 
 @protocol R2RAutocompleteViewControllerDelegate <NSObject>
 
 - (void)autocompleteViewControllerDidCancel:(R2RAutocompleteViewController *)controller;
-- (void)autocompleteViewControllerDidSelect:(R2RAutocompleteViewController *)controller selection:(NSString *)selection textField:(UITextField *)textField;
-- (void)autocompleteViewControllerDidSelectMyLocation:(R2RAutocompleteViewController *)controller textField:(UITextField *)textField;
+//- (void)autocompleteViewControllerDidSelect:(R2RAutocompleteViewController *)controller selection:(NSString *)selection textField:(UITextField *)textField;
+
+//- (void)autocompleteViewControllerDidSelectMyLocation:(R2RAutocompleteViewController *)controller textField:(UITextField *)textField;
+
+- (void)autocompleteViewControllerDidSelect:(R2RAutocompleteViewController *)controller response:(R2RGeoCodeResponse *)geocodeResponse fieldName:(UITextField *)fieldName;
+
 
 @end

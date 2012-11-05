@@ -17,6 +17,10 @@
 
 @property (strong, nonatomic) R2RGeoCoder *geoCoderFrom;
 @property (strong, nonatomic) R2RGeoCoder *geoCoderTo;
+
+@property (strong, nonatomic) R2RGeoCodeResponse *fromGeocodeResponse;
+@property (strong, nonatomic) R2RGeoCodeResponse *toGeocodeResponse;
+
 @property (strong, nonatomic) NSString *fromText;
 @property (strong, nonatomic) NSString *toText;
 @property (strong, nonatomic) R2RSearch *search;

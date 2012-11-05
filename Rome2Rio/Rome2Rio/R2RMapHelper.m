@@ -20,18 +20,18 @@
 
 @interface R2RMapHelper()
 
-@property (strong, nonatomic) R2RDataController *data;
+@property (strong, nonatomic) R2RDataStore *dataStore;
 
 @end
 
 @implementation R2RMapHelper
 
--(id)initWithData:(R2RDataController *)data
+-(id)initWithData:(R2RDataStore *)dataStore
 {
     self = [super init];
     if (self)
     {
-        self.data = data;
+        self.dataStore = dataStore;
     }
     return self;
 }
@@ -40,7 +40,7 @@
 {
     MKMapRect rect = MKMapRectNull;
     
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] initWithData:self.data];
+    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] initWithData:self.dataStore];
     
     NSString *pathString = [segmentHandler getSegmentPath:segment];
     
@@ -150,7 +150,7 @@
         CLLocationCoordinate2D tPos = {};
         CLLocationCoordinate2D mPos = {};
         
-        for (R2RAirport *airport in self.data.search.searchResponse.airports)
+        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
         {
             if ([airport.code isEqualToString:hop.sCode])
             {
@@ -344,7 +344,7 @@
     
     for (R2RFlightHop *hop in leg.hops)
     {
-        for (R2RAirport *airport in self.data.search.searchResponse.airports)
+        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
         {
             if ([airport.code isEqualToString:hop.sCode])
             {
@@ -358,7 +358,7 @@
         }
         if (hop == [leg.hops lastObject])
         {
-            for (R2RAirport *airport in self.data.search.searchResponse.airports)
+            for (R2RAirport *airport in self.dataStore.searchResponse.airports)
             {
                 if ([airport.code isEqualToString:hop.tCode])
                 {

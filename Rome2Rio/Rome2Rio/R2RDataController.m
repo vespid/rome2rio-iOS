@@ -48,7 +48,9 @@ enum {
 
 @implementation R2RDataController
 
-@synthesize geoCoderFrom, geoCoderTo, search, statusMessage, state;
+@synthesize search = _search;
+@synthesize geoCoderFrom, geoCoderTo, statusMessage, state;
+@synthesize fromGeocodeResponse, toGeocodeResponse;
 
 -(id) init
 {
@@ -65,39 +67,39 @@ enum {
 
 -(void) geoCodeFromQuery:(NSString *)query
 {
-    self.statusMessage = @"";
-    [self refreshStatusMessage:self.geoCoderFrom];
-    
-    self.geoCoderFrom = [[R2RGeoCoder alloc] initWithSearchString:query delegate:self];
-    
-    [self.geoCoderFrom sendAsynchronousRequest];
-    self.state = RESOLVING_FROM;
-    
-    self.statusMessage = @"Finding Origin";
-    
-    [self performSelector:@selector(refreshStatusMessage:) withObject:self.geoCoderFrom afterDelay:2.0];
+//    self.statusMessage = @"";
+//    [self refreshStatusMessage:self.geoCoderFrom];
+//    
+//    self.geoCoderFrom = [[R2RGeoCoder alloc] initWithSearchString:query delegate:self];
+//    
+//    [self.geoCoderFrom sendAsynchronousRequest];
+//    self.state = RESOLVING_FROM;
+//    
+//    self.statusMessage = @"Finding Origin";
+//    
+//    [self performSelector:@selector(refreshStatusMessage:) withObject:self.geoCoderFrom afterDelay:2.0];
 }
 
 -(void) geoCodeToQuery:(NSString *)query
 {
-    self.statusMessage = @"";
-    [self refreshStatusMessage:self.geoCoderTo];
-    
-    if (self.geoCoderFrom.geoCodeResponse)
-    {
-        self.geoCoderTo = [[R2RGeoCoder alloc] initWithSearch:query :self.geoCoderFrom.geoCodeResponse.place.countryCode :nil delegate:self];
-    }
-    else
-    {
-        self.geoCoderTo = [[R2RGeoCoder alloc] initWithSearchString:query delegate:self];
-    }
-    
-    [self.geoCoderTo sendAsynchronousRequest];
-    self.state = RESOLVING_TO;
-    
-    self.statusMessage = @"Finding Destination";
-    
-    [self performSelector:@selector(refreshStatusMessage:) withObject:self.geoCoderTo afterDelay:2.0];
+//    self.statusMessage = @"";
+//    [self refreshStatusMessage:self.geoCoderTo];
+//    
+//    if (self.geoCoderFrom.geoCodeResponse)
+//    {
+//        self.geoCoderTo = [[R2RGeoCoder alloc] initWithSearch:query :self.geoCoderFrom.geoCodeResponse.place.countryCode :nil delegate:self];
+//    }
+//    else
+//    {
+//        self.geoCoderTo = [[R2RGeoCoder alloc] initWithSearchString:query delegate:self];
+//    }
+//    
+//    [self.geoCoderTo sendAsynchronousRequest];
+//    self.state = RESOLVING_TO;
+//    
+//    self.statusMessage = @"Finding Destination";
+//    
+//    [self performSelector:@selector(refreshStatusMessage:) withObject:self.geoCoderTo afterDelay:2.0];
 }
 
 -(void) R2RGeoCoderResolved:(R2RGeoCoder *)delegateGeoCoder
@@ -145,14 +147,19 @@ enum {
 
 - (void) resolvedStateChanged
 {
-    if (self.geoCoderFrom == nil || self.geoCoderTo == nil)
-    {
-        return;
-    }
-    if (self.geoCoderFrom.responseCompletionState == stateResolved && self.geoCoderTo.responseCompletionState == stateResolved)
+//    if (self.geoCoderFrom == nil || self.geoCoderTo == nil)
+//    {
+//        return;
+//    }
+//    if (self.geoCoderFrom.responseCompletionState == stateResolved && self.geoCoderTo.responseCompletionState == stateResolved)
+//    {
+//        [self initSearch];
+//    }
+    if (self.fromGeocodeResponse && self.toGeocodeResponse)
     {
         [self initSearch];
     }
+
 }
 
 - (void) initSearch
@@ -175,10 +182,10 @@ enum {
     [self performSelector:@selector(refreshStatusMessage:) withObject:self.search afterDelay:2.0];
 }
 
-- (void) R2RSearchResolved:(R2RSearch *)delegateSearch;
+- (void) searchDidFinish:(R2RSearch *)search;
 {
     
-    if (self.search == delegateSearch && self.state == SEARCHING)
+    if (self.search == search && self.state == SEARCHING)
     {
         if (self.search.responseCompletionState == stateResolved)
         {
@@ -262,68 +269,72 @@ enum {
 
 -(void)refreshSearchIfNoResponse
 {
-    if (self.state == IDLE && self.search.responseCompletionState != stateResolved)
-    {
-        if (self.geoCoderFrom && self.geoCoderFrom.responseCompletionState != stateResolved)
-        {
-            if (self.geoCoderTo && self.geoCoderTo.responseCompletionState != stateResolved)
-            {
-                self.geoCoderTo = nil;
-            }
-            [self geoCodeFromQuery:self.fromText];
-            return;
-        }
-        if (self.geoCoderTo && self.geoCoderTo.responseCompletionState != stateResolved)
-        {
-            [self geoCodeToQuery:self.toText];
-            return;
-        }
-        [self initSearch];
-    }
+//    if (self.state == IDLE && self.search.responseCompletionState != stateResolved)
+//    {
+//        if (self.geoCoderFrom && self.geoCoderFrom.responseCompletionState != stateResolved)
+//        {
+//            if (self.geoCoderTo && self.geoCoderTo.responseCompletionState != stateResolved)
+//            {
+//                self.geoCoderTo = nil;
+//            }
+//            [self geoCodeFromQuery:self.fromText];
+//            return;
+//        }
+//        if (self.geoCoderTo && self.geoCoderTo.responseCompletionState != stateResolved)
+//        {
+//            [self geoCodeToQuery:self.toText];
+//            return;
+//        }
+//        [self initSearch];
+//    }
+//    
+    [self initSearch];
 }
 
 - (void) fromEditingDidBegin
 {
     self.fromText = @"";
-    self.geoCoderFrom = nil;
-    self.search = nil;
-    
-    if (self.state != RESOLVING_TO)
-    {
-        self.state = IDLE;
-    }
+//    self.geoCoderFrom = nil;
+//    self.search = nil;
+//    
+//    if (self.state != RESOLVING_TO)
+//    {
+//        self.state = IDLE;
+//    }
 }
 
 - (void) fromEditingDidEnd:(NSString *)query
 {
     self.fromText = query;
 
-    if (self.state == IDLE || self.state == RESOLVING_FROM)
-    {
-        [self geoCodeFromQuery:query];
-    }
+//    if (self.state == IDLE || self.state == RESOLVING_FROM)
+//    {
+//        [self geoCodeFromQuery:query];
+//    }
+    [self resolvedStateChanged];
 }
 
 - (void) toEditingDidBegin
 {
     self.toText = @"";
-    self.geoCoderTo = nil;
-    self.search = nil;
-    
-    if (self.state != RESOLVING_FROM)
-    {
-        self.state = IDLE;
-    }
+//    self.geoCoderTo = nil;
+//    self.search = nil;
+//    
+//    if (self.state != RESOLVING_FROM)
+//    {
+//        self.state = IDLE;
+//    }
 }
 
 - (void) toEditingDidEnd:(NSString *)query
 {
     self.toText = query;
-    
-    if (self.state == IDLE || self.state == RESOLVING_TO)
-    {
-        [self geoCodeToQuery:query];
-    }
+//    
+//    if (self.state == IDLE || self.state == RESOLVING_TO)
+//    {
+//        [self geoCodeToQuery:query];
+//    }
+    [self resolvedStateChanged];
 }
 
 -(BOOL) isGeocoderResolved:(R2RGeoCoder *)geocoder

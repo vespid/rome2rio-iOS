@@ -46,6 +46,7 @@
 
 @protocol R2RSearchDelegate <NSObject>
 
-- (void)R2RSearchResolved:(R2RSearch *)delegateSearch;
+//-(void) R2RSearchResolved:(R2RSearch *)delegateSearch;
+-(void) searchDidFinish: (R2RSearch *) search;
 
 @end

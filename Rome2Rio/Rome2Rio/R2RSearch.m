@@ -761,7 +761,7 @@ enum {
             
 //            NSLog(@"%s", "Search Parsed");
             
-            [[self delegate] R2RSearchResolved:self];
+            [[self delegate] searchDidFinish:self];
             //        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
         }
         else
@@ -797,7 +797,7 @@ enum {
         self.responseCompletionState = stateError;
         self.responseMessage = @"Unable to find location";
         
-        [[self delegate] R2RSearchResolved:self];
+        [[self delegate] searchDidFinish:self];
 //        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
     }
 }
@@ -812,7 +812,7 @@ enum {
             self.responseCompletionState = stateError;
             self.responseMessage = @"Unable to find location";
             
-            [[self delegate] R2RSearchResolved:self];
+            [[self delegate] searchDidFinish:self];
 //            [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
         }
         

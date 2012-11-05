@@ -26,7 +26,7 @@
 
 @implementation R2RTransitSegmentViewController
 
-@synthesize dataController, route, transitSegment;
+@synthesize dataStore, route, transitSegment;
 
 - (void)viewDidLoad
 {
@@ -105,7 +105,7 @@
     rect = CGRectMake(startX, 9, iconSize.width, iconSize.height);
     [header.agencyIconView setFrame:rect];
     
-    for (R2RAgency *agency in self.dataController.search.searchResponse.agencies)
+    for (R2RAgency *agency in self.dataStore.searchResponse.agencies)
     {
         if ([agency.code isEqualToString:transitLine.agency])
         {
@@ -122,12 +122,12 @@
                 R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
                 
                 R2RSprite *sprite = [segmentHandler getRouteSprite:transitSegment.kind];
-                [self.dataController.spriteStore setSpriteInView:sprite :header.agencyIconView];
+                [self.dataStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
             }
             else
             {
                 R2RSprite *sprite = [[R2RSprite alloc] initWithPath:agency.iconPath :agency.iconOffset :agency.iconSize];
-                [self.dataController.spriteStore setSpriteInView:sprite : header.agencyIconView];
+                [self.dataStore.spriteStore setSpriteInView:sprite : header.agencyIconView];
             }
         }
     }
@@ -374,7 +374,7 @@
         [self.mapView addAnnotation:annotation];
     }
     
-    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataController];
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
     
     for (id segment in self.route.segments)
     {
