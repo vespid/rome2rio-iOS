@@ -21,6 +21,6 @@
 @property (strong, nonatomic) R2RPlace *fromPlace;
 @property (strong, nonatomic) R2RPlace *toPlace;
 @property (strong, nonatomic) R2RSpriteStore *spriteStore;
-
+@property (strong, nonatomic) NSString *statusMessage;
 
 @end

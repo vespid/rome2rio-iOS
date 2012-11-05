@@ -18,52 +18,21 @@
     if (self != nil)
     {
         self.titleLabel.font = [UIFont boldSystemFontOfSize:20.];
-        self.titleLabel.textAlignment = UITextAlignmentCenter;
+        self.titleLabel.textAlignment = UITextAlignmentLeft;
         [self.titleLabel setMinimumFontSize:10.0];
         [self.titleLabel setAdjustsFontSizeToFitWidth:YES];
-        //button.hidden = false;
         
-        //[self setHidden:false];
+        self.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        
         [self setHidden:true];
         [self setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.7]];
-//        [self setBackgroundColor:[UIColor colorWithRed:(25/255.0) green:(25/255.0) blue:(25/255.0) alpha:0.8]];
-//        [self setBackgroundColor:[UIColor darkGrayColor]];
+
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
     }
     
     return self;
 }
-
-//+ (id)buttonWithType:(UIButtonType)buttonType
-//{
-//    UIButton *button = [UIButton buttonWithType:buttonType];
-//    if (button != nil)
-//    {
-//        
-//        [button setFrame: CGRectMake(0, 360, 320, 30.0)];
-//        
-//        //[button setFrame: CGRectMake(10, 10, 200, 50)];
-//        // do own config
-//        
-//        button.titleLabel.font = [UIFont boldSystemFontOfSize:20.];
-//        button.titleLabel.textAlignment = UITextAlignmentCenter;
-//        //button.hidden = false;
-//        
-//        [button setHidden:false];
-//        //[button setHidden:true];
-//        [button setBackgroundColor:[UIColor darkGrayColor]];
-//        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        
-//        //[button setTitle:@"hi ................." forState:UIControlStateNormal];
-//        
-//        //self.text = [NSString stringWithFormat:@"%s", "hello world"];
-//        
-//        //
-//    }
-//
-//    return button;
-//}
 
 - (void) setTitle:(NSString *)title forState:(UIControlState)state
 {
@@ -78,14 +47,5 @@
         self.hidden = false;
     }
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

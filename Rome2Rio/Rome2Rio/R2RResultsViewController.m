@@ -40,7 +40,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTitle:) name:@"refreshTitle" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshResults:) name:@"refreshResults" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshSearchMessage:) name:@"refreshSearchMessage" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshSearchMessage:) name:@"refreshSearchMessage" object:nil];
     
     [self.tableView setSectionHeaderHeight:37.0];
     CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, self.tableView.sectionHeaderHeight);
@@ -66,9 +66,21 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTitle" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshResults" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshSearchMessage" object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshSearchMessage" object:nil];
     
     [super viewDidUnload];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([self.dataManager isSearching]) [self.dataManager setStatusMessage:@"Searching"];
+}
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    if ([self.dataManager isSearching]) [self.dataManager setStatusMessage:@""];
+    [super viewWillDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -90,8 +102,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataManager.dataStore.searchResponse.routes count];
-//    return [self.dataController.search.searchResponse.routes count];
+    return [self.dataStore.searchResponse.routes count];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -101,7 +112,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    R2RRoute *route = [self.dataManager.dataStore.searchResponse.routes objectAtIndex:indexPath.row];
+    R2RRoute *route = [self.dataStore.searchResponse.routes objectAtIndex:indexPath.row];
     R2RSegmentHandler *segmentHandler  = [[R2RSegmentHandler alloc] init];
     NSString *CellIdentifier = @"ResultsCell";
     
@@ -143,7 +154,7 @@
             CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, sprite.size.width, sprite.size.height);
             [iconView setFrame:iconFrame];
             
-            [self.dataManager.dataStore.spriteStore setSpriteInView:sprite :iconView];
+            [self.dataStore.spriteStore setSpriteInView:sprite :iconView];
             
             xOffset = iconView.frame.origin.x + iconView.frame.size.width + 7; //xPos of next icon
 
@@ -191,20 +202,25 @@
 
 -(void) refreshResultsViewTitle
 {
-#warning change title to handle if current location not resolved yet
-//    NSString *from = self.dataController.fromText;
-//    if ([self.dataController isGeocoderResolved:self.dataController.geoCoderFrom])
-//    {
-//        from = [[NSString alloc] initWithString:self.dataController.geoCoderFrom.geoCodeResponse.place.shortName];
-//    }
-//    
-//    NSString *to = self.dataController.toText;
-//    if ([self.dataController isGeocoderResolved:self.dataController.geoCoderTo])
-//    {
-//        to = [[NSString alloc] initWithString:self.dataController.geoCoderTo.geoCodeResponse.place.shortName];
-//    }
-    NSString *from = self.dataManager.dataStore.fromPlace.shortName;
-    NSString *to = self.dataManager.dataStore.toPlace.shortName;
+
+    NSString *from;
+    if (self.dataStore.fromPlace)
+    {
+        from = self.dataStore.fromPlace.shortName;
+    }
+    else
+    {
+        from = @"finding";
+    }
+    NSString *to;
+    if (self.dataStore.toPlace)
+    {
+        to = self.dataStore.toPlace.shortName;
+    }
+    else
+    {
+        to = @"finding";
+    }
     
     NSString *joiner = @" to ";
     CGSize joinerSize = [joiner sizeWithFont:[UIFont systemFontOfSize:17.0]];
@@ -219,7 +235,7 @@
     if (fromSize.width+joinerSize.width+toSize.width > viewWidth)
     {
         fromWidth = (fromSize.width/(fromSize.width+toSize.width))*(viewWidth-joinerSize.width);
-        toWidth = (fromSize.width/(fromSize.width+toSize.width))*(viewWidth-joinerSize.width);
+        toWidth = (toSize.width/(fromSize.width+toSize.width))*(viewWidth-joinerSize.width);
     }
     
     CGRect fromFrame = self.header.fromLabel.frame;
@@ -255,14 +271,13 @@
 
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-#warning no status message
-//    [self setStatusMessage:self.dataController.statusMessage];
+    [self setStatusMessage:self.dataStore.statusMessage];
 }
 
--(void) refreshSearchMessage:(NSNotification *) notification
-{
-//    [self setStatusMessage:self.dataController.statusMessage];
-}
+//-(void) refreshSearchMessage:(NSNotification *) notification
+//{
+////    [self setStatusMessage:self.dataController.statusMessage];
+//}
 
 -(void) setStatusMessage: (NSString *) message
 {

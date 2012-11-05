@@ -66,9 +66,9 @@ enum R2RState
     [self.view addSubview:self.statusButton];
     
     
-    //TODO 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvingFrom:) name:@"resolvingFrom" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvingTo:) name:@"resolvingTo" object:nil];
+    //TODO remove
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvingFrom:) name:@"resolvingFrom" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvingTo:) name:@"resolvingTo" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFromTextField:) name:@"refreshFromTextField" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshToTextField:) name:@"refreshToTextField" object:nil];
@@ -82,8 +82,8 @@ enum R2RState
     [self setHeaderBackground:nil];
     [self setHeaderImage:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"resolvingFrom" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"resolvingTo" object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"resolvingFrom" object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"resolvingTo" object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshFromTextField" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshToTextField" object:nil];
@@ -166,25 +166,25 @@ enum R2RState
 
 }
 
-- (void) warningMessage: (NSString *) message: (NSString *) textField
-{
-    [self setStatusMessage:message];
-}
+//- (void) warningMessage: (NSString *) message: (NSString *) textField
+//{
+//    [self setStatusMessage:message];
+//}
 
--(void) resolvingFrom:(NSNotification *) notification
-{
-//    [self.fromTextField setText:@""];
-    self.fromTextField.placeholder = @"Finding current location";
-}
-
--(void) resolvingTo:(NSNotification *) notification
-{
-    self.toTextField.placeholder = @"Finding current location";
-}
+//-(void) resolvingFrom:(NSNotification *) notification
+//{
+////    [self.fromTextField setText:@""];
+//    self.fromTextField.placeholder = @"Finding current location";
+//}
+//
+//-(void) resolvingTo:(NSNotification *) notification
+//{
+//    self.toTextField.placeholder = @"Finding current location";
+//}
 
 -(void) refreshFromTextField:(NSNotification *) notification
 {
-    self.fromTextField.placeholder = @"Origin";
+//    self.fromTextField.placeholder = @"Origin";
     self.fromTextField.text = self.dataStore.fromPlace.longName;
     
 //    [self.fromTextField setPlaceholder:@"Origin"];
@@ -193,15 +193,23 @@ enum R2RState
 
 -(void) refreshToTextField:(NSNotification *) notification
 {
-    self.toTextField.placeholder = @"Destination";
+//    self.toTextField.placeholder = @"Destination";
     self.toTextField.text = self.dataStore.toPlace.longName;
 //    self.toTextField.text = self.dataController.geoCoderTo.geoCodeResponse.place.longName;
     
 }
 
+
+//if no userInfo dictionary is passed in the message is set to nil
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-//    [self setStatusMessage:self.dataController.statusMessage];
+//    NSString *key = @"message";
+//    NSDictionary *dictionary = [notification userInfo];
+//    NSString *message = [dictionary valueForKey:key];
+//   
+//    [self setStatusMessage:message];
+    
+    [self setStatusMessage:self.dataStore.statusMessage];
 }
 
 -(void) setStatusMessage: (NSString *) message

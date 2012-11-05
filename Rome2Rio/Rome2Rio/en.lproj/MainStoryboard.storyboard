@@ -343,9 +343,15 @@
                     </tableView>
                     <connections>
                         <outlet property="searchBar" destination="0Ap-VJ-gyb" id="ZGf-0F-HSz"/>
+                        <outlet property="statusView" destination="lqq-Rf-ePl" id="aS8-ce-VLx"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZIo-fb-I7Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view alpha="0.69999999999999996" contentMode="scaleToFill" id="lqq-Rf-ePl">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="32"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="947" y="645"/>
         </scene>
@@ -619,116 +625,6 @@
         <image name="r2r-retina.png" width="600" height="120"/>
         <image name="targetIcon_orange.png" width="48" height="48"/>
     </resources>
-    <classes>
-        <class className="R2RAutocompleteCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="autocompleteImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="label" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="R2RAutocompleteViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="R2RDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RDetailViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="returnToSearch:"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="R2RFlightHopCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightHopCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="R2RFlightSegmentCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentCell.h"/>
-        </class>
-        <class className="R2RFlightSegmentViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="returnToSearch:"/>
-            </relationships>
-        </class>
-        <class className="R2RInfoViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RInfoViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="sendFeedback:"/>
-                <relationship kind="action" name="sendFeedbackMail:"/>
-                <relationship kind="action" name="showMasterView:"/>
-                <relationship kind="outlet" name="feedbackTextView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="R2RMasterViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMasterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="searchTouchUpInside:"/>
-                <relationship kind="action" name="showInfoView:"/>
-                <relationship kind="outlet" name="fromTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="headerBackground" candidateClass="UIView"/>
-                <relationship kind="outlet" name="headerImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="toTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="R2RNameCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RNameCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="R2RResultsCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsCell.h"/>
-        </class>
-        <class className="R2RResultsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="returnToSearch:"/>
-            </relationships>
-        </class>
-        <class className="R2RTableView" superclassName="UITableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTableView.h"/>
-        </class>
-        <class className="R2RTransitHopCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitHopCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="R2RTransitSegmentCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentCell.h"/>
-        </class>
-        <class className="R2RTransitSegmentViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="returnToSearch:"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="R2RWalkDriveHopCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveHopCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="R2RWalkDriveSegmentCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentCell.h"/>
-        </class>
-        <class className="R2RWalkDriveSegmentViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="returnToSearch:"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

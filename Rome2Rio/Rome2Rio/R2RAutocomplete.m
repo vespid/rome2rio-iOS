@@ -25,7 +25,7 @@
 
 @implementation R2RAutocomplete
 
-@synthesize geoCodeResponse, responseCompletionState, searchString;//, responseMessage;
+@synthesize geoCodeResponse, responseCompletionState, searchString, responseMessage;
 @synthesize delegate;
 
 -(id) initWithSearch:(NSString *)query :(NSString *)countryCode :(NSString *)language delegate:(id<R2RAutocompleteDelegate>)autocompleteDelegate
@@ -107,17 +107,9 @@
     geoCode.language = [responseData objectForKey:@"language"];
     
     geoCode.places = [self parsePlaces:[responseData objectForKey:@"places"]];
-//    if ([geoCode.places count] > 0)
-//    {
-//        geoCode.place = [places objectAtIndex:0];
-        self.responseCompletionState = stateResolved;
-//    }
-//    else
-//    {
-//        
-////        [self geocodeFallback:self.query];
-//        self.responseCompletionState = stateError; //remove this if geocodeFallback is added to autocomplete
-//    }
+
+    self.responseCompletionState = stateResolved;
+    self.responseMessage = @"";
     
     return geoCode;
 }
@@ -176,7 +168,7 @@
     else
     {
         self.responseCompletionState = stateError;
-//        self.responseMessage = @"Unable to find location";
+        self.responseMessage = @"Unable to find location";
         
         [[self delegate] autocompleteResolved:self];
     }
@@ -189,7 +181,7 @@
         if (self.retryCount >= 5)
         {
             self.responseCompletionState = stateError;
-//            self.responseMessage = @"Unable to find location";
+            self.responseMessage = @"Unable to find location";
             
             [[self delegate] autocompleteResolved:self];
         }
@@ -271,14 +263,12 @@
              self.geoCodeResponse.place = [self.geoCodeResponse.places objectAtIndex:0];
              self.responseCompletionState = stateResolved;
              
-             R2RLog(@"fallback places %d", [self.geoCodeResponse.places count]);
-             
              [[self delegate] autocompleteResolved:self];
              
          }
          else
          {
-//             self.responseMessage = @"Unable to find location";
+             self.responseMessage = @"Unable to find location";
              if (!self.geoCodeResponse)
              {
                  self.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
@@ -291,130 +281,5 @@
      }];
     
 }
-
-//- (void) getMyLocation
-//{
-//    if (nil == self.locationManager)
-//        self.locationManager = [[CLLocationManager alloc] init];
-//    
-//    self.locationManager.delegate = self;
-//    self.locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
-//    self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters; // 100 m
-//    [self.locationManager startUpdatingLocation];
-//    
-//    //if location services are disabled we sometime do not get a didFailWithError callback.
-//    //Calling it twice seems to fix that
-//    [self.locationManager startUpdatingLocation];
-//    
-//}
-//
-//-(void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-//{
-//    [self.locationManager stopUpdatingLocation];
-//    
-//    self.geoCodeResponse = nil;
-//
-//#warning status messages
-////    self.geoCoderFrom.responseMessage = @"Unable to find location";
-//    if (!CLLocationManager.locationServicesEnabled)
-//    {
-////        self.geoCoderFrom.responseMessage = @"Location services are off";
-//    }
-//    else if (error.code == kCLErrorDenied)
-//    {
-////        self.geoCoderFrom.responseMessage = @"Location services are off";
-//    }
-//    
-////    self.geoCoderFrom.responseCompletionState = stateError;
-//    
-////    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
-////    [self refreshStatusMessage:self];
-//
-//}
-//
-//-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-//{
-//    self.location = newLocation;
-//    [self.locationManager stopUpdatingLocation];
-//    
-//    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-//    [geocoder reverseGeocodeLocation:self.location completionHandler:^(NSArray *placemarks, NSError *error) {
-//        if ([placemarks count] > 0)
-//        {
-//            if (!self.geoCodeResponse)
-//            {
-//                self.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
-//            }
-//            if (!self.geoCodeResponse.places)
-//            {
-//                self.geoCodeResponse.places = [[NSMutableArray alloc] init];
-//            }
-//            
-//            for (CLPlacemark *placemark in placemarks)
-//            {
-//                R2RPlace *place = [[R2RPlace alloc] init];
-//                
-//                NSMutableString *longName = [[NSMutableString alloc] init];
-//                NSMutableString *shortName = [[NSMutableString alloc] init];
-//                if ([placemark.subThoroughfare length] > 0)
-//                {
-//                    [longName appendFormat:@"%@ ", placemark.subThoroughfare];
-//                    [shortName appendFormat:@"%@ ", placemark.subThoroughfare];
-//                }
-//                
-//                if ([placemark.thoroughfare length] > 0)
-//                {
-//                    [longName appendFormat:@"%@, ", placemark.thoroughfare];
-//                    [shortName appendFormat:@"%@", placemark.thoroughfare];
-//                    place.kind = @":veryspecific";
-//                }
-//                
-//                if ([placemark.subLocality length] > 0)
-//                    [longName appendFormat:@"%@, ", placemark.subLocality];
-//                
-//                if ([placemark.locality length] > 0)
-//                {
-//                    [longName appendFormat:@"%@, ", placemark.locality];
-//                    if ([place.kind length] == 0)
-//                        place.kind = @"city";
-//                    if ([shortName length] == 0)
-//                        [shortName appendString:placemark.locality];
-//                }
-//                
-//                if ([placemark.country length] > 0)
-//                {
-//                    [longName appendFormat:@"%@", placemark.country];
-//                    if ([place.kind length] == 0)
-//                        place.kind = @"country";
-//                    if ([shortName length] == 0)
-//                        [shortName appendString:placemark.country];
-//                }
-//                
-//                place.longName = [NSString stringWithString:longName];
-//                place.shortName = [NSString stringWithString:shortName];
-//                place.lat = placemark.region.center.latitude;
-//                place.lng = placemark.region.center.longitude;
-//                
-//                [self.geoCodeResponse.places addObject:place];
-//                
-//            }
-//            
-//            self.geoCodeResponse.place = [self.geoCodeResponse.places objectAtIndex:0];
-//            self.responseCompletionState = stateResolved;
-//            
-//            R2RLog(@"my location places %d", [self.geoCodeResponse.places count]);
-//            
-////            [[self delegate] myLocationResolved:self];
-//            
-//        }
-//        else
-//        {
-//            //             self.responseMessage = @"Unable to find location";
-//            self.responseCompletionState = stateError;
-//            
-//            [[self delegate] autocompleteResolved:self];
-//        }
-//    }];
-//}
 
 @end

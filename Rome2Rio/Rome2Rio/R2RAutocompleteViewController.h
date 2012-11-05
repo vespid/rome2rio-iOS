@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (strong, nonatomic) NSString *fieldName;
+@property (strong, nonatomic) IBOutlet UIView *statusView;
 
 @end
 

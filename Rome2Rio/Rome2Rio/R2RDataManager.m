@@ -78,9 +78,9 @@ enum R2RState
         self.state = RESOLVING_FROM;
     }
     
+    [self setStatusMessage:@"Finding Current Location"];
     
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"resolvingFrom" object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"resolvingFrom" object:nil];
     self.fromLocationManager = [self createLocationManager];
 }
 
@@ -99,7 +99,9 @@ enum R2RState
         self.state = RESOLVING_TO;
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"resolvingTo" object:nil];
+    [self setStatusMessage:@"Finding Current Location"];
+    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"resolvingTo" object:nil];
     self.toLocationManager = [self createLocationManager];
 }
 
@@ -113,6 +115,11 @@ enum R2RState
 //{
 //    
 //}
+
+-(void) setStatusMessage:(NSString *) statusMessage
+{
+    self.dataStore.statusMessage = statusMessage;
+}
 
 -(void)refreshSearchIfNoResponse
 {
@@ -135,18 +142,24 @@ enum R2RState
 {
     if (!self.dataStore.fromPlace && self.state == IDLE)
     {
-        //set status message @"Enter Origin"
+        [self setStatusMessage:@"Enter Origin"];
+        
         return NO;
     }
     
     if (!self.dataStore.toPlace && self.state == IDLE)
     {
-        //set status message @"Enter Destination"
+        [self setStatusMessage:@"Enter Destination"];
+        
         return NO;
     }
     
     return YES;
-    
+}
+
+-(BOOL) isSearching
+{
+    return (self.state == SEARCHING);
 }
 
 - (void) startSearch
@@ -180,13 +193,18 @@ enum R2RState
         if (self.search.responseCompletionState == stateResolved)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
+            
+            [self setStatusMessage:@""];
+        }
+        else
+        {
+            [self setStatusMessage:search.responseMessage];
         }
         
         [self loadAirlineImages];
         [self loadAgencyImages];
         
         self.state = IDLE;
-//        [self refreshStatusMessage:self.search];
     }
 }
 
@@ -210,26 +228,33 @@ enum R2RState
 {
     [manager stopUpdatingLocation];
     
-//    if (!self.geoCoderFrom)
-//    {
-//        self.geoCoderFrom = [[R2RGeoCoder alloc] init];
-//    }
-//    self.geoCoderFrom.geoCodeResponse = nil;
-//    self.geoCoderFrom.responseMessage = @"Unable to find location";
-//    if (!CLLocationManager.locationServicesEnabled)
-//    {
-//        self.geoCoderFrom.responseMessage = @"Location services are off";
-//    }
-//    else if (error.code == kCLErrorDenied)
-//    {
-//        self.geoCoderFrom.responseMessage = @"Location services are off";
-//    }
-//    
-//    self.geoCoderFrom.responseCompletionState = stateError;
-//    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
-//    [self refreshStatusMessage:self];
-    
+    if (manager == self.fromLocationManager)
+    {
+        if (self.state == RESOLVING_FROM_AND_TO)
+            self.state = RESOLVING_TO;
+        else
+            self.state = IDLE;
+    }
+    else if (manager == self.toLocationManager)
+    {
+        if (self.state == RESOLVING_FROM_AND_TO)
+            self.state = RESOLVING_FROM;
+        else
+            self.state = IDLE;
+    }
+
+    if (!CLLocationManager.locationServicesEnabled)
+    {
+        [self setStatusMessage:@"Location services are off"];
+    }
+    else if (error.code == kCLErrorDenied)
+    {
+        [self setStatusMessage:@"Location services are off"];
+    }
+    else
+    {
+        [self setStatusMessage:@"Unable to find location"];
+    }
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -256,44 +281,48 @@ enum R2RState
             if (manager == self.fromLocationManager)
             {
                 if (self.state == RESOLVING_FROM_AND_TO)
+                {
                     self.state = RESOLVING_TO;
+                }
                 else
+                {
                     self.state = IDLE;
+                }
                 
                 [self setFromPlace:place];
-//                self.dataStore.fromPlace = place;
-                
-//                self.geoCoderFrom.responseCompletionState = stateResolved;
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
-                
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
             }
             else if (manager == self.toLocationManager)
             {
                 if (self.state == RESOLVING_FROM_AND_TO)
+                {
                     self.state = RESOLVING_FROM;
+                }
                 else
+                {
                     self.state = IDLE;
+                }
                 
                 [self setToPlace:place];
-//                self.dataStore.toPlace = place;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
             }
-//            
-//            [self refreshStatusMessage:self];
-//            [self resolvedStateChanged];
-            
+//            R2RLog(@"%@", error);
         }
         else
         {
-            if (manager == self.fromLocationManager)
+//            R2RLog(@"%@", error);
+            if (manager == self.fromLocationManager || manager == self.toLocationManager)
             {
-//                self.geoCoderFrom.responseMessage = @"Unable to find location";
+                [self setStatusMessage:@"Unable to find current location"];
+
 //                self.geoCoderFrom.responseCompletionState = stateError;
 //                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
 //                [self refreshStatusMessage:self];
-            }
-            else if (manager == self.toLocationManager)
-            {
+//            }
+//            else if (manager == self.toLocationManager)
+//            {
+//                [self setStatusMessage:@"Unable to find location"];
             }
 
         }

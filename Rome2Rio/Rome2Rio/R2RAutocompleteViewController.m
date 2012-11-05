@@ -8,11 +8,14 @@
 
 #import "R2RAutocompleteViewController.h"
 #import "R2RAutocompleteCell.h"
+#import "R2RStatusButton.h"
 
 @interface R2RAutocompleteViewController ()
 
 @property (strong, nonatomic) R2RAutocomplete *autocomplete;
 @property (strong, nonatomic) NSMutableArray *places;
+
+@property (strong, nonatomic) R2RStatusButton *statusButton;
 
 @property (strong, nonatomic) NSString *prevSearchText;
 @property (nonatomic) BOOL fallbackToCLGeocoder;
@@ -40,6 +43,24 @@
     self.places = [[NSMutableArray alloc] init];
 
     self.fallbackToCLGeocoder = NO;
+    
+    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
+    [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.statusButton];
+    
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.tableFooterView = footer;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -68,6 +89,10 @@
 
 - (void)viewDidUnload {
     [self setSearchBar:nil];
+    [self setStatusView:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
+    
     [super viewDidUnload];
 }
 
@@ -141,6 +166,7 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self startAutocomplete:searchText];
+    [self.dataManager setStatusMessage:@""];
 }
 
 -(void) startAutocomplete: (NSString *) searchText
@@ -170,8 +196,8 @@
         [self.tableView reloadData];
     }
     self.prevSearchText = searchText;
+    
 }
-
 
 //store the typed text;
 -(void) setText:(NSString *) searchText;
@@ -250,7 +276,7 @@
     {
         if (autocomplete.responseCompletionState == stateResolved)
         {
-            R2RLog(@"resolved places %d", [autocomplete.geoCodeResponse.places count]);
+//            R2RLog(@"resolved places %d", [autocomplete.geoCodeResponse.places count]);
             
             if ([autocomplete.geoCodeResponse.places count] > 0)
             {
@@ -268,10 +294,37 @@
         }
         else
         {
+            [self.dataManager setStatusMessage:autocomplete.responseMessage];
             self.places = self.autocomplete.geoCodeResponse.places;
             [self.tableView reloadData];
         }
     }
+}
+
+-(void) refreshStatusMessage:(NSNotification *) notification
+{
+    [self.statusButton setTitle:self.dataManager.dataStore.statusMessage forState:UIControlStateNormal];
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    CGRect frame = self.statusButton.frame;
+    frame.origin.y = self.view.frame.size.height - 30 - kbSize.height;
+    
+    [self.statusButton setFrame:frame];
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    CGRect frame = self.statusButton.frame;
+    frame.origin.y = self.view.frame.size.height - 30;
+    
+    [self.statusButton setFrame:frame];
 }
 
 //-(void)myLocationResolved:(R2RAutocomplete *)autocomplete

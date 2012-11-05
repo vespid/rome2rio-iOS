@@ -21,13 +21,12 @@
 @property (strong, nonatomic) R2RGeoCodeResponse *geoCodeResponse;
 @property (strong, nonatomic) NSString *searchString;
 @property (nonatomic) NSInteger responseCompletionState;
-//@property (strong, nonatomic) NSString *responseMessage;
+@property (strong, nonatomic) NSString *responseMessage;
 
 -(id) initWithSearch:(NSString *) query: (NSString *) country: (NSString *) language delegate:(id<R2RAutocompleteDelegate>)r2rGeoCoderDelegate;
 -(id) initWithSearchString:(NSString *)initSearchString delegate:(id<R2RAutocompleteDelegate>)r2rGeoCoderDelegate;
 -(void) sendAsynchronousRequest;
 -(void) geocodeFallback:(NSString *)query;
--(void) getMyLocation;
 
 enum {
     stateEmpty = 0,
