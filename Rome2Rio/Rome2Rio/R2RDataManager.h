@@ -13,18 +13,18 @@
 
 @interface R2RDataManager : NSObject <R2RSearchDelegate, CLLocationManagerDelegate>
 
-@property (strong, nonatomic) R2RSearch *search;
-
 @property (strong, nonatomic) R2RDataStore *dataStore;
 
-@property (strong, nonatomic) CLLocationManager *fromLocationManager;
-@property (strong, nonatomic) CLLocationManager *toLocationManager;
+@property (strong, nonatomic) NSString *fromText;
+@property (strong, nonatomic) NSString *toText;
 
 -(void) setFromPlace:(R2RPlace *)fromPlace;
 -(void) setToPlace:(R2RPlace *)toPlace;
 
 -(void) setFromWithCurrentLocation;
 -(void) setToWithCurrentLocation;
+
+-(BOOL) canShowSearch;
 
 -(void) refreshSearchIfNoResponse;
 

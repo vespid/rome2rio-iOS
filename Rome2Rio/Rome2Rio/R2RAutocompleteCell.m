@@ -15,6 +15,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
+        [self.label setMinimumFontSize:10.0];
+        [self.label setAdjustsFontSizeToFitWidth:YES];
 
     }
     return self;

@@ -13,6 +13,10 @@
 
 @property NSInteger state;
 
+@property (strong, nonatomic) R2RSearch *search;
+@property (strong, nonatomic) CLLocationManager *fromLocationManager;
+@property (strong, nonatomic) CLLocationManager *toLocationManager;
+
 enum {
     stateEmpty = 0,
     stateEditingDidBegin,
@@ -36,12 +40,15 @@ enum R2RState
 
 @implementation R2RDataManager
 
+@synthesize fromText, toText;
+
 -(void) setFromPlace:(R2RPlace *)fromPlace
 {
     
     self.fromLocationManager = nil;
     
     self.dataStore.fromPlace = fromPlace;
+    self.dataStore.searchResponse = nil;
     
     if ([self canStartSearch]) [self startSearch];
 }
@@ -52,6 +59,7 @@ enum R2RState
     self.toLocationManager = nil;
     
     self.dataStore.toPlace = toPlace;
+    self.dataStore.searchResponse = nil;
     
     if ([self canStartSearch]) [self startSearch];
 }
@@ -59,8 +67,6 @@ enum R2RState
 -(void) setFromWithCurrentLocation
 {
 //    [self refreshStatusMessage:nil];
-    
-    [self setFromPlace:nil];
     
     //TODO refactor the state managment
     if (self.state == RESOLVING_TO || self.state == RESOLVING_FROM_AND_TO)
@@ -71,6 +77,8 @@ enum R2RState
     {
         self.state = RESOLVING_FROM;
     }
+    
+    
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"resolvingFrom" object:nil];
     self.fromLocationManager = [self createLocationManager];
@@ -108,7 +116,10 @@ enum R2RState
 
 -(void)refreshSearchIfNoResponse
 {
-    if ([self canStartSearch]) [self startSearch];
+    if (!self.dataStore.searchResponse)
+    {
+        if ([self canStartSearch]) [self startSearch];
+    }
 }
 
 -(BOOL) canStartSearch
@@ -120,10 +131,30 @@ enum R2RState
     return NO;
 }
 
+-(BOOL) canShowSearch
+{
+    if (!self.dataStore.fromPlace && self.state == IDLE)
+    {
+        //set status message @"Enter Origin"
+        return NO;
+    }
+    
+    if (!self.dataStore.toPlace && self.state == IDLE)
+    {
+        //set status message @"Enter Destination"
+        return NO;
+    }
+    
+    return YES;
+    
+}
+
 - (void) startSearch
 {
 //    self.statusMessage = @"";
 //    [self refreshStatusMessage:self.search];
+    
+    self.dataStore.searchResponse = nil;
     
     NSString *oName = self.dataStore.fromPlace.shortName;
     NSString *dName = self.dataStore.toPlace.shortName;

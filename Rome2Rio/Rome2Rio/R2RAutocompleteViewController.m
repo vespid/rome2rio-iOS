@@ -51,17 +51,15 @@
 {
     [super viewDidAppear:animated];
     
-    
-    //TODO
     if ([self.fieldName isEqualToString:@"from"])
     {
-        [self.searchBar setText:self.dataManager.dataStore.fromPlace.longName];
-        [self startAutocomplete:self.dataManager.dataStore.fromPlace.longName];
+        [self.searchBar setText:self.dataManager.fromText];
+        [self startAutocomplete:self.dataManager.fromText];
     }
     if ([self.fieldName isEqualToString:@"to"])
     {
-        [self.searchBar setText:self.dataManager.dataStore.toPlace.longName];
-        [self startAutocomplete:self.dataManager.dataStore.toPlace.longName];
+        [self.searchBar setText:self.dataManager.toText];
+        [self startAutocomplete:self.dataManager.toText];
     }
     
     
@@ -147,6 +145,8 @@
 
 -(void) startAutocomplete: (NSString *) searchText
 {
+    [self setText:searchText];
+    
     if ([searchText length] < [self.prevSearchText length])
     {
         self.fallbackToCLGeocoder = NO;
@@ -164,7 +164,27 @@
             [self.autocomplete sendAsynchronousRequest];
         }
     }
+    else
+    {
+        self.places = nil;
+        [self.tableView reloadData];
+    }
     self.prevSearchText = searchText;
+}
+
+
+//store the typed text;
+-(void) setText:(NSString *) searchText;
+{
+    if ([self.fieldName isEqualToString:@"from"])
+    {
+        self.dataManager.fromText = searchText;
+    }
+    if ([self.fieldName isEqualToString:@"to"])
+    {
+        self.dataManager.toText = searchText;
+    }
+
 }
 
 -(void) sendAutocompleteRequest:(NSString *)query
@@ -243,8 +263,13 @@
                 {
                     self.fallbackToCLGeocoder = YES;
                     [self sendCLGeocodeRequest:autocomplete.searchString];
-                 }
+                }
             }
+        }
+        else
+        {
+            self.places = self.autocomplete.geoCodeResponse.places;
+            [self.tableView reloadData];
         }
     }
 }
