@@ -12,9 +12,9 @@
 @interface R2RMKAnnotation : NSObject <MKAnnotation>
 
 @property (copy) NSString *name;
-@property (copy) NSString *address;
+@property (copy) NSString *kind;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
-- (id)initWithName:(NSString*)name address:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
+- (id)initWithName:(NSString*)name kind:(NSString*)kind coordinate:(CLLocationCoordinate2D)coordinate;
 
 @end

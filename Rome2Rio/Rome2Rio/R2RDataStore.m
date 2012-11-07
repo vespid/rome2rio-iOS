@@ -10,7 +10,7 @@
 
 @implementation R2RDataStore
 
-@synthesize fromPlace = _fromPlace, toPlace = _toPlace, searchResponse = _searchResponse, spriteStore = _spriteStore, statusMessage = _statusMessage;
+@synthesize fromPlace = _fromPlace, toPlace = _toPlace, searchResponse = _searchResponse, spriteStore = _spriteStore, statusMessage = _statusMessage, searchMessage = _searchMessage;
 
 -(id)init
 {
@@ -52,6 +52,12 @@
 //    NSDictionary *dictionary = [NSDictionary dictionaryWithObject:statusMessage forKey:key];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];// userInfo:dictionary];
+}
+
+-(void) setSearchMessage:(NSString *)searchMessage
+{
+    _searchMessage = searchMessage;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSearchMessage" object:nil];
 }
 
 @end

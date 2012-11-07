@@ -13,13 +13,18 @@
 @implementation R2RMKAnnotation 
 
 @synthesize name = _name;
-@synthesize address = _address;
+@synthesize kind = _kind;
 @synthesize coordinate = _coordinate;
 
-- (id)initWithName:(NSString*)name address:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate {
+- (id)initWithName:(NSString*)name kind:(NSString*)kind coordinate:(CLLocationCoordinate2D)coordinate {
     if ((self = [super init])) {
         _name = [name copy];
-        _address = [address copy];
+        
+        //only display items before a ":"
+        NSArray *kinds = [kind componentsSeparatedByString:@":"];
+        _kind = [kinds objectAtIndex:0];
+        R2RLog(@"%@", [kinds objectAtIndex:0]);
+        
         _coordinate = coordinate;
     }
     return self;
@@ -33,7 +38,7 @@
 }
 
 - (NSString *)subtitle {
-    return _address;
+    return _kind;
 }
 
 @end

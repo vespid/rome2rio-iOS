@@ -121,6 +121,11 @@ enum R2RState
     self.dataStore.statusMessage = statusMessage;
 }
 
+-(void) setSearchMessage:(NSString *)searchMessage
+{
+    self.dataStore.searchMessage = searchMessage;
+}
+
 -(void)refreshSearchIfNoResponse
 {
     if (!self.dataStore.searchResponse)
@@ -194,11 +199,11 @@ enum R2RState
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
             
-            [self setStatusMessage:@""];
+            [self setSearchMessage:@""];
         }
         else
         {
-            [self setStatusMessage:search.responseMessage];
+            [self setSearchMessage:search.responseMessage];
         }
         
         [self loadAirlineImages];
@@ -226,6 +231,8 @@ enum R2RState
 
 -(void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+    R2RLog(@"locationManager fail");
+    
     [manager stopUpdatingLocation];
     
     if (manager == self.fromLocationManager)

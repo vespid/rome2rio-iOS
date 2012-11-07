@@ -25,6 +25,7 @@
 -(void) setToWithCurrentLocation;
 
 -(void) setStatusMessage:(NSString *) statusMessage;
+-(void) setSearchMessage:(NSString *) searchMessage;
 
 -(BOOL) canShowSearch;
 -(BOOL) isSearching;

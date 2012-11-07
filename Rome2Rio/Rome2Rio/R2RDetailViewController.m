@@ -365,7 +365,7 @@
         pos.latitude = stop.pos.lat;
         pos.longitude = stop.pos.lng;
         
-        R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name address:stop.kind coordinate:pos];
+        R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
         [self.mapView addAnnotation:annotation];
     }
     

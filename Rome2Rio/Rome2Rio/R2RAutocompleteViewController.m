@@ -280,6 +280,7 @@
             
             if ([autocomplete.geoCodeResponse.places count] > 0)
             {
+                [self.dataManager setStatusMessage:@""];
                 self.places = self.autocomplete.geoCodeResponse.places;
                 [self.tableView reloadData];
             }

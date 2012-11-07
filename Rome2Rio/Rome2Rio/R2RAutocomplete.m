@@ -169,6 +169,7 @@
     {
         self.responseCompletionState = stateError;
         self.responseMessage = @"Unable to find location";
+        R2RLog(@"Error");
         
         [[self delegate] autocompleteResolved:self];
     }
@@ -182,7 +183,7 @@
         {
             self.responseCompletionState = stateError;
             self.responseMessage = @"Unable to find location";
-            
+            R2RLog(@"Timeout");
             [[self delegate] autocompleteResolved:self];
         }
         
@@ -262,12 +263,13 @@
              
              self.geoCodeResponse.place = [self.geoCodeResponse.places objectAtIndex:0];
              self.responseCompletionState = stateResolved;
-             
+             R2RLog(@"Autocomplete: Geocode Fallback: %@", self.geoCodeResponse.place.shortName);
              [[self delegate] autocompleteResolved:self];
              
          }
          else
          {
+             R2RLog(@"Autocomplete: Geocode fallback: Unable to find location");
              self.responseMessage = @"Unable to find location";
              if (!self.geoCodeResponse)
              {
