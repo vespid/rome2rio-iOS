@@ -8,7 +8,6 @@
 
 #import "R2RAppDelegate.h"
 #import "R2RMasterViewController.h"
-#import "R2RDataController.h"
 
 #import "R2RDataStore.h"
 #import "R2RDataManager.h"
@@ -18,13 +17,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
     
     R2RMasterViewController *firstViewController = (R2RMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
-    
-//    R2RDataController *dataController = [[R2RDataController alloc] init];
     
     R2RDataStore *dataStore = [[R2RDataStore alloc] init];
     
@@ -34,8 +29,6 @@
     firstViewController.dataManager = dataManager;
     firstViewController.dataStore = dataStore;
     
-//    firstViewController.dataController = dataController;
-
     return YES;
 }
 							

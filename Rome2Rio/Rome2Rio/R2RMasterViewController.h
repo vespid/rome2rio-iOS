@@ -8,14 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "R2RDataController.h"
 #import "R2RAutocompleteViewController.h"
 
+#import "R2RDataStore.h"
 #import "R2RDataManager.h"
 
 @interface R2RMasterViewController : UIViewController <UITextFieldDelegate, R2RAutocompleteViewControllerDelegate>
-
-//@property (strong, nonatomic) R2RDataController *dataController;
 
 @property (strong, nonatomic) R2RDataManager *dataManager;
 @property (strong, nonatomic) R2RDataStore *dataStore;

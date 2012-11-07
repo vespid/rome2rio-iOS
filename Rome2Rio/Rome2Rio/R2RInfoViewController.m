@@ -28,53 +28,42 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.feedbackTextView.clipsToBounds = YES;
-    self.feedbackTextView.layer.cornerRadius = 10.0f;
-	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidUnload {
-    [self setFeedbackTextView:nil];
+- (void)viewDidUnload
+{
     [super viewDidUnload];
 }
 
-- (IBAction)sendFeedback:(id)sender
+- (IBAction)rateApp:(id)sender
 {
-    /* create mail subject */
-    NSString *subject = [NSString stringWithFormat:@"Feedback"];
+    NSString *appId = @"569793256";
+
+    NSURL *reviewURL = [NSURL URLWithString: [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", appId]];
     
-    /* define email address */
-    NSString *mail = [NSString stringWithFormat:@"feedback@rome2rio.com"];
-    
-    NSString *body = self.feedbackTextView.text;
-    
-    /* create the URL */
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"mailto:?to=%@&subject=%@&body=%@",
-                                                [mail stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-                                                [subject stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-                                                [body stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
-    
-    if ([[UIApplication sharedApplication] canOpenURL:url])
+    if ([[UIApplication sharedApplication] canOpenURL:reviewURL])
     {
-        /* load the URL */
-        [[UIApplication sharedApplication] openURL:url];
+        [[UIApplication sharedApplication] openURL:reviewURL];
     }
     else
     {
-        //TODO status message? pissible only occurs on simulator with no email client
-        R2RLog(@"email not available");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not start iTunes"
+                                                        message:@"Please rate rome2rio in the iTunes store"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        R2RLog(@"App store not available");
     }
 }
 
 - (IBAction)sendFeedbackMail:(id)sender
 {
-    
     /* create mail subject */
     NSString *subject = [NSString stringWithFormat:@"Feedback"];
     
@@ -82,7 +71,7 @@
     NSString *mail = [NSString stringWithFormat:@"feedback@rome2rio.com"];
     
     /* create the URL */
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"mailto:?to=%@&subject=%@",
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"mailto:?to=%@&subject=%@",
                                                 [mail stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
                                                 [subject stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
     
@@ -93,32 +82,19 @@
     }
     else
     {
-        //TODO status message? pissible only occurs on simulator with no email client
-        R2RLog(@"email not available");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not start email client"
+                                                             message:@"Please send feedback to feedback@rome2rio.com"
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+        [alert show];
+        R2RLog(@"Email not available");
     }
 }
 
 - (IBAction)showMasterView:(id)sender
 {
     [self dismissModalViewControllerAnimated:YES];
-}
-
-#pragma mark - UITextView Delegate
-
-//TODO check for alternatives. (correct behaviour is done button elsewhere on screen?)
-//trick way to hide the keyboard when return is pressed instead of nomral behaviour of going to new line
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
- replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"])
-    {
-        [textView resignFirstResponder];
-        
-        // Return FALSE so that the final '\n' character doesn't get added
-        return FALSE;
-    }
-    // For any other character return TRUE so that the text gets added to the view
-    return TRUE;
 }
 
 @end

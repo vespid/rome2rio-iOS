@@ -21,8 +21,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
 @property (strong, nonatomic) R2RMasterViewStatusButton *statusButton;
 
-//- (IBAction)fromEditingDidBegin:(id)sender;
-//- (IBAction)toEditingDidBegin:(id)sender;
 - (IBAction)searchTouchUpInside:(id)sender;
 
 enum R2RState
@@ -39,20 +37,16 @@ enum R2RState
 
 @synthesize dataStore, fromTextField, toTextField;
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
 	[super viewWillAppear:animated];
-    
-//    [self setStatusMessage:self.dataController.statusMessage];
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
 	[super viewWillDisappear:animated];
-    
-//    [self.toTextField resignFirstResponder];
-//    [self.fromTextField resignFirstResponder];
-    
 }
 
 - (void)viewDidLoad
@@ -65,11 +59,6 @@ enum R2RState
 
     [self.view addSubview:self.statusButton];
     
-    
-    //TODO remove
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvingFrom:) name:@"resolvingFrom" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvingTo:) name:@"resolvingTo" object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFromTextField:) name:@"refreshFromTextField" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshToTextField:) name:@"refreshToTextField" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshStatusMessage:) name:@"refreshStatusMessage" object:nil];
@@ -81,16 +70,12 @@ enum R2RState
     [self setToTextField:nil];
     [self setHeaderBackground:nil];
     [self setHeaderImage:nil];
-    
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"resolvingFrom" object:nil];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"resolvingTo" object:nil];
-    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshFromTextField" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshToTextField" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
     
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -112,49 +97,18 @@ enum R2RState
     if ([[segue identifier] isEqualToString:@"showSearchResults"])
     {
         R2RResultsViewController *resultsViewController = [segue destinationViewController];
-        
         resultsViewController.dataManager = self.dataManager;
         resultsViewController.dataStore = self.dataStore;
-//        resultsViewController.dataController = self.dataController;
     }
     
     if ([[segue identifier] isEqualToString:@"showAutocomplete"])
     {
         R2RAutocompleteViewController *autocompleteViewController = [segue destinationViewController];
         autocompleteViewController.delegate = self;
-//        autocompleteViewController.dataController = self.dataController;
         autocompleteViewController.dataManager = self.dataManager;
-        autocompleteViewController.fieldName = sender; //TODO
-       
+        autocompleteViewController.fieldName = sender;
     }
 }
-
-//- (IBAction)fromEditingDidBegin:(id)sender
-//{
-////    [self.dataController fromEditingDidBegin];
-////    [self.fromTextField resignFirstResponder]; //TODO maybe change field to no longer be a text field so we don't have to worry about responder
-////    
-////    if ([self.fromTextField.text length] == 0) //TODO cheat to clear the place result if the clear button is pressed in master view 
-////    {
-////        [self.dataManager setFromPlace:nil];
-////    }
-////    
-////    [self performSegueWithIdentifier:@"showAutocomplete" sender:@"from"];
-//}
-//
-//- (IBAction)toEditingDidBegin:(UITextField *)sender
-//{
-////    [self.dataController toEditingDidBegin];
-////    [self.toTextField resignFirstResponder]; //TODO maybe change field to no longer be a text field so we don't have to worry about responder
-////    
-////    if ([self.toTextField.text length] == 0) //TODO cheat to clear the place result if the clear button is pressed in master view
-////    {
-////        [self.dataManager setToPlace:nil];
-//////        if ([sender] )
-////    }
-////    
-////    [self performSegueWithIdentifier:@"showAutocomplete" sender:@"to"];
-//}
 
 - (IBAction)searchTouchUpInside:(id)sender
 {
@@ -166,49 +120,18 @@ enum R2RState
 
 }
 
-//- (void) warningMessage: (NSString *) message: (NSString *) textField
-//{
-//    [self setStatusMessage:message];
-//}
-
-//-(void) resolvingFrom:(NSNotification *) notification
-//{
-////    [self.fromTextField setText:@""];
-//    self.fromTextField.placeholder = @"Finding current location";
-//}
-//
-//-(void) resolvingTo:(NSNotification *) notification
-//{
-//    self.toTextField.placeholder = @"Finding current location";
-//}
-
 -(void) refreshFromTextField:(NSNotification *) notification
 {
-//    self.fromTextField.placeholder = @"Origin";
     self.fromTextField.text = self.dataStore.fromPlace.longName;
-    
-//    [self.fromTextField setPlaceholder:@"Origin"];
-//    self.fromTextField.text = self.dataController.geoCoderFrom.geoCodeResponse.place.longName;
 }
 
 -(void) refreshToTextField:(NSNotification *) notification
 {
-//    self.toTextField.placeholder = @"Destination";
     self.toTextField.text = self.dataStore.toPlace.longName;
-//    self.toTextField.text = self.dataController.geoCoderTo.geoCodeResponse.place.longName;
-    
 }
 
-
-//if no userInfo dictionary is passed in the message is set to nil
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-//    NSString *key = @"message";
-//    NSDictionary *dictionary = [notification userInfo];
-//    NSString *message = [dictionary valueForKey:key];
-//   
-//    [self setStatusMessage:message];
-    
     [self setStatusMessage:self.dataStore.statusMessage];
 }
 
@@ -224,55 +147,8 @@ enum R2RState
 
 -(void)autocompleteViewControllerDidSelect:(R2RAutocompleteViewController *)controller response:(R2RGeoCodeResponse *)geocodeResponse fieldName:(NSString *)fieldName
 {
-//    [textField setText:geocodeResponse.place.longName];
-//    if ([fieldName isEqualToString:@"from"]);
-//    {
-//        self.dataController.fromGeocodeResponse = geocodeResponse;
-//        [self.dataController fromEditingDidEnd:self.fromTextField.text];
-//    }
-//    if ([fieldName isEqualToString:@"to"])
-//    {
-//        self.dataController.toGeocodeResponse = geocodeResponse;
-//        [self.dataController toEditingDidEnd:self.toTextField.text];
-//    }
-    
     [self dismissViewControllerAnimated:YES completion:NULL];
-    
 }
-
-//-(void)autocompleteViewControllerDidSelect:(R2RAutocompleteViewController *)controller selection:(NSString *)selection textField:(UITextField *)textField
-//{
-//    [textField setText:selection];
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//    
-//    if (textField == self.fromTextField && [self.fromTextField.text length]> 0)
-//    {
-//        [self.dataController fromEditingDidEnd:self.fromTextField.text];
-//    }
-//    if (textField == self.toTextField && [self.toTextField.text length]> 0)
-//    {
-//        [self.dataController toEditingDidEnd:self.toTextField.text];
-//    }
-//}
-//
-//-(void)autocompleteViewControllerDidSelectMyLocation:(R2RAutocompleteViewController *)controller textField:(UITextField *)textField
-//{
-//    [textField setText:@""];
-//    [textField setPlaceholder:@"Finding current location"];
-//    [textField resignFirstResponder];
-//
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//    
-//    if (textField == self.fromTextField)
-//    {
-//        [self.dataController currentLocationTouchUpInside];
-//    }
-//    else if (textField == self.toTextField)
-//    {
-//        //[self.dataController.]
-//    }
-//    
-//}
 
 - (IBAction)showInfoView:(id)sender
 {
@@ -306,7 +182,6 @@ enum R2RState
         self.dataManager.toText = nil;
     }
     return YES;
-    
 }
 
 @end

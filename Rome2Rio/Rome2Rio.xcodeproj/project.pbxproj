@@ -58,7 +58,6 @@
 		5ED4B3B51601D07000E9FE42 /* R2RAirline.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B36F1601D07000E9FE42 /* R2RAirline.m */; };
 		5ED4B3B61601D07000E9FE42 /* R2RAirport.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3711601D07000E9FE42 /* R2RAirport.m */; };
 		5ED4B3B71601D07000E9FE42 /* R2RConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3731601D07000E9FE42 /* R2RConnection.m */; };
-		5ED4B3B81601D07000E9FE42 /* R2RDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3751601D07000E9FE42 /* R2RDataController.m */; };
 		5ED4B3B91601D07000E9FE42 /* R2RFlightHop.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3771601D07000E9FE42 /* R2RFlightHop.m */; };
 		5ED4B3BA1601D07000E9FE42 /* R2RFlightItinerary.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B3791601D07000E9FE42 /* R2RFlightItinerary.m */; };
 		5ED4B3BB1601D07000E9FE42 /* R2RFlightLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED4B37B1601D07000E9FE42 /* R2RFlightLeg.m */; };
@@ -188,8 +187,6 @@
 		5ED4B3711601D07000E9FE42 /* R2RAirport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAirport.m; sourceTree = "<group>"; };
 		5ED4B3721601D07000E9FE42 /* R2RConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RConnection.h; sourceTree = "<group>"; };
 		5ED4B3731601D07000E9FE42 /* R2RConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RConnection.m; sourceTree = "<group>"; };
-		5ED4B3741601D07000E9FE42 /* R2RDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RDataController.h; sourceTree = "<group>"; };
-		5ED4B3751601D07000E9FE42 /* R2RDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RDataController.m; sourceTree = "<group>"; };
 		5ED4B3761601D07000E9FE42 /* R2RFlightHop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightHop.h; sourceTree = "<group>"; };
 		5ED4B3771601D07000E9FE42 /* R2RFlightHop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RFlightHop.m; sourceTree = "<group>"; };
 		5ED4B3781601D07000E9FE42 /* R2RFlightItinerary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RFlightItinerary.h; sourceTree = "<group>"; };
@@ -413,8 +410,6 @@
 		5ED4B3D81601D08300E9FE42 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5ED4B3741601D07000E9FE42 /* R2RDataController.h */,
-				5ED4B3751601D07000E9FE42 /* R2RDataController.m */,
 				5ED4B3601601D01C00E9FE42 /* R2RMasterViewController.h */,
 				5ED4B3611601D01C00E9FE42 /* R2RMasterViewController.m */,
 				5ED4B3961601D07000E9FE42 /* R2RResultsViewController.h */,
@@ -605,7 +600,6 @@
 				5ED4B3B51601D07000E9FE42 /* R2RAirline.m in Sources */,
 				5ED4B3B61601D07000E9FE42 /* R2RAirport.m in Sources */,
 				5ED4B3B71601D07000E9FE42 /* R2RConnection.m in Sources */,
-				5ED4B3B81601D07000E9FE42 /* R2RDataController.m in Sources */,
 				5ED4B3B91601D07000E9FE42 /* R2RFlightHop.m in Sources */,
 				5ED4B3BA1601D07000E9FE42 /* R2RFlightItinerary.m in Sources */,
 				5ED4B3BB1601D07000E9FE42 /* R2RFlightLeg.m in Sources */,

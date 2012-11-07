@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface R2RInfoViewController : UIViewController <UITextViewDelegate>
+@interface R2RInfoViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITextView *feedbackTextView;
-
-- (IBAction)sendFeedback:(id)sender;
 - (IBAction)sendFeedbackMail:(id)sender;
+- (IBAction)rateApp:(id)sender;
 - (IBAction)showMasterView:(id)sender;
 
 @end
