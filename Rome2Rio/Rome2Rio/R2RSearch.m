@@ -391,9 +391,7 @@ enum {
         }
         else            
         {
-            //////////////////////////////////
-//            NSLog(@"unknown segment kind or error%@", @"." );
-            //////////////////////////////////
+//            R2RLog(@"unknown segment kind or error%@", @"." );
         }
         
         [segments addObject:segment];
@@ -410,11 +408,7 @@ enum {
     segment.kind = [segmentResponse objectForKey:@"kind"];
     segment.distance = [[segmentResponse objectForKey:@"distance"] floatValue];
     segment.duration = [[segmentResponse objectForKey:@"duration"] floatValue];
-    
-//    id sName = [segmentResponse objectForKey:@"sName"];
-//    id tName = [segmentResponse objectForKey:@"tName"];
 
-//    NSLog(@"\n\n\n%@, %@\n\n", [sName class], [tName class]);
     segment.sName = [segmentResponse objectForKey:@"sName"];
     
     NSString *sPosString = [segmentResponse objectForKey:@"sPos"];
@@ -753,52 +747,31 @@ enum {
 {
     if (self.r2rConnection == delegateConnection)
     {
-        if (self.responseCompletionState != stateResolved)
+        if (self.responseCompletionState != stateResolved) //only parse data if search not already resolved
         {
             [self parseJson];
             
             self.responseCompletionState = stateResolved;
             
-//            NSLog(@"%s", "Search Parsed");
-            
             [[self delegate] searchDidFinish:self];
-            //        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
         }
-        else
-        {
-//            NSLog(@"%s", "Ignore Response, state already resolved");
-        }
-
     }
-    
-    //[[self delegate] R2RSearchResolved:self];
-   
 }
-
-//- (void) delayTest
-//{
-//    NSLog(@"%@", @"Search resolved");
-//    [[self delegate] R2RSearchResolved:self];
-//}
-
 
 - (void) R2RConnectionError:(R2RConnection *)delegateConnection
 {
     if (self.retryCount < 5)
     {
         //on error resend request after 1 second
-//        NSLog(@"%@ %d", @"Search: Retrying Connection", self.retryCount);
         [self performSelector:@selector(sendAsynchronousRequest) withObject:nil afterDelay:1.0];
         self.retryCount++;
     }
     else
     {
-//        NSLog(@"%@", @"Search: Connection Failed, too many retries");
         self.responseCompletionState = stateError;
         self.responseMessage = @"Unable to find location";
         
         [[self delegate] searchDidFinish:self];
-//        [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
     }
 }
 
@@ -808,20 +781,16 @@ enum {
     {
         if (self.retryCount >= 5)
         {
-//            NSLog(@"%@", @"Search: Connection Failed, too many retries (timeout)");
             self.responseCompletionState = stateError;
             self.responseMessage = @"Unable to find location";
             
             [[self delegate] searchDidFinish:self];
-//            [self performSelector:@selector(delayTest) withObject:nil afterDelay:0.0];
         }
         
         else if (self.retryCount == [retryNumber integerValue])
         {
             self.retryCount++;
-//            NSLog(@"%@ %@ %d", @"Search: Timeout, Retrying Connection", retryNumber, [retryNumber integerValue]);
             [self sendAsynchronousRequest];
-
         }
     }
 }
@@ -831,7 +800,6 @@ enum {
     R2RPrintSearch *printSearch = [R2RPrintSearch alloc];
     
     [printSearch printSearchData:self.searchResponse];
-    
 }
 
 @end

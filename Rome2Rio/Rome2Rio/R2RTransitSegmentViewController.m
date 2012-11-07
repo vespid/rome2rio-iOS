@@ -395,7 +395,7 @@
 }
 
 #pragma mark MKMapViewDelegate
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id) overlay// (id <MKOverlay>)overlay
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id) overlay
 {
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	

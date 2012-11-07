@@ -84,11 +84,11 @@
 {
     if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
     {
-        [cell setBackgroundColor:[UIColor colorWithRed:244.0/256.0 green:238.0/256.0 blue:234.0/256.0 alpha:1.0]];
+        [cell setBackgroundColor:[R2RConstants getExpandedCellColor]];
     }
     else
     {
-        [cell setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+        [cell setBackgroundColor:[R2RConstants getCellColor]];
     }
 }
 

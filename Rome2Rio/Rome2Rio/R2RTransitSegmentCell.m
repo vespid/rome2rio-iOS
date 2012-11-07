@@ -10,7 +10,7 @@
 
 @interface R2RTransitSegmentCell()
 
-@property (strong, nonatomic) R2RIconLoader *iconLoader;
+//@property (strong, nonatomic) R2RIconLoader *iconLoader;
 
 @end
 

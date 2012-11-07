@@ -14,16 +14,12 @@
 
 -(id) initWithData: (R2RDataStore *) dataStore;
 
--(id) getPolyline: (id) segment;
 -(NSArray *) getPolylines: (id) segment;
-//-(id) getPolyline: (NSString *) kind: (MKMapPoint *) points: (NSInteger) count;
 -(id) getPolylineView:(id) polyline;
 
 -(MKMapRect) getSegmentZoomRect: (id) segment;
 
 @end
-
-
 
 @interface R2RFlightPolyline : MKPolyline
 

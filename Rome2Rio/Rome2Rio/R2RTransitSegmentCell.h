@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "R2RIconLoader.h"
+//#import "R2RIconLoader.h"
 
 @interface R2RTransitSegmentCell : UITableViewCell //<R2RIconLoaderDelegate>
 

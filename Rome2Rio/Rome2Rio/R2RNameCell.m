@@ -7,7 +7,7 @@
 //
 
 #import "R2RNameCell.h"
-#import "R2RImageView.h"
+//#import "R2RImageView.h"
 
 @implementation R2RNameCell
 

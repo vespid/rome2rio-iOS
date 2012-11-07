@@ -13,7 +13,6 @@
 #import "R2RFlightSegmentViewController.h"
 #import "R2RTransitSegmentViewController.h"
 #import "R2RWalkDriveSegmentViewController.h"
-#import "R2RImageView.h"
 
 #import "R2RNameCell.h"
 #import "R2RFlightHopCell.h"
@@ -299,7 +298,6 @@
         segmentViewController.flightSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
         
         [segmentViewController sortFlightSegment];
-        
     }
     if ([[segue identifier] isEqualToString:@"showTransitSegment"])
     {
@@ -315,7 +313,6 @@
         segmentViewController.route = self.route;
         segmentViewController.walkDriveSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
     }
-    
 }
 
 - (IBAction)returnToSearch:(id)sender
@@ -414,7 +411,7 @@
 }
 
 #pragma mark MKMapViewDelegate
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id) overlay// (id <MKOverlay>)overlay
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id) overlay
 {
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	

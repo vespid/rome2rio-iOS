@@ -15,6 +15,7 @@
 #import "R2RTransitSegment.h"
 #import "R2RWalkDriveSegment.h"
 
+#import "R2RConstants.h"
 #import "R2RPath.h"
 #import "R2RPathEncoder.h"
 
@@ -89,12 +90,6 @@
     }
     
     return rect;
-//
-//    MKCoordinateRegion region = MKCoordinateRegionForMapRect(rect);
-//    region.span.latitudeDelta *=1.1;
-//    region.span.longitudeDelta *=1.1;
-//
-//    return region;
 }
 
 //return an array containing a polyline for each hop
@@ -209,7 +204,7 @@
     MKMapPoint *points = [data mutableBytes];
     int count = 0;
     
-    //CODECHECK: refactor out for all transitsegments but need count;
+    //TODO: refactor out for all transitsegments but need count;
     for (R2RPosition *r2rPos in path.positions)
     {
         CLLocationCoordinate2D pos;
@@ -233,7 +228,7 @@
     MKMapPoint *points = [data mutableBytes];
     int count = 0;
     
-    //CODECHECK: refactor out for all transitsegments but need count;
+    //TODO: refactor out for all transitsegments but need count;
     for (R2RPosition *r2rPos in path.positions)
     {
         CLLocationCoordinate2D pos;
@@ -257,7 +252,7 @@
     MKMapPoint *points = [data mutableBytes];
     int count = 0;
     
-    //CODECHECK: refactor out for all transitsegments but need count;
+    //TODO: refactor out for all transitsegments but need count;
     for (R2RPosition *r2rPos in path.positions)
     {
         CLLocationCoordinate2D pos;
@@ -281,7 +276,7 @@
     MKMapPoint *points = [data mutableBytes];
     int count = 0;
     
-    //CODECHECK: refactor out for all transitsegments but need count;
+    //TODO: refactor out for all transitsegments but need count;
     for (R2RPosition *r2rPos in path.positions)
     {
         CLLocationCoordinate2D pos;
@@ -296,172 +291,6 @@
     NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
     return array;
 }
-
-//-(id)getPolyline:(id)segment :(MKMapPoint *)points :(NSInteger) count
--(id)getPolyline:(id)segment;
-{
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
-    NSString *kind = [segmentHandler getSegmentKind:segment];
-    if ([kind isEqualToString:@"flight"])
-    {
-        return  [self getFlightPolyline:segment];// [R2RFlightPolyline polylineWithPoints:points count:count];
-    }
-    else if ([kind isEqualToString:@"train"])
-    {
-        return [self getTrainPolyline:segment];
-    }
-    else if ([kind isEqualToString:@"bus"])
-    {
-        return [self getBusPolyline:segment];
-    }
-    else if ([kind isEqualToString:@"ferry"])
-    {
-        return [self getFerryPolyline:segment];
-    }
-    else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"walk"])
-    {
-        return [self getWalkDrivePolyline:segment];
-    }
-    else
-    {
-        return nil;// [self getMKPolyline:segment];
-    }
-}
-
--(R2RFlightPolyline *) getFlightPolyline: (R2RFlightSegment *) segment
-{
-//    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
-    R2RFlightItinerary *itinerary = [segment.itineraries objectAtIndex:0];
-    R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
-    
-//TODO add geodesic Interpolation to flight path
-// for now there is just straight lines between stops
-    
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*([leg.hops count]+1))];
-    MKMapPoint *points = [data mutableBytes];
-    
-    int count = 0;
-    
-    for (R2RFlightHop *hop in leg.hops)
-    {
-        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
-        {
-            if ([airport.code isEqualToString:hop.sCode])
-            {
-                CLLocationCoordinate2D pos;
-                pos.latitude = airport.pos.lat;
-                pos.longitude = airport.pos.lng;
-                MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-                points[count++] = mapPoint;
-                break;
-            }
-        }
-        if (hop == [leg.hops lastObject])
-        {
-            for (R2RAirport *airport in self.dataStore.searchResponse.airports)
-            {
-                if ([airport.code isEqualToString:hop.tCode])
-                {
-                    CLLocationCoordinate2D pos;
-                    pos.latitude = airport.pos.lat;
-                    pos.longitude = airport.pos.lng;
-                    MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-                    points[count++] = mapPoint;
-                    break;
-                }
-            }
-        }
-    }
-    
-    return (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:count];
-}
-
--(R2RTrainPolyline *) getTrainPolyline: (R2RTransitSegment *) segment
-{
-    
-    R2RPath *path = [R2RPathEncoder decode:segment.path];
-    
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*[path.positions count])];
-    MKMapPoint *points = [data mutableBytes];
-    int count = 0;
-    
-    for (R2RPosition *r2rPos in path.positions)
-    {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        points[count++] = mapPoint;
-    }
-    
-    return (R2RTrainPolyline *)[R2RTrainPolyline polylineWithPoints:points count:count];
-}
-
--(R2RBusPolyline *) getBusPolyline: (R2RTransitSegment *) segment
-{
-    
-    R2RPath *path = [R2RPathEncoder decode:segment.path];
-    
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*[path.positions count])];
-    MKMapPoint *points = [data mutableBytes];
-    int count = 0;
-    
-    for (R2RPosition *r2rPos in path.positions)
-    {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        points[count++] = mapPoint;
-    }
-    
-    return (R2RBusPolyline *)[R2RBusPolyline polylineWithPoints:points count:count];
-}
-
--(R2RFerryPolyline *) getFerryPolyline: (R2RTransitSegment *) segment
-{
-    
-    R2RPath *path = [R2RPathEncoder decode:segment.path];
-    
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*[path.positions count])];
-    MKMapPoint *points = [data mutableBytes];
-    int count = 0;
-    
-    for (R2RPosition *r2rPos in path.positions)
-    {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        points[count++] = mapPoint;
-    }
-    
-    return (R2RFerryPolyline *)[R2RFerryPolyline polylineWithPoints:points count:count];
-}
-
--(R2RWalkDrivePolyline *) getWalkDrivePolyline: (R2RWalkDriveSegment *) segment
-{
-    
-    R2RPath *path = [R2RPathEncoder decode:segment.path];
-    
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*[path.positions count])];
-    MKMapPoint *points = [data mutableBytes];
-    int count = 0;
-    
-    for (R2RPosition *r2rPos in path.positions)
-    {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        points[count++] = mapPoint;
-    }
-    
-    return (R2RWalkDrivePolyline *)[R2RWalkDrivePolyline polylineWithPoints:points count:count];
-}
-
-
-
 
 -(id)getPolylineView:(id)polyline
 {
@@ -522,7 +351,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.strokeColor = [UIColor colorWithRed:241/255.0 green:96/255.0 blue:36/255.0 alpha:1.0];
+        self.strokeColor = [R2RConstants getFlightLineColor];
         self.lineWidth = 4;
     }
     return self;
@@ -537,7 +366,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.strokeColor = [UIColor colorWithRed:98/255.0 green:144/255.0 blue:46/255.0 alpha:1.0];
+        self.strokeColor = [R2RConstants getBusLineColor];
         self.lineWidth = 4;
     }
     return self;
@@ -552,7 +381,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.strokeColor = [UIColor colorWithRed:48/255.0 green:124/255.0 blue:192/255.0 alpha:1.0];
+        self.strokeColor = [R2RConstants getTrainLineColor];
         self.lineWidth = 4;
     }
     return self;
@@ -567,7 +396,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.strokeColor = [UIColor colorWithRed:64/255.0 green:170/255.0 blue:196/255.0 alpha:1.0];
+        self.strokeColor = [R2RConstants getFerryLineColor];
         self.lineWidth = 4;
     }
     return self;
@@ -582,7 +411,7 @@
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.strokeColor = [UIColor blackColor];
+        self.strokeColor = [R2RConstants getWalkDriveLineColor];
         self.lineWidth = 4;
     }
     return self;

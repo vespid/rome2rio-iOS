@@ -1,3 +1,11 @@
+//
+//  R2RPath.m
+//  Rome2Rio
+//
+//  Created by Bernie Tschirren.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
+//
+
 #import "R2RPath.h"
 
 @interface R2RPath ()

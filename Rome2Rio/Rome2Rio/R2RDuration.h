@@ -17,6 +17,5 @@
 @property NSInteger totalMinutes;
 
 -(id) initWithMinutes: (float) minutes;
-//-(NSString *) durationString;
 
 @end

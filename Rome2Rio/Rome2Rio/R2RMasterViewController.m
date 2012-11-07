@@ -104,7 +104,6 @@ enum R2RState
     if ([[segue identifier] isEqualToString:@"showAutocomplete"])
     {
         R2RAutocompleteViewController *autocompleteViewController = [segue destinationViewController];
-        autocompleteViewController.delegate = self;
         autocompleteViewController.dataManager = self.dataManager;
         autocompleteViewController.fieldName = sender;
     }
@@ -138,16 +137,6 @@ enum R2RState
 -(void) setStatusMessage: (NSString *) message
 {
     [self.statusButton setTitle:message forState:UIControlStateNormal];
-}
-
-- (void)autocompleteViewControllerDidCancel:(R2RAutocompleteViewController *)controller
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
--(void)autocompleteViewControllerDidSelect:(R2RAutocompleteViewController *)controller response:(R2RGeoCodeResponse *)geocodeResponse fieldName:(NSString *)fieldName
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (IBAction)showInfoView:(id)sender

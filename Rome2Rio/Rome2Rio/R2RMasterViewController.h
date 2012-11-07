@@ -13,7 +13,7 @@
 #import "R2RDataStore.h"
 #import "R2RDataManager.h"
 
-@interface R2RMasterViewController : UIViewController <UITextFieldDelegate, R2RAutocompleteViewControllerDelegate>
+@interface R2RMasterViewController : UIViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) R2RDataManager *dataManager;
 @property (strong, nonatomic) R2RDataStore *dataStore;

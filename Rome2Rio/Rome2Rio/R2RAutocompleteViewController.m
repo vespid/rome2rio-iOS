@@ -24,7 +24,7 @@
 
 @implementation R2RAutocompleteViewController
 
-@synthesize delegate, dataManager, fieldName;
+@synthesize dataManager, fieldName;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -252,21 +252,13 @@
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self.delegate autocompleteViewControllerDidCancel:self];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-//    [self.delegate autocompleteViewControllerDidSelect:self selection:searchBar.text textField:self.textField];
+    //do nothing. only return on cancel or if an item in the list is selected
 }
-
-//-(void)myLocationClicked
-//{
-//#warning 
-//
-//    [self sendMyLocationRequest];
-////    [self.delegate autocompleteViewControllerDidSelectMyLocation:self textField:self.textField];
-//}
 
 #pragma mark - autocomplete delegate
 
@@ -276,8 +268,6 @@
     {
         if (autocomplete.responseCompletionState == stateResolved)
         {
-//            R2RLog(@"resolved places %d", [autocomplete.geoCodeResponse.places count]);
-            
             if ([autocomplete.geoCodeResponse.places count] > 0)
             {
                 [self.dataManager setStatusMessage:@""];
@@ -327,14 +317,5 @@
     
     [self.statusButton setFrame:frame];
 }
-
-//-(void)myLocationResolved:(R2RAutocomplete *)autocomplete
-//{
-//    if (self.autocomplete == autocomplete)
-//    {
-//        [self.delegate autocompleteViewControllerDidSelect:self response:self.autocomplete.geoCodeResponse textField:self.textField];
-//    }
-//}
-
 
 @end

@@ -47,10 +47,7 @@
 -(void) setStatusMessage:(NSString *)statusMessage
 {
     _statusMessage = statusMessage;
-//    NSString *notificationName = @"refreshStatusMessage";
-//    NSString *key = @"statusMessage";
-//    NSDictionary *dictionary = [NSDictionary dictionaryWithObject:statusMessage forKey:key];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];// userInfo:dictionary];
 }
 

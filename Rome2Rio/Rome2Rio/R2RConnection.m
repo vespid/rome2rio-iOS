@@ -24,7 +24,6 @@
     
     if (self != nil)
     {
-        
         self.delegate = r2rConnectionDelegate;
         
         self.responseData = [NSMutableData data];
@@ -34,11 +33,6 @@
         self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 
         self.connectionString = [NSString stringWithFormat:@"%@", connectionUrl];
-//        self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
-//        [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-//        [self.connection start];
-//        NSLog(@"%@", [NSRunLoop currentRunLoop]);
-        
     }
     return self;
 }

@@ -8,12 +8,6 @@
 
 #import "R2RDuration.h"
 
-@interface R2RDuration()
-
-//@property (strong, nonatomic) NSNumber *totalMinutes;
-
-@end
-
 @implementation R2RDuration
 
 @synthesize days, hours, minutes, totalHours, totalMinutes;
@@ -46,27 +40,6 @@
     
     self.minutes = remainingMinutes % 60;
     
-//    NSLog(@"in %@\tdays %d\thours %d\tminutes %d", inputMinutes, self.days, self.hours, self.minutes);
 }
-
-//-(NSString *) durationString
-//{
-//    NSMutableString *string = [[NSMutableString alloc] init];
-//    
-//    if (self.days > 0)
-//    {
-//        [string appendFormat:@"%d days,", self.days];
-//    }
-//    if (self.hours > 0)
-//    {
-//        [string appendFormat:@" %d hours,", self.hours];
-//    }
-//    if (self.minutes > 0)
-//    {
-//        [string appendFormat:@" %d minutes", self.minutes];
-//    }
-//    
-//    return string;
-//}
 
 @end

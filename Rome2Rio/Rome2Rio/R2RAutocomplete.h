@@ -44,6 +44,5 @@ enum {
 @protocol R2RAutocompleteDelegate <NSObject>
 
 - (void)autocompleteResolved:(R2RAutocomplete *) autocomplete;
-//- (void)myLocationResolved:(R2RAutocomplete *) autocomplete;
 
 @end

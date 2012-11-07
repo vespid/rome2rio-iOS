@@ -26,7 +26,6 @@
     if (self != nil)
     {
         self.path = path;
-        //[self sendAsynchronousRequest];
     }
     
     return self;
@@ -56,16 +55,11 @@
         
         [self.delegate r2rImageDidLoad:self];
     }
-    else
-    {
-        //        NSLog(@"%@\t%@", self.connection.connectionString, delegateConnection.connectionString);
-    }
 }
 
 -(void)R2RConnectionError:(R2RConnection *)delegateConnection
 {
-    
+    R2RLog(@"Connection Error");
 }
-
 
 @end

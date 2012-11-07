@@ -88,7 +88,6 @@
     return nil;
 }
 
-
 //used to return start coordinate for any segment including flights
 -(R2RPosition *) getSegmentSPos:(id) segment
 {
@@ -161,7 +160,7 @@
     {
         return CGRectMake(0, 80, 18, 18);
     }
-    else if ([kind isEqualToString:@"train"]/* || [kind isEqualToString:@"tram"]*/)
+    else if ([kind isEqualToString:@"train"])
     {
         return CGRectMake(0, 98, 18, 18);
     }
@@ -235,22 +234,6 @@
     return sprite;
 }
 
-
--(NSArray *) getTransitHops: (R2RTransitSegment *)segment
-{
-    if ([segment.itineraries count] >= 1)
-    {
-        R2RTransitItinerary *itinerary = [segment.itineraries objectAtIndex:0];
-        if ([itinerary.legs count] >= 1)
-        {
-            R2RTransitLeg *leg = [itinerary.legs objectAtIndex:0];
-            return leg.hops;
-        }
-    }
-    
-    return nil;
-}
-
 -(NSInteger) getTransitHopCount:(R2RTransitSegment *)segment
 {
     NSInteger hopCount = 0;
@@ -273,18 +256,6 @@
     return (hopCount - 1);//1 less change than hops;
 }
 
-//this used to contain overly complex code to return transit lines for detail view description
-// but for consistency and room they have been removed from here and are only display in the actual transit segment
-//-(NSString *)getTransitVehicle:(R2RTransitSegment *)segment
-//{
-//    NSArray *hops = [self getTransitHops:segment];
-//    if (hops == nil)
-//    {
-//        return nil;
-//    }
-//    return segment.kind;
-//}
-
 -(float) getTransitFrequency: (R2RTransitSegment *)segment
 {
     NSInteger hopCount = [self getTransitHopCount:segment];
@@ -298,25 +269,6 @@
     return 0.0;
 }
 
-//-(NSString *)getFrequencyText: (R2RTransitSegment *)segment
-//{
-//    NSArray *hops = [self getTransitHops:segment];
-//    NSInteger changes = [hops count] - 1;
-//    
-//    if (changes == 0)
-//    {
-//        return [NSString stringWithFormat:@"%@ by %@, %@", [self formatDuration:minutes], vehicle, [self formatFrequency:frequency]];
-//    }
-//    else if (changes == 1)
-//    {
-//        return [NSString stringWithFormat:@"%@ by %@, 1 change", [self formatDuration:minutes], vehicle];
-//    }
-//    else if (changes >= 2)
-//    {
-//        return [NSString stringWithFormat:@"%@ by %@, %d changes", [self formatDuration:minutes], vehicle, changes];
-//    }
-//    return nil;
-//}
 -(R2RSprite *)getConnectionSprite:(id)segment
 {
     NSString *kind = [self getSegmentKind:segment];

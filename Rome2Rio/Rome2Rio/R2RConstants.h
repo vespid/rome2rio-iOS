@@ -15,6 +15,12 @@
 +(UIColor *) getExpandedCellColor;
 +(UIColor *) getLightTextColor;
 +(UIColor *) getDarkTextColor;
++(UIColor *) getFlightLineColor;
++(UIColor *) getBusLineColor;
++(UIColor *) getTrainLineColor;
++(UIColor *) getFerryLineColor;
++(UIColor *) getWalkDriveLineColor;
+
 
 #define MAX_FLIGHT_STOPS 5
 #define MAX_ICONS 5

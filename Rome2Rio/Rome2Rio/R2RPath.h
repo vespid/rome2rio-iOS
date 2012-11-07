@@ -1,3 +1,11 @@
+//
+//  R2RPath.h
+//  Rome2Rio
+//
+//  Created by Bernie Tschirren.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import "R2RPosition.h"
 

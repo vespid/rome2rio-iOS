@@ -66,8 +66,6 @@ enum R2RState
 
 -(void) setFromWithCurrentLocation
 {
-//    [self refreshStatusMessage:nil];
-    
     //TODO refactor the state managment
     if (self.state == RESOLVING_TO || self.state == RESOLVING_FROM_AND_TO)
     {
@@ -80,14 +78,11 @@ enum R2RState
     
     [self setStatusMessage:@"Finding Current Location"];
     
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"resolvingFrom" object:nil];
     self.fromLocationManager = [self createLocationManager];
 }
 
 -(void) setToWithCurrentLocation
 {
-    //    [self refreshStatusMessage:nil];
-    
     [self setToPlace:nil];
 
     if (self.state == RESOLVING_FROM || self.state == RESOLVING_FROM_AND_TO)
@@ -101,10 +96,8 @@ enum R2RState
     
     [self setStatusMessage:@"Finding Current Location"];
     
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"resolvingTo" object:nil];
     self.toLocationManager = [self createLocationManager];
 }
-
 
 //-(void) setNewState:(NSInteger) state
 //{
@@ -169,9 +162,6 @@ enum R2RState
 
 - (void) startSearch
 {
-//    self.statusMessage = @"";
-//    [self refreshStatusMessage:self.search];
-    
     self.dataStore.searchResponse = nil;
     
     NSString *oName = self.dataStore.fromPlace.shortName;
@@ -186,7 +176,6 @@ enum R2RState
     self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind: oCode: dCode delegate:self];
     
     self.state = SEARCHING;
-//    [self performSelector:@selector(refreshStatusMessage:) withObject:self.search afterDelay:2.0];
 }
 
 - (void) searchDidFinish:(R2RSearch *)search;
@@ -266,7 +255,6 @@ enum R2RState
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-//    self.location = newLocation;
     [manager stopUpdatingLocation];
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -314,22 +302,12 @@ enum R2RState
                 [self setToPlace:place];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
             }
-//            R2RLog(@"%@", error);
         }
         else
         {
-//            R2RLog(@"%@", error);
             if (manager == self.fromLocationManager || manager == self.toLocationManager)
             {
                 [self setStatusMessage:@"Unable to find current location"];
-
-//                self.geoCoderFrom.responseCompletionState = stateError;
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
-//                [self refreshStatusMessage:self];
-//            }
-//            else if (manager == self.toLocationManager)
-//            {
-//                [self setStatusMessage:@"Unable to find location"];
             }
 
         }
@@ -351,7 +329,5 @@ enum R2RState
         [self.dataStore.spriteStore loadImage:agency.iconPath];
     }
 }
-
-
 
 @end

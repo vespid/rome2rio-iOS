@@ -28,11 +28,8 @@
 -(id) initWithData: (R2RDataStore *) dataStore;
 
 -(R2RSprite *) getRouteSprite:(NSString *) kind;
-//-(UIImage *) getRouteIcon:(NSString *) kind;
 -(R2RSprite *) getSegmentResultSprite:(id) segment;
-//-(UIImage *) getSegmentResultIcon:(id) segment;
 -(R2RSprite *) getConnectionSprite: (id) segment;
-//-(UIImage *) getConnectionImage: (id) segment;
 
 -(BOOL) getSegmentIsMajor:(id) segment;
 -(NSString*) getSegmentKind:(id) segment;
@@ -41,12 +38,8 @@
 -(R2RPosition *) getSegmentTPos:(id) segment;
 
 -(NSInteger) getTransitChanges: (R2RTransitSegment *) segment;
-//-(NSString *) getTransitVehicle: (R2RTransitSegment *) segment;
-//-(NSString *) getFrequencyText: (R2RTransitSegment *) segment;
 -(float) getTransitFrequency: (R2RTransitSegment *)segment;
 
-
 -(NSInteger) getFlightChanges: (R2RFlightSegment *) segment;
-
 
 @end
