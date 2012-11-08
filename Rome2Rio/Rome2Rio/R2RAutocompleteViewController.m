@@ -58,7 +58,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    self.fallbackToCLGeocoder = NO;
     if ([self.fieldName isEqualToString:@"from"])
     {
         [self.searchBar setText:self.dataManager.fromText];
@@ -168,7 +168,7 @@
     
     if ([searchText length] >=2)
     {
-        self.autocomplete = [[R2RAutocomplete alloc] initWithSearchString:searchText delegate:self];
+//        self.autocomplete = [[R2RAutocomplete alloc] initWithSearchString:searchText delegate:self];
         if (self.fallbackToCLGeocoder == YES)
         {
             [self sendCLGeocodeRequest:searchText];
@@ -203,20 +203,21 @@
 
 -(void) sendAutocompleteRequest:(NSString *)query
 {
-    self.autocomplete = [[R2RAutocomplete alloc] initWithSearchString:query delegate:self];
+    self.autocomplete = [[R2RAutocomplete alloc] initWithQueryString:query delegate:self];
     [self.autocomplete sendAsynchronousRequest];
-    [self performSelector:@selector(setStatusSearching) withObject:nil afterDelay:0.3];
+    [self performSelector:@selector(setStatusSearching) withObject:nil afterDelay:0.8];
 }
 
 -(void) sendCLGeocodeRequest:(NSString *)query
 {
+    self.autocomplete = [[R2RAutocomplete alloc] initWithQueryString:query delegate:self];
     [self.autocomplete geocodeFallback:query];
-    [self performSelector:@selector(setStatusSearching) withObject:nil afterDelay:0.3];
+    [self performSelector:@selector(setStatusSearching) withObject:nil afterDelay:0.8];
 }
 
 -(void) setStatusSearching
 {
-    if (self.autocomplete.responseCompletionState != stateResolved && self.autocomplete.responseCompletionState != stateError)
+    if (self.autocomplete.responseCompletionState != stateResolved && self.autocomplete.responseCompletionState != stateError && self.autocomplete.responseCompletionState != stateLocationNotFound)
     {
         [self.dataManager setStatusMessage:@"Searching"];
     }
@@ -277,15 +278,20 @@
                 if (self.fallbackToCLGeocoder == NO)
                 {
                     self.fallbackToCLGeocoder = YES;
-                    [self sendCLGeocodeRequest:autocomplete.searchString];
+                    [self sendCLGeocodeRequest:autocomplete.query];
                 }
             }
         }
-        else
+        else if (autocomplete.responseCompletionState == stateLocationNotFound) //state only returned from geocodeFallback
         {
             [self.dataManager setStatusMessage:autocomplete.responseMessage];
             self.places = self.autocomplete.geoCodeResponse.places;
             [self.tableView reloadData];
+        }
+        else
+        {
+            //if response not resolved send off a single CLGeocode request
+            [self sendCLGeocodeRequest:autocomplete.query];
         }
     }
 }

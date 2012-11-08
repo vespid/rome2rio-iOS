@@ -106,7 +106,7 @@ enum {
     
     self.responseCompletionState = stateResolving;
     
-    [self performSelector:@selector(connectionTimeout) withObject:nil afterDelay:10.0];
+    [self performSelector:@selector(connectionTimeout) withObject:nil afterDelay:5.0];
 }
 
 -(void) parseJson
@@ -785,12 +785,13 @@ enum {
 
 - (void) connectionTimeout
 {
-    self.responseCompletionState = stateError;
-    self.responseMessage = @"Unable to find location";
-    
-    R2RLog(@"Search Timeout");
-    
-    [[self delegate] searchDidFinish:self];
+    if (self.responseCompletionState == stateResolving)
+    {
+        self.responseCompletionState = stateError;
+        self.responseMessage = @"Unable to find location";
+        R2RLog(@"Search Timeout");
+        [[self delegate] searchDidFinish:self];
+    }
 }
 
 -(void) printTestData

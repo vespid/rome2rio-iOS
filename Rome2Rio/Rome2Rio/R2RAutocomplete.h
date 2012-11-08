@@ -19,12 +19,12 @@
 
 @property (weak, nonatomic) id<R2RAutocompleteDelegate> delegate;
 @property (strong, nonatomic) R2RGeoCodeResponse *geoCodeResponse;
-@property (strong, nonatomic) NSString *searchString;
+@property (strong, nonatomic) NSString *query;
 @property (nonatomic) NSInteger responseCompletionState;
 @property (strong, nonatomic) NSString *responseMessage;
 
--(id) initWithSearch:(NSString *) query: (NSString *) country: (NSString *) language delegate:(id<R2RAutocompleteDelegate>)r2rGeoCoderDelegate;
--(id) initWithSearchString:(NSString *)initSearchString delegate:(id<R2RAutocompleteDelegate>)r2rGeoCoderDelegate;
+-(id) initWithQuery:(NSString *) query: (NSString *) country: (NSString *) language delegate:(id<R2RAutocompleteDelegate>)r2rGeoCoderDelegate;
+-(id) initWithQueryString:(NSString *)query delegate:(id<R2RAutocompleteDelegate>)r2rGeoCoderDelegate;
 -(void) sendAsynchronousRequest;
 -(void) geocodeFallback:(NSString *)query;
 

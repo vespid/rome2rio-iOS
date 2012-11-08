@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) R2RConnection *r2rConnection;
 
-@property (strong, nonatomic) NSString *query;
+
 @property (strong, nonatomic) NSString *countryCode;
 @property (strong, nonatomic) NSString *language;
 
@@ -25,10 +25,10 @@
 
 @implementation R2RAutocomplete
 
-@synthesize geoCodeResponse, responseCompletionState, searchString, responseMessage;
+@synthesize geoCodeResponse, responseCompletionState, responseMessage;
 @synthesize delegate;
 
--(id) initWithSearch:(NSString *)query :(NSString *)countryCode :(NSString *)language delegate:(id<R2RAutocompleteDelegate>)autocompleteDelegate
+-(id) initWithQuery:(NSString *)query :(NSString *)countryCode :(NSString *)language delegate:(id<R2RAutocompleteDelegate>)autocompleteDelegate
 {
     self = [super init];
     
@@ -44,7 +44,7 @@
     return self;
 }
 
--(id) initWithSearchString:(NSString *)initSearchString delegate:(id<R2RAutocompleteDelegate>)autocompleteDelegate
+-(id) initWithQueryString:(NSString *)initSearchString delegate:(id<R2RAutocompleteDelegate>)autocompleteDelegate
 {
     self = [super init];
     
@@ -86,7 +86,7 @@
     
     self.responseCompletionState = stateResolving;
     
-    [self performSelector:@selector(connectionTimeout) withObject:nil afterDelay:5.0];
+    [self performSelector:@selector(connectionTimeout:) withObject:self.r2rConnection afterDelay:5.0];
 }
 
 -(void) parseJson
@@ -157,27 +157,36 @@
 
 - (void) R2RConnectionError:(R2RConnection *)delegateConnection
 {
-    if (self.retryCount < 5)
+    if (self.r2rConnection == delegateConnection)
     {
-        [self performSelector:@selector(sendAsynchronousRequest) withObject:nil afterDelay:0.5];
-        self.retryCount++;
-    }
-    else
-    {
-        self.responseCompletionState = stateError;
-        self.responseMessage = @"Unable to find location";
-        R2RLog(@"Error");
-        
-        [[self delegate] autocompleteResolved:self];
+        if (self.retryCount < 5)
+        {
+            [self performSelector:@selector(sendAsynchronousRequest) withObject:nil afterDelay:0.5];
+            self.retryCount++;
+        }
+        else
+        {
+            self.responseCompletionState = stateError;
+            self.responseMessage = @"Unable to find location";
+            R2RLog(@"Error");
+            
+            [[self delegate] autocompleteResolved:self];
+        }
     }
 }
 
-- (void) connectionTimeout
+- (void) connectionTimeout:(R2RConnection *)connection
 {
-    self.responseCompletionState = stateError;
-    self.responseMessage = @"Unable to find location";
-    R2RLog(@"Timeout");
-    [[self delegate] autocompleteResolved:self];
+    if (self.r2rConnection == connection)
+    {
+        if (self.responseCompletionState == stateResolving)
+        {
+            self.responseCompletionState = stateError;
+            self.responseMessage = @"Unable to find location";
+            R2RLog(@"Timeout");
+            [[self delegate] autocompleteResolved:self];
+        }
+    }
 }
 
 -(void)geocodeFallback:(NSString *)query
@@ -260,7 +269,7 @@
                  self.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
              }
              self.geoCodeResponse.places = nil;
-             self.responseCompletionState = stateError;
+             self.responseCompletionState = stateLocationNotFound;
              
              [[self delegate] autocompleteResolved:self];
          }
