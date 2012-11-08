@@ -12,8 +12,6 @@
 
 @interface R2RTableView : UITableView
 
-//@property (weak, nonatomic) id<R2RTableViewDelegate> delegate;
-
 @end
 
 

@@ -19,27 +19,7 @@
 @property (strong, nonatomic) UILabel *tTimeLabel;
 @property (strong, nonatomic) UILabel *durationLabel;
 
-@property (strong, nonatomic) UILabel *frequencyLabel;
-@property (strong, nonatomic) UIButton *linkButton;
-// for expanded cell view
-@property (strong, nonatomic) NSMutableArray *airlineIcons;
-@property (strong, nonatomic) NSMutableArray *airlineNameLabels;
-@property (strong, nonatomic) NSMutableArray *layoverNameLabels;
-@property (strong, nonatomic) NSMutableArray *hopDurationLabels;
-@property (strong, nonatomic) NSMutableArray *layoverDurationLabels;
-@property (strong, nonatomic) NSMutableArray *joinerLabels;
-@property (strong, nonatomic) NSMutableArray *flightNameLabels;
-@property (strong, nonatomic) NSMutableArray *sAirportLabels;
-@property (strong, nonatomic) NSMutableArray *tAirportLabels;
-
-
 -(void) setDisplaySingleIcon;
 -(void) setDisplayDoubleIcon;
-
-//-(void) initSingleIconView: (float) rowHeight;
-//-(void) initDoubleIconView: (float) rowHeight;
-//
-//-(void) loadFirstAirlineIcon: (NSString *) iconPath: (CGPoint) iconOffset;
-//-(void) loadSecondAirlineIcon: (NSString *) iconPath: (CGPoint) iconOffset;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "R2RFlightSegmentViewController.h"
 #import "R2RFlightSegmentCell.h"
+#import "R2RExpandedFlightSegmentCell.h"
 #import "R2RFlightSegmentSectionHeader.h"
 #import "R2RFlightGroup.h"
 
@@ -94,23 +95,99 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"FlightSegmentCell";
- 
-    R2RFlightSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
- 
-    // Configure the cell...
+    NSString *cellIdentifier;
     
     R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:indexPath.section];
     
     R2RFlightItinerary *flightItinerary = [flightGroup.flights objectAtIndex:indexPath.row];
     
     R2RFlightLeg *flightLeg = ([flightItinerary.legs count] > 0) ? [flightItinerary.legs objectAtIndex:0] : nil;
+    
+    if (indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
+    {
+        cellIdentifier = @"ExpandedFlightSegmentCell";
+        R2RExpandedFlightSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        
+        [self configureExpandedFlightSegmentCell:cell :flightLeg];
+        
+        return cell;
+    }
+
+    //else default cell
+    cellIdentifier = @"FlightSegmentCell";
+    R2RFlightSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    [self configureFlightSegmentCell:cell :flightLeg];
+    
+    return cell;
+
+    
+    // Configure the cell...
  
-    if (cell.flightLeg == flightLeg) return cell;
+//    if (cell.flightLeg == flightLeg) return cell;
+//    
+//    cell.flightLeg = flightLeg;
+//    if (flightLeg == nil) return cell;
     
-    cell.flightLeg = flightLeg;
-    if (flightLeg == nil) return cell;
     
+}
+
+-(void) configureFlightSegmentCell: (R2RFlightSegmentCell *) cell: (R2RFlightLeg *) flightLeg
+{
+    NSInteger hops = [flightLeg.hops count];
+    
+    NSString *sTime = [[flightLeg.hops objectAtIndex:0] sTime];
+    NSString *tTime = [[flightLeg.hops objectAtIndex:(hops-1)] tTime];
+    
+    [cell.sTimeLabel setText:sTime];
+    [cell.tTimeLabel setText:tTime];
+    
+    float duration = 0.0;
+    NSString *firstAirlineCode = nil;
+    NSString *secondAirlineCode = nil;
+    int hopNumber = 0;
+    
+    for (R2RFlightHop *flightHop in flightLeg.hops)
+    {
+        duration += flightHop.duration;
+        if (flightHop.lDuration > 0)
+        {
+            duration += flightHop.lDuration;
+        }
+        
+        if (firstAirlineCode == nil)
+        {
+            [cell setDisplaySingleIcon];
+            firstAirlineCode = flightHop.airline;
+        }
+        else if (secondAirlineCode == nil && ![flightHop.airline isEqualToString:firstAirlineCode])
+        {
+            [cell setDisplayDoubleIcon];
+            secondAirlineCode = flightHop.airline;
+        }
+        hopNumber++;
+    }
+    
+    [cell.durationLabel setText:[R2RStringFormatters formatDurationZeroPadded:duration]];
+    
+    for (R2RAirline *airline in self.dataStore.searchResponse.airlines)
+    {
+        if ([airline.code isEqualToString:firstAirlineCode])
+        {
+            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+            [self.dataStore.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
+        }
+        if ([airline.code isEqualToString:secondAirlineCode])
+        {
+            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+            [self.dataStore.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
+        }
+    }
+}
+
+
+-(void) configureExpandedFlightSegmentCell: (R2RExpandedFlightSegmentCell *) cell: (R2RFlightLeg *) flightLeg
+{
     NSInteger hops = [flightLeg.hops count];
     
     NSString *sTime = [[flightLeg.hops objectAtIndex:0] sTime];
@@ -155,7 +232,7 @@
             [cell setDisplayDoubleIcon];
             secondAirlineCode = flightHop.airline;
         }
-
+        
         [self setExpandedCellValues:cell :flightHop :hopNumber];
         
         hopNumber++;
@@ -178,11 +255,9 @@
     }
     
     [self setUnusedViewsHidden:cell :hops];
-
-    return cell;
 }
 
--(void) setExpandedCellValues:(R2RFlightSegmentCell *) cell: (R2RFlightHop *) flightHop: (NSInteger) hopNumber
+-(void) setExpandedCellValues:(R2RExpandedFlightSegmentCell *) cell: (R2RFlightHop *) flightHop: (NSInteger) hopNumber
 {
     UILabel *label;
     
@@ -228,7 +303,7 @@
     [label setHidden:NO];
 }
 
--(void) setUnusedViewsHidden:(R2RFlightSegmentCell *) cell: (NSInteger) hops
+-(void) setUnusedViewsHidden:(R2RExpandedFlightSegmentCell *) cell: (NSInteger) hops
 {
     //1 less layover than stops
     for (int i = hops; i < MAX_FLIGHT_STOPS; i++)

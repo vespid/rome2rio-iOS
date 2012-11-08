@@ -16,7 +16,7 @@
 
 @implementation R2RConnection
 
-@synthesize responseData, connection, delegate, connectionString;
+@synthesize responseData, responseStatus, connection, delegate, connectionString;
 
 -(id) initWithConnectionUrl:(NSURL *)connectionUrl delegate:(id<R2RConnectionDelegate>)r2rConnectionDelegate
 {
@@ -27,6 +27,8 @@
         self.delegate = r2rConnectionDelegate;
         
         self.responseData = [NSMutableData data];
+        
+        self.responseStatus = 0;
         
         NSURLRequest *request = [NSURLRequest requestWithURL:connectionUrl];
         
@@ -40,6 +42,9 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     [self.responseData setLength:0];
+ 
+    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+    self.responseStatus = [httpResponse statusCode];
 }	
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -54,7 +59,14 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    [[self delegate] R2RConnectionProcessData:self];
+    if (self.responseStatus == 200)
+    {
+        [[self delegate] R2RConnectionProcessData:self];
+    }
+    else
+    {
+        [[self delegate] R2RConnectionError:self];
+    }
 }
 
 @end

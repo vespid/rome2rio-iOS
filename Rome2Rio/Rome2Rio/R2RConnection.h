@@ -15,7 +15,9 @@
 
 @property (weak, nonatomic) id<R2RConnectionDelegate> delegate;
 @property (strong, nonatomic) NSMutableData *responseData;
+@property (nonatomic) NSInteger responseStatus;
 @property (strong, nonatomic) NSString *connectionString;
+
 
 -(id) initWithConnectionUrl:(NSURL *)connectionUrl delegate:(id<R2RConnectionDelegate>)r2rConnectionDelegate;
 

@@ -21,13 +21,8 @@
         [self.titleLabel setMinimumFontSize:10.0];
         [self.titleLabel setAdjustsFontSizeToFitWidth:YES];
         
-//        CGRect rect = CGRectMake(-230, 0, self.frame.size.width - 40, self.frame.size.height);
-//        [self.titleLabel setFrame:rect];
-//
         self.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        
-//        [self.titleLabel setBackgroundColor:[UIColor purpleColor]];
         
         [self setHidden:true];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

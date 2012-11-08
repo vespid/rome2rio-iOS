@@ -18,6 +18,7 @@
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
 @property (strong, nonatomic) NSString *prevSearchText;
+
 @property (nonatomic) BOOL fallbackToCLGeocoder;
 
 @end
@@ -25,15 +26,6 @@
 @implementation R2RAutocompleteViewController
 
 @synthesize dataManager, fieldName;
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -58,19 +50,14 @@
                                                  name:UIKeyboardDidShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
+                                             selector:@selector(keyboardWasHidden:)
+                                                 name:UIKeyboardDidHideNotification object:nil];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
     if ([self.fieldName isEqualToString:@"from"])
     {
@@ -83,8 +70,12 @@
         [self startAutocomplete:self.dataManager.toText];
     }
     
-    
     [self.searchBar becomeFirstResponder];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (void)viewDidUnload {
@@ -92,7 +83,10 @@
     [self setStatusView:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+
+    [self setTableView:nil];
     [super viewDidUnload];
 }
 
@@ -145,20 +139,13 @@
 {
     if (indexPath.row == [self.places count])
     {
-//        [self sendMyLocationRequest];
         [self currentLocationClicked];
-//        return;
     }
     else
     {
-//        R2RPlace *place = [self.places objectAtIndex:indexPath.row];
-//        self.autocomplete.geoCodeResponse.place = [self.places objectAtIndex:indexPath.row];
-        
+        [self setText:self.searchBar.text];
         [self placeClicked:[self.places objectAtIndex:indexPath.row]];
-        
-//        [self.delegate autocompleteViewControllerDidSelect:self response:self.autocomplete.geoCodeResponse textField:self.textField];
     }
-
 }
 
 #pragma mark - Search bar delegate
@@ -166,13 +153,14 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self startAutocomplete:searchText];
-    [self.dataManager setStatusMessage:@""];
+    if (![self.dataManager.dataStore.statusMessage isEqualToString:@"Searching"])
+    {
+        [self.dataManager setStatusMessage:@""];
+    }
 }
 
 -(void) startAutocomplete: (NSString *) searchText
 {
-    [self setText:searchText];
-    
     if ([searchText length] < [self.prevSearchText length])
     {
         self.fallbackToCLGeocoder = NO;
@@ -187,7 +175,7 @@
         }
         else
         {
-            [self.autocomplete sendAsynchronousRequest];
+            [self sendAutocompleteRequest:searchText];
         }
     }
     else
@@ -217,11 +205,21 @@
 {
     self.autocomplete = [[R2RAutocomplete alloc] initWithSearchString:query delegate:self];
     [self.autocomplete sendAsynchronousRequest];
+    [self performSelector:@selector(setStatusSearching) withObject:nil afterDelay:0.3];
 }
 
 -(void) sendCLGeocodeRequest:(NSString *)query
 {
     [self.autocomplete geocodeFallback:query];
+    [self performSelector:@selector(setStatusSearching) withObject:nil afterDelay:0.3];
+}
+
+-(void) setStatusSearching
+{
+    if (self.autocomplete.responseCompletionState != stateResolved && self.autocomplete.responseCompletionState != stateError)
+    {
+        [self.dataManager setStatusMessage:@"Searching"];
+    }
 }
 
 -(void) currentLocationClicked
@@ -307,15 +305,34 @@
     frame.origin.y = self.view.frame.size.height - 30 - kbSize.height;
     
     [self.statusButton setFrame:frame];
+    
+    CGRect tableViewFrame = self.tableView.frame;
+    
+    if (tableViewFrame.size.height >=  self.view.frame.size.height - self.searchBar.frame.size.height)
+    {
+        tableViewFrame.size.height -= kbSize.height;
+    }
+    
+    [self.tableView setFrame:tableViewFrame];
 }
 
-// Called when the UIKeyboardWillHideNotification is sent
-- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+// Called when the UIKeyboardDidHideNotification is sent
+// Using DidHide instead of WillHide so it doesn't do anything while the modal view is being dismissed
+- (void) keyboardWasHidden:(NSNotification*)aNotification
 {
     CGRect frame = self.statusButton.frame;
     frame.origin.y = self.view.frame.size.height - 30;
     
     [self.statusButton setFrame:frame];
+    
+    CGRect tableViewFrame = self.tableView.frame;
+    
+    if (tableViewFrame.size.height <  self.view.frame.size.height - self.searchBar.frame.size.height)
+    {
+        tableViewFrame.size.height = self.searchBar.frame.size.height - self.searchBar.frame.size.height;
+    }
+    
+    [self.tableView setFrame:tableViewFrame];
 }
 
 @end

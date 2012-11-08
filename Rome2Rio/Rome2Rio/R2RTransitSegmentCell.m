@@ -1,32 +1,24 @@
 //
 //  R2RTransitSegmentCell.m
-//  R2RApp
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 13/09/12.
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import "R2RTransitSegmentCell.h"
-
-@interface R2RTransitSegmentCell()
-
-//@property (strong, nonatomic) R2RIconLoader *iconLoader;
-
-@end
+#import "R2RConstants.h"
 
 @implementation R2RTransitSegmentCell
 
-//@synthesize agencyIconView;
-
 @synthesize fromLabel, durationLabel, frequencyLabel, toLabel, transitVehicleIcon, lineLabel;
-
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        [self setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+        [self setBackgroundColor:[R2RConstants getBackgroundColor]];
         [self initSubviews];
     }
     return self;
@@ -54,8 +46,7 @@
     [self.fromLabel setMinimumFontSize:10.0];
     [self.fromLabel setAdjustsFontSizeToFitWidth:YES];
     [self.fromLabel setBackgroundColor:[UIColor clearColor]];
-    [self.fromLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
-//    [self.fromLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.fromLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.fromLabel];
     
     rect = CGRectMake(paddingX, 55, self.bounds.size.width - (2*paddingX), 25);
@@ -64,8 +55,7 @@
     [self.toLabel setMinimumFontSize:10.0];
     [self.toLabel setAdjustsFontSizeToFitWidth:YES];
     [self.toLabel setBackgroundColor:[UIColor clearColor]];
-    [self.toLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
-//    [self.toLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.toLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.toLabel];
     
     rect = CGRectMake(paddingX, 30, 18, 18);
@@ -75,12 +65,10 @@
     rect = CGRectMake(paddingX, 30, self.bounds.size.width - (paddingX + 5), 25);
     self.durationLabel = [[UILabel alloc] initWithFrame:rect];
     [self.durationLabel setTextAlignment:UITextAlignmentCenter];
-//    [self.durationLabel setTextColor:[UIColor lightGrayColor]];
-    [self.durationLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
+    [self.durationLabel setTextColor:[R2RConstants getLightTextColor]];
     [self.durationLabel setMinimumFontSize:10.0];
     [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
     [self.durationLabel setBackgroundColor:[UIColor clearColor]];
-//    [self.durationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self addSubview:self.durationLabel];
     
     rect = CGRectMake(paddingX+indent, 55, self.bounds.size.width - (2*paddingX)-indent, 25);
@@ -89,44 +77,14 @@
     [self.lineLabel setMinimumFontSize:10.0];
     [self.lineLabel setAdjustsFontSizeToFitWidth:YES];
     [self.lineLabel setBackgroundColor:[UIColor clearColor]];
-//    [self.lineLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
-//    [self.lineLabel setTextColor:[UIColor lightGrayColor]];
-    [self.lineLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
+    [self.lineLabel setTextColor:[R2RConstants getLightTextColor]];
     [self.lineLabel setHidden:YES];
     [self addSubview:self.lineLabel];
-//    rect = CGRectMake(paddingX, 55, self.bounds.size.width - (2*paddingX), 25);
-//    self.frequencyLabel = [[UILabel alloc] initWithFrame:rect];
-//    [self.frequencyLabel setTextAlignment:UITextAlignmentCenter];
-//    [self.frequencyLabel setTextColor:[UIColor lightGrayColor]];
-//    [self addSubview:self.frequencyLabel];
-   
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
-
-//-(void)loadAgencyIcon:(NSString *)iconPath
-//{
-//    
-//    self.iconLoader = [[R2RIconLoader alloc] initWithIconPath:iconPath delegate:self];
-//    
-//}
-//
-//-(void) R2RIconLoaded:(R2RIconLoader *)delegateIconLoader
-//{
-//
-//    [self.agencyIconView setImage:delegateIconLoader.icon];
-//
-//}
-//
-//-(void) initAgencyIconView: (CGRect) rect
-//{
-//    self.agencyIconView = [[UIImageView alloc] initWithFrame:rect];
-//    [self addSubview:self.agencyIconView];
-//}
 
 @end

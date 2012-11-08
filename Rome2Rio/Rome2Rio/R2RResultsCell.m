@@ -7,6 +7,7 @@
 //
 
 #import "R2RResultsCell.h"
+#import "R2RConstants.h"
 
 @interface R2RResultsCell()
 
@@ -47,8 +48,7 @@
     [self.resultDescripionLabel setMinimumFontSize:10.0];
     [self.resultDescripionLabel setAdjustsFontSizeToFitWidth:YES];
     [self.resultDescripionLabel setBackgroundColor:[UIColor clearColor]];
-    [self.resultDescripionLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
-//    [self.resultDescripionL/abel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.resultDescripionLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.resultDescripionLabel];
     
     rect = CGRectMake(self.bounds.size.width-100-30, 30, 100.0, 20);
@@ -56,10 +56,9 @@
     [self.resultDurationLabel setTextAlignment:UITextAlignmentRight];
     [self.resultDurationLabel setFont:[UIFont fontWithName:@"Helvetica" size:15.0]];
     [self.resultDurationLabel setBackgroundColor:[UIColor clearColor]];
-//    [self.resultDurationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
     [self.resultDurationLabel setMinimumFontSize:10.0];
     [self.resultDurationLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.resultDurationLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
+    [self.resultDurationLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.resultDurationLabel];
     
     self.icons = [[NSMutableArray alloc] initWithCapacity:5];
@@ -68,7 +67,6 @@
     {
         CGRect rect = CGRectMake(15+(25*i), 35, 18, 18);
         UIImageView *icon = [[UIImageView alloc] initWithFrame:rect];
-//        [icon setHidden:YES];
         [self.icons addObject:icon];
         
         [self addSubview:[self.icons objectAtIndex:i]];
@@ -80,8 +78,6 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 -(void)setIconCount:(NSInteger)count

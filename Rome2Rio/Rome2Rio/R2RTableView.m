@@ -17,10 +17,6 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-//        self.layer.shadowOffset = CGSizeMake(0,5);
-//        self.layer.shadowRadius = 5;
-//        self.layer.shadowOpacity = 0.5;
-      
     }
     return self;
 }

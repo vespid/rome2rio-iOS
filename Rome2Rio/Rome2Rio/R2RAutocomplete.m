@@ -86,7 +86,7 @@
     
     self.responseCompletionState = stateResolving;
     
-    [self performSelector:@selector(connectionTimeout:) withObject:[NSNumber numberWithInt:self.retryCount] afterDelay:5.0];
+    [self performSelector:@selector(connectionTimeout) withObject:nil afterDelay:5.0];
 }
 
 -(void) parseJson
@@ -151,10 +151,7 @@
     if (self.r2rConnection == delegateConnection)
     {
         [self parseJson];
-        if ( self.responseCompletionState == stateResolved)
-        {
-            [[self delegate] autocompleteResolved:self];
-        }
+        [[self delegate] autocompleteResolved:self];
     }
 }
 
@@ -162,7 +159,7 @@
 {
     if (self.retryCount < 5)
     {
-        [self performSelector:@selector(sendAsynchronousRequest) withObject:nil afterDelay:1.0];
+        [self performSelector:@selector(sendAsynchronousRequest) withObject:nil afterDelay:0.5];
         self.retryCount++;
     }
     else
@@ -175,25 +172,12 @@
     }
 }
 
-- (void) connectionTimeout: (NSNumber *) retryNumber
+- (void) connectionTimeout
 {
-    if (self.responseCompletionState == stateResolving)
-    {
-        if (self.retryCount >= 5)
-        {
-            self.responseCompletionState = stateError;
-            self.responseMessage = @"Unable to find location";
-            R2RLog(@"Timeout");
-            [[self delegate] autocompleteResolved:self];
-        }
-        
-        else if (self.retryCount == [retryNumber integerValue])
-        {
-            self.retryCount++;
-            [self sendAsynchronousRequest];
-            
-        }
-    }
+    self.responseCompletionState = stateError;
+    self.responseMessage = @"Unable to find location";
+    R2RLog(@"Timeout");
+    [[self delegate] autocompleteResolved:self];
 }
 
 -(void)geocodeFallback:(NSString *)query

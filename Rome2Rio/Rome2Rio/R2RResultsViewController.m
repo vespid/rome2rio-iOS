@@ -72,8 +72,17 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setStatusMessage:self.dataStore.statusMessage];
-    if ([self.dataManager isSearching]) [self.dataManager setSearchMessage:@"Searching"];
+    
+    //if there is a status message show it otherwise show search message
+    if ([self.dataStore.statusMessage length] > 0)
+    {
+        [self setStatusMessage:self.dataStore.statusMessage];
+    }
+    else
+    {
+        [self setStatusMessage:self.dataStore.searchMessage];
+        if ([self.dataManager isSearching]) [self.dataManager setSearchMessage:@"Searching"];
+    }
 }
 
 -(void) viewWillDisappear:(BOOL)animated

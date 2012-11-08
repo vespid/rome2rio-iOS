@@ -11,11 +11,12 @@
 #import "R2RAutocomplete.h"
 #import "R2RDataManager.h"
 
-@interface R2RAutocompleteViewController : UITableViewController <UISearchBarDelegate, R2RAutocompleteDelegate>
+@interface R2RAutocompleteViewController : UIViewController <UIScrollViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDataSource, R2RAutocompleteDelegate>
 
 @property (strong, nonatomic) R2RDataManager *dataManager;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSString *fieldName;
 @property (strong, nonatomic) IBOutlet UIView *statusView;

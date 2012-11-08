@@ -193,6 +193,7 @@ enum R2RState
         else
         {
             [self setSearchMessage:search.responseMessage];
+            self.dataStore.searchResponse = nil;
         }
         
         [self loadAirlineImages];

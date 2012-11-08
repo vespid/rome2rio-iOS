@@ -56,7 +56,7 @@
 - (IBAction)sendFeedbackMail:(id)sender
 {
     /* create mail subject */
-    NSString *subject = [NSString stringWithFormat:@"Feedback"];
+    NSString *subject = [NSString stringWithFormat:@"iPhone App Feedback"];
     
     /* define email address */
     NSString *mail = [NSString stringWithFormat:@"feedback@rome2rio.com"];

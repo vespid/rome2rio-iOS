@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
 @property (strong, nonatomic) R2RMasterViewStatusButton *statusButton;
 
+@property (nonatomic) BOOL textFieldDidClear;
+
 - (IBAction)searchTouchUpInside:(id)sender;
 
 enum R2RState
@@ -146,15 +148,18 @@ enum R2RState
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    if (textField == self.fromTextField)
+    if (!self.textFieldDidClear)
     {
-        [self performSegueWithIdentifier:@"showAutocomplete" sender:@"from"];
+        if (textField == self.fromTextField)
+        {
+            [self performSegueWithIdentifier:@"showAutocomplete" sender:@"from"];
+        }
+        if (textField == self.toTextField)
+        {
+            [self performSegueWithIdentifier:@"showAutocomplete" sender:@"to"];
+        }
     }
-    if (textField == self.toTextField)
-    {
-        [self performSegueWithIdentifier:@"showAutocomplete" sender:@"to"];
-    }
-    
+    self.textFieldDidClear = NO;
     return NO;
 }
 
@@ -170,6 +175,7 @@ enum R2RState
         [self.dataManager setToPlace:nil];
         self.dataManager.toText = nil;
     }
+    self.textFieldDidClear = YES;
     return YES;
 }
 

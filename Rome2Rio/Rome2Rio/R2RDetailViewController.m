@@ -32,7 +32,7 @@
 
 @implementation R2RDetailViewController
 
-@synthesize route, dataStore;// dataController;
+@synthesize route, dataStore;
 
 #pragma mark - Managing the detail item
 
@@ -46,10 +46,6 @@
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    self.tableView.layer.shadowOffset = CGSizeMake(0,5);
-    self.tableView.layer.shadowRadius = 5;
-    self.tableView.layer.shadowOpacity = 0.5;
-    self.tableView.layer.masksToBounds = NO;
     [self.view sendSubviewToBack:self.mapView];
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
@@ -323,6 +319,12 @@
 -(void)reloadDataDidFinish
 {
     [self.tableView sizeToFit];
+    
+    self.tableView.layer.shadowOffset = CGSizeMake(0,5);
+    self.tableView.layer.shadowRadius = 5;
+    self.tableView.layer.shadowOpacity = 0.5;
+    self.tableView.layer.masksToBounds = NO;
+    self.tableView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.tableView.bounds].CGPath;
     
     CGRect mapFrame = self.mapView.frame;
     mapFrame.origin.y = self.tableView.frame.size.height;

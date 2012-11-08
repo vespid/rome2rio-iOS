@@ -106,7 +106,7 @@ enum {
     
     self.responseCompletionState = stateResolving;
     
-    [self performSelector:@selector(connectionTimeout:) withObject:[NSNumber numberWithInt:self.retryCount] afterDelay:5.0];
+    [self performSelector:@selector(connectionTimeout) withObject:nil afterDelay:10.0];
 }
 
 -(void) parseJson
@@ -751,7 +751,15 @@ enum {
         {
             [self parseJson];
             
-            self.responseCompletionState = stateResolved;
+            if ([self.searchResponse.routes count] == 0)
+            {
+                self.responseCompletionState = stateError;
+                self.responseMessage = @"Unable to find route";
+            }
+            else
+            {
+                self.responseCompletionState = stateResolved;
+            }
             
             [[self delegate] searchDidFinish:self];
         }
@@ -775,24 +783,14 @@ enum {
     }
 }
 
-- (void) connectionTimeout: (NSNumber *) retryNumber
+- (void) connectionTimeout
 {
-    if (self.responseCompletionState == stateResolving)
-    {
-        if (self.retryCount >= 5)
-        {
-            self.responseCompletionState = stateError;
-            self.responseMessage = @"Unable to find location";
-            
-            [[self delegate] searchDidFinish:self];
-        }
-        
-        else if (self.retryCount == [retryNumber integerValue])
-        {
-            self.retryCount++;
-            [self sendAsynchronousRequest];
-        }
-    }
+    self.responseCompletionState = stateError;
+    self.responseMessage = @"Unable to find location";
+    
+    R2RLog(@"Search Timeout");
+    
+    [[self delegate] searchDidFinish:self];
 }
 
 -(void) printTestData
