@@ -18,7 +18,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        [self setBackgroundColor:[R2RConstants getBackgroundColor]];
+        [self setBackgroundColor:[R2RConstants getCellColor]];
         [self initSubviews];
     }
     return self;

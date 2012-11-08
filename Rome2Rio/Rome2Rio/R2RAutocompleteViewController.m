@@ -205,21 +205,24 @@
 {
     self.autocomplete = [[R2RAutocomplete alloc] initWithQueryString:query delegate:self];
     [self.autocomplete sendAsynchronousRequest];
-    [self performSelector:@selector(setStatusSearching) withObject:nil afterDelay:0.8];
+    [self performSelector:@selector(setStatusSearching:) withObject:self.autocomplete afterDelay:1.0];
 }
 
 -(void) sendCLGeocodeRequest:(NSString *)query
 {
     self.autocomplete = [[R2RAutocomplete alloc] initWithQueryString:query delegate:self];
     [self.autocomplete geocodeFallback:query];
-    [self performSelector:@selector(setStatusSearching) withObject:nil afterDelay:0.8];
+    [self performSelector:@selector(setStatusSearching:) withObject:self.autocomplete afterDelay:1.0];
 }
 
--(void) setStatusSearching
+-(void) setStatusSearching:(R2RAutocomplete *) autocomplete
 {
-    if (self.autocomplete.responseCompletionState != stateResolved && self.autocomplete.responseCompletionState != stateError && self.autocomplete.responseCompletionState != stateLocationNotFound)
+    if (self.autocomplete == autocomplete)
     {
-        [self.dataManager setStatusMessage:@"Searching"];
+        if (self.autocomplete.responseCompletionState != stateResolved && self.autocomplete.responseCompletionState != stateError && self.autocomplete.responseCompletionState != stateLocationNotFound)
+        {
+            [self.dataManager setStatusMessage:@"Searching"];
+        }
     }
 }
 
