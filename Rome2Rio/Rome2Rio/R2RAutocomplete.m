@@ -65,7 +65,7 @@
 #if DEBUG
     [geoCoderString appendFormat:@"http://prototype.rome2rio.com/api/1.2/json/Autocomplete?key=wOAPMlcG&query=%@", self.query];
 #else
-    [geoCoderString appendFormat:@"http://ios.rome2rio.com/api/1.2/json/utocomplete?key=wOAPMlcG&query=%@", self.query];
+    [geoCoderString appendFormat:@"http://ios.rome2rio.com/api/1.2/json/Autocomplete?key=wOAPMlcG&query=%@", self.query];
 #endif
     
     if ([self.countryCode length] > 0)
