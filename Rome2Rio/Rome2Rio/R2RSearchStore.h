@@ -11,11 +11,11 @@
 
 #import "R2RSearch.h"
 
-#import "R2RGeoCodeResponse.h"
+#import "R2RGeocodeResponse.h"
 #import "R2RSearchResponse.h"
 #import "R2RSpriteStore.h"
 
-@interface R2RDataStore : NSObject
+@interface R2RSearchStore : NSObject
 
 @property (strong, nonatomic) R2RSearchResponse *searchResponse;
 @property (strong, nonatomic) R2RPlace *fromPlace;

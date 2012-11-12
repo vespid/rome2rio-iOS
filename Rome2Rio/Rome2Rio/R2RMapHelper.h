@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-#import "R2RDataStore.h"
+#import "R2RSearchStore.h"
 #import "R2RHopAnnotation.h"
 #import "R2RMKAnnotation.h"
 
 @interface R2RMapHelper : NSObject
 
--(id) initWithData: (R2RDataStore *) dataStore;
+-(id) initWithData: (R2RSearchStore *) dataStore;
 
 -(NSArray *) getPolylines: (id) segment;
 -(id) getPolylineView:(id) polyline;

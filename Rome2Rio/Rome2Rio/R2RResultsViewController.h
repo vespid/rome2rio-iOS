@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-#import "R2RDataStore.h"
-#import "R2RDataManager.h"
+#import "R2RSearchStore.h"
+#import "R2RSearchManager.h"
 
 @interface R2RResultsViewController : UITableViewController
 
-@property (strong, nonatomic) R2RDataManager *dataManager;
-@property (strong, nonatomic) R2RDataStore *dataStore;
+@property (strong, nonatomic) R2RSearchManager *dataManager;
+@property (strong, nonatomic) R2RSearchStore *dataStore;
 
 - (IBAction)returnToSearch:(id)sender;
 

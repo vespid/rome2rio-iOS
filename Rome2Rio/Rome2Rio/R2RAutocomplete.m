@@ -12,9 +12,8 @@
 
 @property (strong, nonatomic) R2RConnection *r2rConnection;
 
-
 @property (strong, nonatomic) NSString *countryCode;
-@property (strong, nonatomic) NSString *language;
+@property (strong, nonatomic) NSString *languageCode;
 
 @property (nonatomic) NSInteger retryCount;
 
@@ -25,20 +24,20 @@
 
 @implementation R2RAutocomplete
 
-@synthesize geoCodeResponse, responseCompletionState, responseMessage;
-@synthesize delegate;
+@synthesize geocodeResponse, responseCompletionState, responseMessage, query = _query;
+@synthesize delegate = _delegate;
 
--(id) initWithQuery:(NSString *)query :(NSString *)countryCode :(NSString *)language delegate:(id<R2RAutocompleteDelegate>)autocompleteDelegate
+-(id) initWithQuery:(NSString *)query :(NSString *)countryCode :(NSString *)languageCode delegate:(id<R2RAutocompleteDelegate>)delegate
 {
     self = [super init];
     
     if (self != nil)
     {
         self.retryCount = 0;
-        self.delegate = autocompleteDelegate;
+        self.delegate = delegate;
         self.query = query;
         self.countryCode = countryCode;
-        self.language = language;
+        self.languageCode = languageCode;
     }
     
     return self;
@@ -73,9 +72,9 @@
         [geoCoderString appendFormat:@"&countryCode=%@", self.countryCode];
     }
     
-    if ([self.language length] > 0)
+    if ([self.languageCode length] > 0)
     {
-        [geoCoderString appendFormat:@"&language=%@", self.language];
+        [geoCoderString appendFormat:@"&languageCode=%@", self.languageCode];
     }
     
     NSString *geoCoderEncoded = [geoCoderString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -84,7 +83,7 @@
     
     self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:getCoderUrl delegate:self];
     
-    self.responseCompletionState = stateResolving;
+    self.responseCompletionState = r2rCompletionStateResolving;
     
     [self performSelector:@selector(connectionTimeout:) withObject:self.r2rConnection afterDelay:5.0];
 }
@@ -95,28 +94,28 @@
     
     NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:self.r2rConnection.responseData options:kNilOptions error:&error];
     
-    self.geoCodeResponse = [self parseData:responseData];
+    self.geocodeResponse = [self parseData:responseData];
 }
 
--(R2RGeoCodeResponse*) parseData:(NSDictionary* )responseData
+-(R2RGeocodeResponse*) parseData:(NSDictionary* )responseData
 {
-    R2RGeoCodeResponse  *geoCode = [R2RGeoCodeResponse alloc];
+    R2RGeocodeResponse *response = [R2RGeocodeResponse alloc];
     
-    geoCode.name = [responseData objectForKey:@"name"];
-    geoCode.country = [responseData objectForKey:@"countryCode"];
-    geoCode.language = [responseData objectForKey:@"language"];
+    response.query = [responseData objectForKey:@"query"];
+    response.countryCode = [responseData objectForKey:@"countryCode"];
+    response.languageCode = [responseData objectForKey:@"languageCode"];
     
-    geoCode.places = [self parsePlaces:[responseData objectForKey:@"places"]];
+    response.places = [self parsePlaces:[responseData objectForKey:@"places"]];
 
-    self.responseCompletionState = stateResolved;
+    self.responseCompletionState = r2rCompletionStateResolved;
     self.responseMessage = @"";
     
-    return geoCode;
+    return response;
 }
 
 -(NSMutableArray*) parsePlaces:( NSArray *) placesResponse
 {
-    NSMutableArray *places = [[NSMutableArray alloc] initWithCapacity:[placesResponse count]] ;
+    NSMutableArray *places = [[NSMutableArray alloc] initWithCapacity:[placesResponse count]];
     
     for (id placeResponse in placesResponse)
     {
@@ -166,9 +165,10 @@
         }
         else
         {
-            self.responseCompletionState = stateError;
-            self.responseMessage = @"Unable to find location";
             R2RLog(@"Error");
+            
+            self.responseCompletionState = r2rCompletionStateError;
+            self.responseMessage = @"Unable to find location";
             
             [[self delegate] autocompleteResolved:self];
         }
@@ -179,11 +179,13 @@
 {
     if (self.r2rConnection == connection)
     {
-        if (self.responseCompletionState == stateResolving)
+        if (self.responseCompletionState == r2rCompletionStateResolving)
         {
-            self.responseCompletionState = stateError;
-            self.responseMessage = @"Unable to find location";
             R2RLog(@"Timeout");
+            
+            self.responseMessage = @"Unable to find location";
+            self.responseCompletionState = r2rCompletionStateError;
+            
             [[self delegate] autocompleteResolved:self];
         }
     }
@@ -192,18 +194,14 @@
 -(void)geocodeFallback:(NSString *)query
 {
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    
     [geocoder geocodeAddressString:query completionHandler:^(NSArray *placemarks, NSError *error)
      {
+         self.geocodeResponse = [[R2RGeocodeResponse alloc] init];
+         
          if ([placemarks count] > 0)
          {
-             if (!self.geoCodeResponse)
-             {
-                 self.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
-             }
-             if (!self.geoCodeResponse.places)
-             {
-                 self.geoCodeResponse.places = [[NSMutableArray alloc] init];
-             }
+             self.geocodeResponse.places = [[NSMutableArray alloc] init];
              
              for (CLPlacemark *placemark in placemarks)
              {
@@ -250,31 +248,24 @@
                  place.lat = placemark.region.center.latitude;
                  place.lng = placemark.region.center.longitude;
              
-                 [self.geoCodeResponse.places addObject:place];
-                 
+                 [self.geocodeResponse.places addObject:place];
              }
              
-             self.geoCodeResponse.place = [self.geoCodeResponse.places objectAtIndex:0];
-             self.responseCompletionState = stateResolved;
-             R2RLog(@"Autocomplete: Geocode Fallback: %@", self.geoCodeResponse.place.shortName);
-             [[self delegate] autocompleteResolved:self];
+             self.responseMessage = @"";
+             self.responseCompletionState = r2rCompletionStateResolved;
              
+             [[self delegate] autocompleteResolved:self];
          }
          else
          {
              R2RLog(@"Autocomplete: Geocode fallback: Unable to find location");
+             
              self.responseMessage = @"Unable to find location";
-             if (!self.geoCodeResponse)
-             {
-                 self.geoCodeResponse = [[R2RGeoCodeResponse alloc] init];
-             }
-             self.geoCodeResponse.places = nil;
-             self.responseCompletionState = stateLocationNotFound;
+             self.responseCompletionState = r2rCompletionStateLocationNotFound;
              
              [[self delegate] autocompleteResolved:self];
          }
      }];
-    
 }
 
 @end

@@ -9,12 +9,12 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "R2RTransitSegmentViewController.h"
-#import "R2RStringFormatters.h"
+#import "R2RStringFormatter.h"
 #import "R2RConstants.h"
 
 #import "R2RTransitSegmentHeader.h"
 #import "R2RTransitSegmentCell.h"
-#import "R2RSegmentHandler.h"
+#import "R2RSegmentHelper.h"
 #import "R2RMapHelper.h"
 #import "R2RMKAnnotation.h"
 #import "R2RHopAnnotation.h"
@@ -44,7 +44,7 @@
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView = footer;
     
-    NSString *navigationTitle = [R2RStringFormatters capitaliseFirstLetter:transitSegment.kind];
+    NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:transitSegment.kind];
     self.navigationItem.title = navigationTitle;
     
     self.legs = [NSMutableArray array];
@@ -116,7 +116,7 @@
                 rect = CGRectMake(startX, 11, iconSize.width, iconSize.height);
                 
                 [header.agencyIconView setFrame:rect];
-                R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+                R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
                 
                 R2RSprite *sprite = [segmentHandler getRouteSprite:transitSegment.kind];
                 [self.dataStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
@@ -131,7 +131,7 @@
     
     if ([agencyName length] == 0)
     {
-        agencyName = [R2RStringFormatters capitaliseFirstLetter:transitLine.vehicle];
+        agencyName = [R2RStringFormatter capitaliseFirstLetter:transitLine.vehicle];
     }
     
     rect = CGRectMake(startX + iconSize.width + iconPadding, 8, 280-(startX + iconSize.width + iconPadding), 25);
@@ -200,8 +200,8 @@
     [cell.fromLabel setText:sName];
     [cell.toLabel setText:tName];
     
-    NSString *duration = [R2RStringFormatters formatDuration:transitHop.duration];
-    NSString *frequency = [R2RStringFormatters formatFrequency:transitHop.frequency];
+    NSString *duration = [R2RStringFormatter formatDuration:transitHop.duration];
+    NSString *frequency = [R2RStringFormatter formatFrequency:transitHop.frequency];
     NSString *description = [NSString stringWithFormat:@"%@, %@", duration, frequency];
     CGSize durationSize = [description sizeWithFont:[UIFont systemFontOfSize:17.0]];
     

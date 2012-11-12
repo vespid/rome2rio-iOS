@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface R2RStringFormatters : NSObject
+@interface R2RStringFormatter : NSObject
 
 +(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops;
 +(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle;

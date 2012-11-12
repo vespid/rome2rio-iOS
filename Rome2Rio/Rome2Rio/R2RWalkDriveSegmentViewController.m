@@ -8,11 +8,11 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "R2RWalkDriveSegmentViewController.h"
-#import "R2RStringFormatters.h"
+#import "R2RStringFormatter.h"
 #import "R2RConstants.h"
 
 #import "R2RWalkDriveSegmentCell.h"
-#import "R2RSegmentHandler.h"
+#import "R2RSegmentHelper.h"
 #import "R2RMapHelper.h"
 #import "R2RMKAnnotation.h"
 #import "R2RHopAnnotation.h"
@@ -29,7 +29,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = [R2RStringFormatters capitaliseFirstLetter:walkDriveSegment.kind];
+    self.navigationItem.title = [R2RStringFormatter capitaliseFirstLetter:walkDriveSegment.kind];
     
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
@@ -76,7 +76,7 @@
     static NSString *CellIdentifier = @"WalkDriveSegmentCell";
     R2RWalkDriveSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
     R2RSprite *sprite = [segmentHandler getRouteSprite:self.walkDriveSegment.kind];
     [self.dataStore.spriteStore setSpriteInView:sprite :cell.kindIcon];
@@ -105,8 +105,8 @@
     [cell.fromLabel setText:sName];
     [cell.toLabel setText:tName];
     
-    [cell.distanceLabel setText:[R2RStringFormatters formatDistance:self.walkDriveSegment.distance]];
-    [cell.durationLabel setText:[R2RStringFormatters formatDuration:self.walkDriveSegment.duration]];
+    [cell.distanceLabel setText:[R2RStringFormatter formatDistance:self.walkDriveSegment.distance]];
+    [cell.durationLabel setText:[R2RStringFormatter formatDuration:self.walkDriveSegment.duration]];
     
     return cell;
 }

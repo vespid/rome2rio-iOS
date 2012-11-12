@@ -6,17 +6,17 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-#import "R2RSegmentHandler.h"
+#import "R2RSegmentHelper.h"
 
-@interface R2RSegmentHandler()
+@interface R2RSegmentHelper()
 
-@property (strong, nonatomic) R2RDataStore *dataStore;
+@property (strong, nonatomic) R2RSearchStore *dataStore;
 
 @end
 
-@implementation R2RSegmentHandler
+@implementation R2RSegmentHelper
 
--(id)initWithData:(R2RDataStore *)dataStore
+-(id)initWithData:(R2RSearchStore *)dataStore
 {
     self = [super init];
     if (self)

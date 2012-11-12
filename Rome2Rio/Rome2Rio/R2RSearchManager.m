@@ -6,45 +6,34 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-#import "R2RDataManager.h"
+#import "R2RSearchManager.h"
+#import "R2RCompletionState.h"
 
+@interface R2RSearchManager()
 
-@interface R2RDataManager()
+typedef enum
+{
+    r2rSearchManagerStateIdle = 0,
+    r2rSearchManagerStateResolvingFrom,
+    r2rSearchManagerStateResolvingTo,
+    r2rSearchManagerStateResolvingFromAndTo,
+    r2rSearchManagerStateSearching,
+} R2RSearchManagerState;
 
-@property NSInteger state;
+@property R2RSearchManagerState state;
 
 @property (strong, nonatomic) R2RSearch *search;
 @property (strong, nonatomic) CLLocationManager *fromLocationManager;
 @property (strong, nonatomic) CLLocationManager *toLocationManager;
 
-enum {
-    stateEmpty = 0,
-    stateEditingDidBegin,
-    stateEditingDidEnd,
-    stateResolved,
-    stateLocationNotFound,
-    stateError
-};
-
-enum R2RState
-{
-    IDLE = 0,
-    RESOLVING_FROM,
-    RESOLVING_TO,
-    RESOLVING_FROM_AND_TO,
-    SEARCHING,
-};
-
-
 @end
 
-@implementation R2RDataManager
+@implementation R2RSearchManager
 
 @synthesize fromText, toText;
 
 -(void) setFromPlace:(R2RPlace *)fromPlace
 {
-    
     self.fromLocationManager = nil;
     
     self.dataStore.fromPlace = fromPlace;
@@ -55,7 +44,6 @@ enum R2RState
 
 -(void) setToPlace:(R2RPlace *)toPlace
 {
-    
     self.toLocationManager = nil;
     
     self.dataStore.toPlace = toPlace;
@@ -66,14 +54,15 @@ enum R2RState
 
 -(void) setFromWithCurrentLocation
 {
-    //TODO refactor the state managment
-    if (self.state == RESOLVING_TO || self.state == RESOLVING_FROM_AND_TO)
+    [self setFromPlace:nil];
+    
+    if (self.state == r2rSearchManagerStateResolvingTo || self.state == r2rSearchManagerStateResolvingFromAndTo)
     {
-        self.state = RESOLVING_FROM_AND_TO;
+        self.state = r2rSearchManagerStateResolvingFromAndTo;
     }
     else
     {
-        self.state = RESOLVING_FROM;
+        self.state = r2rSearchManagerStateResolvingFrom;
     }
     
     [self setStatusMessage:@"Finding Current Location"];
@@ -85,29 +74,19 @@ enum R2RState
 {
     [self setToPlace:nil];
 
-    if (self.state == RESOLVING_FROM || self.state == RESOLVING_FROM_AND_TO)
+    if (self.state == r2rSearchManagerStateResolvingFrom || self.state == r2rSearchManagerStateResolvingFromAndTo)
     {
-        self.state = RESOLVING_FROM_AND_TO;
+        self.state = r2rSearchManagerStateResolvingFromAndTo;
     }
     else
     {
-        self.state = RESOLVING_TO;
+        self.state = r2rSearchManagerStateResolvingTo;
     }
     
     [self setStatusMessage:@"Finding Current Location"];
     
     self.toLocationManager = [self createLocationManager];
 }
-
-//-(void) setNewState:(NSInteger) state
-//{
-//    
-//}
-//
-//-(void) removeState:(NSInteger) state
-//{
-//    
-//}
 
 -(void) setStatusMessage:(NSString *) statusMessage
 {
@@ -119,7 +98,7 @@ enum R2RState
     self.dataStore.searchMessage = searchMessage;
 }
 
--(void)refreshSearchIfNoResponse
+-(void) restartSearchIfNoResponse
 {
     if (!self.dataStore.searchResponse)
     {
@@ -127,25 +106,26 @@ enum R2RState
     }
 }
 
--(BOOL) canStartSearch
+-(BOOL) isSearching
 {
-    if (self.state == IDLE)
-    {
-        return (self.dataStore.fromPlace && self.dataStore.toPlace);
-    }
-    return NO;
+    return (self.state == r2rSearchManagerStateSearching);
 }
 
--(BOOL) canShowSearch
+-(BOOL) canStartSearch
 {
-    if (!self.dataStore.fromPlace && self.state == IDLE)
+    return ((self.state == r2rSearchManagerStateIdle) && self.dataStore.fromPlace && self.dataStore.toPlace);
+}
+
+-(BOOL) canShowSearchResults
+{
+    if (!self.dataStore.fromPlace && self.state == r2rSearchManagerStateIdle)
     {
         [self setStatusMessage:@"Enter Origin"];
         
         return NO;
     }
     
-    if (!self.dataStore.toPlace && self.state == IDLE)
+    if (!self.dataStore.toPlace && self.state == r2rSearchManagerStateIdle)
     {
         [self setStatusMessage:@"Enter Destination"];
         
@@ -153,11 +133,6 @@ enum R2RState
     }
     
     return YES;
-}
-
--(BOOL) isSearching
-{
-    return (self.state == SEARCHING);
 }
 
 - (void) startSearch
@@ -175,31 +150,30 @@ enum R2RState
     
     self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind: oCode: dCode delegate:self];
     
-    self.state = SEARCHING;
+    self.state = r2rSearchManagerStateSearching;
 }
 
 - (void) searchDidFinish:(R2RSearch *)search;
 {
     if (search == self.search)
     {
-        self.dataStore.searchResponse = search.searchResponse;
-        
-        if (self.search.responseCompletionState == stateResolved)
+        if (self.search.responseCompletionState == r2rCompletionStateResolved)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
-            
+            self.dataStore.searchResponse = search.searchResponse;
             [self setSearchMessage:@""];
         }
         else
         {
-            [self setSearchMessage:search.responseMessage];
             self.dataStore.searchResponse = nil;
+            [self setSearchMessage:search.responseMessage];
         }
         
         [self loadAirlineImages];
         [self loadAgencyImages];
         
-        self.state = IDLE;
+        self.state = r2rSearchManagerStateIdle;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
     }
 }
 
@@ -227,17 +201,17 @@ enum R2RState
     
     if (manager == self.fromLocationManager)
     {
-        if (self.state == RESOLVING_FROM_AND_TO)
-            self.state = RESOLVING_TO;
+        if (self.state == r2rSearchManagerStateResolvingFromAndTo)
+            self.state = r2rSearchManagerStateResolvingTo;
         else
-            self.state = IDLE;
+            self.state = r2rSearchManagerStateIdle;
     }
     else if (manager == self.toLocationManager)
     {
-        if (self.state == RESOLVING_FROM_AND_TO)
-            self.state = RESOLVING_FROM;
+        if (self.state == r2rSearchManagerStateResolvingFromAndTo)
+            self.state = r2rSearchManagerStateResolvingFrom;
         else
-            self.state = IDLE;
+            self.state = r2rSearchManagerStateIdle;
     }
 
     if (!CLLocationManager.locationServicesEnabled)
@@ -248,7 +222,7 @@ enum R2RState
     {
         [self setStatusMessage:@"Location services are off"];
     }
-    else
+    else // TODO: Better error messages
     {
         [self setStatusMessage:@"Unable to find location"];
     }
@@ -265,44 +239,7 @@ enum R2RState
         {
             CLPlacemark *placemark = [placemarks objectAtIndex:0];
             
-            R2RPlace *place = [[R2RPlace alloc] init];
-
-            NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
-            place.longName = longName;
-            place.shortName = placemark.name;
-            place.lat = newLocation.coordinate.latitude;
-            place.lng = newLocation.coordinate.longitude;
-            place.kind = @":veryspecific";
-            
-            if (manager == self.fromLocationManager)
-            {
-                if (self.state == RESOLVING_FROM_AND_TO)
-                {
-                    self.state = RESOLVING_TO;
-                }
-                else
-                {
-                    self.state = IDLE;
-                }
-                
-                [self setFromPlace:place];
-
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
-            }
-            else if (manager == self.toLocationManager)
-            {
-                if (self.state == RESOLVING_FROM_AND_TO)
-                {
-                    self.state = RESOLVING_FROM;
-                }
-                else
-                {
-                    self.state = IDLE;
-                }
-                
-                [self setToPlace:place];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
-            }
+            [self didFindPlacemark:placemark location:newLocation manager:manager];
         }
         else
         {
@@ -313,6 +250,49 @@ enum R2RState
 
         }
     }];
+}
+
+- (void)didFindPlacemark:(CLPlacemark *)placemark location:(CLLocation *)location manager:(CLLocationManager *)manager
+{
+    R2RPlace *place = [[R2RPlace alloc] init];
+    
+    NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
+    place.longName = longName;
+    place.shortName = placemark.name;
+    place.lat = location.coordinate.latitude;
+    place.lng = location.coordinate.longitude;
+    place.kind = @":veryspecific";
+    
+    if (manager == self.fromLocationManager)
+    {
+        if (self.state == r2rSearchManagerStateResolvingFromAndTo)
+        {
+            self.state = r2rSearchManagerStateResolvingTo;
+        }
+        else
+        {
+            self.state = r2rSearchManagerStateIdle;
+        }
+        
+        [self setFromPlace:place];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
+    }
+    else if (manager == self.toLocationManager)
+    {
+        if (self.state == r2rSearchManagerStateResolvingFromAndTo)
+        {
+            self.state = r2rSearchManagerStateResolvingFrom;
+        }
+        else
+        {
+            self.state = r2rSearchManagerStateIdle;
+        }
+        
+        [self setToPlace:place];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
+    }
 }
 
 -(void) loadAirlineImages

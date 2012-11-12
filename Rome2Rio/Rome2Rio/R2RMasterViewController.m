@@ -114,9 +114,9 @@ enum R2RState
 - (IBAction)searchTouchUpInside:(id)sender
 {
     //If not geocoding or searching and there is no searchResponse restart process
-    [self.dataManager refreshSearchIfNoResponse];
+    [self.dataManager restartSearchIfNoResponse];
     
-    if ([self.dataManager canShowSearch])
+    if ([self.dataManager canShowSearchResults])
         [self performSegueWithIdentifier:@"showSearchResults" sender:self];
 
 }

@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-#import "R2RDataStore.h"
+#import "R2RSearchStore.h"
 
-@interface R2RDataManager : NSObject <R2RSearchDelegate, CLLocationManagerDelegate>
+@interface R2RSearchManager : NSObject <R2RSearchDelegate, CLLocationManagerDelegate>
 
-@property (strong, nonatomic) R2RDataStore *dataStore;
+@property (strong, nonatomic) R2RSearchStore *dataStore;
 
 @property (strong, nonatomic) NSString *fromText;
 @property (strong, nonatomic) NSString *toText;
@@ -27,12 +27,9 @@
 -(void) setStatusMessage:(NSString *) statusMessage;
 -(void) setSearchMessage:(NSString *) searchMessage;
 
--(BOOL) canShowSearch;
 -(BOOL) isSearching;
+-(BOOL) canShowSearchResults;
 
--(void) refreshSearchIfNoResponse;
-
-
-
+-(void) restartSearchIfNoResponse;
 
 @end

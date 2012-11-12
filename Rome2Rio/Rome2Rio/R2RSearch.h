@@ -28,6 +28,7 @@
 #import "R2RFlightTicket.h"
 #import "R2RPosition.h"
 #import "R2RStop.h"
+#import "R2RCompletionState.h"
 
 @protocol R2RSearchDelegate;
 
@@ -35,7 +36,7 @@
 
 @property (weak, nonatomic) id<R2RSearchDelegate> delegate;
 @property (strong, nonatomic) R2RSearchResponse *searchResponse;
-@property (nonatomic) NSInteger responseCompletionState;
+@property (nonatomic) R2RCompletionState responseCompletionState;
 @property (strong, nonatomic) NSString *responseMessage;
 
 - (id) initWithSearch:(NSString *)oName:(NSString *)dName:(NSString *)oPos:(NSString *)dPos:(NSString *)oKind:(NSString *)dKind:(NSString *)oCode:(NSString *)dCode delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;

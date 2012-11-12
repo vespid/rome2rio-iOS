@@ -10,36 +10,38 @@
 
 @implementation R2RDuration
 
-@synthesize days, hours, minutes, totalHours, totalMinutes;
+@synthesize totalMinutes = _totalMinutes;
 
--(id) initWithMinutes: (float) initMinutes
+-(id) initWithMinutes: (float) totalMinutes
 {
     self = [super init];
     
     if (self != nil)
     {
-        NSNumber *inputMinutes = [[NSNumber alloc] initWithFloat:initMinutes];
-        [self convertMinutes:inputMinutes];
+        self.totalMinutes = (NSInteger)totalMinutes;
     }
     
     return self;
 }
 
--(void) convertMinutes: (NSNumber *) inputMinutes
+-(NSInteger) getDays
 {
-    NSInteger remainingMinutes = [inputMinutes intValue];
-    
-    self.totalMinutes = remainingMinutes;
-    self.totalHours = remainingMinutes / 60;
-    
-    self.days = remainingMinutes / (60*24);
-    
-    remainingMinutes = remainingMinutes % (60*24);
-    
-    self.hours = remainingMinutes / 60;
-    
-    self.minutes = remainingMinutes % 60;
-    
+    return self.totalMinutes / (60*24);
+}
+
+-(NSInteger) getHours
+{
+    return self.totalHours % 24;
+}
+
+-(NSInteger) getMinutes
+{
+    return self.totalMinutes % 60;
+}
+
+-(NSInteger) getTotalHours
+{
+    return self.totalMinutes / 60;
 }
 
 @end

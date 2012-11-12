@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-#import "R2RGeoCodeResponse.h"
+#import "R2RGeocodeResponse.h"
 
-@implementation R2RGeoCodeResponse
+@implementation R2RGeocodeResponse
 
-@synthesize name, country, language, place;
+@synthesize query, countryCode, languageCode, places;
 
 @end

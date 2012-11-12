@@ -10,10 +10,10 @@
 
 @interface R2RDuration : NSObject
 
-@property NSInteger days;
-@property NSInteger hours;
-@property NSInteger minutes;
-@property NSInteger totalHours;
+@property (readonly) NSInteger days;
+@property (readonly) NSInteger hours;
+@property (readonly) NSInteger minutes;
+@property (readonly) NSInteger totalHours;
 @property NSInteger totalMinutes;
 
 -(id) initWithMinutes: (float) minutes;

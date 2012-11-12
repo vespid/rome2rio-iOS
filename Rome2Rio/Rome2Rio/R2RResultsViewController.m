@@ -15,8 +15,8 @@
 #import "R2RResultSectionHeader.h"
 #import "R2RResultsCell.h"
 
-#import "R2RStringFormatters.h"
-#import "R2RSegmentHandler.h"
+#import "R2RStringFormatter.h"
+#import "R2RSegmentHelper.h"
 #import "R2RConstants.h"
 #import "R2RSprite.h"
 
@@ -121,7 +121,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     R2RRoute *route = [self.dataStore.searchResponse.routes objectAtIndex:indexPath.row];
-    R2RSegmentHandler *segmentHandler  = [[R2RSegmentHandler alloc] init];
+    R2RSegmentHelper *segmentHandler  = [[R2RSegmentHelper alloc] init];
     NSString *CellIdentifier = @"ResultsCell";
     
     if ([route.segments count] == 1)
@@ -140,7 +140,7 @@
     R2RResultsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     [cell.resultDescripionLabel setText:route.name];
-    [cell.resultDurationLabel setText:[R2RStringFormatters formatDuration:route.duration]];
+    [cell.resultDurationLabel setText:[R2RStringFormatter formatDuration:route.duration]];
     
     NSInteger iconCount = 0;
     float xOffset = 0;

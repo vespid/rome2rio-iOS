@@ -10,13 +10,11 @@
 
 #import "R2RPlace.h"
 
-@interface R2RGeoCodeResponse : NSObject
+@interface R2RGeocodeResponse : NSObject
 
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSString *country;
-@property (strong, nonatomic) NSString *language;
-
+@property (strong, nonatomic) NSString *query;
+@property (strong, nonatomic) NSString *countryCode;
+@property (strong, nonatomic) NSString *languageCode;
 @property (strong, nonatomic) NSMutableArray *places;
-@property (strong, nonatomic) R2RPlace *place;
 
 @end

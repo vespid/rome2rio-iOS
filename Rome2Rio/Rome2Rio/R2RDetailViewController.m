@@ -19,8 +19,8 @@
 #import "R2RTransitHopCell.h"
 #import "R2RWalkDriveHopCell.h"
 
-#import "R2RStringFormatters.h"
-#import "R2RSegmentHandler.h"
+#import "R2RStringFormatter.h"
+#import "R2RSegmentHelper.h"
 #import "R2RSprite.h"
 #import "R2RMKAnnotation.h"
 #import "R2RMapHelper.h"
@@ -156,7 +156,7 @@
         [cell.nameLabel setText:stop.name];
     }
     
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
     if (routeIndex == 0)
     {
@@ -211,11 +211,11 @@
 
 -(R2RFlightHopCell *) configureFlightHopCell:(R2RFlightHopCell *) cell:(R2RFlightSegment *) segment
 {
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
     NSInteger changes = [segmentHandler getFlightChanges:segment];
     
-    NSString *hopDescription = [R2RStringFormatters formatFlightHopCellDescription:segment.duration :changes];
+    NSString *hopDescription = [R2RStringFormatter formatFlightHopCellDescription:segment.duration :changes];
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
@@ -230,12 +230,12 @@
 
 -(R2RTransitHopCell *) configureTransitHopCell:(R2RTransitHopCell *) cell:(R2RTransitSegment *) segment
 {
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
     NSInteger changes = [segmentHandler getTransitChanges:segment];
     NSString *vehicle = segment.vehicle;
     NSInteger frequency = [segmentHandler getTransitFrequency:segment];
-    NSString *hopDescription = [R2RStringFormatters formatTransitHopDescription:segment.duration :changes :frequency :vehicle];
+    NSString *hopDescription = [R2RStringFormatter formatTransitHopDescription:segment.duration :changes :frequency :vehicle];
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
@@ -250,10 +250,10 @@
 
 -(R2RWalkDriveHopCell *) configureWalkDriveHopCell:(R2RWalkDriveHopCell *) cell:(R2RWalkDriveSegment *) segment
 {
-    NSString *hopDescription = [R2RStringFormatters formatWalkDriveHopCellDescription:segment.duration :segment.distance: segment.kind];
+    NSString *hopDescription = [R2RStringFormatter formatWalkDriveHopCellDescription:segment.duration :segment.distance: segment.kind];
     [cell.hopLabel setText:hopDescription];
     
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
     [self.dataStore.spriteStore setSpriteInView:sprite :cell.connectTop];
@@ -426,7 +426,7 @@
         }
     }
     
-    [mapHelper filterAnnotations:stopAnnotations :hopAnnotations :self.mapView];
+//    [mapHelper filterAnnotations:stopAnnotations :hopAnnotations :self.mapView];
 }
 
 #pragma mark MKMapViewDelegate
@@ -444,30 +444,30 @@
     return [mapHelper getAnnotationView:mapView :annotation];
 }
 
--(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
-{
-    if (self.zoomLevel!=mapView.region.span.longitudeDelta)
-    {
-        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
-        
-        //make a [mapHelper getStopAnnotations];
-        NSMutableArray *stopAnnotations = [[NSMutableArray alloc] init];
-        for (R2RStop *stop in self.route.stops)
-        {
-            CLLocationCoordinate2D pos;
-            pos.latitude = stop.pos.lat;
-            pos.longitude = stop.pos.lng;
-            R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
-            [stopAnnotations addObject:annotation];
-        }
-        
-        NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
-        
-        [mapHelper filterAnnotations:stopAnnotations :hopAnnotations :self.mapView];
-        
-        self.zoomLevel=mapView.region.span.longitudeDelta;
-    }
-}
+//-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+//{
+//    if (self.zoomLevel!=mapView.region.span.longitudeDelta)
+//    {
+//        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+//        
+//        //make a [mapHelper getStopAnnotations];
+//        NSMutableArray *stopAnnotations = [[NSMutableArray alloc] init];
+//        for (R2RStop *stop in self.route.stops)
+//        {
+//            CLLocationCoordinate2D pos;
+//            pos.latitude = stop.pos.lat;
+//            pos.longitude = stop.pos.lng;
+//            R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
+//            [stopAnnotations addObject:annotation];
+//        }
+//        
+//        NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+//        
+//        [mapHelper filterAnnotations:stopAnnotations :hopAnnotations :self.mapView];
+//        
+//        self.zoomLevel=mapView.region.span.longitudeDelta;
+//    }
+//}
 
 
 @end

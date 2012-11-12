@@ -5,3 +5,12 @@
   Created by Ash Verdoorn on 12/11/12.
   Copyright (c) 2012 Rome2Rio. All rights reserved.
 */
+
+"FromTextFieldPlaceholder"  = "Origin";
+"ToTextFieldPlaceHodler"    = "Destination";
+"SearchTitle"               = "Search";
+"ResultsTitle"              = "Results";
+"DetailsTitle"              = "Route";
+"FlightSegmentTitle"        = "Fly";
+"TransitSegmentTitle"       = "Transit";
+

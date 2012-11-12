@@ -6,9 +6,11 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-#ifndef Rome2Rio_R2RCompletionState_h
-#define Rome2Rio_R2RCompletionState_h
-
-
-
-#endif
+typedef enum
+{
+    r2rCompletionStateIdle = 0,
+    r2rCompletionStateResolving,
+    r2rCompletionStateResolved,
+    r2rCompletionStateLocationNotFound,
+    r2rCompletionStateError
+} R2RCompletionState;

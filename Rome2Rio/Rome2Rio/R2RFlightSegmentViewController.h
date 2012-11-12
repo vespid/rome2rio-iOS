@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "R2RDataStore.h"
+#import "R2RSearchStore.h"
 
 @interface R2RFlightSegmentViewController : UITableViewController <UIActionSheetDelegate>
 
-@property (strong, nonatomic) R2RDataStore *dataStore;
+@property (strong, nonatomic) R2RSearchStore *dataStore;
 @property (strong, nonatomic) R2RRoute *route;
 @property (strong, nonatomic) R2RFlightSegment *flightSegment;
 

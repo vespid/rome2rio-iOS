@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-#import "R2RStringFormatters.h"
+#import "R2RStringFormatter.h"
 #import "R2RDuration.h"
 
 
-@implementation R2RStringFormatters
+@implementation R2RStringFormatter
 
 +(id) alloc
 {
@@ -20,14 +20,14 @@
 
 +(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops
 {
-    return [NSString stringWithFormat:@"%@ by plane, %@", [R2RStringFormatters formatDuration:minutes], [R2RStringFormatters formatStopovers:stops]];
+    return [NSString stringWithFormat:@"%@ by plane, %@", [R2RStringFormatter formatDuration:minutes], [R2RStringFormatter formatStopovers:stops]];
 }
 
 +(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle
 {
     if (changes == 0)
     {
-        return [NSString stringWithFormat:@"%@ by %@, %@", [R2RStringFormatters formatDuration:minutes], vehicle, [R2RStringFormatters formatFrequency:frequency]];
+        return [NSString stringWithFormat:@"%@ by %@, %@", [R2RStringFormatter formatDuration:minutes], vehicle, [R2RStringFormatter formatFrequency:frequency]];
     }
     else if (changes == 1)
     {

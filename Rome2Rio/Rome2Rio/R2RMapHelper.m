@@ -7,7 +7,7 @@
 //
 
 #import "R2RMapHelper.h"
-#import "R2RSegmentHandler.h"
+#import "R2RSegmentHelper.h"
 #import "R2RFlightSegment.h"
 #import "R2RFlightItinerary.h"
 #import "R2RFlightLeg.h"
@@ -22,13 +22,13 @@
 
 @interface R2RMapHelper()
 
-@property (strong, nonatomic) R2RDataStore *dataStore;
+@property (strong, nonatomic) R2RSearchStore *dataStore;
 
 @end
 
 @implementation R2RMapHelper
 
--(id)initWithData:(R2RDataStore *)dataStore
+-(id)initWithData:(R2RSearchStore *)dataStore
 {
     self = [super init];
     if (self)
@@ -42,7 +42,7 @@
 {
     MKMapRect rect = MKMapRectNull;
     
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] initWithData:self.dataStore];
+    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] initWithData:self.dataStore];
     
     NSString *pathString = [segmentHandler getSegmentPath:segment];
     
@@ -96,7 +96,7 @@
 //return an array containing a polyline for each hop
 -(NSArray *) getPolylines:(id) segment;
 {
-    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
+    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     NSString *kind = [segmentHandler getSegmentKind:segment];
     if ([kind isEqualToString:@"flight"])
     {

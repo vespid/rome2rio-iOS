@@ -219,7 +219,7 @@
 {
     if (self.autocomplete == autocomplete)
     {
-        if (self.autocomplete.responseCompletionState != stateResolved && self.autocomplete.responseCompletionState != stateError && self.autocomplete.responseCompletionState != stateLocationNotFound)
+        if (self.autocomplete.responseCompletionState != r2rCompletionStateResolved && self.autocomplete.responseCompletionState != r2rCompletionStateError && self.autocomplete.responseCompletionState != r2rCompletionStateLocationNotFound)
         {
             [self.dataManager setStatusMessage:@"Searching"];
         }
@@ -268,12 +268,12 @@
 {
     if (self.autocomplete == autocomplete)
     {
-        if (autocomplete.responseCompletionState == stateResolved)
+        if (autocomplete.responseCompletionState == r2rCompletionStateResolved)
         {
-            if ([autocomplete.geoCodeResponse.places count] > 0)
+            if ([autocomplete.geocodeResponse.places count] > 0)
             {
                 [self.dataManager setStatusMessage:@""];
-                self.places = self.autocomplete.geoCodeResponse.places;
+                self.places = self.autocomplete.geocodeResponse.places;
                 [self.tableView reloadData];
             }
             else
@@ -285,10 +285,10 @@
                 }
             }
         }
-        else if (autocomplete.responseCompletionState == stateLocationNotFound) //state only returned from geocodeFallback
+        else if (autocomplete.responseCompletionState == r2rCompletionStateLocationNotFound) //state only returned from geocodeFallback
         {
             [self.dataManager setStatusMessage:autocomplete.responseMessage];
-            self.places = self.autocomplete.geoCodeResponse.places;
+            self.places = self.autocomplete.geocodeResponse.places;
             [self.tableView reloadData];
         }
         else

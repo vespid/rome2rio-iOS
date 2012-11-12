@@ -25,16 +25,6 @@
 
 @property (nonatomic) NSInteger retryCount;
 
-enum {
-    stateEmpty = 0,
-    stateEditingDidBegin,
-    stateEditingDidEnd,
-    stateResolved,
-    stateLocationNotFound,
-    stateError,
-    stateResolving
-};
-
 @end
 
 
@@ -104,7 +94,7 @@ enum {
     
     self.r2rConnection = [[R2RConnection alloc] initWithConnectionUrl:searchUrl delegate:self];
     
-    self.responseCompletionState = stateResolving;
+    self.responseCompletionState = r2rCompletionStateResolving;
     
     [self performSelector:@selector(connectionTimeout) withObject:nil afterDelay:5.0];
 }
@@ -747,18 +737,18 @@ enum {
 {
     if (self.r2rConnection == connection)
     {
-        if (self.responseCompletionState != stateResolved) //only parse data if search not already resolved
+        if (self.responseCompletionState != r2rCompletionStateResolved) //only parse data if search not already resolved
         {
             [self parseJson];
             
             if ([self.searchResponse.routes count] == 0)
             {
-                self.responseCompletionState = stateError;
+                self.responseCompletionState = r2rCompletionStateError;
                 self.responseMessage = @"Unable to find route";
             }
             else
             {
-                self.responseCompletionState = stateResolved;
+                self.responseCompletionState = r2rCompletionStateResolved;
             }
             
             [[self delegate] searchDidFinish:self];
@@ -776,7 +766,7 @@ enum {
     }
     else
     {
-        self.responseCompletionState = stateError;
+        self.responseCompletionState = r2rCompletionStateError;
         self.responseMessage = @"Unable to find location";
         
         [[self delegate] searchDidFinish:self];
@@ -785,9 +775,9 @@ enum {
 
 - (void) connectionTimeout
 {
-    if (self.responseCompletionState == stateResolving)
+    if (self.responseCompletionState == r2rCompletionStateResolving)
     {
-        self.responseCompletionState = stateError;
+        self.responseCompletionState = r2rCompletionStateError;
         self.responseMessage = @"Unable to find location";
         R2RLog(@"Search Timeout");
         [[self delegate] searchDidFinish:self];

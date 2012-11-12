@@ -12,7 +12,7 @@
 #import "R2RFlightSegmentSectionHeader.h"
 #import "R2RFlightGroup.h"
 
-#import "R2RStringFormatters.h"
+#import "R2RStringFormatter.h"
 #import "R2RConstants.h"
 
 @interface R2RFlightSegmentViewController ()
@@ -168,7 +168,7 @@
         hopNumber++;
     }
     
-    [cell.durationLabel setText:[R2RStringFormatters formatDurationZeroPadded:duration]];
+    [cell.durationLabel setText:[R2RStringFormatter formatDurationZeroPadded:duration]];
     
     for (R2RAirline *airline in self.dataStore.searchResponse.airlines)
     {
@@ -207,7 +207,7 @@
     frame.origin.y = 75 + (50* (hops-1));
     [cell.frequencyLabel setFrame:frame];
     
-    [cell.frequencyLabel setText:[R2RStringFormatters formatDays:flightLeg.days]];
+    [cell.frequencyLabel setText:[R2RStringFormatter formatDays:flightLeg.days]];
     
     float duration = 0.0;
     NSString *firstAirlineCode = nil;
@@ -238,7 +238,7 @@
         hopNumber++;
     }
     
-    [cell.durationLabel setText:[R2RStringFormatters formatDurationZeroPadded:duration]];
+    [cell.durationLabel setText:[R2RStringFormatter formatDurationZeroPadded:duration]];
     
     for (R2RAirline *airline in self.dataStore.searchResponse.airlines)
     {
@@ -274,7 +274,7 @@
         }
         
         label = [cell.layoverDurationLabels objectAtIndex:(hopNumber - 1)];
-        [label setText:[R2RStringFormatters formatDurationZeroPadded:flightHop.lDuration]];
+        [label setText:[R2RStringFormatter formatDurationZeroPadded:flightHop.lDuration]];
         [label setHidden:NO];
     }
     
@@ -299,7 +299,7 @@
     [label setHidden:NO];
     
     label = [cell.hopDurationLabels objectAtIndex:hopNumber];
-    [label setText:[R2RStringFormatters formatDurationZeroPadded:flightHop.duration]];
+    [label setText:[R2RStringFormatter formatDurationZeroPadded:flightHop.duration]];
     [label setHidden:NO];
 }
 

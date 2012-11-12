@@ -10,13 +10,13 @@
 
 #import "R2RAutocompleteViewController.h"
 
-#import "R2RDataStore.h"
-#import "R2RDataManager.h"
+#import "R2RSearchStore.h"
+#import "R2RSearchManager.h"
 
 @interface R2RMasterViewController : UIViewController <UITextFieldDelegate>
 
-@property (strong, nonatomic) R2RDataManager *dataManager;
-@property (strong, nonatomic) R2RDataStore *dataStore;
+@property (strong, nonatomic) R2RSearchManager *dataManager;
+@property (strong, nonatomic) R2RSearchStore *dataStore;
 
 - (IBAction)showInfoView:(id)sender;
 

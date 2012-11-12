@@ -9,8 +9,8 @@
 #import "R2RAppDelegate.h"
 #import "R2RMasterViewController.h"
 
-#import "R2RDataStore.h"
-#import "R2RDataManager.h"
+#import "R2RSearchStore.h"
+#import "R2RSearchManager.h"
 
 
 @implementation R2RAppDelegate
@@ -21,9 +21,9 @@
     
     R2RMasterViewController *firstViewController = (R2RMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
     
-    R2RDataStore *dataStore = [[R2RDataStore alloc] init];
+    R2RSearchStore *dataStore = [[R2RSearchStore alloc] init];
     
-    R2RDataManager *dataManager = [[R2RDataManager alloc] init];
+    R2RSearchManager *dataManager = [[R2RSearchManager alloc] init];
     dataManager.dataStore = dataStore;
     
     firstViewController.dataManager = dataManager;

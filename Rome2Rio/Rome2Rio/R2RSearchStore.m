@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
-#import "R2RDataStore.h"
+#import "R2RSearchStore.h"
 
-@implementation R2RDataStore
+@implementation R2RSearchStore
 
 @synthesize fromPlace = _fromPlace, toPlace = _toPlace, searchResponse = _searchResponse, spriteStore = _spriteStore, statusMessage = _statusMessage, searchMessage = _searchMessage;
 
@@ -48,12 +48,13 @@
 {
     _statusMessage = statusMessage;
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];// userInfo:dictionary];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStatusMessage" object:nil];
 }
 
 -(void) setSearchMessage:(NSString *)searchMessage
 {
     _searchMessage = searchMessage;
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSearchMessage" object:nil];
 }
 

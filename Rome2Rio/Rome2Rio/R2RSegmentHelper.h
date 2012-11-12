@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "R2RSprite.h"
-#import "R2RDataStore.h"
+#import "R2RSearchStore.h"
 
 #import "R2RWalkDriveSegment.h"
 #import "R2RTransitSegment.h"
@@ -23,9 +23,9 @@
 #import "R2RFlightTicketSet.h"
 #import "R2RFlightTicket.h"
 
-@interface R2RSegmentHandler : NSObject
+@interface R2RSegmentHelper : NSObject
 
--(id) initWithData: (R2RDataStore *) dataStore;
+-(id) initWithData: (R2RSearchStore *) dataStore;
 
 -(R2RSprite *) getRouteSprite:(NSString *) kind;
 -(R2RSprite *) getSegmentResultSprite:(id) segment;
