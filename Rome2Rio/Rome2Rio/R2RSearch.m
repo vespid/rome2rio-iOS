@@ -743,9 +743,9 @@ enum {
     return flightTicket;
 }
 
-- (void) R2RConnectionProcessData:(R2RConnection *) delegateConnection
+- (void) connectionProcessData:(R2RConnection *) connection
 {
-    if (self.r2rConnection == delegateConnection)
+    if (self.r2rConnection == connection)
     {
         if (self.responseCompletionState != stateResolved) //only parse data if search not already resolved
         {
@@ -766,7 +766,7 @@ enum {
     }
 }
 
-- (void) R2RConnectionError:(R2RConnection *)delegateConnection
+- (void) connectionError:(R2RConnection *)connection
 {
     if (self.retryCount < 5)
     {

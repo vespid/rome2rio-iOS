@@ -203,7 +203,7 @@
     NSString *duration = [R2RStringFormatters formatDuration:transitHop.duration];
     NSString *frequency = [R2RStringFormatters formatFrequency:transitHop.frequency];
     NSString *description = [NSString stringWithFormat:@"%@, %@", duration, frequency];
-    CGSize durationSize = [description sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17.0]];
+    CGSize durationSize = [description sizeWithFont:[UIFont systemFontOfSize:17.0]];
     
     NSInteger startX = 40;
     

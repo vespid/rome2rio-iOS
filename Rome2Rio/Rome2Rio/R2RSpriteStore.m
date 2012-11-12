@@ -88,7 +88,7 @@
     [self enqueueSpriteView:sprite:view];
 }
 
--(void)r2rImageDidLoad:(R2RImageLoader *)imageLoader
+-(void)imageDidLoad:(R2RImageLoader *)imageLoader
 {
     [self.imageStore setObject:imageLoader.image forKey:imageLoader.path];
     

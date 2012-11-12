@@ -47,17 +47,17 @@
     self.connection = [[R2RConnection alloc] initWithConnectionUrl:imageUrl delegate:self];
 }
 
--(void)R2RConnectionProcessData:(R2RConnection *)delegateConnection
+-(void)connectionProcessData:(R2RConnection *)connection
 {
-    if (self.connection == delegateConnection)
+    if (self.connection == connection)
     {
         self.image = [[UIImage alloc] initWithData:self.connection.responseData];
         
-        [self.delegate r2rImageDidLoad:self];
+        [self.delegate imageDidLoad:self];
     }
 }
 
--(void)R2RConnectionError:(R2RConnection *)delegateConnection
+-(void)connectionError:(R2RConnection *)connection
 {
     R2RLog(@"Connection Error");
 }

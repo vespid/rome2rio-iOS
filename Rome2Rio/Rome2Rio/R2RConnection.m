@@ -54,18 +54,18 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [[self delegate] R2RConnectionError:self];
+    [[self delegate] connectionError:self];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     if (self.responseStatus == 200)
     {
-        [[self delegate] R2RConnectionProcessData:self];
+        [[self delegate] connectionProcessData:self];
     }
     else
     {
-        [[self delegate] R2RConnectionError:self];
+        [[self delegate] connectionError:self];
     }
 }
 

@@ -24,6 +24,6 @@
 
 @protocol R2RImageLoaderDelegate <NSObject>
 
-- (void)r2rImageDidLoad:(R2RImageLoader *) delegateImageLoader;
+- (void)imageDidLoad:(R2RImageLoader *) imageLoader;
 
 @end

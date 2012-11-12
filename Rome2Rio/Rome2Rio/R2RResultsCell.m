@@ -54,7 +54,7 @@
     rect = CGRectMake(self.bounds.size.width-100-30, 30, 100.0, 20);
     self.resultDurationLabel = [[UILabel alloc] initWithFrame:rect];
     [self.resultDurationLabel setTextAlignment:UITextAlignmentRight];
-    [self.resultDurationLabel setFont:[UIFont fontWithName:@"Helvetica" size:15.0]];
+    [self.resultDurationLabel setFont:[UIFont systemFontOfSize:17.0]];
     [self.resultDurationLabel setBackgroundColor:[UIColor clearColor]];
     [self.resultDurationLabel setMinimumFontSize:10.0];
     [self.resultDurationLabel setAdjustsFontSizeToFitWidth:YES];
