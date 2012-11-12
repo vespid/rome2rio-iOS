@@ -7,6 +7,7 @@
 //
 
 #import "R2RWalkDriveSegmentCell.h"
+#import "R2RConstants.h"
 
 @implementation R2RWalkDriveSegmentCell
 
@@ -17,7 +18,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        [self setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+        [self setBackgroundColor:[R2RConstants getCellColor]];
         [self initSubviews];
     }
     return self;
@@ -49,8 +50,7 @@
     [self.fromLabel setMinimumFontSize:10.0];
     [self.fromLabel setAdjustsFontSizeToFitWidth:YES];
     [self.fromLabel setBackgroundColor:[UIColor clearColor]];
-    [self.fromLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
-//    [self.fromLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.fromLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.fromLabel];
     
     rect = CGRectMake(paddingX, 55, self.bounds.size.width - (2*paddingX), 25);
@@ -59,8 +59,7 @@
     [self.toLabel setMinimumFontSize:10.0];
     [self.toLabel setAdjustsFontSizeToFitWidth:YES];
     [self.toLabel setBackgroundColor:[UIColor clearColor]];
-    [self.toLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
-//    [self.toLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.toLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.toLabel];
     
     rect = CGRectMake(paddingX+20, 34, 18, 18);
@@ -70,10 +69,8 @@
     rect = CGRectMake(paddingX+20+25, 30, self.bounds.size.width - 75, 25);
     self.distanceLabel = [[UILabel alloc] initWithFrame:rect];
     [self.distanceLabel setTextAlignment:UITextAlignmentLeft];
-//    [self.distanceLabel setTextColor:[UIColor lightGrayColor]];
-    [self.distanceLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
     [self.distanceLabel setBackgroundColor:[UIColor clearColor]];
-//    [self.distanceLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.distanceLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.distanceLabel];
     
     rect = CGRectMake(self.bounds.size.width-75, 30, 60.0, 25);
@@ -81,10 +78,8 @@
     [self.durationLabel setTextAlignment:UITextAlignmentLeft];
     [self.durationLabel setMinimumFontSize:10.0];
     [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
-//    [self.durationLabel setTextColor:[UIColor lightGrayColor]];
-    [self.durationLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
-    [self.durationLabel setBackgroundColor:[UIColor clearColor]];
-//    [self.durationLabel setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [self.distanceLabel setBackgroundColor:[UIColor clearColor]];
+    [self.durationLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.durationLabel];
 }
 

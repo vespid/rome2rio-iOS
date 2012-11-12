@@ -23,8 +23,7 @@
         //only display items before the ":"
         NSArray *kinds = [kind componentsSeparatedByString:@":"];
         _kind = [kinds objectAtIndex:0];
-        R2RLog(@"%@", [kinds objectAtIndex:0]);
-        
+
         _coordinate = coordinate;
     }
     return self;

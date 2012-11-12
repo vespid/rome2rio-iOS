@@ -28,6 +28,8 @@
 
 @interface R2RDetailViewController ()
 
+@property CLLocationDegrees zoomLevel;
+
 @end
 
 @implementation R2RDetailViewController
@@ -80,7 +82,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [cell setBackgroundColor:[UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0]];
+    [cell setBackgroundColor:[R2RConstants getCellColor]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -185,7 +187,7 @@
     
     [self.dataStore.spriteStore setSpriteInView:sprite :cell.icon];
     
-    [cell.contentView setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
+    [cell.contentView setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     return;
 }
@@ -358,6 +360,9 @@
 {
     [self.mapView setDelegate:self];
     
+    NSMutableArray *stopAnnotations = [[NSMutableArray alloc] init];
+    
+    //TODO move stop annotations to map helper to treat similar to hops
     for (R2RStop *stop in self.route.stops)
     {
         CLLocationCoordinate2D pos;
@@ -366,9 +371,17 @@
         
         R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
         [self.mapView addAnnotation:annotation];
+        [stopAnnotations addObject:annotation];
     }
-    
+
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+    
+    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+    
+    for (R2RHopAnnotation *annotation in hopAnnotations)
+    {
+        [self.mapView addAnnotation:annotation];
+    }
     
     MKMapRect zoomRect = MKMapRectNull;
     for (id segment in self.route.segments)
@@ -400,6 +413,8 @@
         region.span.longitudeDelta *=1.1;
     }
     
+    self.zoomLevel = region.span.longitudeDelta;
+    
     [self.mapView setRegion:region];
     
     for (id segment in self.route.segments)
@@ -410,6 +425,8 @@
             [self.mapView addOverlay:path];
         }
     }
+    
+    [mapHelper filterAnnotations:stopAnnotations :hopAnnotations :self.mapView];
 }
 
 #pragma mark MKMapViewDelegate
@@ -419,5 +436,38 @@
 	
     return [mapHelper getPolylineView:overlay];
 }
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+	
+    return [mapHelper getAnnotationView:mapView :annotation];
+}
+
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    if (self.zoomLevel!=mapView.region.span.longitudeDelta)
+    {
+        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+        
+        //make a [mapHelper getStopAnnotations];
+        NSMutableArray *stopAnnotations = [[NSMutableArray alloc] init];
+        for (R2RStop *stop in self.route.stops)
+        {
+            CLLocationCoordinate2D pos;
+            pos.latitude = stop.pos.lat;
+            pos.longitude = stop.pos.lng;
+            R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
+            [stopAnnotations addObject:annotation];
+        }
+        
+        NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+        
+        [mapHelper filterAnnotations:stopAnnotations :hopAnnotations :self.mapView];
+        
+        self.zoomLevel=mapView.region.span.longitudeDelta;
+    }
+}
+
 
 @end

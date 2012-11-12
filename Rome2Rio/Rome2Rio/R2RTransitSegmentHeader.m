@@ -7,6 +7,7 @@
 //
 
 #import "R2RTransitSegmentHeader.h"
+#import "R2RConstants.h"
 
 @implementation R2RTransitSegmentHeader
 
@@ -35,28 +36,19 @@
 
 -(void) initSubviews
 {
-    CGRect rect = CGRectMake(20, 5, 20, 20); //change to correct agency icon size
+    CGRect rect = CGRectMake(20, 5, 20, 20);
     
-//    self.agencyIconView = [[R2RButtonWithUrl alloc] initWithFrame:rect];
     self.agencyIconView = [[UIImageView alloc] initWithFrame:rect];
     [self addSubview:self.agencyIconView];
     
     rect = CGRectMake(50, 8, 200, 25);
-    
-//    self.agencyNameLabel = [[R2RButtonWithUrl alloc] initWithFrame:rect];
-//    [self.agencyNameLabel.titleLabel setTextAlignment:UITextAlignmentCenter];
-//    [self.agencyNameLabel.titleLabel setMinimumFontSize:10.0];
-//    [self.agencyNameLabel.titleLabel setAdjustsFontSizeToFitWidth:YES];
-//    [self.agencyNameLabel setBackgroundColor:[UIColor clearColor]];
-//    [self.agencyNameLabel setBackgroundColor:[UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0]];
-//    [self.agencyNameLabel setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
     
     self.agencyNameLabel = [[UILabel alloc] initWithFrame:rect];
     [self.agencyNameLabel setTextAlignment:UITextAlignmentCenter];
     [self.agencyNameLabel setMinimumFontSize:10.0];
     [self.agencyNameLabel setAdjustsFontSizeToFitWidth:YES];
     [self.agencyNameLabel setBackgroundColor:[UIColor clearColor]];
-    [self.agencyNameLabel setTextColor:[UIColor colorWithWhite:0.2 alpha:1.0]];
+    [self.agencyNameLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.agencyNameLabel];
 
     rect = CGRectMake(280, 8, 27, 23);

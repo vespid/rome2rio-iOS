@@ -19,6 +19,7 @@
 #import "R2RPath.h"
 #import "R2RPathEncoder.h"
 
+
 @interface R2RMapHelper()
 
 @property (strong, nonatomic) R2RDataStore *dataStore;
@@ -319,6 +320,165 @@
         return [[MKPolylineView alloc] initWithPolyline:polyline];
     }
         
+}
+
+-(id)getAnnotationView:(MKMapView *)mapView :(id<MKAnnotation>)annotation
+{
+    static NSString *identifier = @"R2RhopAnnotation";
+    if ([annotation isKindOfClass:[R2RHopAnnotation class]])
+    {
+        MKAnnotationView *annotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (annotationView == nil)
+        {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView.enabled = YES;
+            annotationView.canShowCallout = YES;
+            CGPoint iconOffset = CGPointMake(267, 46);
+            CGSize iconSize = CGSizeMake (12, 12);
+            
+            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
+            
+            UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
+            UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.5 orientation:image.imageOrientation];
+            annotationView.image = smallerImage;
+            
+        }
+        else
+        {
+            annotationView.annotation = annotation;
+        }
+        
+        return annotationView;
+    }
+    
+    return nil;
+}
+
+-(NSArray *) getRouteHopAnnotations:(R2RRoute *) route
+{
+    NSMutableArray *hopAnnotations = [[NSMutableArray alloc] init];
+    
+    for (id segment in route.segments)
+    {
+        if([segment isKindOfClass:[R2RWalkDriveSegment class]])
+        {
+            [self getWalkDriveHopAnnotations:hopAnnotations :segment];
+        }
+        else if([segment isKindOfClass:[R2RTransitSegment class]])
+        {
+            [self getTransitHopAnnotations:hopAnnotations :segment];
+        }
+        else if([segment isKindOfClass:[R2RFlightSegment class]])
+        {
+            [self getFlightHopAnnotations:hopAnnotations :segment];
+        }
+    }
+    
+    return hopAnnotations;
+}
+
+-(void) getWalkDriveHopAnnotations:(NSMutableArray *) hopAnnotations:(R2RTransitSegment *)segment
+{
+//    if (![hops containsObject:segment.sPos])
+//    {
+//        [hops addObject:segment.sPos];
+//    }
+//    if (![hops containsObject:segment.tPos])
+//    {
+//        [hops addObject:segment.tPos];
+//    }
+}
+
+
+-(void) getTransitHopAnnotations:(NSMutableArray *)hopAnnotations:(R2RTransitSegment *)segment
+{
+    R2RTransitItinerary *itinerary = [segment.itineraries objectAtIndex:0];
+    for (R2RTransitLeg *leg in itinerary.legs)
+    {
+        for (R2RTransitHop *hop in leg.hops)
+        {
+            if (!(leg == [itinerary.legs lastObject] && hop == [leg.hops lastObject]))
+            {
+                CLLocationCoordinate2D pos;
+                pos.latitude = hop.tPos.lat;
+                pos.longitude = hop.tPos.lng;
+                R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:hop.tName coordinate:pos];
+                
+                [hopAnnotations addObject:annotation];
+            }
+        }
+    }
+}
+
+
+-(void) getFlightHopAnnotations:(NSMutableArray *) hopAnnotations:(R2RTransitSegment *)segment
+{
+    R2RFlightItinerary *itinerary = [segment.itineraries objectAtIndex:0];
+    R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
+    
+    for (R2RFlightHop *hop in leg.hops)
+    {
+        if ( hop != [leg.hops lastObject])
+        {
+            for (R2RAirport *airport in self.dataStore.searchResponse.airports)
+            {
+                if ([airport.code isEqualToString:hop.tCode])
+                {
+                    CLLocationCoordinate2D pos;
+                    pos.latitude = airport.pos.lat;
+                    pos.longitude = airport.pos.lng;
+                    R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:airport.name coordinate:pos];
+                    
+                    [hopAnnotations addObject:annotation];
+                }
+            }
+        }
+    }
+}
+
+-(void)filterAnnotations:(NSArray *)stops:(NSArray *)hops:(MKMapView *) mapView
+{
+    NSArray *placesToFilter = hops;
+    
+    float latDelta=mapView.region.span.latitudeDelta/20.0;
+    float longDelta=mapView.region.span.longitudeDelta/20.0;
+    
+    NSMutableArray *placesToShow=[[NSMutableArray alloc] initWithCapacity:0];
+    
+    for (int i=0; i<[placesToFilter count]; i++)
+    {
+        R2RHopAnnotation *checkingLocation=[placesToFilter objectAtIndex:i];
+        CLLocationDegrees latitude = checkingLocation.coordinate.latitude;
+        CLLocationDegrees longitude = checkingLocation.coordinate.longitude;
+        
+        bool found=FALSE;
+        
+        for (R2RMKAnnotation *stopAnnotation in stops)
+        {
+            if(fabs(stopAnnotation.coordinate.latitude-latitude) < latDelta &&
+               fabs(stopAnnotation.coordinate.longitude-longitude) <longDelta )
+            {
+                [mapView removeAnnotation:checkingLocation];
+                found=TRUE;
+                break;
+            }
+        }
+        for (R2RHopAnnotation *hopAnnotation in placesToShow)
+        {
+            if(fabs(hopAnnotation.coordinate.latitude-latitude) < latDelta &&
+               fabs(hopAnnotation.coordinate.longitude-longitude) <longDelta )
+            {
+                [mapView removeAnnotation:checkingLocation];
+                found=TRUE;
+                break;
+            }
+        }
+        if (!found)
+        {
+            [placesToShow addObject:checkingLocation];
+            [mapView addAnnotation:checkingLocation];
+        }
+    }
 }
 
 @end

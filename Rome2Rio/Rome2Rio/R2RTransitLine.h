@@ -11,7 +11,6 @@
 @interface R2RTransitLine : NSObject
 
 @property (strong, nonatomic) NSString *agency;
-//@property (nonatomic) float duration;
 @property (strong, nonatomic) NSString *code;
 @property (nonatomic) float frequency;
 @property (strong, nonatomic) NSString *name;

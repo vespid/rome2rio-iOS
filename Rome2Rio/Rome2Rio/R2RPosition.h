@@ -1,9 +1,9 @@
 //
 //  R2RPosition.h
-//  HttpRequest
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 31/08/12.
-//  Copyright (c) 2012 Ash Verdoorn. All rights reserved.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

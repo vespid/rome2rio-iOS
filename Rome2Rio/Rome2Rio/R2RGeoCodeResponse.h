@@ -1,9 +1,9 @@
 //
 //  R2RGeocodeData.h
-//  HttpRequest
+//  Rome2Rio
 //
 //  Created by Ash Verdoorn on 4/09/12.
-//  Copyright (c) 2012 Ash Verdoorn. All rights reserved.
+//  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -16,9 +16,7 @@
 @property (strong, nonatomic) NSString *country;
 @property (strong, nonatomic) NSString *language;
 
-// only ever use first result so no longer storing all results
-//@property (strong, nonatomic) NSMutableArray *places;
-@property (strong, nonatomic) R2RPlace *place;
 @property (strong, nonatomic) NSMutableArray *places;
+@property (strong, nonatomic) R2RPlace *place;
 
 @end

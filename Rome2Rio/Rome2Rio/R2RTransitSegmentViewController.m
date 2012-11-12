@@ -17,6 +17,7 @@
 #import "R2RSegmentHandler.h"
 #import "R2RMapHelper.h"
 #import "R2RMKAnnotation.h"
+#import "R2RHopAnnotation.h"
 
 @interface R2RTransitSegmentViewController ()
 
@@ -378,6 +379,13 @@
     
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
     
+    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+    
+    for (R2RHopAnnotation *annotation in hopAnnotations)
+    {
+        [self.mapView addAnnotation:annotation];
+    }
+    
     for (id segment in self.route.segments)
     {
         NSArray *paths = [mapHelper getPolylines:segment];
@@ -403,6 +411,14 @@
 	
     return [mapHelper getPolylineView:overlay];
 }
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+	
+    return [mapHelper getAnnotationView:mapView :annotation];
+}
+
 
 - (IBAction)returnToSearch:(id)sender
 {

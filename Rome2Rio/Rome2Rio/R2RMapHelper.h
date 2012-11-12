@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+
 #import "R2RDataStore.h"
+#import "R2RHopAnnotation.h"
+#import "R2RMKAnnotation.h"
 
 @interface R2RMapHelper : NSObject
 
@@ -18,6 +21,13 @@
 -(id) getPolylineView:(id) polyline;
 
 -(MKMapRect) getSegmentZoomRect: (id) segment;
+
+-(NSArray *) getRouteHopAnnotations:(R2RRoute *) route;
+//returns annotations for hop changeovers that are not counted as route stops
+
+-(id)getAnnotationView:(MKMapView *)mapView :(id<MKAnnotation>)annotation;
+
+-(void)filterAnnotations:(NSArray *)stops:(NSArray *)hops:(MKMapView *) mapView;
 
 @end
 
