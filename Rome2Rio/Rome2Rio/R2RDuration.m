@@ -12,7 +12,7 @@
 
 @synthesize totalMinutes = _totalMinutes;
 
--(id) initWithMinutes: (float) totalMinutes
+-(id) initWithMinutes :(float)totalMinutes
 {
     self = [super init];
     
@@ -24,22 +24,22 @@
     return self;
 }
 
--(NSInteger) getDays
+-(NSInteger) days
 {
     return self.totalMinutes / (60*24);
 }
 
--(NSInteger) getHours
+-(NSInteger) hours
 {
     return self.totalHours % 24;
 }
 
--(NSInteger) getMinutes
+-(NSInteger) minutes
 {
     return self.totalMinutes % 60;
 }
 
--(NSInteger) getTotalHours
+-(NSInteger) totalHours
 {
     return self.totalMinutes / 60;
 }

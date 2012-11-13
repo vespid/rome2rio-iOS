@@ -16,6 +16,6 @@
 @property (readonly) NSInteger totalHours;
 @property NSInteger totalMinutes;
 
--(id) initWithMinutes: (float) minutes;
+-(id) initWithMinutes: (float) totalMinutes;
 
 @end
