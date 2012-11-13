@@ -38,57 +38,46 @@
     return self;
 }
 
--(MKMapRect)getSegmentZoomRect:(id)segment
+-(MKMapRect)getSegmentBounds:(id)segment
 {
     MKMapRect rect = MKMapRectNull;
     
-    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] initWithData:self.dataStore];
+    R2RSegmentHelper *segmentHelper = [[R2RSegmentHelper alloc] initWithData:self.dataStore];
     
-    NSString *pathString = [segmentHandler getSegmentPath:segment];
+    MKMapPoint sPoint = MKMapPointFromPosition([segmentHelper getSegmentSPos:segment]);
+    rect = MKMapRectGrow(rect, sPoint);
     
-    if (!pathString)
+    MKMapPoint tPoint = MKMapPointFromPosition([segmentHelper getSegmentTPos:segment]);
+    rect = MKMapRectGrow(rect, tPoint);
+    
+    NSString *pathString = [segmentHelper getSegmentPath:segment];
+    if (pathString.length > 0)
     {
-        MKMapRect rect = MKMapRectNull;
- 
-        R2RPosition *pos = [segmentHandler getSegmentSPos:segment];
-        CLLocationCoordinate2D sPos;
-        sPos.latitude = pos.lat;
-        sPos.longitude = pos.lng;
+        R2RPath *path = [R2RPathEncoder decode:pathString];
         
-        pos = [segmentHandler getSegmentTPos:segment];
-        CLLocationCoordinate2D tPos;
-        tPos.latitude = pos.lat;
-        tPos.longitude = pos.lng;
-        
-        MKMapPoint sMapPoint = MKMapPointForCoordinate(sPos);
-        MKMapPoint tMapPoint = MKMapPointForCoordinate(tPos);
-        
-        //making a union between two 0 size point rects means the map can not be out of bounds
-        MKMapRect sPointRect = MKMapRectMake(sMapPoint.x, sMapPoint.y, 0, 0);
-        MKMapRect tPointRect = MKMapRectMake(tMapPoint.x, tMapPoint.y, 0, 0);
-        
-        rect = MKMapRectUnion(sPointRect, tPointRect);
-        return rect;
-    }
-    
-    R2RPath *path = [R2RPathEncoder decode:pathString];
-    
-    for (R2RPosition *r2rPos in path.positions)
-    {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        MKMapRect pointRect = MKMapRectMake(mapPoint.x, mapPoint.y, 0, 0);
-        if (MKMapRectIsNull(rect))
+        for (R2RPosition *pos in path.positions)
         {
-            rect = pointRect;
-        }
-        else
-        {
-            rect = MKMapRectUnion(rect, pointRect);
+            MKMapPoint point = MKMapPointFromPosition(pos);
+            rect = MKMapRectGrow(rect, point);
         }
     }
+    
+    return rect;
+}
+
+static MKMapPoint MKMapPointFromPosition(R2RPosition *pos)
+{
+    CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(pos.lat, pos.lng);
+    MKMapPoint mapPoint = MKMapPointForCoordinate(coord);
+    
+    return mapPoint;
+}
+
+static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
+{
+    MKMapRect pointRect = MKMapRectMake(point.x, point.y, 0, 0);
+    
+    rect = MKMapRectUnion(rect, pointRect);
     
     return rect;
 }
@@ -100,7 +89,7 @@
     NSString *kind = [segmentHandler getSegmentKind:segment];
     if ([kind isEqualToString:@"flight"])
     {
-        return  [self getFlightPolylines:segment];// [R2RFlightPolyline polylineWithPoints:points count:count];
+        return  [self getFlightPolylines:segment];
     }
     else if ([kind isEqualToString:@"train"])
     {
@@ -120,13 +109,12 @@
     }
     else
     {
-        return nil;// [self getMKPolyline:segment];
+        return nil;
     }
 }
 
 -(NSArray *) getFlightPolylines: (R2RFlightSegment *) segment
 {
-    //    R2RSegmentHandler *segmentHandler = [[R2RSegmentHandler alloc] init];
     R2RFlightItinerary *itinerary = [segment.itineraries objectAtIndex:0];
     R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
     
@@ -137,63 +125,47 @@
     
     for (R2RFlightHop *hop in leg.hops)
     {
-        int count = 2;
-
-        NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*count)];
-        MKMapPoint *points = [data mutableBytes];
+        R2RAirport *sAirport = [self.dataStore getAirport:hop.sCode];
+        CLLocationCoordinate2D sPos = CLLocationCoordinate2DMake(sAirport.pos.lat, sAirport.pos.lng);
         
-        CLLocationCoordinate2D sPos = {};
-        CLLocationCoordinate2D tPos = {};
-        CLLocationCoordinate2D mPos = {};
-        
-        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
-        {
-            if ([airport.code isEqualToString:hop.sCode])
-            {
-                sPos.latitude = airport.pos.lat;
-                sPos.longitude = airport.pos.lng;
-            }
-            if ([airport.code isEqualToString:hop.tCode])
-            {
-                tPos.latitude = airport.pos.lat;
-                tPos.longitude = airport.pos.lng;
-            }
-        }
+        R2RAirport *tAirport = [self.dataStore getAirport:hop.tCode];
+        CLLocationCoordinate2D tPos = CLLocationCoordinate2DMake(tAirport.pos.lat, tAirport.pos.lng);
         
         if ((tPos.longitude - sPos.longitude) > 180 || (tPos.longitude - sPos.longitude) < -180)
         {
-            MKMapPoint mapPoint = MKMapPointForCoordinate(sPos);
-            points[0] = mapPoint;
-            mPos.latitude = (tPos.latitude + sPos.latitude)/2;
-            mPos.longitude = (sPos.longitude < 0) ? -180.0f :180.0f;
-            mapPoint = MKMapPointForCoordinate(mPos);
-            points[1] = mapPoint;
+            MKMapPoint points[2];
+            CLLocationCoordinate2D mPos;
             
-            R2RFlightPolyline *polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:count];
+            // add polyline for source to edge of map
+            mPos.latitude = (tPos.latitude + sPos.latitude)/2;
+            mPos.longitude = (sPos.longitude < 0) ? -180.0f : 180.0f;
+            
+            points[0] = MKMapPointForCoordinate(sPos);
+            points[1] = MKMapPointForCoordinate(mPos);
+            
+            R2RFlightPolyline *polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:2];
             [array addObject:polyline];
             
-            data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*count)];
-            points = [data mutableBytes];
+            // add polyline for edge of map to target
             mPos.longitude = -mPos.longitude;
-            mapPoint = MKMapPointForCoordinate(mPos);
-            points[0] = mapPoint;
-            mapPoint = MKMapPointForCoordinate(tPos);
-            points[1] = mapPoint;
             
-            polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:count];
+            points[0] = MKMapPointForCoordinate(mPos);
+            points[1] = MKMapPointForCoordinate(tPos);
+            
+            polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:2];
             [array addObject:polyline];
         }
         else
         {
-            MKMapPoint mapPoint = MKMapPointForCoordinate(sPos);
-            points[0] = mapPoint;
-            mapPoint = MKMapPointForCoordinate(tPos);
-            points[1] = mapPoint;
+            MKMapPoint points[2];
+            points[0] = MKMapPointForCoordinate(sPos);
+            points[1] = MKMapPointForCoordinate(tPos);
             
-            R2RFlightPolyline *polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:count];
+            R2RFlightPolyline *polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:2];
             [array addObject:polyline];
         }
     }
+    
     return array;
 }
 
@@ -201,23 +173,17 @@
 {
     R2RPath *path = [R2RPathEncoder decode:segment.path];
     
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*[path.positions count])];
-    MKMapPoint *points = [data mutableBytes];
-    int count = 0;
+    MKMapPoint points[[path.positions count]];
+    NSUInteger count = 0;
     
-    //TODO: refactor out for all transitsegments but need count;
-    for (R2RPosition *r2rPos in path.positions)
+    for (R2RPosition *pos in path.positions)
     {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        points[count++] = mapPoint;
-        //        R2RLog(@"%@", r2rPos);
+        points[count++] = MKMapPointFromPosition(pos);
     }
     
     R2RTrainPolyline *polyline = (R2RTrainPolyline *)[R2RTrainPolyline polylineWithPoints:points count:count];
     NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
+    
     return array;
 }
 
@@ -225,71 +191,53 @@
 {
     R2RPath *path = [R2RPathEncoder decode:segment.path];
     
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*[path.positions count])];
-    MKMapPoint *points = [data mutableBytes];
-    int count = 0;
+    MKMapPoint points[[path.positions count]];
+    NSUInteger count = 0;
     
-    //TODO: refactor out for all transitsegments but need count;
-    for (R2RPosition *r2rPos in path.positions)
+    for (R2RPosition *pos in path.positions)
     {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        points[count++] = mapPoint;
+        points[count++] = MKMapPointFromPosition(pos);
     }
     
     R2RBusPolyline *polyline = (R2RBusPolyline *)[R2RBusPolyline polylineWithPoints:points count:count];
     NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
+    
     return array;
 }
 
 -(NSArray *) getFerryPolylines: (R2RTransitSegment *) segment
 {
-    
     R2RPath *path = [R2RPathEncoder decode:segment.path];
     
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*[path.positions count])];
-    MKMapPoint *points = [data mutableBytes];
-    int count = 0;
+    MKMapPoint points[[path.positions count]];
+    NSUInteger count = 0;
     
-    //TODO: refactor out for all transitsegments but need count;
-    for (R2RPosition *r2rPos in path.positions)
+    for (R2RPosition *pos in path.positions)
     {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        points[count++] = mapPoint;
+        points[count++] = MKMapPointFromPosition(pos);
     }
     
     R2RFerryPolyline *polyline = (R2RFerryPolyline *)[R2RFerryPolyline polylineWithPoints:points count:count];
     NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
+    
     return array;
 }
 
 -(NSArray *) getWalkDrivePolylines: (R2RWalkDriveSegment *) segment
 {
-    
     R2RPath *path = [R2RPathEncoder decode:segment.path];
     
-    NSMutableData *data = [NSMutableData dataWithLength:(sizeof(CLLocationCoordinate2D)*[path.positions count])];
-    MKMapPoint *points = [data mutableBytes];
-    int count = 0;
+    MKMapPoint points[[path.positions count]];
+    NSUInteger count = 0;
     
-    //TODO: refactor out for all transitsegments but need count;
-    for (R2RPosition *r2rPos in path.positions)
+    for (R2RPosition *pos in path.positions)
     {
-        CLLocationCoordinate2D pos;
-        pos.latitude = r2rPos.lat;
-        pos.longitude = r2rPos.lng;
-        MKMapPoint mapPoint = MKMapPointForCoordinate(pos);
-        points[count++] = mapPoint;
-        //        R2RLog(@"%@", r2rPos);
+        points[count++] = MKMapPointFromPosition(pos);
     }
     
     R2RWalkDrivePolyline *polyline = (R2RWalkDrivePolyline *)[R2RWalkDrivePolyline polylineWithPoints:points count:count];
     NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
+    
     return array;
 }
 
@@ -319,7 +267,6 @@
     {
         return [[MKPolylineView alloc] initWithPolyline:polyline];
     }
-        
 }
 
 -(id)getAnnotationView:(MKMapView *)mapView :(id<MKAnnotation>)annotation
@@ -341,7 +288,6 @@
             UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
             UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.5 orientation:image.imageOrientation];
             annotationView.image = smallerImage;
-            
         }
         else
         {
@@ -354,7 +300,22 @@
     return nil;
 }
 
--(NSArray *) getRouteHopAnnotations:(R2RRoute *) route
+-(NSArray *)getRouteStopAnnotations:(R2RRoute *)route
+{
+    NSMutableArray *annotations = [[NSMutableArray alloc] init];
+    
+    for (R2RStop *stop in route.stops)
+    {
+        CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(stop.pos.lat, stop.pos.lng);
+        R2RStopAnnotation *annotation = [[R2RStopAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:coord];
+        
+        [annotations addObject:annotation];
+    }
+    
+    return annotations;
+}
+
+-(NSArray *) getRouteHopAnnotations:(R2RRoute *)route
 {
     NSMutableArray *hopAnnotations = [[NSMutableArray alloc] init];
     
@@ -379,16 +340,8 @@
 
 -(void) getWalkDriveHopAnnotations:(NSMutableArray *) hopAnnotations:(R2RTransitSegment *)segment
 {
-//    if (![hops containsObject:segment.sPos])
-//    {
-//        [hops addObject:segment.sPos];
-//    }
-//    if (![hops containsObject:segment.tPos])
-//    {
-//        [hops addObject:segment.tPos];
-//    }
+    // no annotations
 }
-
 
 -(void) getTransitHopAnnotations:(NSMutableArray *)hopAnnotations:(R2RTransitSegment *)segment
 {
@@ -397,19 +350,19 @@
     {
         for (R2RTransitHop *hop in leg.hops)
         {
-            if (!(leg == [itinerary.legs lastObject] && hop == [leg.hops lastObject]))
+            BOOL isLastLeg = (leg == [itinerary.legs lastObject]);
+            BOOL isLastHop = (hop == [leg.hops lastObject]);
+            
+            if (!isLastLeg && !isLastHop)
             {
-                CLLocationCoordinate2D pos;
-                pos.latitude = hop.tPos.lat;
-                pos.longitude = hop.tPos.lng;
-                R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:hop.tName coordinate:pos];
+                CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(hop.tPos.lat, hop.tPos.lng);
+                R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:hop.tName coordinate:coord];
                 
                 [hopAnnotations addObject:annotation];
             }
         }
     }
 }
-
 
 -(void) getFlightHopAnnotations:(NSMutableArray *) hopAnnotations:(R2RTransitSegment *)segment
 {
@@ -418,20 +371,17 @@
     
     for (R2RFlightHop *hop in leg.hops)
     {
-        if ( hop != [leg.hops lastObject])
+        BOOL isLastHop = (hop == [leg.hops lastObject]);
+        
+        if (!isLastHop)
         {
-            for (R2RAirport *airport in self.dataStore.searchResponse.airports)
-            {
-                if ([airport.code isEqualToString:hop.tCode])
-                {
-                    CLLocationCoordinate2D pos;
-                    pos.latitude = airport.pos.lat;
-                    pos.longitude = airport.pos.lng;
-                    R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:airport.name coordinate:pos];
-                    
-                    [hopAnnotations addObject:annotation];
-                }
-            }
+            R2RAirport *airport = [self.dataStore getAirport:hop.tCode];
+            if (airport == nil) continue;
+            
+            CLLocationCoordinate2D pos = CLLocationCoordinate2DMake(airport.pos.lat, airport.pos.lng);
+            R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:airport.name coordinate:pos];
+            
+            [hopAnnotations addObject:annotation];
         }
     }
 }
@@ -453,7 +403,7 @@
         
         bool found=FALSE;
         
-        for (R2RMKAnnotation *stopAnnotation in stops)
+        for (R2RStopAnnotation *stopAnnotation in stops)
         {
             if(fabs(stopAnnotation.coordinate.latitude-latitude) < latDelta &&
                fabs(stopAnnotation.coordinate.longitude-longitude) <longDelta )
@@ -483,21 +433,26 @@
 
 @end
 
+
 @implementation R2RFlightPolyline
 
 @end
+
 
 @implementation R2RBusPolyline
 
 @end
 
+
 @implementation R2RTrainPolyline
 
 @end
 
+
 @implementation R2RFerryPolyline
 
 @end
+
 
 @implementation R2RWalkDrivePolyline
 
@@ -519,6 +474,7 @@
 
 @end
 
+
 @implementation R2RBusPolylineView
 
 -(id) initWithPolyline:(MKPolyline *)polyline
@@ -533,6 +489,7 @@
 }
 
 @end
+
 
 @implementation R2RTrainPolylineView
 
@@ -549,6 +506,7 @@
 
 @end
 
+
 @implementation R2RFerryPolylineView
 
 -(id) initWithPolyline:(MKPolyline *)polyline
@@ -563,6 +521,7 @@
 }
 
 @end
+
 
 @implementation R2RWalkDrivePolylineView
 

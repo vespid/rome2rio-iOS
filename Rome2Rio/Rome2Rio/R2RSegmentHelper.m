@@ -93,29 +93,23 @@
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
-        R2RWalkDriveSegment *currentSegment = segment;
+        R2RWalkDriveSegment *currentSegment = (R2RWalkDriveSegment *)segment;
         return currentSegment.sPos;
     }
     else if([segment isKindOfClass:[R2RTransitSegment class]])
     {
-        R2RTransitSegment *currentSegment = segment;
+        R2RTransitSegment *currentSegment = (R2RTransitSegment *)segment;
         return currentSegment.sPos;
     }
     else if([segment isKindOfClass:[R2RFlightSegment class]])
     {
-        R2RFlightSegment *currentSegment = segment;
+        R2RFlightSegment *currentSegment = (R2RFlightSegment *)segment;
         R2RFlightItinerary *itinerary = [currentSegment.itineraries objectAtIndex:0];
         R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
         R2RFlightHop *hop = [leg.hops objectAtIndex:0];
+        R2RAirport *airport = [self.dataStore getAirport:hop.sCode];
         
-        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
-        {
-            if ([airport.code isEqualToString:hop.sCode])
-            {
-                return airport.pos;
-                break;
-            }
-        }
+        return airport.pos;
     }
     
     return nil;
@@ -126,29 +120,23 @@
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
-        R2RWalkDriveSegment *currentSegment = segment;
+        R2RWalkDriveSegment *currentSegment = (R2RWalkDriveSegment *)segment;
         return currentSegment.tPos;
     }
     else if([segment isKindOfClass:[R2RTransitSegment class]])
     {
-        R2RTransitSegment *currentSegment = segment;
+        R2RTransitSegment *currentSegment = (R2RTransitSegment *)segment;
         return currentSegment.tPos;
     }
     else if([segment isKindOfClass:[R2RFlightSegment class]])
     {
-        R2RFlightSegment *currentSegment = segment;
+        R2RFlightSegment *currentSegment = (R2RFlightSegment *)segment;
         R2RFlightItinerary *itinerary = [currentSegment.itineraries objectAtIndex:0];
         R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
         R2RFlightHop *hop = [leg.hops lastObject];
+        R2RAirport *airport = [self.dataStore getAirport:hop.tCode];
         
-        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
-        {
-            if ([airport.code isEqualToString:hop.tCode])
-            {
-                return airport.pos;
-                break;
-            }
-        }
+        return airport.pos;
     }
     
     return nil;
@@ -216,12 +204,16 @@
     {
         return CGRectMake(373, 60, 11, 12);
     }
-
 }
 
 -(R2RSprite *) getSegmentResultSprite:(id)segment
 {
     NSString *kind = [self getSegmentKind:segment];
+    return [self getResultSprite:kind];
+}
+
+-(R2RSprite *) getResultSprite:(NSString *)kind
+{
     CGRect rect = [self getResultIconRect:kind];
     R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6" :rect.origin :rect.size];
     return sprite;
@@ -250,7 +242,7 @@
     return hopCount;
 }
 
--(NSInteger) getTransitChanges:(R2RTransitSegment *)segment
+-(NSInteger) getTransitChangeCount:(R2RTransitSegment *)segment
 {
     NSInteger hopCount = [self getTransitHopCount:segment];
     return (hopCount - 1);//1 less change than hops;
@@ -321,7 +313,7 @@
     return sprite;
 }
 
--(NSInteger)getFlightChanges:(R2RFlightSegment *)segment
+-(NSInteger)getFlightChangeCount:(R2RFlightSegment *)segment
 {
     int hops = 5;
     for (R2RFlightItinerary *itinerary in segment.itineraries)
@@ -337,6 +329,5 @@
     return (hops - 1); // 1 less change than hops
     
 }
-
 
 @end

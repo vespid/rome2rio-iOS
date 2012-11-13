@@ -70,6 +70,4 @@
     return [UIColor blackColor];
 }
 
-
-
 @end

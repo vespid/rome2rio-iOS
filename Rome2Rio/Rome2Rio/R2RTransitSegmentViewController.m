@@ -16,7 +16,7 @@
 #import "R2RTransitSegmentCell.h"
 #import "R2RSegmentHelper.h"
 #import "R2RMapHelper.h"
-#import "R2RMKAnnotation.h"
+#import "R2RStopAnnotation.h"
 #import "R2RHopAnnotation.h"
 
 @interface R2RTransitSegmentViewController ()
@@ -83,8 +83,6 @@
     R2RTransitLeg *transitLeg = [self.legs objectAtIndex:section];
     R2RTransitHop *transitHop = [transitLeg.hops objectAtIndex:0];
     
-    NSString *agencyName = nil;
-
     R2RTransitLine *transitLine = nil;
     if ([transitHop.lines count] > 0)
     {
@@ -102,36 +100,32 @@
     rect = CGRectMake(startX, 9, iconSize.width, iconSize.height);
     [header.agencyIconView setFrame:rect];
     
-    for (R2RAgency *agency in self.dataStore.searchResponse.agencies)
-    {
-        if ([agency.code isEqualToString:transitLine.agency])
-        {
-            agencyName = agency.name;
-            if ([agency.iconPath length] == 0)
-            {
-                //allow for smaller icon
-                iconSize = CGSizeMake(18, 18);
-                iconPadding = 9;
-                startX = 19;
-                rect = CGRectMake(startX, 11, iconSize.width, iconSize.height);
-                
-                [header.agencyIconView setFrame:rect];
-                R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
-                
-                R2RSprite *sprite = [segmentHandler getRouteSprite:transitSegment.kind];
-                [self.dataStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
-            }
-            else
-            {
-                R2RSprite *sprite = [[R2RSprite alloc] initWithPath:agency.iconPath :agency.iconOffset :agency.iconSize];
-                [self.dataStore.spriteStore setSpriteInView:sprite : header.agencyIconView];
-            }
-        }
-    }
+    R2RAgency *agency  = [self.dataStore getAgency:transitLine.agency];
     
+    NSString *agencyName = agency.name;
     if ([agencyName length] == 0)
     {
         agencyName = [R2RStringFormatter capitaliseFirstLetter:transitLine.vehicle];
+    }
+    
+    if ([agency.iconPath length] == 0)
+    {
+        //allow for smaller icon
+        iconSize = CGSizeMake(18, 18);
+        iconPadding = 9;
+        startX = 19;
+        rect = CGRectMake(startX, 11, iconSize.width, iconSize.height);
+        
+        [header.agencyIconView setFrame:rect];
+        R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
+        
+        R2RSprite *sprite = [segmentHandler getRouteSprite:transitSegment.kind];
+        [self.dataStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
+    }
+    else
+    {
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:agency.iconPath :agency.iconOffset :agency.iconSize];
+        [self.dataStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
     }
     
     rect = CGRectMake(startX + iconSize.width + iconPadding, 8, 280-(startX + iconSize.width + iconPadding), 25);
@@ -158,8 +152,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    
     if ([self.transitSegment.itineraries count] == 0) return 0;
     
     R2RTransitLeg *transitLeg = [self.legs objectAtIndex:section];
@@ -289,16 +281,9 @@
     {
         for (R2RTransitHop *transitHop in transitLeg.hops)
         {
-            R2RTransitLine *hopLine = nil;
+            if ([transitHop.lines count] == 0) continue;
             
-            if ([transitHop.lines count] > 0)
-            {
-                hopLine = [transitHop.lines objectAtIndex:0];
-            }
-            else
-            {
-                continue;
-            }
+            R2RTransitLine *hopLine = [transitHop.lines objectAtIndex:0];
             
             if (![hopLine.agency isEqualToString:prevHopLine.agency])
             {
@@ -320,7 +305,6 @@
                 R2RTransitLeg *currentLeg = [self.legs objectAtIndex:count-1];
                 [currentLeg.hops addObject:transitHop];
             }
-            
         }
     }
 }
@@ -367,20 +351,15 @@
 {
     [self.mapView setDelegate:self];
     
-    for (R2RStop *stop in self.route.stops)
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+    
+    NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+    for (R2RStopAnnotation *annotation in stopAnnotations)
     {
-        CLLocationCoordinate2D pos;
-        pos.latitude = stop.pos.lat;
-        pos.longitude = stop.pos.lng;
-        
-        R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
         [self.mapView addAnnotation:annotation];
     }
     
-    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
-    
     NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
-    
     for (R2RHopAnnotation *annotation in hopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
@@ -395,11 +374,11 @@
         }
     }
     
-    MKMapRect zoomRect = [mapHelper getSegmentZoomRect:self.transitSegment];
+    MKMapRect bounds = [mapHelper getSegmentBounds:self.transitSegment];
     
-    MKCoordinateRegion region = MKCoordinateRegionForMapRect(zoomRect);
-    region.span.latitudeDelta *=1.1;
-    region.span.longitudeDelta *=1.1;
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(bounds);
+    region.span.latitudeDelta *= 1.1;
+    region.span.longitudeDelta *= 1.1;
     
     [self.mapView setRegion:region];
 }

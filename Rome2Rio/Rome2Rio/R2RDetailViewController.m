@@ -22,7 +22,7 @@
 #import "R2RStringFormatter.h"
 #import "R2RSegmentHelper.h"
 #import "R2RSprite.h"
-#import "R2RMKAnnotation.h"
+#import "R2RStopAnnotation.h"
 #import "R2RMapHelper.h"
 #import "R2RConstants.h"
 
@@ -213,7 +213,7 @@
 {
     R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
-    NSInteger changes = [segmentHandler getFlightChanges:segment];
+    NSInteger changes = [segmentHandler getFlightChangeCount:segment];
     
     NSString *hopDescription = [R2RStringFormatter formatFlightHopCellDescription:segment.duration :changes];
     [cell.hopLabel setText:hopDescription];
@@ -232,7 +232,7 @@
 {
     R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
-    NSInteger changes = [segmentHandler getTransitChanges:segment];
+    NSInteger changes = [segmentHandler getTransitChangeCount:segment];
     NSString *vehicle = segment.vehicle;
     NSInteger frequency = [segmentHandler getTransitFrequency:segment];
     NSString *hopDescription = [R2RStringFormatter formatTransitHopDescription:segment.duration :changes :frequency :vehicle];
@@ -360,44 +360,28 @@
 {
     [self.mapView setDelegate:self];
     
-    NSMutableArray *stopAnnotations = [[NSMutableArray alloc] init];
-    
-    //TODO move stop annotations to map helper to treat similar to hops
-    for (R2RStop *stop in self.route.stops)
-    {
-        CLLocationCoordinate2D pos;
-        pos.latitude = stop.pos.lat;
-        pos.longitude = stop.pos.lng;
-        
-        R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
-        [self.mapView addAnnotation:annotation];
-        [stopAnnotations addObject:annotation];
-    }
-
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
     
-    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+    NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+    for (R2RStopAnnotation *annotation in stopAnnotations)
+    {
+        [self.mapView addAnnotation:annotation];
+    }
     
+    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
     for (R2RHopAnnotation *annotation in hopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
     }
     
-    MKMapRect zoomRect = MKMapRectNull;
+    MKMapRect bounds = MKMapRectNull;
     for (id segment in self.route.segments)
     {
-        MKMapRect segmentRect = [mapHelper getSegmentZoomRect:segment];
-        if (MKMapRectIsNull(zoomRect))
-        {
-            zoomRect = segmentRect;
-        }
-        else
-        {
-            zoomRect = MKMapRectUnion(zoomRect, segmentRect);
-        }
+        MKMapRect segmentRect = [mapHelper getSegmentBounds:segment];
+        bounds = MKMapRectUnion(bounds, segmentRect);
     }
     
-    MKCoordinateRegion region = MKCoordinateRegionForMapRect(zoomRect);
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(bounds);
     
     if (region.span.longitudeDelta > 180) //if span is too large to fit on map just focus on destination
     {

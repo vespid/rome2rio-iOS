@@ -87,7 +87,7 @@
     {
         [cell setBackgroundColor:[R2RConstants getExpandedCellColor]];
     }
-    else
+    else	
     {
         [cell setBackgroundColor:[R2RConstants getCellColor]];
     }
@@ -263,32 +263,22 @@
     
     if (flightHop.lDuration > 0 && hopNumber > 0) //the layover should always be in the second hop but adding this for safety
     {
-        for (R2RAirport *airport in self.dataStore.searchResponse.airports)
-        {
-            if ([airport.code isEqualToString:flightHop.sCode])
-            {
-                label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
-                [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
-                [label setHidden:NO];
-            }
-        }
+        R2RAirport *airport = [self.dataStore getAirport:flightHop.sCode];
+        
+        label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
+        [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
+        [label setHidden:NO];
         
         label = [cell.layoverDurationLabels objectAtIndex:(hopNumber - 1)];
         [label setText:[R2RStringFormatter formatDurationZeroPadded:flightHop.lDuration]];
         [label setHidden:NO];
     }
     
-    for (R2RAirline *airline in self.dataStore.searchResponse.airlines)
-    {
-        if ([airline.code isEqualToString:flightHop.airline])
-        {
-            UIImageView *imageView =[cell.airlineIcons objectAtIndex:hopNumber];
-            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.dataStore.spriteStore setSpriteInView:sprite :imageView];
-            [imageView setHidden:NO];
-            break;
-        }
-    }
+    R2RAirline *airline = [self.dataStore getAirline:flightHop.airline];
+    UIImageView *imageView =[cell.airlineIcons objectAtIndex:hopNumber];
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+    [self.dataStore.spriteStore setSpriteInView:sprite :imageView];
+    [imageView setHidden:NO];
     
     label = [cell.sAirportLabels objectAtIndex:hopNumber];
     [label setText:flightHop.sCode];
@@ -335,7 +325,7 @@
 {    
     NSIndexPath *prevIndex = self.selectedRowIndex;
 
-    if (self.selectedRowIndex && indexPath.section == self.selectedRowIndex.section && indexPath.row == self.selectedRowIndex.row)
+    if ([self isSelectedRowIndex:indexPath])
     {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         self.selectedRowIndex = nil;
@@ -352,12 +342,11 @@
         [indexPaths addObject:self.selectedRowIndex];
     
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //check if the index actually exists
-    if(self.selectedRowIndex && indexPath.row == self.selectedRowIndex.row && indexPath.section == self.selectedRowIndex.section)
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([self isSelectedRowIndex:indexPath])
     {
         R2RFlightGroup *flightGroup = [self.flightGroups objectAtIndex:indexPath.section];
         R2RFlightItinerary *flightItinerary = [flightGroup.flights objectAtIndex:indexPath.row];
@@ -368,6 +357,13 @@
     return 30;
 }
 
+-(BOOL) isSelectedRowIndex:(NSIndexPath *)indexPath
+{
+    return self.selectedRowIndex &&
+        indexPath.section == self.selectedRowIndex.section &&
+        indexPath.row == self.selectedRowIndex.row;
+}
+
 - (IBAction)returnToSearch:(id)sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -375,7 +371,7 @@
 
 -(void) sortFlightSegment
 {
-    self.flightGroups = [[NSMutableArray alloc] init]; //
+    self.flightGroups = [[NSMutableArray alloc] init];
     
     for (R2RFlightItinerary *itinerary in flightSegment.itineraries)
     {
@@ -383,6 +379,7 @@
         {
             continue;
         }
+        
         R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
         int hops = [leg.hops count];
         if (hops == 0)
@@ -408,7 +405,6 @@
         }
         
         [flightGroup.flights addObject:itinerary];
-        
     }
     
     for (R2RFlightGroup *flightGroup in self.flightGroups)
@@ -429,12 +425,10 @@
             return [hop1.airline compare:hop2.airline];
         }];
     }
-
 }
 
 - (void) showLinkMenu
 {
-
     self.links = [[NSMutableArray alloc] init];
     
     NSIndexPath *indexPath = self.selectedRowIndex;
@@ -454,27 +448,24 @@
     
     for (R2RFlightHop *flightHop in flightLeg.hops)
     {
-        bool airlineFound = NO;
+        BOOL isDuplicateAirline = NO;
         for (R2RAirline *airline in airlines)
         {
             if ([flightHop.airline isEqualToString:airline.code])
             {
-                airlineFound = YES;
+                isDuplicateAirline = YES;
                 break;
             }
         }
-        if (!airlineFound)
+        
+        if (!isDuplicateAirline)
         {
-            for (R2RAirline *airline in self.dataStore.searchResponse.airlines)
-            {
-                if ([flightHop.airline isEqualToString:airline.code])
-                {
-                    [self.linkMenuSheet addButtonWithTitle:airline.name];
-                    [airlines addObject:airline];
-                    [self.links addObject:airline.url];
-                    break;
-                }
-            }
+            R2RAirline *airline = [self.dataStore getAirline:flightHop.airline];
+            
+            [airlines addObject:airline];
+            
+            [self.linkMenuSheet addButtonWithTitle:airline.name];
+            [self.links addObject:airline.url];
         }
     }
     

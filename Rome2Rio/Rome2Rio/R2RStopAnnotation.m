@@ -7,17 +7,19 @@
 //
 
 
-#import "R2RMKAnnotation.h"
+#import "R2RStopAnnotation.h"
 
 
-@implementation R2RMKAnnotation 
+@implementation R2RStopAnnotation 
 
 @synthesize name = _name;
 @synthesize kind = _kind;
 @synthesize coordinate = _coordinate;
 
-- (id)initWithName:(NSString*)name kind:(NSString*)kind coordinate:(CLLocationCoordinate2D)coordinate {
-    if ((self = [super init])) {
+- (id)initWithName:(NSString*)name kind:(NSString*)kind coordinate:(CLLocationCoordinate2D)coordinate
+{
+    if ((self = [super init]))
+    {
         _name = [name copy];
         
         //only display items before the ":"
@@ -29,14 +31,13 @@
     return self;
 }
 
-- (NSString *)title {
-    if ([_name isKindOfClass:[NSNull class]])
-        return @"Unknown charge";
-    else
-        return _name;
+- (NSString *)title
+{
+    return _name;
 }
 
-- (NSString *)subtitle {
+- (NSString *)subtitle
+{
     return _kind;
 }
 

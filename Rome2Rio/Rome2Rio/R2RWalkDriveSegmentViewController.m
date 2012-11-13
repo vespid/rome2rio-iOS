@@ -14,7 +14,7 @@
 #import "R2RWalkDriveSegmentCell.h"
 #import "R2RSegmentHelper.h"
 #import "R2RMapHelper.h"
-#import "R2RMKAnnotation.h"
+#import "R2RStopAnnotation.h"
 #import "R2RHopAnnotation.h"
 
 @interface R2RWalkDriveSegmentViewController ()
@@ -160,20 +160,15 @@
 {
     [self.mapView setDelegate:self];
     
-    for (R2RStop *stop in self.route.stops)
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+    
+    NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+    for (R2RStopAnnotation *annotation in stopAnnotations)
     {
-        CLLocationCoordinate2D pos;
-        pos.latitude = stop.pos.lat;
-        pos.longitude = stop.pos.lng;
-        
-        R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
         [self.mapView addAnnotation:annotation];
     }
     
-    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
-    
     NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
-    
     for (R2RHopAnnotation *annotation in hopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
@@ -188,9 +183,9 @@
         }
     }
     
-    MKMapRect zoomRect = [mapHelper getSegmentZoomRect:self.walkDriveSegment];
+    MKMapRect bounds = [mapHelper getSegmentBounds:self.walkDriveSegment];
     
-    MKCoordinateRegion region = MKCoordinateRegionForMapRect(zoomRect);
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(bounds);
     region.span.latitudeDelta *=1.1;
     region.span.longitudeDelta *=1.1;
     

@@ -37,9 +37,9 @@
 -(R2RPosition *) getSegmentSPos:(id) segment;
 -(R2RPosition *) getSegmentTPos:(id) segment;
 
--(NSInteger) getTransitChanges: (R2RTransitSegment *) segment;
+-(NSInteger) getTransitChangeCount: (R2RTransitSegment *) segment;
 -(float) getTransitFrequency: (R2RTransitSegment *)segment;
 
--(NSInteger) getFlightChanges: (R2RFlightSegment *) segment;
+-(NSInteger) getFlightChangeCount: (R2RFlightSegment *) segment;
 
 @end

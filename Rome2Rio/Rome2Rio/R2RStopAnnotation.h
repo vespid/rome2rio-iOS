@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface R2RMKAnnotation : NSObject <MKAnnotation>
+@interface R2RStopAnnotation : NSObject <MKAnnotation>
 
-@property (copy) NSString *name;
-@property (copy) NSString *kind;
+@property (nonatomic, readonly, copy) NSString *name;
+@property (nonatomic, readonly, copy) NSString *kind;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 - (id)initWithName:(NSString*)name kind:(NSString*)kind coordinate:(CLLocationCoordinate2D)coordinate;

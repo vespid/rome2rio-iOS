@@ -12,6 +12,6 @@
 
 @interface R2RPrintSearch : NSObject
 
--(void) printSearchData:(R2RSearchResponse*) searchData;
+-(void) printSearchData :(R2RSearchResponse*)searchData;
 
 @end

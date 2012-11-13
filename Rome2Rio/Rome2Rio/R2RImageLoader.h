@@ -16,7 +16,6 @@
 @property (strong, nonatomic) NSString *path;
 @property (weak, nonatomic) id<R2RImageLoaderDelegate> delegate;
 
-
 -(id) initWithPath:(NSString *) path;
 -(void) sendAsynchronousRequest;
 

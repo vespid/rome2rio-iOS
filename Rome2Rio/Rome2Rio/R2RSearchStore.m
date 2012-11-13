@@ -66,4 +66,53 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
 }
+
+-(R2RAirport *)getAirport :(NSString *)code
+{
+    R2RAirport *result = nil;
+    
+    for (R2RAirport *airport in self.searchResponse.airports)
+    {
+        if ([airport.code isEqualToString:code])
+        {
+            result = airport;
+            break;
+        }
+    }
+    
+    return result;
+}
+
+-(R2RAirline *)getAirline :(NSString *)code
+{
+    R2RAirline *result = nil;
+    
+    for (R2RAirline *airline in self.searchResponse.airlines)
+    {
+        if ([airline.code isEqualToString:code])
+        {
+            result = airline;
+            break;
+        }
+    }
+    
+    return result;
+}
+
+-(R2RAgency *)getAgency :(NSString *)code
+{
+    R2RAgency *result = nil;
+    
+    for (R2RAgency *agency in self.searchResponse.agencies)
+    {
+        if ([agency.code isEqualToString:code])
+        {
+            result = agency;
+            break;
+        }
+    }
+    
+    return result;
+}
+
 @end

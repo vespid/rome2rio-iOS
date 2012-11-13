@@ -11,7 +11,7 @@
 
 @interface R2RHopAnnotation : NSObject <MKAnnotation>
 
-@property (copy) NSString *name;
+@property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 - (id)initWithName:(NSString*)name coordinate:(CLLocationCoordinate2D)coordinate;

@@ -43,7 +43,7 @@
 		5EA48DB81643969B008A0ADA /* R2RSearchStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48DB71643969B008A0ADA /* R2RSearchStore.m */; };
 		5EA48DBB16439DB9008A0ADA /* R2RSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48DBA16439DB8008A0ADA /* R2RSearchManager.m */; };
 		5EAC705B162B8BA300BE8378 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EAC705A162B8BA300BE8378 /* MapKit.framework */; };
-		5EAC705F162B906200BE8378 /* R2RMKAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */; };
+		5EAC705F162B906200BE8378 /* R2RStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC705E162B906200BE8378 /* R2RStopAnnotation.m */; };
 		5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */; };
 		5EAC7147162D0A2E00BE8378 /* R2RSpriteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */; };
 		5EC20327164B3FC300B1F45A /* R2RExpandedFlightSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC20326164B3FC200B1F45A /* R2RExpandedFlightSegmentCell.m */; };
@@ -159,8 +159,8 @@
 		5EA48DB916439DB7008A0ADA /* R2RSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearchManager.h; sourceTree = "<group>"; };
 		5EA48DBA16439DB8008A0ADA /* R2RSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchManager.m; sourceTree = "<group>"; };
 		5EAC705A162B8BA300BE8378 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		5EAC705D162B906200BE8378 /* R2RMKAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RMKAnnotation.h; sourceTree = "<group>"; };
-		5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMKAnnotation.m; sourceTree = "<group>"; };
+		5EAC705D162B906200BE8378 /* R2RStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RStopAnnotation.h; sourceTree = "<group>"; };
+		5EAC705E162B906200BE8378 /* R2RStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RStopAnnotation.m; sourceTree = "<group>"; };
 		5EAC713F162BD42F00BE8378 /* R2RImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RImageLoader.h; sourceTree = "<group>"; };
 		5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RImageLoader.m; sourceTree = "<group>"; };
 		5EAC7145162D0A2D00BE8378 /* R2RSpriteStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSpriteStore.h; sourceTree = "<group>"; };
@@ -463,8 +463,8 @@
 				5E1E21D31627C64F00763152 /* R2RLog.h */,
 				5E5AA3D4162E89D800055720 /* R2RMapHelper.h */,
 				5E5AA3D5162E89D900055720 /* R2RMapHelper.m */,
-				5EAC705D162B906200BE8378 /* R2RMKAnnotation.h */,
-				5EAC705E162B906200BE8378 /* R2RMKAnnotation.m */,
+				5EAC705D162B906200BE8378 /* R2RStopAnnotation.h */,
+				5EAC705E162B906200BE8378 /* R2RStopAnnotation.m */,
 				5E5AA3D9162F854A00055720 /* R2RPathEncoder.h */,
 				5E5AA3DA162F854A00055720 /* R2RPathEncoder.m */,
 				5ED4B3921601D07000E9FE42 /* R2RPrintSearch.h */,
@@ -643,7 +643,7 @@
 				5EDEDCBC161E79960005CADD /* R2RAgency.m in Sources */,
 				5EDEDCBF161E7A200005CADD /* R2RTransitLine.m in Sources */,
 				5E1BE0211623D493002F7CBB /* R2RFlightGroup.m in Sources */,
-				5EAC705F162B906200BE8378 /* R2RMKAnnotation.m in Sources */,
+				5EAC705F162B906200BE8378 /* R2RStopAnnotation.m in Sources */,
 				5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */,
 				5EAC7147162D0A2E00BE8378 /* R2RSpriteStore.m in Sources */,
 				5E5AA3C5162E2E8F00055720 /* R2RDuration.m in Sources */,

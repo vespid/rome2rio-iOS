@@ -11,8 +11,8 @@
 
 @interface R2RPathEncoder : NSObject
 
-+ (NSString *)encode:(R2RPath *)path;
-+ (R2RPath *)decode:(NSString *)data;
-+ (R2RPath *)decode:(NSString *)data:(R2RPath *)path;
++ (NSString *)encode :(R2RPath *)path;
++ (R2RPath *)decode :(NSString *)data;
++ (R2RPath *)decode :(NSString *)data :(R2RPath *)path;
 
 @end

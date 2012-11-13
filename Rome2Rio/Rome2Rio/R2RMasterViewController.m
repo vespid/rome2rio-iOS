@@ -25,14 +25,6 @@
 
 - (IBAction)searchTouchUpInside:(id)sender;
 
-enum R2RState
-{
-    IDLE = 0,
-    RESOLVING_FROM,
-    RESOLVING_TO,
-    SEARCHING,
-} ;
-
 @end
 
 @implementation R2RMasterViewController

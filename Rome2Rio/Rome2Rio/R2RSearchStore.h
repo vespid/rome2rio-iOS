@@ -24,4 +24,8 @@
 @property (strong, nonatomic) NSString *statusMessage;
 @property (strong, nonatomic) NSString *searchMessage;
 
+-(R2RAirport *)getAirport :(NSString *)code;
+-(R2RAirline *)getAirline :(NSString *)code;
+-(R2RAgency *)getAgency :(NSString *)code;
+
 @end
