@@ -173,7 +173,6 @@ typedef enum
         
         self.state = r2rSearchManagerStateIdle;
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
     }
 }
 
@@ -276,7 +275,6 @@ typedef enum
         
         [self setFromPlace:place];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
     }
     else if (manager == self.toLocationManager)
     {
@@ -291,7 +289,6 @@ typedef enum
         
         [self setToPlace:place];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
     }
 }
 

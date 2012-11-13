@@ -31,6 +31,7 @@
     [self setStatusMessage:nil];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFromTextField" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
 }
 
 -(void)setToPlace:(R2RPlace *)toPlace
@@ -42,6 +43,7 @@
     [self setStatusMessage:nil];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshToTextField" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTitle" object:nil];
 }
 
 -(void) setStatusMessage:(NSString *)statusMessage
@@ -58,4 +60,10 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSearchMessage" object:nil];
 }
 
+-(void) setSearchResponse:(R2RSearchResponse *)searchResponse
+{
+    _searchResponse = searchResponse;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshResults" object:nil];
+}
 @end
