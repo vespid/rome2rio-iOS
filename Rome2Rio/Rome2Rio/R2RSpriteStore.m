@@ -67,7 +67,7 @@
     if (image)
     {
         [button setImage:[sprite getSprite:image] forState:UIControlStateNormal];
-         return;
+        return;
     }
 
     [self enqueueSpriteView:sprite:button];

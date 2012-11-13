@@ -14,8 +14,8 @@
 @property (nonatomic) CGSize size;
 @property (strong, nonatomic) NSString *path;
 
--(id) initWithPath:(NSString *) path :(CGPoint)offset :(CGSize)size;
+-(id) initWithPath :(NSString *)path :(CGPoint)offset :(CGSize)size;
 
--(UIImage *) getSprite:(UIImage *) image;
+-(UIImage *) getSprite :(UIImage *)image;
 
 @end

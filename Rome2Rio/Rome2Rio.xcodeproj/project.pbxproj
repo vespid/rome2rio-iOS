@@ -27,6 +27,7 @@
 		5E639E71164CBA3C00A18C20 /* R2RHopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639E70164CBA3C00A18C20 /* R2RHopAnnotation.m */; };
 		5E639E7416507D4C00A18C20 /* R2RSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639E7316507D4A00A18C20 /* R2RSpriteView.m */; };
 		5E639EA01650BE0D00A18C20 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E639E9F1650BE0D00A18C20 /* Localizable.strings */; };
+		5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */; };
 		5E8DB41C160C00FE00756321 /* sprites6.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E8DB41B160C00FE00756321 /* sprites6.png */; };
 		5E8DB4E2161043AF00756321 /* ConnectionLines.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E8DB4E1161043AF00756321 /* ConnectionLines.png */; };
 		5E8DB4E516129D7500756321 /* R2RSegmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4E416129D7400756321 /* R2RSegmentHelper.m */; };
@@ -131,6 +132,8 @@
 		5E639E7316507D4A00A18C20 /* R2RSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteView.m; sourceTree = "<group>"; };
 		5E639E9F1650BE0D00A18C20 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		5E639EA21650C53200A18C20 /* R2RCompletionState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = R2RCompletionState.h; sourceTree = "<group>"; };
+		5E639EA416521B7400A18C20 /* R2RSpriteCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSpriteCache.h; sourceTree = "<group>"; };
+		5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteCache.m; sourceTree = "<group>"; };
 		5E8DB41B160C00FE00756321 /* sprites6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprites6.png; sourceTree = "<group>"; };
 		5E8DB4E1161043AF00756321 /* ConnectionLines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ConnectionLines.png; sourceTree = "<group>"; };
 		5E8DB4E316129D7400756321 /* R2RSegmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSegmentHelper.h; sourceTree = "<group>"; };
@@ -477,6 +480,8 @@
 				5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */,
 				5ED5C8D8160B012A004CFDC8 /* R2RStringFormatter.h */,
 				5ED5C8D9160B012A004CFDC8 /* R2RStringFormatter.m */,
+				5E639EA416521B7400A18C20 /* R2RSpriteCache.h */,
+				5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -665,6 +670,7 @@
 				5EC20327164B3FC300B1F45A /* R2RExpandedFlightSegmentCell.m in Sources */,
 				5E639E71164CBA3C00A18C20 /* R2RHopAnnotation.m in Sources */,
 				5E639E7416507D4C00A18C20 /* R2RSpriteView.m in Sources */,
+				5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

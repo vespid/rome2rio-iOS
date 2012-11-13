@@ -8,6 +8,13 @@
 
 #import "R2RSprite.h"
 
+@interface R2RSprite ()
+
+@property (strong, nonatomic) UIImage *sprite;
+
+@end
+
+
 @implementation R2RSprite
 
 @synthesize path = _path;
@@ -23,20 +30,24 @@
         self.offset = offset;
         self.size = size;
     }
+    
     return self;
 }
 
 -(UIImage *) getSprite:(UIImage *)image
 {
-    CGRect rect = CGRectMake(self.offset.x, self.offset.y, self.size.width, self.size.height);
+    if (self.sprite == nil)
+    {
+        CGRect rect = CGRectMake(self.offset.x, self.offset.y, self.size.width, self.size.height);
+        
+        CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
+        
+        self.sprite = [UIImage imageWithCGImage:imageRef];
+        
+        CGImageRelease(imageRef);
+    }
     
-    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
-    
-    UIImage *sprite = [UIImage imageWithCGImage:imageRef];
-    
-    CGImageRelease(imageRef);
-    
-    return sprite;
+    return self.sprite;
 }
 
 @end

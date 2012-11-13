@@ -12,13 +12,17 @@
 #import "R2RFlightSegmentSectionHeader.h"
 #import "R2RFlightGroup.h"
 
+#import "R2RSpriteCache.h"
 #import "R2RStringFormatter.h"
 #import "R2RConstants.h"
 
+
 @interface R2RFlightSegmentViewController ()
 
+@property (strong, nonatomic) R2RSpriteCache *spriteCache;
 @property (strong, nonatomic) NSMutableArray *flightGroups;
 @property (strong, nonatomic) NSIndexPath *selectedRowIndex; //current selected row. used for unselecting cell on second click
+
 @property (strong, nonatomic) UIActionSheet *linkMenuSheet;
 @property (strong, nonatomic) NSMutableArray *links;
 
@@ -35,12 +39,15 @@
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     self.navigationItem.title = @"Fly";
+    self.spriteCache = [[R2RSpriteCache alloc] init];
     
     [self.tableView setSectionHeaderHeight:55];
 }
 
 - (void)viewDidUnload
 {
+    self.spriteCache = nil;
+    
     [super viewDidUnload];
 }
 
@@ -120,16 +127,6 @@
     [self configureFlightSegmentCell:cell :flightLeg];
     
     return cell;
-
-    
-    // Configure the cell...
- 
-//    if (cell.flightLeg == flightLeg) return cell;
-//    
-//    cell.flightLeg = flightLeg;
-//    if (flightLeg == nil) return cell;
-    
-    
 }
 
 -(void) configureFlightSegmentCell: (R2RFlightSegmentCell *) cell: (R2RFlightLeg *) flightLeg
@@ -174,17 +171,16 @@
     {
         if ([airline.code isEqualToString:firstAirlineCode])
         {
-            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+            R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
             [self.dataStore.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
         }
         if ([airline.code isEqualToString:secondAirlineCode])
         {
-            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:airline.iconPath :airline.iconOffset :airline.iconSize];
+            R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
             [self.dataStore.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
         }
     }
 }
-
 
 -(void) configureExpandedFlightSegmentCell: (R2RExpandedFlightSegmentCell *) cell: (R2RFlightLeg *) flightLeg
 {
@@ -354,6 +350,7 @@
         NSInteger hops = [flightLeg.hops count];
         return (115+(50*(hops-1)));
     }
+    
     return 30;
 }
 
