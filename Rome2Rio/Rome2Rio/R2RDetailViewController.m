@@ -363,18 +363,22 @@
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
     
     NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+    
+    hopAnnotations = [mapHelper filterHopAnnotations:hopAnnotations stopAnnotations:stopAnnotations regionSpan:self.mapView.region.span];
+    
     for (R2RStopAnnotation *annotation in stopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
     }
     
-    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
     for (R2RHopAnnotation *annotation in hopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
     }
     
     MKMapRect bounds = MKMapRectNull;
+    
     for (id segment in self.route.segments)
     {
         MKMapRect segmentRect = [mapHelper getSegmentBounds:segment];
@@ -389,7 +393,6 @@
         region.center.latitude = lastStop.pos.lat;
         region.center.longitude = lastStop.pos.lng;
         region.span.longitudeDelta = 180.0f;
-        
     }
     else
     {
@@ -409,8 +412,6 @@
             [self.mapView addOverlay:path];
         }
     }
-    
-//    [mapHelper filterAnnotations:stopAnnotations :hopAnnotations :self.mapView];
 }
 
 #pragma mark MKMapViewDelegate
@@ -428,30 +429,38 @@
     return [mapHelper getAnnotationView:mapView :annotation];
 }
 
-//-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
-//{
-//    if (self.zoomLevel!=mapView.region.span.longitudeDelta)
-//    {
-//        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
-//        
-//        //make a [mapHelper getStopAnnotations];
-//        NSMutableArray *stopAnnotations = [[NSMutableArray alloc] init];
-//        for (R2RStop *stop in self.route.stops)
-//        {
-//            CLLocationCoordinate2D pos;
-//            pos.latitude = stop.pos.lat;
-//            pos.longitude = stop.pos.lng;
-//            R2RMKAnnotation *annotation = [[R2RMKAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:pos];
-//            [stopAnnotations addObject:annotation];
-//        }
-//        
-//        NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
-//        
-//        [mapHelper filterAnnotations:stopAnnotations :hopAnnotations :self.mapView];
-//        
-//        self.zoomLevel=mapView.region.span.longitudeDelta;
-//    }
-//}
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    if (self.zoomLevel!=mapView.region.span.longitudeDelta)
+    {
+        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+        
+        NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+        NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+        
+        hopAnnotations = [mapHelper filterHopAnnotations:hopAnnotations stopAnnotations:stopAnnotations regionSpan:self.mapView.region.span];
+        
+        //just get existing hopAnnotations
+        NSMutableArray *existingHopAnnotations = [[NSMutableArray alloc] init];
+        
+        
+        for (id annotation in mapView.annotations)
+        {
+            if ([annotation isKindOfClass:[R2RHopAnnotation class]])
+            {
+                [existingHopAnnotations addObject:annotation];
+            }
+        }
+        
+        NSArray *annotationsToAdd = [mapHelper removeAnnotations:hopAnnotations :existingHopAnnotations];
+        [self.mapView addAnnotations:annotationsToAdd];
+        
+        NSArray *annotationsToRemove = [mapHelper removeAnnotations:existingHopAnnotations :hopAnnotations];
+        [self.mapView removeAnnotations:annotationsToRemove];
+            
+        self.zoomLevel=mapView.region.span.longitudeDelta;
+    }
+}
 
 
 @end

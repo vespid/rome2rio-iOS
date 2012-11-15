@@ -22,6 +22,7 @@
 @interface R2RTransitSegmentViewController ()
 
 @property (strong, nonatomic) NSMutableArray *legs;
+@property CLLocationDegrees zoomLevel;
 
 @end
 
@@ -354,12 +355,15 @@
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
     
     NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+    
+    hopAnnotations = [mapHelper filterHopAnnotations:hopAnnotations stopAnnotations:stopAnnotations regionSpan:self.mapView.region.span];
+    
     for (R2RStopAnnotation *annotation in stopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
     }
     
-    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
     for (R2RHopAnnotation *annotation in hopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
@@ -380,6 +384,8 @@
     region.span.latitudeDelta *= 1.1;
     region.span.longitudeDelta *= 1.1;
     
+    self.zoomLevel = region.span.longitudeDelta;
+
     [self.mapView setRegion:region];
 }
 
@@ -398,6 +404,38 @@
     return [mapHelper getAnnotationView:mapView :annotation];
 }
 
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    if (self.zoomLevel!=mapView.region.span.longitudeDelta)
+    {
+        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+        
+        NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+        NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+        
+        hopAnnotations = [mapHelper filterHopAnnotations:hopAnnotations stopAnnotations:stopAnnotations regionSpan:self.mapView.region.span];
+        
+        //just get existing hopAnnotations
+        NSMutableArray *existingHopAnnotations = [[NSMutableArray alloc] init];
+        
+        
+        for (id annotation in mapView.annotations)
+        {
+            if ([annotation isKindOfClass:[R2RHopAnnotation class]])
+            {
+                [existingHopAnnotations addObject:annotation];
+            }
+        }
+        
+        NSArray *annotationsToAdd = [mapHelper removeAnnotations:hopAnnotations :existingHopAnnotations];
+        [self.mapView addAnnotations:annotationsToAdd];
+        
+        NSArray *annotationsToRemove = [mapHelper removeAnnotations:existingHopAnnotations :hopAnnotations];
+        [self.mapView removeAnnotations:annotationsToRemove];
+        
+        self.zoomLevel=mapView.region.span.longitudeDelta;
+    }
+}
 
 - (IBAction)returnToSearch:(id)sender
 {

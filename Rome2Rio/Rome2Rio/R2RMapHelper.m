@@ -350,16 +350,10 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     {
         for (R2RTransitHop *hop in leg.hops)
         {
-            BOOL isLastLeg = (leg == [itinerary.legs lastObject]);
-            BOOL isLastHop = (hop == [leg.hops lastObject]);
+            CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(hop.sPos.lat, hop.sPos.lng);
+            R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:hop.sName coordinate:coord];
             
-            if (!isLastLeg && !isLastHop)
-            {
-                CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(hop.tPos.lat, hop.tPos.lng);
-                R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:hop.tName coordinate:coord];
-                
-                [hopAnnotations addObject:annotation];
-            }
+            [hopAnnotations addObject:annotation];
         }
     }
 }
@@ -371,64 +365,83 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     
     for (R2RFlightHop *hop in leg.hops)
     {
-        BOOL isLastHop = (hop == [leg.hops lastObject]);
+        R2RAirport *airport = [self.dataStore getAirport:hop.sCode];
+        if (airport == nil) continue;
         
-        if (!isLastHop)
-        {
-            R2RAirport *airport = [self.dataStore getAirport:hop.tCode];
-            if (airport == nil) continue;
-            
-            CLLocationCoordinate2D pos = CLLocationCoordinate2DMake(airport.pos.lat, airport.pos.lng);
-            R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:airport.name coordinate:pos];
-            
-            [hopAnnotations addObject:annotation];
-        }
+        CLLocationCoordinate2D pos = CLLocationCoordinate2DMake(airport.pos.lat, airport.pos.lng);
+        R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:airport.name coordinate:pos];
+        
+        [hopAnnotations addObject:annotation];
     }
 }
 
--(void)filterAnnotations:(NSArray *)stops:(NSArray *)hops:(MKMapView *) mapView
+-(NSArray *)filterHopAnnotations :(NSArray *)hopAnnotations stopAnnotations:(NSArray *)stopAnnotations regionSpan:(MKCoordinateSpan) span
 {
-    NSArray *placesToFilter = hops;
+    float latDelta=span.latitudeDelta/20.0;
+    float longDelta=span.longitudeDelta/20.0;
     
-    float latDelta=mapView.region.span.latitudeDelta/20.0;
-    float longDelta=mapView.region.span.longitudeDelta/20.0;
+    NSMutableArray *hopsToShow=[[NSMutableArray alloc] initWithCapacity:0];
     
-    NSMutableArray *placesToShow=[[NSMutableArray alloc] initWithCapacity:0];
-    
-    for (int i=0; i<[placesToFilter count]; i++)
+    for (NSInteger i = 0; i < [hopAnnotations count]; i++)
     {
-        R2RHopAnnotation *checkingLocation=[placesToFilter objectAtIndex:i];
+        R2RHopAnnotation *checkingLocation=[hopAnnotations objectAtIndex:i];
         CLLocationDegrees latitude = checkingLocation.coordinate.latitude;
         CLLocationDegrees longitude = checkingLocation.coordinate.longitude;
         
         bool found=FALSE;
         
-        for (R2RStopAnnotation *stopAnnotation in stops)
+        for (R2RStopAnnotation *stopAnnotation in stopAnnotations)
         {
             if(fabs(stopAnnotation.coordinate.latitude-latitude) < latDelta &&
                fabs(stopAnnotation.coordinate.longitude-longitude) <longDelta )
             {
-                [mapView removeAnnotation:checkingLocation];
                 found=TRUE;
                 break;
             }
         }
-        for (R2RHopAnnotation *hopAnnotation in placesToShow)
+        for (R2RHopAnnotation *hopAnnotation in hopsToShow)
         {
             if(fabs(hopAnnotation.coordinate.latitude-latitude) < latDelta &&
                fabs(hopAnnotation.coordinate.longitude-longitude) <longDelta )
             {
-                [mapView removeAnnotation:checkingLocation];
                 found=TRUE;
                 break;
             }
         }
         if (!found)
         {
-            [placesToShow addObject:checkingLocation];
-            [mapView addAnnotation:checkingLocation];
+            [hopsToShow addObject:checkingLocation];
+        }
+        
+    }
+    
+    return hopsToShow;
+}
+
+-(NSArray *) removeAnnotations :(NSArray *) firstArray :(NSArray *) secondArray
+{
+    NSMutableArray *result = [NSMutableArray arrayWithArray:firstArray];
+   
+    for (NSInteger i = [firstArray count] - 1; i >= 0; i--)
+    {
+        for (NSInteger j = [secondArray count] - 1; j >= 0; j--)
+        {
+            if ([self areHopAnnotationsEquivalent:[firstArray objectAtIndex:i] :[secondArray objectAtIndex:j]])
+            {
+                [result removeObjectAtIndex:i];
+                break;
+            }
         }
     }
+    
+    return result;
+}
+
+-(BOOL) areHopAnnotationsEquivalent :(R2RHopAnnotation *) first :(R2RHopAnnotation *) second
+{
+    return ([first.name isEqualToString:second.name] &&
+            first.coordinate.latitude == second.coordinate.latitude &&
+            first.coordinate.longitude == second.coordinate.longitude);
 }
 
 @end
@@ -465,15 +478,14 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
 {
     self = [super initWithPolyline:polyline];
     if (self)
-    {
+    { 
         self.strokeColor = [R2RConstants getFlightLineColor];
-        self.lineWidth = 4;
+        self.lineWidth = 5;
     }
     return self;
 }
 
 @end
-
 
 @implementation R2RBusPolylineView
 
@@ -483,7 +495,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     {
         self.strokeColor = [R2RConstants getBusLineColor];
-        self.lineWidth = 4;
+        self.lineWidth = 5;
     }
     return self;
 }
@@ -499,7 +511,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     {
         self.strokeColor = [R2RConstants getTrainLineColor];
-        self.lineWidth = 4;
+        self.lineWidth = 5;
     }
     return self;
 }
@@ -515,7 +527,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     {
         self.strokeColor = [R2RConstants getFerryLineColor];
-        self.lineWidth = 4;
+        self.lineWidth = 5;
     }
     return self;
 }
@@ -531,7 +543,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     {
         self.strokeColor = [R2RConstants getWalkDriveLineColor];
-        self.lineWidth = 4;
+        self.lineWidth = 5;
     }
     return self;
 }

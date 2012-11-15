@@ -22,12 +22,15 @@
 
 -(MKMapRect) getSegmentBounds: (id) segment;
 
--(NSArray *)getRouteStopAnnotations:(R2RRoute *)route;
--(NSArray *)getRouteHopAnnotations:(R2RRoute *)route;
+-(NSArray *) getRouteStopAnnotations :(R2RRoute *)route;
+-(NSArray *) getRouteHopAnnotations :(R2RRoute *)route;
 
 -(id)getAnnotationView :(MKMapView *)mapView :(id<MKAnnotation>)annotation;
 
--(void)filterAnnotations :(NSArray *)stops :(NSArray *)hops :(MKMapView *)mapView;
+//-(void)filterAnnotations:(NSArray *)stops:(NSArray *)hops: (MKMapView *) mapView;
+
+-(NSArray *)filterHopAnnotations :(NSArray *)hopAnnotations stopAnnotations:(NSArray *)stopAnnotations regionSpan:(MKCoordinateSpan) span;
+-(NSArray *) removeAnnotations :(NSArray *) firstArray :(NSArray *) secondArray;
 
 @end
 

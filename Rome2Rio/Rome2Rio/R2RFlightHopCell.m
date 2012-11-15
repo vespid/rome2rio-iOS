@@ -38,7 +38,6 @@
     self.connectBottom = [[UIImageView alloc] initWithFrame:CGRectMake(23, self.contentView.frame.size.height/2, 6, self.contentView.frame.size.height/2)];
     [self.contentView addSubview:connectBottom];
     
-    R2RLog(@"%f", self.contentView.frame.size.height);
     self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(17, self.contentView.frame.size.height/2-9, 18, 18)];
     [self.contentView addSubview:icon];
 }

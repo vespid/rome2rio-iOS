@@ -78,7 +78,7 @@
     [self.durationLabel setTextAlignment:UITextAlignmentLeft];
     [self.durationLabel setMinimumFontSize:10.0];
     [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.distanceLabel setBackgroundColor:[UIColor clearColor]];
+    [self.durationLabel setBackgroundColor:[UIColor clearColor]];
     [self.durationLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.durationLabel];
 }
