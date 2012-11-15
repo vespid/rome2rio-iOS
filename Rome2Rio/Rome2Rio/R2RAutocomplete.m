@@ -165,10 +165,10 @@
         }
         else
         {
-            R2RLog(@"Error");
+            R2RLog(@"Error\t%@", connection.error.localizedDescription);
             
             self.responseCompletionState = r2rCompletionStateError;
-            self.responseMessage = @"Unable to find location";
+            self.responseMessage = connection.error.localizedDescription;
             
             [[self delegate] autocompleteResolved:self];
         }
@@ -249,6 +249,7 @@
                  place.lng = placemark.region.center.longitude;
              
                  [self.geocodeResponse.places addObject:place];
+                 R2RLog(@"%@", place.longName);
              }
              
              self.responseMessage = @"";
@@ -258,9 +259,22 @@
          }
          else
          {
-             R2RLog(@"Autocomplete: Geocode fallback: Unable to find location");
+             R2RLog(@"error code %d", error.code);
+             switch (error.code)
+             {
+                 case kCLErrorDenied:
+                     self.responseMessage = @"Location services are off";
+                     break;
+                     
+                 case kCLErrorNetwork:
+                     self.responseMessage = @"Internet appears to be offline";
+                     break;
+                     
+                 default:
+                     self.responseMessage = @"Unable to find location";
+                     break;
+             }
              
-             self.responseMessage = @"Unable to find location";
              self.responseCompletionState = r2rCompletionStateLocationNotFound;
              
              [[self delegate] autocompleteResolved:self];

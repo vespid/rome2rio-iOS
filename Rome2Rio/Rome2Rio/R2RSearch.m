@@ -766,8 +766,10 @@
     }
     else
     {
+        R2RLog(@"Error\t%@", connection.error.localizedDescription);
+        
         self.responseCompletionState = r2rCompletionStateError;
-        self.responseMessage = @"Unable to find location";
+        self.responseMessage = connection.error.localizedDescription;
         
         [[self delegate] searchDidFinish:self];
     }

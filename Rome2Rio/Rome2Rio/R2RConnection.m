@@ -16,7 +16,7 @@
 
 @implementation R2RConnection
 
-@synthesize responseData, responseStatus, connection, delegate, connectionString;
+@synthesize responseData, responseStatus, connection, delegate, connectionString, error = _error;
 
 -(id) initWithConnectionUrl:(NSURL *)connectionUrl delegate:(id<R2RConnectionDelegate>)r2rConnectionDelegate
 {
@@ -54,6 +54,8 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    self.error = error;
+//    R2RLog(@"%@", error);
     [[self delegate] connectionError:self];
 }
 

@@ -194,7 +194,7 @@ typedef enum
 
 -(void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    R2RLog(@"locationManager fail");
+    R2RLog(@"locationManager fail\t%@", error);
     
     [manager stopUpdatingLocation];
     
@@ -217,19 +217,34 @@ typedef enum
     {
         [self setStatusMessage:@"Location services are off"];
     }
-    else if (error.code == kCLErrorDenied)
+    else
     {
-        [self setStatusMessage:@"Location services are off"];
+        switch (error.code)
+        {
+            case kCLErrorDenied:
+                [self setStatusMessage:@"Location services are off"];
+                break;
+                
+            case kCLErrorNetwork:
+                [self setStatusMessage:@"Internet appears to be offline"];
+                break;
+                
+            default:
+                [self setStatusMessage:@"Unable to find location"];
+                break;
+        }
     }
-    else // TODO: Better error messages
-    {
-        [self setStatusMessage:@"Unable to find location"];
-    }
+    // TODO: Better error messages
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    [manager stopUpdatingLocation];
+    if (newLocation.horizontalAccuracy <= manager.desiredAccuracy)
+    {
+        [manager stopUpdatingLocation];
+    }
+    
+    R2RLog(@"%f\t%f\t%f\t%f\t%f\t", manager.desiredAccuracy, newLocation.horizontalAccuracy, newLocation.verticalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error)
@@ -244,7 +259,21 @@ typedef enum
         {
             if (manager == self.fromLocationManager || manager == self.toLocationManager)
             {
-                [self setStatusMessage:@"Unable to find current location"];
+                R2RLog(@"error code %d", error.code);
+                switch (error.code)
+                {
+                    case kCLErrorDenied:
+                        [self setStatusMessage:@"Location services are off"];
+                        break;
+                        
+                    case kCLErrorNetwork:
+                        [self setStatusMessage:@"Internet appears to be offline"];
+                        break;
+                        
+                    default:
+                        [self setStatusMessage:@"Unable to find location"];
+                        break;
+                }
             }
 
         }
@@ -256,6 +285,7 @@ typedef enum
     R2RPlace *place = [[R2RPlace alloc] init];
     
     NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
+    R2RLog(@"%@", longName);
     place.longName = longName;
     place.shortName = placemark.name;
     place.lat = location.coordinate.latitude;
