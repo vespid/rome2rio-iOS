@@ -137,13 +137,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self setText:self.searchBar.text];
     if (indexPath.row == [self.places count])
     {
         [self currentLocationClicked];
     }
     else
     {
-        [self setText:self.searchBar.text];
         [self placeClicked:[self.places objectAtIndex:indexPath.row]];
     }
 }
