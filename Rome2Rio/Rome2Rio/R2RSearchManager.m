@@ -60,6 +60,7 @@ typedef enum
     [self setFromPlace:nil];
     
     self.fromWantsCurrentLocation = YES;
+    [self setStatusMessage:@"Finding Current Location"];
     
     [self startLocationManager];
 }
@@ -69,6 +70,7 @@ typedef enum
     [self setToPlace:nil];
     
     self.toWantsCurrentLocation = YES;
+    [self setStatusMessage:@"Finding Current Location"];
     
     [self startLocationManager];
 }
@@ -166,6 +168,10 @@ typedef enum
     //return if already resolving
     if (self.isLocationManagerResolving) return;
 
+    R2RLog(@"locationManager started");
+
+    self.bestLocation = nil;
+    
     self.locationManager = [[CLLocationManager alloc] init];
     
     self.locationManager.delegate = self;

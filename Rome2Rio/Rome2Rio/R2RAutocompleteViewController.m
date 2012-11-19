@@ -25,7 +25,7 @@
 
 @implementation R2RAutocompleteViewController
 
-@synthesize dataManager, fieldName;
+@synthesize searchManager, fieldName;
 
 - (void)viewDidLoad
 {
@@ -61,13 +61,13 @@
     self.fallbackToCLGeocoder = NO;
     if ([self.fieldName isEqualToString:@"from"])
     {
-        [self.searchBar setText:self.dataManager.fromText];
-        [self startAutocomplete:self.dataManager.fromText];
+        [self.searchBar setText:self.searchManager.fromText];
+        [self startAutocomplete:self.searchManager.fromText];
     }
     if ([self.fieldName isEqualToString:@"to"])
     {
-        [self.searchBar setText:self.dataManager.toText];
-        [self startAutocomplete:self.dataManager.toText];
+        [self.searchBar setText:self.searchManager.toText];
+        [self startAutocomplete:self.searchManager.toText];
     }
     
     [self.searchBar becomeFirstResponder];
@@ -153,9 +153,9 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self startAutocomplete:searchText];
-    if (![self.dataManager.dataStore.statusMessage isEqualToString:@"Searching"])
+    if (![self.searchManager.dataStore.statusMessage isEqualToString:@"Searching"])
     {
-        [self.dataManager setStatusMessage:@""];
+        [self.searchManager setStatusMessage:@""];
     }
 }
 
@@ -192,11 +192,11 @@
 {
     if ([self.fieldName isEqualToString:@"from"])
     {
-        self.dataManager.fromText = searchText;
+        self.searchManager.fromText = searchText;
     }
     if ([self.fieldName isEqualToString:@"to"])
     {
-        self.dataManager.toText = searchText;
+        self.searchManager.toText = searchText;
     }
 
 }
@@ -221,7 +221,7 @@
     {
         if (self.autocomplete.responseCompletionState != r2rCompletionStateResolved && self.autocomplete.responseCompletionState != r2rCompletionStateError && self.autocomplete.responseCompletionState != r2rCompletionStateLocationNotFound)
         {
-            [self.dataManager setStatusMessage:@"Searching"];
+            [self.searchManager setStatusMessage:@"Searching"];
         }
     }
 }
@@ -230,11 +230,11 @@
 {
     if ([self.fieldName isEqualToString:@"from"])
     {
-        [self.dataManager setFromWithCurrentLocation];
+        [self.searchManager setFromWithCurrentLocation];
     }
     if ([self.fieldName isEqualToString:@"to"])
     {
-        [self.dataManager setToWithCurrentLocation];
+        [self.searchManager setToWithCurrentLocation];
     }
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -243,11 +243,11 @@
 {
     if ([self.fieldName isEqualToString:@"from"])
     {
-        [self.dataManager setFromPlace:place];
+        [self.searchManager setFromPlace:place];
     }
     if ([self.fieldName isEqualToString:@"to"])
     {
-        [self.dataManager setToPlace:place];
+        [self.searchManager setToPlace:place];
     }
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -272,7 +272,7 @@
         {
             if ([autocomplete.geocodeResponse.places count] > 0)
             {
-                [self.dataManager setStatusMessage:@""];
+                [self.searchManager setStatusMessage:@""];
                 self.places = self.autocomplete.geocodeResponse.places;
                 [self.tableView reloadData];
             }
@@ -287,7 +287,7 @@
         }
         else if (autocomplete.responseCompletionState == r2rCompletionStateLocationNotFound) //state only returned from geocodeFallback
         {
-            [self.dataManager setStatusMessage:autocomplete.responseMessage];
+            [self.searchManager setStatusMessage:autocomplete.responseMessage];
             self.places = self.autocomplete.geocodeResponse.places;
             [self.tableView reloadData];
         }
@@ -301,7 +301,7 @@
 
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-    [self.statusButton setTitle:self.dataManager.dataStore.statusMessage forState:UIControlStateNormal];
+    [self.statusButton setTitle:self.searchManager.dataStore.statusMessage forState:UIControlStateNormal];
 }
 
 // Called when the UIKeyboardDidShowNotification is sent.

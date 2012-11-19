@@ -13,7 +13,7 @@
 
 @interface R2RAutocompleteViewController : UIViewController <UIScrollViewDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDataSource, R2RAutocompleteDelegate>
 
-@property (strong, nonatomic) R2RSearchManager *dataManager;
+@property (strong, nonatomic) R2RSearchManager *searchManager;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
