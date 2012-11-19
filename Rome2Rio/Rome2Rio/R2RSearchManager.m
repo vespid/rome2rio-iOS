@@ -8,16 +8,13 @@
 
 #import "R2RSearchManager.h"
 #import "R2RCompletionState.h"
-#import "R2RLocationContext.h"
 
 @interface R2RSearchManager()
 
 typedef enum
 {
     r2rSearchManagerStateIdle = 0,
-    r2rSearchManagerStateResolvingFrom,
-    r2rSearchManagerStateResolvingTo,
-    r2rSearchManagerStateResolvingFromAndTo,
+    r2rSearchManagerStateResolvingLocation, //not used currently
     r2rSearchManagerStateSearching,
 } R2RSearchManagerState;
 
@@ -25,16 +22,12 @@ typedef enum
 
 @property (strong, nonatomic) R2RSearch *search;
 
-@property (strong, nonatomic) R2RLocationContext *from;
-@property (strong, nonatomic) R2RLocationContext *to;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLLocation *bestLocation;
 
-
-//@property (strong, nonatomic) CLLocationManager *fromLocationManager;
-//@property (strong, nonatomic) CLLocationManager *toLocationManager;
-//@property (strong, nonatomic) NSDate *fromLocationStartTime;
-//@property (strong, nonatomic) NSDate *toLocationStartTime;
-//@property (strong, nonatomic) CLLocation *bestFromLocation;
-//@property (strong, nonatomic) CLLocation *bestToLocation;
+@property (nonatomic) BOOL isLocationManagerResolving;
+@property (nonatomic) BOOL fromWantsCurrentLocation;
+@property (nonatomic) BOOL toWantsCurrentLocation;
 
 @end
 
@@ -44,7 +37,7 @@ typedef enum
 
 -(void) setFromPlace:(R2RPlace *)fromPlace
 {
-    self.from.locationManager = nil;
+    self.fromWantsCurrentLocation = NO;
     
     self.dataStore.fromPlace = fromPlace;
     self.dataStore.searchResponse = nil;
@@ -54,7 +47,7 @@ typedef enum
 
 -(void) setToPlace:(R2RPlace *)toPlace
 {
-    self.to.locationManager = nil;
+    self.toWantsCurrentLocation = NO;
     
     self.dataStore.toPlace = toPlace;
     self.dataStore.searchResponse = nil;
@@ -66,42 +59,18 @@ typedef enum
 {
     [self setFromPlace:nil];
     
-    if (self.state == r2rSearchManagerStateResolvingTo || self.state == r2rSearchManagerStateResolvingFromAndTo)
-    {
-        self.state = r2rSearchManagerStateResolvingFromAndTo;
-    }
-    else
-    {
-        self.state = r2rSearchManagerStateResolvingFrom;
-    }
+    self.fromWantsCurrentLocation = YES;
     
-    [self setStatusMessage:@"Finding Current Location"];
-    
-    self.from = [[R2RLocationContext alloc] init];
-    self.from.locationManager = [self createLocationManager];
-//    self.from.locationManagerStartTime = [NSDate date];
-    [self performSelector:@selector(locationManagerTimeout:) withObject:self.from afterDelay:30.0];
+    [self startLocationManager];
 }
 
 -(void) setToWithCurrentLocation
 {
     [self setToPlace:nil];
-
-    if (self.state == r2rSearchManagerStateResolvingFrom || self.state == r2rSearchManagerStateResolvingFromAndTo)
-    {
-        self.state = r2rSearchManagerStateResolvingFromAndTo;
-    }
-    else
-    {
-        self.state = r2rSearchManagerStateResolvingTo;
-    }
     
-    [self setStatusMessage:@"Finding Current Location"];
+    self.toWantsCurrentLocation = YES;
     
-    self.to = [[R2RLocationContext alloc] init];
-    self.to.locationManager = [self createLocationManager];
-//    self.to.locationManagerStartTime = [NSDate date];
-    [self performSelector:@selector(locationManagerTimeout:) withObject:self.to afterDelay:30.0];
+    [self startLocationManager];
 }
 
 -(void) setStatusMessage:(NSString *) statusMessage
@@ -192,86 +161,74 @@ typedef enum
     }
 }
 
-- (CLLocationManager *)createLocationManager
+- (void) startLocationManager
 {
-    CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+    //return if already resolving
+    if (self.isLocationManagerResolving) return;
+
+    self.locationManager = [[CLLocationManager alloc] init];
     
-    locationManager.delegate = self;
-    locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [locationManager startUpdatingLocation];
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self.locationManager startUpdatingLocation];
     
-    //if location services are disabled we sometime do not get a didFailWithError callback.
-    //Calling it twice seems to fix that
-    [locationManager startUpdatingLocation];
+    // If location services are disabled we sometimes do not get a didFailWithError callback.
+    // Calling it twice seems to fix that
+    [self.locationManager startUpdatingLocation];
     
-    return locationManager;
+    [self performSelector:@selector(locationManagerTimeout:) withObject:self.locationManager afterDelay:30.0];
 }
 
 -(void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     R2RLog(@"locationManager fail\t%@", error);
     
+    // Stop location manager
     [manager stopUpdatingLocation];
     
-    if (manager == self.from.locationManager)
-    {
-        self.from.locationManager = nil;
-        if (self.state == r2rSearchManagerStateResolvingFromAndTo)
-            self.state = r2rSearchManagerStateResolvingTo;
-        else
-            self.state = r2rSearchManagerStateIdle;
-    }
-    else if (manager == self.to.locationManager)
-    {
-        self.to.locationManager = nil;
-        if (self.state == r2rSearchManagerStateResolvingFromAndTo)
-            self.state = r2rSearchManagerStateResolvingFrom;
-        else
-            self.state = r2rSearchManagerStateIdle;
-    }
+    // Ignore orphaned callback
+    if (manager != self.locationManager) return;
+    
+    [self locationManagerError:error];
+}
 
-    if (!CLLocationManager.locationServicesEnabled)
+- (void)locationManagerTimeout:(CLLocationManager *)manager
+{
+    // Stop location manager
+    [manager stopUpdatingLocation];
+    
+    // Ignore orphaned callback
+    if (manager != self.locationManager) return;
+    
+    // Fallback bestLocation if available
+    if (self.bestLocation)
     {
-        [self setStatusMessage:@"Location services are off"];
+        [self reverseGeocodeLocation:manager location:self.bestLocation];
     }
     else
     {
-        switch (error.code)
-        {
-            case kCLErrorDenied:
-                [self setStatusMessage:@"Location services are off"];
-                break;
-                
-            case kCLErrorNetwork:
-                [self setStatusMessage:@"Internet appears to be offline"];
-                break;
-                
-            default:
-                [self setStatusMessage:@"Unable to find location"];
-                break;
-        }
+        [self locationManagerError:nil];
     }
-    // TODO: Better error messages
 }
 
-
-
-- (void)locationManagerTimeout:(R2RLocationContext *)locationContext
+- (void) locationManagerError:(NSError *) error
 {
-    if (locationContext.locationManager && (locationContext.locationManager == self.from.locationManager || locationContext.locationManager == self.to.locationManager))
+    R2RLog(@"error code %d", error.code);
+    // Set error status
+    switch (error.code)
     {
-        [locationContext.locationManager stopUpdatingLocation];
-        
-        if (locationContext.bestLocation)
-        {
-            [self reverseGeocodeLocation:locationContext.locationManager location:locationContext.bestLocation];
-        }
-        else
-        {
+        case kCLErrorDenied:
+            [self setStatusMessage:@"Location services are off"];
+            break;
+            
+        case kCLErrorNetwork:
+            [self setStatusMessage:@"Internet appears to be offline"];
+            break;
+            
+        default:
             [self setStatusMessage:@"Unable to find location"];
-            locationContext.locationManager = nil;
-        }
+            break;
     }
 }
 
@@ -279,46 +236,47 @@ typedef enum
 {
     R2RLog(@"%f\t%f\t%f\t%f\t%f\t%f\t", -[newLocation.timestamp timeIntervalSinceNow], manager.desiredAccuracy, newLocation.horizontalAccuracy, newLocation.verticalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude);
 
-    if (manager == self.from.locationManager)
+    if (manager != self.locationManager)
     {
-        [self updateLocationContext:self.from:newLocation];
+        [manager stopUpdatingLocation];
+        return;
     }
     
-    if (manager == self.to.locationManager)
-    {
-        [self updateLocationContext:self.to:newLocation];
-    }
-    
+    [self updateLocation:newLocation];
 }
 
--(void) updateLocationContext :(R2RLocationContext *) locationContext :(CLLocation *) newLocation;
+-(void) updateLocation:(CLLocation *) newLocation;
 {
     // Initialize bestLocation
-    if (!locationContext.bestLocation) locationContext.bestLocation = newLocation;
+    if (!self.bestLocation) self.bestLocation = newLocation;
     
     // Discard locations more than a minute old
     if (-[newLocation.timestamp timeIntervalSinceNow] > 60.0) return;
     
     // Discard location that is less accurate than bestLocation
-    if (newLocation.horizontalAccuracy > locationContext.bestLocation.horizontalAccuracy) return;
+    if (newLocation.horizontalAccuracy > self.bestLocation.horizontalAccuracy) return;
     
     // Update bestLocation
-    locationContext.bestLocation = newLocation;
+    self.bestLocation = newLocation;
     
-    // If Location Accuracy within desired limit start reverseGeocode
-    if (locationContext.bestLocation.horizontalAccuracy <= 100.0)
+    // If location accuracy within desired limit start reverseGeocode
+    if (self.bestLocation.horizontalAccuracy <= 100.0)
     {
-        [locationContext.locationManager stopUpdatingLocation];
+        [self.locationManager stopUpdatingLocation];
         
-        [self reverseGeocodeLocation:locationContext.locationManager location:locationContext.bestLocation];
+        [self reverseGeocodeLocation:self.locationManager location:self.bestLocation];
     }
 }
 
 - (void)reverseGeocodeLocation:(CLLocationManager *)manager location:(CLLocation *)location
 {
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error)
      {
+         // Discard orphaned callback
+         if (manager != self.locationManager) return;
+         
          if ([placemarks count] > 0)
          {
              CLPlacemark *placemark = [placemarks objectAtIndex:0];
@@ -327,25 +285,9 @@ typedef enum
          }
          else
          {
-             if (manager == self.from.locationManager || manager == self.to.locationManager) //TODO check this. The comparison is done in earlier in didUpdate to location... can it change before it reaches this point. 
-             {
-                 R2RLog(@"error code %d", error.code);
-                 switch (error.code)
-                 {
-                     case kCLErrorDenied:
-                         [self setStatusMessage:@"Location services are off"];
-                         break;
-                         
-                     case kCLErrorNetwork:
-                         [self setStatusMessage:@"Internet appears to be offline"];
-                         break;
-                         
-                     default:
-                         [self setStatusMessage:@"Unable to find location"];
-                         break;
-                 }
-             }
+             [self locationManagerError:error];
              
+	
          }
      }];
 }
@@ -362,36 +304,19 @@ typedef enum
     place.lng = location.coordinate.longitude;
     place.kind = @":veryspecific";
     
-    if (manager == self.from.locationManager)
+    if (self.fromWantsCurrentLocation)
     {
-        if (self.state == r2rSearchManagerStateResolvingFromAndTo)
-        {
-            self.state = r2rSearchManagerStateResolvingTo;
-        }
-        else
-        {
-            self.state = r2rSearchManagerStateIdle;
-        }
-        
         [self setFromPlace:place];
-        self.from.locationManager = nil;
-        
+        self.fromWantsCurrentLocation = NO;
     }
-    else if (manager == self.to.locationManager)
+    
+    if (self.toWantsCurrentLocation)
     {
-        if (self.state == r2rSearchManagerStateResolvingFromAndTo)
-        {
-            self.state = r2rSearchManagerStateResolvingFrom;
-        }
-        else
-        {
-            self.state = r2rSearchManagerStateIdle;
-        }
-        
         [self setToPlace:place];
-        self.to.locationManager = nil;
-        
+        self.toWantsCurrentLocation = NO;
     }
+    
+    self.locationManager = nil;
 }
 
 -(void) loadAirlineImages
