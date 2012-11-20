@@ -153,14 +153,15 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self startAutocomplete:searchText];
-    if (![self.searchManager.dataStore.statusMessage isEqualToString:@"Searching"])
-    {
-        [self.searchManager setStatusMessage:@""];
-    }
 }
 
 -(void) startAutocomplete: (NSString *) searchText
 {
+    if (![self.searchManager.dataStore.statusMessage isEqualToString:@"Searching"])
+    {
+        [self.searchManager setStatusMessage:@""];
+    }
+    
     if ([searchText length] < [self.prevSearchText length])
     {
         self.fallbackToCLGeocoder = NO;
@@ -259,7 +260,13 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    //do nothing. only return on cancel or if an item in the list is selected
+    if ([self.searchBar.text length] <= 1) return;
+    
+    //restart search if not currently searching or idle
+    if (self.autocomplete.responseCompletionState == r2rCompletionStateError || self.autocomplete.responseCompletionState == r2rCompletionStateLocationNotFound)
+    {
+        [self startAutocomplete:self.searchBar.text];
+    }
 }
 
 #pragma mark - autocomplete delegate

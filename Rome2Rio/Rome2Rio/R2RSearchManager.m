@@ -329,7 +329,8 @@ typedef enum
 {
     for (R2RAirline *airline in self.search.searchResponse.airlines)
     {
-        [self.dataStore.spriteStore loadImage:airline.iconPath]; //pre cache airline images.
+        //pre cache airline images.
+        [self.dataStore.spriteStore loadImage:airline.iconPath];
     }
 }
 
