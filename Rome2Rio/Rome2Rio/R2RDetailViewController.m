@@ -28,7 +28,8 @@
 
 @interface R2RDetailViewController ()
 
-@property CLLocationDegrees zoomLevel;
+@property (nonatomic) CLLocationDegrees zoomLevel;
+@property (nonatomic) BOOL isMapZoomedToAnnotation;
 
 @end
 
@@ -56,8 +57,10 @@
     [self configureMap];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated
+{
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
+   
     [super viewWillAppear:animated];
 }
 
@@ -377,6 +380,22 @@
         [self.mapView addAnnotation:annotation];
     }
     
+    [self setMapRegionDefault];
+    
+    for (id segment in self.route.segments)
+    {
+        NSArray *paths = [mapHelper getPolylines:segment];
+        for (id path in paths)
+        {
+            [self.mapView addOverlay:path];
+        }
+    }
+}
+
+//set map to display main region for route
+- (void)setMapRegionDefault
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
     MKMapRect bounds = MKMapRectNull;
     
     for (id segment in self.route.segments)
@@ -403,15 +422,6 @@
     self.zoomLevel = region.span.longitudeDelta;
     
     [self.mapView setRegion:region];
-    
-    for (id segment in self.route.segments)
-    {
-        NSArray *paths = [mapHelper getPolylines:segment];
-        for (id path in paths)
-        {
-            [self.mapView addOverlay:path];
-        }
-    }
 }
 
 #pragma mark MKMapViewDelegate
@@ -426,11 +436,39 @@
 {
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	
-    return [mapHelper getAnnotationView:mapView :annotation];
+    MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView :annotation];
+    
+    return annotationView;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView calloutAccessoryControlTapped:(UIControl *)control
+{
+//    R2RLog(@"%@\t%f\t%f", annotationView.annotation.title, annotationView.annotation.coordinate.latitude, annotationView.annotation.coordinate.longitude);
+
+    if (self.isMapZoomedToAnnotation)
+    {
+        [self setMapRegionDefault];
+        
+        self.isMapZoomedToAnnotation = NO;
+    }
+    else
+    {
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(annotationView.annotation.coordinate , 1000, 1000);
+        
+        self.zoomLevel = region.span.longitudeDelta;
+        
+        [self.mapView setRegion:region];
+        
+        [self.mapView deselectAnnotation:annotationView.annotation animated:NO];
+        
+        //must be after setRegion because isMapZoomedToAnnotation is set to NO when region changes
+        self.isMapZoomedToAnnotation = YES;
+    }
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
+    self.isMapZoomedToAnnotation = NO;
     if (self.zoomLevel!=mapView.region.span.longitudeDelta)
     {
         R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
@@ -461,6 +499,8 @@
         self.zoomLevel=mapView.region.span.longitudeDelta;
     }
 }
+
+
 
 
 @end

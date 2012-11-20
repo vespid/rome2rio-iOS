@@ -271,34 +271,70 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
 
 -(id)getAnnotationView:(MKMapView *)mapView :(id<MKAnnotation>)annotation
 {
-    static NSString *identifier = @"R2RhopAnnotation";
     if ([annotation isKindOfClass:[R2RHopAnnotation class]])
     {
-        MKAnnotationView *annotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        if (annotationView == nil)
-        {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-            annotationView.enabled = YES;
-            annotationView.canShowCallout = YES;
-            CGPoint iconOffset = CGPointMake(267, 46);
-            CGSize iconSize = CGSizeMake (12, 12);
-            
-            R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
-            
-            UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
-            UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.5 orientation:image.imageOrientation];
-            annotationView.image = smallerImage;
-        }
-        else
-        {
-            annotationView.annotation = annotation;
-        }
-        
-        return annotationView;
+        return [self configureHopAnnotation:mapView annotation:annotation];
     }
     
-    return nil;
+    //TODO add R2RStopAnnotation class and return nil not a defined class
+    return [self configureStopAnnotation:mapView annotation:annotation];
 }
+
+- (MKAnnotationView *)configureHopAnnotation:(MKMapView *)mapView annotation:(id)annotation
+{
+    NSString *identifier = @"R2RHopAnnotation";
+    
+    MKAnnotationView *annotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    if (annotationView == nil)
+    {
+        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        annotationView.enabled = YES;
+        annotationView.canShowCallout = YES;
+        CGPoint iconOffset = CGPointMake(267, 46);
+        CGSize iconSize = CGSizeMake (12, 12);
+        
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
+        
+        UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.5 orientation:image.imageOrientation];
+        
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+        [button setTitle:@"🔍" forState:UIControlStateNormal];
+        
+        annotationView.rightCalloutAccessoryView = button;
+        
+        annotationView.image = smallerImage;
+    }
+    else
+    {
+        annotationView.annotation = annotation;
+    }
+    return annotationView;
+}
+
+- (MKAnnotationView *)configureStopAnnotation:(MKMapView *)mapView annotation:(id)annotation
+{
+    NSString *identifier = @"R2RStopAnnotation";
+    
+    MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    
+    if (annotationView == nil)
+    {
+        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        annotationView.enabled = YES;
+        annotationView.canShowCallout = YES;
+        
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+        [button setTitle:@"🔍" forState:UIControlStateNormal];
+        annotationView.rightCalloutAccessoryView = button;
+    }
+    else
+    {
+        annotationView.annotation = annotation;
+    }
+    return annotationView;
+}
+
 
 -(NSArray *)getRouteStopAnnotations:(R2RRoute *)route
 {

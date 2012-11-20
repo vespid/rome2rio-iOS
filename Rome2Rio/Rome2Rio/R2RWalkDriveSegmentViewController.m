@@ -20,6 +20,7 @@
 @interface R2RWalkDriveSegmentViewController ()
 
 @property CLLocationDegrees zoomLevel;
+@property (nonatomic) BOOL isMapZoomedToAnnotation;
 
 @end
 
@@ -188,14 +189,20 @@
         }
     }
     
+    [self setMapRegionDefault];
+}
+
+- (void)setMapRegionDefault
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
     MKMapRect bounds = [mapHelper getSegmentBounds:self.walkDriveSegment];
     
     MKCoordinateRegion region = MKCoordinateRegionForMapRect(bounds);
-    region.span.latitudeDelta *=1.1;
-    region.span.longitudeDelta *=1.1;
+    region.span.latitudeDelta *= 1.1;
+    region.span.longitudeDelta *= 1.1;
     
     self.zoomLevel = region.span.longitudeDelta;
-
+    
     [self.mapView setRegion:region];
 }
 
@@ -214,8 +221,32 @@
     return [mapHelper getAnnotationView:mapView :annotation];
 }
 
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView calloutAccessoryControlTapped:(UIControl *)control
+{
+    if (self.isMapZoomedToAnnotation)
+    {
+        [self setMapRegionDefault];
+        
+        self.isMapZoomedToAnnotation = NO;
+    }
+    else
+    {
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(annotationView.annotation.coordinate , 1000, 1000);
+        
+        self.zoomLevel = region.span.longitudeDelta;
+        
+        [self.mapView setRegion:region];
+        
+        [self.mapView deselectAnnotation:annotationView.annotation animated:NO];
+        
+        //must be after setRegion because isMapZoomedToAnnotation is set to NO when region changes
+        self.isMapZoomedToAnnotation = YES;
+    }
+}
+
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
+    self.isMapZoomedToAnnotation = NO;
     if (self.zoomLevel!=mapView.region.span.longitudeDelta)
     {
         R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
