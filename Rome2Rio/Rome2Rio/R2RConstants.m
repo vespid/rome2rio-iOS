@@ -65,9 +65,14 @@
     return [UIColor colorWithRed:64/255.0 green:170/255.0 blue:196/255.0 alpha:1.0];
 }
 
-+(UIColor *)getWalkDriveLineColor
++(UIColor *)getDriveLineColor
 {
     return [UIColor blackColor];
+}
+
++(UIColor *)getWalkLineColor
+{
+    return [UIColor grayColor];
 }
 
 @end

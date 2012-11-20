@@ -19,7 +19,8 @@
 +(UIColor *) getBusLineColor;
 +(UIColor *) getTrainLineColor;
 +(UIColor *) getFerryLineColor;
-+(UIColor *) getWalkDriveLineColor;
++(UIColor *) getDriveLineColor;
++(UIColor *) getWalkLineColor;
 
 
 #define MAX_FLIGHT_STOPS 5

@@ -50,7 +50,11 @@
 
 @end
 
-@interface R2RWalkDrivePolyline : MKPolyline
+@interface R2RDrivePolyline : MKPolyline
+
+@end
+
+@interface R2RWalkPolyline : MKPolyline
 
 @end
 
@@ -70,6 +74,10 @@
 -(id) initWithPolyline:(MKPolyline *)polyline;
 @end
 
-@interface R2RWalkDrivePolylineView : MKPolylineView
+@interface R2RDrivePolylineView : MKPolylineView
+-(id) initWithPolyline:(MKPolyline *)polyline;
+@end
+
+@interface R2RWalkPolylineView : MKPolylineView
 -(id) initWithPolyline:(MKPolyline *)polyline;
 @end

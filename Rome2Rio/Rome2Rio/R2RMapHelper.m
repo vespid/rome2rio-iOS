@@ -103,9 +103,13 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     {
         return [self getFerryPolylines:segment];
     }
-    else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"walk"])
+    else if ([kind isEqualToString:@"car"])
     {
-        return [self getWalkDrivePolylines:segment];
+        return [self getDrivePolylines:segment];
+    }
+    else if ([kind isEqualToString:@"walk"])
+    {
+        return [self getWalkPolylines:segment];
     }
     else
     {
@@ -223,7 +227,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     return array;
 }
 
--(NSArray *) getWalkDrivePolylines: (R2RWalkDriveSegment *) segment
+-(NSArray *) getDrivePolylines:(R2RWalkDriveSegment *) segment
 {
     R2RPath *path = [R2RPathEncoder decode:segment.path];
     
@@ -235,7 +239,25 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         points[count++] = MKMapPointFromPosition(pos);
     }
     
-    R2RWalkDrivePolyline *polyline = (R2RWalkDrivePolyline *)[R2RWalkDrivePolyline polylineWithPoints:points count:count];
+    R2RDrivePolyline *polyline = (R2RDrivePolyline *)[R2RDrivePolyline polylineWithPoints:points count:count];
+    NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
+    
+    return array;
+}
+
+-(NSArray *) getWalkPolylines:(R2RWalkDriveSegment *) segment
+{
+    R2RPath *path = [R2RPathEncoder decode:segment.path];
+    
+    MKMapPoint points[[path.positions count]];
+    NSUInteger count = 0;
+    
+    for (R2RPosition *pos in path.positions)
+    {
+        points[count++] = MKMapPointFromPosition(pos);
+    }
+    
+    R2RWalkPolyline *polyline = (R2RWalkPolyline *)[R2RWalkPolyline polylineWithPoints:points count:count];
     NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
     
     return array;
@@ -259,9 +281,13 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     {
         return [[R2RFerryPolylineView alloc] initWithPolyline:polyline];
     }
-    else if ([polyline isKindOfClass:[R2RWalkDrivePolyline class]])
+    else if ([polyline isKindOfClass:[R2RDrivePolyline class]])
     {
-        return [[R2RWalkDrivePolylineView alloc] initWithPolyline:polyline];
+        return [[R2RDrivePolylineView alloc] initWithPolyline:polyline];
+    }
+    else if ([polyline isKindOfClass:[R2RWalkPolyline class]])
+    {
+        return [[R2RWalkPolylineView alloc] initWithPolyline:polyline];
     }
     else
     {
@@ -323,6 +349,8 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         annotationView.enabled = YES;
         annotationView.canShowCallout = YES;
+        
+//        annotationView.draggable = YES;
         
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
         [button setTitle:@"🔍" forState:UIControlStateNormal];
@@ -503,7 +531,11 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
 @end
 
 
-@implementation R2RWalkDrivePolyline
+@implementation R2RDrivePolyline
+
+@end
+
+@implementation R2RWalkPolyline
 
 @end
 
@@ -571,14 +603,29 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
 @end
 
 
-@implementation R2RWalkDrivePolylineView
+@implementation R2RDrivePolylineView
 
 -(id) initWithPolyline:(MKPolyline *)polyline
 {
     self = [super initWithPolyline:polyline];
     if (self)
     {
-        self.strokeColor = [R2RConstants getWalkDriveLineColor];
+        self.strokeColor = [R2RConstants getDriveLineColor];
+        self.lineWidth = 5;
+    }
+    return self;
+}
+
+@end
+
+@implementation R2RWalkPolylineView
+
+-(id) initWithPolyline:(MKPolyline *)polyline
+{
+    self = [super initWithPolyline:polyline];
+    if (self)
+    {
+        self.strokeColor = [R2RConstants getWalkLineColor];
         self.lineWidth = 5;
     }
     return self;
