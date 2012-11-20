@@ -6,11 +6,10 @@
   Copyright (c) 2012 Rome2Rio. All rights reserved.
 */
 
-"FromTextFieldPlaceholder"  = "Origin";
-"ToTextFieldPlaceHodler"    = "Destination";
-"SearchTitle"               = "Search";
-"ResultsTitle"              = "Results";
-"DetailsTitle"              = "Route";
-"FlightSegmentTitle"        = "Fly";
-"TransitSegmentTitle"       = "Transit";
-
+"Origin"                = "Origin";
+"Destination"           = "Destination";
+"Search"                = "Search";
+"Results"               = "Results";
+"Route"                 = "Route";
+"Fly"                   = "Fly";
+"Transit"               = "Transit";
