@@ -9,6 +9,7 @@
 #import "R2RAutocompleteViewController.h"
 #import "R2RAutocompleteCell.h"
 #import "R2RStatusButton.h"
+#import "R2RMapViewController.h"
 
 @interface R2RAutocompleteViewController ()
 
@@ -108,12 +109,23 @@
 {
     // Return the number of rows in the section.
     
-    return (1 + [self.places count]);
+    R2RLog(@"%d", [self.places count]);
+    
+    return (2 + [self.places count]);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     static NSString *CellIdentifier = @"autocompleteCell";
+    
+    if (indexPath.row == [self.places count] + 1)
+    {
+        UITableViewCell *mapCell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+        
+        [[mapCell textLabel] setText:@"Select location on map"];
+        
+        return mapCell;
+    }
     
     R2RAutocompleteCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
@@ -142,9 +154,31 @@
     {
         [self currentLocationClicked];
     }
+    else if (indexPath.row == [self.places count] + 1)
+    {
+//        [self performSegueWithIdentifier:@"showMap" sender:self];
+    }
     else
     {
         [self placeClicked:[self.places objectAtIndex:indexPath.row]];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showMap"])
+    {
+//        UINavigationController *navigationController = (UINavigationController *)self.navigationController;
+        
+//        R2RMapViewController *mapViewController = [segue destinationViewController];
+//        mapViewController.searchManager = self.searchManager;
+        
+        
+        
+        R2RLog(@"showMap");
+//        R2RResultsViewController *resultsViewController = [segue destinationViewController];
+//        resultsViewController.dataManager = self.dataManager;
+//        resultsViewController.dataStore = self.dataStore;
     }
 }
 
@@ -328,7 +362,6 @@
     {
         tableViewFrame.size.height -= kbSize.height;
     }
-    
     [self.tableView setFrame:tableViewFrame];
 }
 
@@ -345,7 +378,7 @@
     
     if (tableViewFrame.size.height <  self.view.frame.size.height - self.searchBar.frame.size.height)
     {
-        tableViewFrame.size.height = self.searchBar.frame.size.height - self.searchBar.frame.size.height;
+        tableViewFrame.size.height = self.view.frame.size.height - self.searchBar.frame.size.height;
     }
     
     [self.tableView setFrame:tableViewFrame];

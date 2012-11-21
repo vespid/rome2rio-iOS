@@ -97,7 +97,7 @@
     
     if ([[segue identifier] isEqualToString:@"showAutocomplete"])
     {
-        R2RAutocompleteViewController *autocompleteViewController = [segue destinationViewController];
+        R2RAutocompleteViewController *autocompleteViewController = (R2RAutocompleteViewController *)[[[segue destinationViewController] viewControllers] objectAtIndex:0];
         autocompleteViewController.searchManager = self.dataManager;
         autocompleteViewController.fieldName = sender;
     }

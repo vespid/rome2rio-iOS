@@ -107,7 +107,7 @@
                         <outlet property="toTextField" destination="Puj-uC-cuN" id="GAd-t1-FBd"/>
                         <segue destination="V3N-FG-aoW" kind="push" identifier="showSearchResults" id="hdR-C1-VDI"/>
                         <segue destination="egu-FJ-cxd" kind="modal" identifier="showInfo" modalTransitionStyle="flipHorizontal" id="bDh-Z3-rny"/>
-                        <segue destination="aWe-T3-IOY" kind="modal" identifier="showAutocomplete" id="wnM-mR-CRV"/>
+                        <segue destination="t6B-nq-p5o" kind="modal" identifier="showAutocomplete" id="H1O-TY-Uhw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qfd-B4-VpX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -274,7 +274,7 @@
             <objects>
                 <viewController id="aWe-T3-IOY" customClass="R2RAutocompleteViewController" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="2lB-tv-X1a">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" barStyle="blackOpaque" placeholder="Location" showsCancelButton="YES" id="q88-pf-Aik">
@@ -287,7 +287,7 @@
                                 </scopeButtonTitles>
                             </searchBar>
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" id="iY3-6d-l8o">
-                                <rect key="frame" x="0.0" y="44" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -318,6 +318,28 @@
                                             <outlet property="label" destination="WOi-OB-N06" id="mRh-46-7VX"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="CsE-PM-7a4" style="IBUITableViewCellStyleDefault" id="4x7-Qe-Ctx">
+                                        <rect key="frame" x="0.0" y="57" width="320" height="35"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="34"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CsE-PM-7a4">
+                                                    <rect key="frame" x="10" y="0.0" width="280" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <segue destination="a0b-9s-bYq" kind="push" id="Q6o-wA-9ls"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="aWe-T3-IOY" id="9V0-Fa-rKW"/>
@@ -326,6 +348,7 @@
                             </tableView>
                         </subviews>
                     </scrollView>
+                    <navigationItem key="navigationItem" id="gz9-LJ-hzq"/>
                     <connections>
                         <outlet property="searchBar" destination="q88-pf-Aik" id="3sf-nM-s0J"/>
                         <outlet property="tableView" destination="iY3-6d-l8o" id="TyG-YQ-KNP"/>
@@ -333,7 +356,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FXN-X8-HFF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="934" y="645"/>
+            <point key="canvasLocation" x="1404" y="1438"/>
+        </scene>
+        <!--Map View Controller - Select Location-->
+        <scene sceneID="OMg-B2-toS">
+            <objects>
+                <viewController id="a0b-9s-bYq" customClass="R2RMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9bk-km-ifI">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="BA6-6S-8eg">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Select Location" id="7ge-9d-7bP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Kq-v1-wqG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1904" y="1438"/>
         </scene>
         <!--Transit Segment View Controller - Transit Segment-->
         <scene sceneID="D5v-57-BHX">
@@ -551,6 +595,21 @@
             </objects>
             <point key="canvasLocation" x="1962" y="-654"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="R29-NV-jz8">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="t6B-nq-p5o" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="j8E-HV-dss">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="aWe-T3-IOY" kind="relationship" relationship="rootViewController" id="dIf-BT-vp7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vBb-yo-uzE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="910" y="1438"/>
+        </scene>
         <!--Walk Drive Segment View Controller - Walk Drive Segment-->
         <scene sceneID="wLo-FN-BDN">
             <objects>
@@ -605,6 +664,123 @@
         <image name="r2r-retina.png" width="600" height="120"/>
         <image name="targetIcon_orange.png" width="48" height="48"/>
     </resources>
+    <classes>
+        <class className="R2RAutocompleteCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="autocompleteImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="label" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RAutocompleteViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="statusView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RExpandedFlightSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RExpandedFlightSegmentCell.h"/>
+        </class>
+        <class className="R2RFlightHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RFlightSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentCell.h"/>
+        </class>
+        <class className="R2RFlightSegmentViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+            </relationships>
+        </class>
+        <class className="R2RInfoViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RInfoViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="rateApp:"/>
+                <relationship kind="action" name="sendFeedbackMail:"/>
+                <relationship kind="action" name="showMasterView:"/>
+            </relationships>
+        </class>
+        <class className="R2RMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMapViewController.h"/>
+        </class>
+        <class className="R2RMasterViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="searchTouchUpInside:"/>
+                <relationship kind="action" name="showInfoView:"/>
+                <relationship kind="outlet" name="fromTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="headerBackground" candidateClass="UIView"/>
+                <relationship kind="outlet" name="headerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="toTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="R2RNameCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RNameCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RResultsCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsCell.h"/>
+        </class>
+        <class className="R2RResultsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+            </relationships>
+        </class>
+        <class className="R2RTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTableView.h"/>
+        </class>
+        <class className="R2RTransitHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RTransitSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentCell.h"/>
+        </class>
+        <class className="R2RTransitSegmentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RWalkDriveHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RWalkDriveSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentCell.h"/>
+        </class>
+        <class className="R2RWalkDriveSegmentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

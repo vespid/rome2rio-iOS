@@ -19,6 +19,7 @@
 		5E1BE02D1623F4F1002F7CBB /* targetIcon_orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E1BE02C1623F4F1002F7CBB /* targetIcon_orange.png */; };
 		5E1BE0511623FB89002F7CBB /* Home_Icon_White.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E1BE04E1623FB89002F7CBB /* Home_Icon_White.png */; };
 		5E1BE0A316253A6A002F7CBB /* Home_Icon_White@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E1BE0A216253A6A002F7CBB /* Home_Icon_White@2x.png */; };
+		5E241EA3165C680400D44710 /* R2RMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E241EA2165C680400D44710 /* R2RMapViewController.m */; };
 		5E2438431635123F0044C8AD /* externalLinkIconGray.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E2438421635123F0044C8AD /* externalLinkIconGray.png */; };
 		5E5AA3C5162E2E8F00055720 /* R2RDuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3C4162E2E8F00055720 /* R2RDuration.m */; };
 		5E5AA3D6162E89D900055720 /* R2RMapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3D5162E89D900055720 /* R2RMapHelper.m */; };
@@ -117,6 +118,8 @@
 		5E1BE04E1623FB89002F7CBB /* Home_Icon_White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home_Icon_White.png; sourceTree = "<group>"; };
 		5E1BE0A216253A6A002F7CBB /* Home_Icon_White@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Icon_White@2x.png"; sourceTree = "<group>"; };
 		5E1E21D31627C64F00763152 /* R2RLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = R2RLog.h; path = ../../Rome2Rio/Rome2Rio/R2RLog.h; sourceTree = "<group>"; };
+		5E241EA1165C680400D44710 /* R2RMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RMapViewController.h; sourceTree = "<group>"; };
+		5E241EA2165C680400D44710 /* R2RMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMapViewController.m; sourceTree = "<group>"; };
 		5E2438421635123F0044C8AD /* externalLinkIconGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = externalLinkIconGray.png; sourceTree = "<group>"; };
 		5E5AA3C3162E2E8F00055720 /* R2RDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RDuration.h; sourceTree = "<group>"; };
 		5E5AA3C4162E2E8F00055720 /* R2RDuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RDuration.m; sourceTree = "<group>"; };
@@ -446,6 +449,8 @@
 				5EA48D4A1640E5A1008A0ADA /* R2RAutocompleteViewController.m */,
 				5EA48D5A164209FA008A0ADA /* R2RInfoViewController.h */,
 				5EA48D5B164209FA008A0ADA /* R2RInfoViewController.m */,
+				5E241EA1165C680400D44710 /* R2RMapViewController.h */,
+				5E241EA2165C680400D44710 /* R2RMapViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -671,6 +676,7 @@
 				5E639E71164CBA3C00A18C20 /* R2RHopAnnotation.m in Sources */,
 				5E639E7416507D4C00A18C20 /* R2RSpriteView.m in Sources */,
 				5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */,
+				5E241EA3165C680400D44710 /* R2RMapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
