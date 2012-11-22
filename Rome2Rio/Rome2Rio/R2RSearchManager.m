@@ -28,6 +28,9 @@ typedef enum
 @property (nonatomic) BOOL isLocationManagerResolving;
 @property (nonatomic) BOOL fromWantsCurrentLocation;
 @property (nonatomic) BOOL toWantsCurrentLocation;
+@property (nonatomic) BOOL fromWantsMapLocation;
+@property (nonatomic) BOOL toWantsMapLocation;
+
 
 @end
 
@@ -60,6 +63,7 @@ typedef enum
     [self setFromPlace:nil];
     
     self.fromWantsCurrentLocation = YES;
+    self.fromWantsMapLocation = NO;
     [self setStatusMessage:@"Finding Current Location"];
     
     [self startLocationManager];
@@ -70,9 +74,34 @@ typedef enum
     [self setToPlace:nil];
     
     self.toWantsCurrentLocation = YES;
+    self.toWantsMapLocation = NO;
     [self setStatusMessage:@"Finding Current Location"];
     
     [self startLocationManager];
+}
+
+-(void) setFromWithMapLocation:(CLLocationCoordinate2D) coord
+{
+    [self setFromPlace:nil];
+    
+    self.fromWantsCurrentLocation = NO;
+    self.fromWantsMapLocation = YES;
+    [self setStatusMessage:@"Finding Map Location"];
+    
+    CLLocation *location = [[CLLocation alloc] initWithCoordinate:coord altitude:0 horizontalAccuracy:100 verticalAccuracy:100 timestamp:[NSDate date]];
+    [self reverseGeocodeLocation:location fieldType:@"mapFrom"];
+}
+
+-(void) setToWithMapLocation:(CLLocationCoordinate2D) coord
+{
+    [self setToPlace:nil];
+    
+    self.toWantsCurrentLocation = NO;
+    self.toWantsMapLocation = YES;
+    [self setStatusMessage:@"Finding Map Location"];
+    
+    CLLocation *location = [[CLLocation alloc] initWithCoordinate:coord altitude:0 horizontalAccuracy:100 verticalAccuracy:100 timestamp:[NSDate date]];
+    [self reverseGeocodeLocation:location fieldType:@"mapTo"];
 }
 
 -(void) setStatusMessage:(NSString *) statusMessage
@@ -196,7 +225,7 @@ typedef enum
     // Ignore orphaned callback
     if (manager != self.locationManager) return;
     
-    [self locationManagerError:error];
+    [self locationError:error];
 }
 
 - (void)locationManagerTimeout:(CLLocationManager *)manager
@@ -210,15 +239,15 @@ typedef enum
     // Fallback bestLocation if available
     if (self.bestLocation)
     {
-        [self reverseGeocodeLocation:manager location:self.bestLocation];
+        [self reverseGeocodeLocationWithManager:manager location:self.bestLocation];
     }
     else
     {
-        [self locationManagerError:nil];
+        [self locationError:nil];
     }
 }
 
-- (void) locationManagerError:(NSError *) error
+- (void) locationError:(NSError *) error
 {
     R2RLog(@"error code %d", error.code);
     // Set error status
@@ -270,11 +299,30 @@ typedef enum
     {
         [self.locationManager stopUpdatingLocation];
         
-        [self reverseGeocodeLocation:self.locationManager location:self.bestLocation];
+        [self reverseGeocodeLocationWithManager:self.locationManager location:self.bestLocation];
     }
 }
 
-- (void)reverseGeocodeLocation:(CLLocationManager *)manager location:(CLLocation *)location
+- (void)reverseGeocodeLocation:(CLLocation *)location fieldType:(NSString *)fieldType
+{
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         if ([placemarks count] > 0)
+         {
+             CLPlacemark *placemark = [placemarks objectAtIndex:0];
+             
+             [self didFindPlacemark:placemark location:location fieldType:fieldType];
+         }
+         else
+         {
+             [self locationError:error];
+         }
+     }];
+}
+
+- (void)reverseGeocodeLocationWithManager:(CLLocationManager *)manager location:(CLLocation *)location
 {
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     
@@ -287,18 +335,17 @@ typedef enum
          {
              CLPlacemark *placemark = [placemarks objectAtIndex:0];
              
-             [self didFindPlacemark:placemark location:location manager:manager];
+             [self didFindPlacemark:placemark location:location fieldType:@"currentLocation"];
+             self.locationManager = nil;
          }
          else
          {
-             [self locationManagerError:error];
-             
-	
+             [self locationError:error];
          }
      }];
 }
 
-- (void)didFindPlacemark:(CLPlacemark *)placemark location:(CLLocation *)location manager:(CLLocationManager *)manager
+- (void)didFindPlacemark:(CLPlacemark *)placemark location:(CLLocation *)location fieldType:(NSString *) fieldType
 {
     R2RPlace *place = [[R2RPlace alloc] init];
     
@@ -310,19 +357,29 @@ typedef enum
     place.lng = location.coordinate.longitude;
     place.kind = @":veryspecific";
     
-    if (self.fromWantsCurrentLocation)
+    
+    if (self.fromWantsMapLocation && [fieldType isEqualToString:@"mapFrom"])
     {
         [self setFromPlace:place];
-        self.fromWantsCurrentLocation = NO;
+        self.fromWantsMapLocation = NO;
     }
-    
-    if (self.toWantsCurrentLocation)
+    if (self.toWantsMapLocation && [fieldType isEqualToString:@"mapTo"])
     {
         [self setToPlace:place];
         self.toWantsCurrentLocation = NO;
     }
     
-    self.locationManager = nil;
+    if (self.fromWantsCurrentLocation && [fieldType isEqualToString:@"currentLocation"])
+    {
+        [self setFromPlace:place];
+        self.fromWantsCurrentLocation = NO;
+    }
+    if (self.toWantsCurrentLocation && [fieldType isEqualToString:@"currentLocation"])
+    {
+        [self setToPlace:place];
+        self.toWantsCurrentLocation = NO;
+    }
+
 }
 
 -(void) loadAirlineImages

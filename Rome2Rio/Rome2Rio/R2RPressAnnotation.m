@@ -1,16 +1,14 @@
 //
-//  R2RMKAnnotation.m
+//  R2RPressAnnotation.m
 //  Rome2Rio
 //
-//  Created by Ash Verdoorn on 15/10/12.
+//  Created by Ash Verdoorn on 23/11/12.
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
+#import "R2RPressAnnotation.h"
 
-#import "R2RStopAnnotation.h"
-
-
-@implementation R2RStopAnnotation 
+@implementation R2RPressAnnotation
 
 @synthesize name = _name;
 @synthesize kind = _kind;
@@ -25,7 +23,7 @@
         //only display items before the ":"
         NSArray *kinds = [kind componentsSeparatedByString:@":"];
         _kind = [kinds objectAtIndex:0];
-
+        
         _coordinate = coordinate;
     }
     return self;

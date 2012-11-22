@@ -19,6 +19,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSString *fieldName;
-@property (strong, nonatomic) IBOutlet UIView *statusView;
+@property (strong, nonatomic) UIView *statusView;
 
 @end

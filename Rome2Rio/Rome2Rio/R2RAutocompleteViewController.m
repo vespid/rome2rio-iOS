@@ -109,8 +109,6 @@
 {
     // Return the number of rows in the section.
     
-    R2RLog(@"%d", [self.places count]);
-    
     return (2 + [self.places count]);
 }
 
@@ -120,9 +118,10 @@
     
     if (indexPath.row == [self.places count] + 1)
     {
-        UITableViewCell *mapCell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+        R2RAutocompleteCell *mapCell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
         
-        [[mapCell textLabel] setText:@"Select location on map"];
+        [mapCell.autocompleteImageView setHidden:NO];
+        [mapCell.label setText:@"Select location on map"];
         
         return mapCell;
     }
@@ -168,17 +167,12 @@
 {
     if ([[segue identifier] isEqualToString:@"showMap"])
     {
-//        UINavigationController *navigationController = (UINavigationController *)self.navigationController;
-        
-//        R2RMapViewController *mapViewController = [segue destinationViewController];
-//        mapViewController.searchManager = self.searchManager;
-        
-        
+
+        R2RMapViewController *mapViewController = [segue destinationViewController];
+        mapViewController.searchManager = self.searchManager;
+        mapViewController.fieldName = self.fieldName;
         
         R2RLog(@"showMap");
-//        R2RResultsViewController *resultsViewController = [segue destinationViewController];
-//        resultsViewController.dataManager = self.dataManager;
-//        resultsViewController.dataStore = self.dataStore;
     }
 }
 

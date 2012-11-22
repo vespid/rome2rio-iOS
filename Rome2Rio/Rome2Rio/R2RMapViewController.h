@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 #import "R2RSearchManager.h"
 
-@interface R2RMapViewController : UIViewController
+@interface R2RMapViewController : UIViewController <MKMapViewDelegate>
 
 @property (strong, nonatomic) R2RSearchManager *searchManager;
+@property (strong, nonatomic) NSString *fieldName;
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+
+- (IBAction)resolveLocation:(id)sender;
 
 @end
