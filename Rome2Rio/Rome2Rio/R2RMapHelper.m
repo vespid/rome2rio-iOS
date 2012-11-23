@@ -19,6 +19,8 @@
 #import "R2RPath.h"
 #import "R2RPathEncoder.h"
 
+#import "R2RPressAnnotationView.h"
+
 
 @interface R2RMapHelper()
 
@@ -295,18 +297,65 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     }
 }
 
--(id)getAnnotationView:(MKMapView *)mapView :(id<MKAnnotation>)annotation
+-(id)getAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
 {
-    if ([annotation isKindOfClass:[R2RHopAnnotation class]])
+    MKAnnotationView *annotationView = nil;
+  
+    if (annotation.annotationType == r2rAnnotationTypeStop)
     {
-        return [self configureHopAnnotation:mapView annotation:annotation];
+        annotationView = [self getStopAnnotationView:mapView annotation:annotation];
     }
-    
-    //TODO add R2RStopAnnotation class and return nil not a defined class
-    return [self configureStopAnnotation:mapView annotation:annotation];
+    else if (annotation.annotationType == r2rAnnotationTypeHop)
+    {
+        annotationView = [self getHopAnnotationView:mapView annotation:annotation];
+    }
+    else if (annotation.annotationType == r2rAnnotationTypeFrom)
+    {
+        annotationView = [self getFromAnnotationView:mapView annotation:annotation];
+    }
+    else if (annotation.annotationType == r2rAnnotationTypeTo)
+    {
+        annotationView = [self getToAnnotationView:mapView annotation:annotation];
+    }
+    else if (annotation.annotationType == r2rAnnotationTypePress)
+    {
+        annotationView = [self getPressAnnotationView:mapView annotation:annotation];
+    }
+
+    return annotationView;
 }
 
-- (MKAnnotationView *)configureHopAnnotation:(MKMapView *)mapView annotation:(id)annotation
+-(MKAnnotationView *) getStopAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
+{
+    NSString *identifier = @"R2RStopAnnotation";
+    
+    MKAnnotationView *annotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    if (annotationView == nil)
+    {
+        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        annotationView.enabled = YES;
+        annotationView.canShowCallout = YES;
+        CGPoint iconOffset = CGPointMake(267, 46);
+        CGSize iconSize = CGSizeMake (12, 12);
+        
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
+        
+        UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.2 orientation:image.imageOrientation];
+        
+        annotationView.image = smallerImage;
+        
+        if ([annotation.title length] > 0)
+        {
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+            [button setTitle:@"🔍" forState:UIControlStateNormal];
+            annotationView.rightCalloutAccessoryView = button;
+        }
+    }
+    return annotationView;
+}
+
+-(MKAnnotationView *) getHopAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
 {
     NSString *identifier = @"R2RHopAnnotation";
     
@@ -322,25 +371,23 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
         
         UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
-        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.5 orientation:image.imageOrientation];
-        
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
-        [button setTitle:@"🔍" forState:UIControlStateNormal];
-        
-        annotationView.rightCalloutAccessoryView = button;
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.3 orientation:image.imageOrientation];
         
         annotationView.image = smallerImage;
-    }
-    else
-    {
-        annotationView.annotation = annotation;
+        
+        if ([annotation.title length] > 0)
+        {
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+            [button setTitle:@"🔍" forState:UIControlStateNormal];
+            annotationView.rightCalloutAccessoryView = button;
+        }
     }
     return annotationView;
 }
 
-- (MKAnnotationView *)configureStopAnnotation:(MKMapView *)mapView annotation:(id)annotation
+-(MKAnnotationView *) getFromAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
 {
-    NSString *identifier = @"R2RStopAnnotation";
+    NSString *identifier = @"R2RFromAnnotation";
     
     MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
     
@@ -349,19 +396,122 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         annotationView.enabled = YES;
         annotationView.canShowCallout = YES;
+        annotationView.pinColor = MKPinAnnotationColorGreen;
+        [annotationView setDraggable:YES];
         
-//        annotationView.draggable = YES;
-        
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
-        [button setTitle:@"🔍" forState:UIControlStateNormal];
-        annotationView.rightCalloutAccessoryView = button;
-    }
-    else
-    {
-        annotationView.annotation = annotation;
+        if ([annotationView.annotation.title length] > 0)
+        {
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+            [button setTitle:@"🔍" forState:UIControlStateNormal];
+            annotationView.rightCalloutAccessoryView = button;
+        }
     }
     return annotationView;
 }
+
+-(MKAnnotationView *) getToAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
+{
+    NSString *identifier = @"R2RToAnnotation";
+    
+    MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    
+    if (annotationView == nil)
+    {
+        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        annotationView.enabled = YES;
+        annotationView.canShowCallout = YES;
+        annotationView.pinColor = MKPinAnnotationColorRed;
+        [annotationView setDraggable:YES];
+        
+        if ([annotationView.annotation.title length] > 0)
+        {
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+            [button setTitle:@"🔍" forState:UIControlStateNormal];
+            annotationView.rightCalloutAccessoryView = button;
+        }
+    }
+    return annotationView;
+}
+
+-(MKAnnotationView *) getPressAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
+{
+    NSString *identifier = @"R2RPressAnnotation";
+    
+    R2RPressAnnotationView *annotationView = (R2RPressAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    
+    if (!annotationView)
+    {
+        annotationView = [[R2RPressAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+    }
+    return annotationView;
+}
+
+//-(id)getAnnotationView:(MKMapView *)mapView :(id<MKAnnotation>)annotation
+//{
+//    if ([annotation isKindOfClass:[R2RHopAnnotation class]])
+//    {
+//        return [self configureHopAnnotation:mapView annotation:annotation];
+//    }
+//    
+//    //TODO add R2RStopAnnotation class and return nil not a defined class
+//    return [self configureStopAnnotation:mapView annotation:annotation];
+//}
+//
+//- (MKAnnotationView *)configureHopAnnotation:(MKMapView *)mapView annotation:(id)annotation
+//{
+//    NSString *identifier = @"R2RHopAnnotation";
+//    
+//    MKAnnotationView *annotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+//    if (annotationView == nil)
+//    {
+//        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+//        annotationView.enabled = YES;
+//        annotationView.canShowCallout = YES;
+//        CGPoint iconOffset = CGPointMake(267, 46);
+//        CGSize iconSize = CGSizeMake (12, 12);
+//        
+//        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
+//        
+//        UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
+//        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.5 orientation:image.imageOrientation];
+//        
+//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+//        [button setTitle:@"🔍" forState:UIControlStateNormal];
+//        
+//        annotationView.rightCalloutAccessoryView = button;
+//        
+//        annotationView.image = smallerImage;
+//    }
+//    else
+//    {
+//        annotationView.annotation = annotation;
+//    }
+//    return annotationView;
+//}
+//
+//- (MKAnnotationView *)configureStopAnnotation:(MKMapView *)mapView annotation:(id)annotation
+//{
+//    NSString *identifier = @"R2RStopAnnotation";
+//    
+//    MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+//    
+//    if (annotationView == nil)
+//    {
+//        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+//        annotationView.enabled = YES;
+//        annotationView.canShowCallout = YES;
+//        
+////        annotationView.draggable = YES;
+//            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+//            [button setTitle:@"🔍" forState:UIControlStateNormal];
+//            annotationView.rightCalloutAccessoryView = button;
+//    }
+//    else
+//    {
+//        annotationView.annotation = annotation;
+//    }
+//    return annotationView;
+//}
 
 
 -(NSArray *)getRouteStopAnnotations:(R2RRoute *)route
@@ -371,8 +521,19 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     for (R2RStop *stop in route.stops)
     {
         CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(stop.pos.lat, stop.pos.lng);
-        R2RStopAnnotation *annotation = [[R2RStopAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:coord];
-        
+        R2RAnnotation *annotation = nil;
+        if (stop == [route.stops objectAtIndex:0])
+        {
+            annotation = [[R2RAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:coord annotationType:r2rAnnotationTypeFrom];
+        }
+        else if (stop == [route.stops lastObject])
+        {
+            annotation = [[R2RAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:coord annotationType:r2rAnnotationTypeTo];
+        }
+        else
+        {
+            annotation = [[R2RAnnotation alloc] initWithName:stop.name kind:stop.kind coordinate:coord annotationType:r2rAnnotationTypeStop];
+        }
         [annotations addObject:annotation];
     }
     
@@ -415,7 +576,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         for (R2RTransitHop *hop in leg.hops)
         {
             CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(hop.sPos.lat, hop.sPos.lng);
-            R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:hop.sName coordinate:coord];
+            R2RAnnotation *annotation = [[R2RAnnotation alloc] initWithName:hop.sName kind:nil coordinate:coord annotationType:r2rAnnotationTypeHop];
             
             [hopAnnotations addObject:annotation];
         }
@@ -432,8 +593,9 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         R2RAirport *airport = [self.dataStore getAirport:hop.sCode];
         if (airport == nil) continue;
         
-        CLLocationCoordinate2D pos = CLLocationCoordinate2DMake(airport.pos.lat, airport.pos.lng);
-        R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:airport.name coordinate:pos];
+        CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(airport.pos.lat, airport.pos.lng);
+        R2RAnnotation *annotation = [[R2RAnnotation alloc] initWithName:airport.name kind:nil coordinate:coord annotationType:r2rAnnotationTypeHop];
+//        R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:airport.name coordinate:coord];
         
         [hopAnnotations addObject:annotation];
     }
@@ -441,20 +603,20 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
 
 -(NSArray *)filterHopAnnotations :(NSArray *)hopAnnotations stopAnnotations:(NSArray *)stopAnnotations regionSpan:(MKCoordinateSpan) span
 {
-    float latDelta=span.latitudeDelta/20.0;
-    float longDelta=span.longitudeDelta/20.0;
+    float latDelta=span.latitudeDelta/10.0;
+    float longDelta=span.longitudeDelta/10.0;
     
     NSMutableArray *hopsToShow=[[NSMutableArray alloc] initWithCapacity:0];
     
     for (NSInteger i = 0; i < [hopAnnotations count]; i++)
     {
-        R2RHopAnnotation *checkingLocation=[hopAnnotations objectAtIndex:i];
+        R2RAnnotation *checkingLocation=[hopAnnotations objectAtIndex:i];
         CLLocationDegrees latitude = checkingLocation.coordinate.latitude;
         CLLocationDegrees longitude = checkingLocation.coordinate.longitude;
         
         bool found=FALSE;
         
-        for (R2RStopAnnotation *stopAnnotation in stopAnnotations)
+        for (R2RAnnotation *stopAnnotation in stopAnnotations)
         {
             if(fabs(stopAnnotation.coordinate.latitude-latitude) < latDelta &&
                fabs(stopAnnotation.coordinate.longitude-longitude) <longDelta )
@@ -463,7 +625,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
                 break;
             }
         }
-        for (R2RHopAnnotation *hopAnnotation in hopsToShow)
+        for (R2RAnnotation *hopAnnotation in hopsToShow)
         {
             if(fabs(hopAnnotation.coordinate.latitude-latitude) < latDelta &&
                fabs(hopAnnotation.coordinate.longitude-longitude) <longDelta )
@@ -501,7 +663,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     return result;
 }
 
--(BOOL) areHopAnnotationsEquivalent :(R2RHopAnnotation *) first :(R2RHopAnnotation *) second
+-(BOOL) areHopAnnotationsEquivalent :(R2RAnnotation *) first :(R2RAnnotation *) second
 {
     return ([first.name isEqualToString:second.name] &&
             first.coordinate.latitude == second.coordinate.latitude &&

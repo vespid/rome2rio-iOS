@@ -218,7 +218,10 @@
 {
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	
-    return [mapHelper getAnnotationView:mapView :annotation];
+    R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+    
+    return [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
+//    return [mapHelper getAnnotationView:mapView :annotation];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView calloutAccessoryControlTapped:(UIControl *)control

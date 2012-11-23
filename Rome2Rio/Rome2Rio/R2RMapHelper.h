@@ -10,8 +10,11 @@
 #import <MapKit/MapKit.h>
 
 #import "R2RSearchStore.h"
-#import "R2RHopAnnotation.h"
-#import "R2RStopAnnotation.h"
+#import "R2RAnnotation.h"
+
+//TODO convert these annotations to r2rannotation
+//#import "R2RHopAnnotation.h"
+//#import "R2RStopAnnotation.h"
 
 @interface R2RMapHelper : NSObject
 
@@ -25,7 +28,9 @@
 -(NSArray *) getRouteStopAnnotations :(R2RRoute *)route;
 -(NSArray *) getRouteHopAnnotations :(R2RRoute *)route;
 
--(id)getAnnotationView :(MKMapView *)mapView :(id<MKAnnotation>)annotation;
+-(id)getAnnotationView :(MKMapView *)mapView annotation:(R2RAnnotation *)annotation;
+
+//-(id)getAnnotationView :(MKMapView *)mapView :(id<MKAnnotation>)annotation;
 
 //-(void)filterAnnotations:(NSArray *)stops:(NSArray *)hops: (MKMapView *) mapView;
 

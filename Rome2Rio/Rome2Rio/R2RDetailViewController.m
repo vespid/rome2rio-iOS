@@ -22,7 +22,7 @@
 #import "R2RStringFormatter.h"
 #import "R2RSegmentHelper.h"
 #import "R2RSprite.h"
-#import "R2RStopAnnotation.h"
+//#import "R2RStopAnnotation.h"
 #import "R2RMapHelper.h"
 #import "R2RConstants.h"
 
@@ -370,12 +370,12 @@
     
     hopAnnotations = [mapHelper filterHopAnnotations:hopAnnotations stopAnnotations:stopAnnotations regionSpan:self.mapView.region.span];
     
-    for (R2RStopAnnotation *annotation in stopAnnotations)
+    for (R2RAnnotation *annotation in stopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
     }
     
-    for (R2RHopAnnotation *annotation in hopAnnotations)
+    for (R2RAnnotation *annotation in hopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
     }
@@ -436,9 +436,14 @@
 {
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	
-    MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView :annotation];
+    R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+    R2RLog(@"%@\t%d", r2rAnnotation.name, r2rAnnotation.annotationType);
     
-    return annotationView;
+    return [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
+//    
+//    MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView :annotation];
+//    
+//    return annotationView;
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView calloutAccessoryControlTapped:(UIControl *)control
@@ -482,9 +487,10 @@
         NSMutableArray *existingHopAnnotations = [[NSMutableArray alloc] init];
         
         
-        for (id annotation in mapView.annotations)
+        for (R2RAnnotation *annotation in mapView.annotations)
         {
-            if ([annotation isKindOfClass:[R2RHopAnnotation class]])
+//            if ([annotation isKindOfClass:[R2RHopAnnotation class]])
+            if (annotation.annotationType == r2rAnnotationTypeHop)
             {
                 [existingHopAnnotations addObject:annotation];
             }

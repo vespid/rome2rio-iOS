@@ -49,6 +49,8 @@
 		5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */; };
 		5EAC7147162D0A2E00BE8378 /* R2RSpriteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */; };
 		5EB91A0F165EF0F90015C0A1 /* R2RPressAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB91A0E165EF0F90015C0A1 /* R2RPressAnnotation.m */; };
+		5EB91A13165EF4560015C0A1 /* R2RPressAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB91A12165EF4560015C0A1 /* R2RPressAnnotationView.m */; };
+		5EB91A16165EFB8E0015C0A1 /* R2RAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB91A15165EFB8E0015C0A1 /* R2RAnnotation.m */; };
 		5EC20327164B3FC300B1F45A /* R2RExpandedFlightSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC20326164B3FC200B1F45A /* R2RExpandedFlightSegmentCell.m */; };
 		5ED4B34C1601D01C00E9FE42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34B1601D01C00E9FE42 /* UIKit.framework */; };
 		5ED4B34E1601D01C00E9FE42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34D1601D01C00E9FE42 /* Foundation.framework */; };
@@ -174,6 +176,10 @@
 		5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteStore.m; sourceTree = "<group>"; };
 		5EB91A0D165EF0F80015C0A1 /* R2RPressAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPressAnnotation.h; sourceTree = "<group>"; };
 		5EB91A0E165EF0F90015C0A1 /* R2RPressAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPressAnnotation.m; sourceTree = "<group>"; };
+		5EB91A11165EF4560015C0A1 /* R2RPressAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPressAnnotationView.h; sourceTree = "<group>"; };
+		5EB91A12165EF4560015C0A1 /* R2RPressAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPressAnnotationView.m; sourceTree = "<group>"; };
+		5EB91A14165EFB8E0015C0A1 /* R2RAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAnnotation.h; sourceTree = "<group>"; };
+		5EB91A15165EFB8E0015C0A1 /* R2RAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAnnotation.m; sourceTree = "<group>"; };
 		5EC20325164B3FC000B1F45A /* R2RExpandedFlightSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RExpandedFlightSegmentCell.h; sourceTree = "<group>"; };
 		5EC20326164B3FC200B1F45A /* R2RExpandedFlightSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RExpandedFlightSegmentCell.m; sourceTree = "<group>"; };
 		5ED4B3471601D01C00E9FE42 /* Rome2rio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rome2rio.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -492,6 +498,10 @@
 				5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */,
 				5EB91A0D165EF0F80015C0A1 /* R2RPressAnnotation.h */,
 				5EB91A0E165EF0F90015C0A1 /* R2RPressAnnotation.m */,
+				5EB91A11165EF4560015C0A1 /* R2RPressAnnotationView.h */,
+				5EB91A12165EF4560015C0A1 /* R2RPressAnnotationView.m */,
+				5EB91A14165EFB8E0015C0A1 /* R2RAnnotation.h */,
+				5EB91A15165EFB8E0015C0A1 /* R2RAnnotation.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -683,6 +693,8 @@
 				5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */,
 				5E241EA3165C680400D44710 /* R2RMapViewController.m in Sources */,
 				5EB91A0F165EF0F90015C0A1 /* R2RPressAnnotation.m in Sources */,
+				5EB91A13165EF4560015C0A1 /* R2RPressAnnotationView.m in Sources */,
+				5EB91A16165EFB8E0015C0A1 /* R2RAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
