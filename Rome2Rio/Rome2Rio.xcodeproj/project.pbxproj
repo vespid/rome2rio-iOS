@@ -25,7 +25,6 @@
 		5E5AA3D6162E89D900055720 /* R2RMapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3D5162E89D900055720 /* R2RMapHelper.m */; };
 		5E5AA3DB162F854B00055720 /* R2RPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3D8162F854900055720 /* R2RPath.m */; };
 		5E5AA3DC162F854B00055720 /* R2RPathEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3DA162F854A00055720 /* R2RPathEncoder.m */; };
-		5E639E71164CBA3C00A18C20 /* R2RHopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639E70164CBA3C00A18C20 /* R2RHopAnnotation.m */; };
 		5E639E7416507D4C00A18C20 /* R2RSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639E7316507D4A00A18C20 /* R2RSpriteView.m */; };
 		5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */; };
 		5E84B2641659E96200EA3903 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E84B2661659E96200EA3903 /* Localizable.strings */; };
@@ -45,10 +44,8 @@
 		5EA48DB81643969B008A0ADA /* R2RSearchStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48DB71643969B008A0ADA /* R2RSearchStore.m */; };
 		5EA48DBB16439DB9008A0ADA /* R2RSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48DBA16439DB8008A0ADA /* R2RSearchManager.m */; };
 		5EAC705B162B8BA300BE8378 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EAC705A162B8BA300BE8378 /* MapKit.framework */; };
-		5EAC705F162B906200BE8378 /* R2RStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC705E162B906200BE8378 /* R2RStopAnnotation.m */; };
 		5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */; };
 		5EAC7147162D0A2E00BE8378 /* R2RSpriteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */; };
-		5EB91A0F165EF0F90015C0A1 /* R2RPressAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB91A0E165EF0F90015C0A1 /* R2RPressAnnotation.m */; };
 		5EB91A13165EF4560015C0A1 /* R2RPressAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB91A12165EF4560015C0A1 /* R2RPressAnnotationView.m */; };
 		5EB91A16165EFB8E0015C0A1 /* R2RAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB91A15165EFB8E0015C0A1 /* R2RAnnotation.m */; };
 		5EC20327164B3FC300B1F45A /* R2RExpandedFlightSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC20326164B3FC200B1F45A /* R2RExpandedFlightSegmentCell.m */; };
@@ -132,8 +129,6 @@
 		5E5AA3D8162F854900055720 /* R2RPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPath.m; sourceTree = "<group>"; };
 		5E5AA3D9162F854A00055720 /* R2RPathEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPathEncoder.h; sourceTree = "<group>"; };
 		5E5AA3DA162F854A00055720 /* R2RPathEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPathEncoder.m; sourceTree = "<group>"; };
-		5E639E6F164CBA3C00A18C20 /* R2RHopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RHopAnnotation.h; sourceTree = "<group>"; };
-		5E639E70164CBA3C00A18C20 /* R2RHopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RHopAnnotation.m; sourceTree = "<group>"; };
 		5E639E7216507D4800A18C20 /* R2RSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSpriteView.h; sourceTree = "<group>"; };
 		5E639E7316507D4A00A18C20 /* R2RSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteView.m; sourceTree = "<group>"; };
 		5E639EA21650C53200A18C20 /* R2RCompletionState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = R2RCompletionState.h; sourceTree = "<group>"; };
@@ -168,14 +163,10 @@
 		5EA48DB916439DB7008A0ADA /* R2RSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearchManager.h; sourceTree = "<group>"; };
 		5EA48DBA16439DB8008A0ADA /* R2RSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchManager.m; sourceTree = "<group>"; };
 		5EAC705A162B8BA300BE8378 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		5EAC705D162B906200BE8378 /* R2RStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RStopAnnotation.h; sourceTree = "<group>"; };
-		5EAC705E162B906200BE8378 /* R2RStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RStopAnnotation.m; sourceTree = "<group>"; };
 		5EAC713F162BD42F00BE8378 /* R2RImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RImageLoader.h; sourceTree = "<group>"; };
 		5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RImageLoader.m; sourceTree = "<group>"; };
 		5EAC7145162D0A2D00BE8378 /* R2RSpriteStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSpriteStore.h; sourceTree = "<group>"; };
 		5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteStore.m; sourceTree = "<group>"; };
-		5EB91A0D165EF0F80015C0A1 /* R2RPressAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPressAnnotation.h; sourceTree = "<group>"; };
-		5EB91A0E165EF0F90015C0A1 /* R2RPressAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPressAnnotation.m; sourceTree = "<group>"; };
 		5EB91A11165EF4560015C0A1 /* R2RPressAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPressAnnotationView.h; sourceTree = "<group>"; };
 		5EB91A12165EF4560015C0A1 /* R2RPressAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPressAnnotationView.m; sourceTree = "<group>"; };
 		5EB91A14165EFB8E0015C0A1 /* R2RAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAnnotation.h; sourceTree = "<group>"; };
@@ -473,15 +464,11 @@
 				5E16F26E163E3A9700740B07 /* R2RConstants.m */,
 				5E5AA3C3162E2E8F00055720 /* R2RDuration.h */,
 				5E5AA3C4162E2E8F00055720 /* R2RDuration.m */,
-				5E639E6F164CBA3C00A18C20 /* R2RHopAnnotation.h */,
-				5E639E70164CBA3C00A18C20 /* R2RHopAnnotation.m */,
 				5EAC713F162BD42F00BE8378 /* R2RImageLoader.h */,
 				5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */,
 				5E1E21D31627C64F00763152 /* R2RLog.h */,
 				5E5AA3D4162E89D800055720 /* R2RMapHelper.h */,
 				5E5AA3D5162E89D900055720 /* R2RMapHelper.m */,
-				5EAC705D162B906200BE8378 /* R2RStopAnnotation.h */,
-				5EAC705E162B906200BE8378 /* R2RStopAnnotation.m */,
 				5E5AA3D9162F854A00055720 /* R2RPathEncoder.h */,
 				5E5AA3DA162F854A00055720 /* R2RPathEncoder.m */,
 				5ED4B3921601D07000E9FE42 /* R2RPrintSearch.h */,
@@ -496,8 +483,6 @@
 				5ED5C8D9160B012A004CFDC8 /* R2RStringFormatter.m */,
 				5E639EA416521B7400A18C20 /* R2RSpriteCache.h */,
 				5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */,
-				5EB91A0D165EF0F80015C0A1 /* R2RPressAnnotation.h */,
-				5EB91A0E165EF0F90015C0A1 /* R2RPressAnnotation.m */,
 				5EB91A11165EF4560015C0A1 /* R2RPressAnnotationView.h */,
 				5EB91A12165EF4560015C0A1 /* R2RPressAnnotationView.m */,
 				5EB91A14165EFB8E0015C0A1 /* R2RAnnotation.h */,
@@ -668,7 +653,6 @@
 				5EDEDCBC161E79960005CADD /* R2RAgency.m in Sources */,
 				5EDEDCBF161E7A200005CADD /* R2RTransitLine.m in Sources */,
 				5E1BE0211623D493002F7CBB /* R2RFlightGroup.m in Sources */,
-				5EAC705F162B906200BE8378 /* R2RStopAnnotation.m in Sources */,
 				5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */,
 				5EAC7147162D0A2E00BE8378 /* R2RSpriteStore.m in Sources */,
 				5E5AA3C5162E2E8F00055720 /* R2RDuration.m in Sources */,
@@ -688,11 +672,9 @@
 				5EA48DB81643969B008A0ADA /* R2RSearchStore.m in Sources */,
 				5EA48DBB16439DB9008A0ADA /* R2RSearchManager.m in Sources */,
 				5EC20327164B3FC300B1F45A /* R2RExpandedFlightSegmentCell.m in Sources */,
-				5E639E71164CBA3C00A18C20 /* R2RHopAnnotation.m in Sources */,
 				5E639E7416507D4C00A18C20 /* R2RSpriteView.m in Sources */,
 				5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */,
 				5E241EA3165C680400D44710 /* R2RMapViewController.m in Sources */,
-				5EB91A0F165EF0F90015C0A1 /* R2RPressAnnotation.m in Sources */,
 				5EB91A13165EF4560015C0A1 /* R2RPressAnnotationView.m in Sources */,
 				5EB91A16165EFB8E0015C0A1 /* R2RAnnotation.m in Sources */,
 			);
