@@ -341,7 +341,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
         
         UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
-        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.2 orientation:image.imageOrientation];
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.3 orientation:image.imageOrientation];
         
         annotationView.image = smallerImage;
         
@@ -371,7 +371,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
         
         UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
-        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.3 orientation:image.imageOrientation];
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.4 orientation:image.imageOrientation];
         
         annotationView.image = smallerImage;
         
@@ -436,83 +436,16 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
 -(MKAnnotationView *) getPressAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
 {
     NSString *identifier = @"R2RPressAnnotation";
-    
+
     R2RPressAnnotationView *annotationView = (R2RPressAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
     
     if (!annotationView)
     {
         annotationView = [[R2RPressAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
     }
+    
     return annotationView;
 }
-
-//-(id)getAnnotationView:(MKMapView *)mapView :(id<MKAnnotation>)annotation
-//{
-//    if ([annotation isKindOfClass:[R2RHopAnnotation class]])
-//    {
-//        return [self configureHopAnnotation:mapView annotation:annotation];
-//    }
-//    
-//    //TODO add R2RStopAnnotation class and return nil not a defined class
-//    return [self configureStopAnnotation:mapView annotation:annotation];
-//}
-//
-//- (MKAnnotationView *)configureHopAnnotation:(MKMapView *)mapView annotation:(id)annotation
-//{
-//    NSString *identifier = @"R2RHopAnnotation";
-//    
-//    MKAnnotationView *annotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-//    if (annotationView == nil)
-//    {
-//        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-//        annotationView.enabled = YES;
-//        annotationView.canShowCallout = YES;
-//        CGPoint iconOffset = CGPointMake(267, 46);
-//        CGSize iconSize = CGSizeMake (12, 12);
-//        
-//        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
-//        
-//        UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
-//        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.5 orientation:image.imageOrientation];
-//        
-//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
-//        [button setTitle:@"🔍" forState:UIControlStateNormal];
-//        
-//        annotationView.rightCalloutAccessoryView = button;
-//        
-//        annotationView.image = smallerImage;
-//    }
-//    else
-//    {
-//        annotationView.annotation = annotation;
-//    }
-//    return annotationView;
-//}
-//
-//- (MKAnnotationView *)configureStopAnnotation:(MKMapView *)mapView annotation:(id)annotation
-//{
-//    NSString *identifier = @"R2RStopAnnotation";
-//    
-//    MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-//    
-//    if (annotationView == nil)
-//    {
-//        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-//        annotationView.enabled = YES;
-//        annotationView.canShowCallout = YES;
-//        
-////        annotationView.draggable = YES;
-//            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
-//            [button setTitle:@"🔍" forState:UIControlStateNormal];
-//            annotationView.rightCalloutAccessoryView = button;
-//    }
-//    else
-//    {
-//        annotationView.annotation = annotation;
-//    }
-//    return annotationView;
-//}
-
 
 -(NSArray *)getRouteStopAnnotations:(R2RRoute *)route
 {
@@ -595,7 +528,6 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         
         CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(airport.pos.lat, airport.pos.lng);
         R2RAnnotation *annotation = [[R2RAnnotation alloc] initWithName:airport.name kind:nil coordinate:coord annotationType:r2rAnnotationTypeHop];
-//        R2RHopAnnotation *annotation = [[R2RHopAnnotation alloc] initWithName:airport.name coordinate:coord];
         
         [hopAnnotations addObject:annotation];
     }
@@ -710,7 +642,10 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     { 
         self.strokeColor = [R2RConstants getFlightLineColor];
-        self.lineWidth = 5;
+        if ([[UIScreen mainScreen] scale] < 2.0)
+            self.lineWidth = 5;
+        else
+            self.lineWidth = 10;
     }
     return self;
 }
@@ -725,7 +660,10 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     {
         self.strokeColor = [R2RConstants getBusLineColor];
-        self.lineWidth = 5;
+        if ([[UIScreen mainScreen] scale] < 2.0)
+            self.lineWidth = 5;
+        else
+            self.lineWidth = 10;
     }
     return self;
 }
@@ -741,7 +679,10 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     {
         self.strokeColor = [R2RConstants getTrainLineColor];
-        self.lineWidth = 5;
+        if ([[UIScreen mainScreen] scale] < 2.0)
+            self.lineWidth = 5;
+        else
+            self.lineWidth = 10;
     }
     return self;
 }
@@ -757,7 +698,10 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     {
         self.strokeColor = [R2RConstants getFerryLineColor];
-        self.lineWidth = 5;
+        if ([[UIScreen mainScreen] scale] < 2.0)
+            self.lineWidth = 5;
+        else
+            self.lineWidth = 10;
     }
     return self;
 }
@@ -772,8 +716,13 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     self = [super initWithPolyline:polyline];
     if (self)
     {
+        if ([[UIScreen mainScreen] scale] < 2.0)
+            self.lineWidth = 5;
+        else
+            self.lineWidth = 10;
+        
         self.strokeColor = [R2RConstants getDriveLineColor];
-        self.lineWidth = 5;
+        
     }
     return self;
 }
@@ -788,7 +737,10 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     if (self)
     {
         self.strokeColor = [R2RConstants getWalkLineColor];
-        self.lineWidth = 5;
+        if ([[UIScreen mainScreen] scale] < 2.0)
+            self.lineWidth = 5;
+        else
+            self.lineWidth = 10;
     }
     return self;
 }

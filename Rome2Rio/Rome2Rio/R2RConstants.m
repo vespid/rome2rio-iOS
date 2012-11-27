@@ -45,34 +45,39 @@
     return [UIColor colorWithWhite:0.5 alpha:1.0];
 }
 
++ (UIColor *)getButtonHighlightColor
+{
+    return [UIColor colorWithRed:242.0/256.0 green:103.0/256.0 blue:54.0/256.0 alpha:1.0];
+}
+
 +(UIColor *)getFlightLineColor
 {
-    return [UIColor colorWithRed:241/255.0 green:96/255.0 blue:36/255.0 alpha:1.0];
+    return [UIColor colorWithRed:241/255.0 green:96/255.0 blue:36/255.0 alpha:0.8];
 }
 
 +(UIColor *)getBusLineColor
 {
-    return [UIColor colorWithRed:98/255.0 green:144/255.0 blue:46/255.0 alpha:1.0];
+    return [UIColor colorWithRed:98/255.0 green:144/255.0 blue:46/255.0 alpha:0.8];
 }
 
 +(UIColor *)getTrainLineColor
 {
-    return [UIColor colorWithRed:48/255.0 green:124/255.0 blue:192/255.0 alpha:1.0];
+    return [UIColor colorWithRed:48/255.0 green:124/255.0 blue:192/255.0 alpha:0.8];
 }
 
 +(UIColor *)getFerryLineColor
 {
-    return [UIColor colorWithRed:64/255.0 green:170/255.0 blue:196/255.0 alpha:1.0];
+    return [UIColor colorWithRed:64/255.0 green:170/255.0 blue:196/255.0 alpha:0.8];
 }
 
 +(UIColor *)getDriveLineColor
 {
-    return [UIColor blackColor];
+    return [UIColor colorWithWhite:0.0 alpha:0.4];
 }
 
 +(UIColor *)getWalkLineColor
 {
-    return [UIColor grayColor];
+    return [UIColor colorWithWhite:0.4 alpha:0.8];
 }
 
 @end

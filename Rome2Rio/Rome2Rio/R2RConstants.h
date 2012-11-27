@@ -15,6 +15,7 @@
 +(UIColor *) getExpandedCellColor;
 +(UIColor *) getLightTextColor;
 +(UIColor *) getDarkTextColor;
++(UIColor *) getButtonHighlightColor;
 +(UIColor *) getFlightLineColor;
 +(UIColor *) getBusLineColor;
 +(UIColor *) getTrainLineColor;
