@@ -6,7 +6,18 @@
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "R2RPressAnnotationView.h"
+#import "R2RConstants.h"
+
+@interface R2RPressAnnotationView()
+
+@property (nonatomic) CGSize contentSize;
+@property (nonatomic) CGSize sizeOfCalloutTriangle;
+@property (nonatomic) float offsetAboveParent;
+
+@end
 
 @implementation R2RPressAnnotationView
 
@@ -26,27 +37,33 @@
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self != nil)
     {
+        self.contentSize = CGSizeMake(120.0, 75.0);
+        self.sizeOfCalloutTriangle = CGSizeMake(15.0, 15.0);
+        self.offsetAboveParent = 0.0;
         
         CGRect frame = self.frame;
-        frame.size = CGSizeMake(100.0, 50.0);
+        frame.size = CGSizeMake(self.contentSize.width, self.contentSize.height + self.sizeOfCalloutTriangle.height + self.offsetAboveParent);
         self.frame = frame;
         self.backgroundColor = [UIColor clearColor];
-        self.centerOffset = CGPointMake(0.0, -25.0);
         
-        self.fromButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
+        self.centerOffset = CGPointMake(0.0, self.offsetAboveParent - (self.frame.size.height/2));
+        
+        self.fromButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.fromButton setFrame:CGRectMake(5, 5, 110, 30)];
         [self.fromButton setTitle:@"From here" forState:UIControlStateNormal];
+        [self.fromButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+        self.fromButton.titleLabel.textColor = [R2RConstants getDarkTextColor];
+        self.fromButton.tintColor = [R2RConstants getButtonHighlightColor];
         [self addSubview:self.fromButton];
         
-        self.toButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 100, 20)];
+        self.toButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.toButton setFrame:CGRectMake(5, 40, 110, 30)];
         [self.toButton setTitle:@"To here" forState:UIControlStateNormal];
+        [self.toButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+        self.toButton.titleLabel.textColor = [R2RConstants getDarkTextColor];
+        self.toButton.tintColor = [R2RConstants getButtonHighlightColor];
         [self addSubview:self.toButton];
-//        R2RPressAnnotation *annotation = (R2RPressAnnotation *)self.annotation;
-
-//        CGRect frame = self.frame;
-//        frame.size = CGSizeMake(60.0, 85.0);
-//        self.frame = frame;
-//        self.backgroundColor = [UIColor clearColor];
-//        self.centerOffset = CGPointMake(30.0, 42.0);
+  
     }
     return self;
 }
@@ -64,22 +81,44 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 1);
     
-    // draw the gray pointed shape:
+    CGFloat stroke = 1.0;
+	CGFloat radius = 5.0;
+    
+    rect = self.bounds;
+	rect.size.width -= stroke;
+	rect.size.height -= stroke + self.sizeOfCalloutTriangle.height + self.offsetAboveParent;
+	rect.origin.x += stroke / 2.0;
+	rect.origin.y += stroke / 2.0;
+
+    // draw the callout bubble:
     CGMutablePathRef path = CGPathCreateMutable();
-    CGPathMoveToPoint(path, NULL, 0.0, 0.0);
-    CGPathAddLineToPoint(path, NULL, 100.0, 0.0);
-    CGPathAddLineToPoint(path, NULL, 100.0, 40.0);
-    CGPathAddLineToPoint(path, NULL, 60.0, 40.0);
-    CGPathAddLineToPoint(path, NULL, 50.0, 50.0);
-    CGPathAddLineToPoint(path, NULL, 40.0, 40.0);
-    CGPathAddLineToPoint(path, NULL, 0.0, 40.0);
-    CGPathAddLineToPoint(path, NULL, 0.0, 0.0);
+    CGPathMoveToPoint(path, NULL, rect.origin.x + radius, rect.origin.y);
+    CGPathAddLineToPoint(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y);
+    CGPathAddArc(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + radius , radius, -M_PI / 2, 0.0, 0);
+    CGPathAddLineToPoint(path, NULL, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height - radius);
+    CGPathAddArc(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + rect.size.height - radius , radius, 0, M_PI / 2, 0);
+
+    CGPathAddLineToPoint(path, NULL, rect.origin.x + (rect.size.width/2) + (self.sizeOfCalloutTriangle.width/2), rect.origin.y + rect.size.height);
+    CGPathAddLineToPoint(path, NULL, rect.origin.x + (rect.size.width/2), rect.origin.y + rect.size.height + self.sizeOfCalloutTriangle.height);
+    CGPathAddLineToPoint(path, NULL, rect.origin.x + (rect.size.width/2) - (self.sizeOfCalloutTriangle.width/2), rect.origin.y + rect.size.height);
+
+    CGPathAddLineToPoint(path, NULL, rect.origin.x + radius, rect.origin.y + rect.size.height);
+    CGPathAddArc(path, NULL, rect.origin.x + radius, rect.origin.y + rect.size.height - radius , radius, M_PI / 2, M_PI, 0);
+    CGPathAddLineToPoint(path, NULL, rect.origin.x, rect.origin.y + radius);
+    CGPathAddArc(path, NULL, rect.origin.x + radius, rect.origin.y + radius , radius, M_PI , -M_PI / 2, 0);
+
+    CGPathCloseSubpath(path);
+    
     CGContextAddPath(context, path);
-    CGContextSetFillColorWithColor(context, [UIColor lightGrayColor].CGColor);
-    CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
+    CGContextSaveGState(context);
+    CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:0 alpha:0.6].CGColor);
+    CGContextSetStrokeColorWithColor(context, [UIColor colorWithWhite:0.2 alpha:0.9].CGColor);
+    CGContextSetShadowWithColor(context, CGSizeMake(0.0, 5.0), 5.0, [UIColor colorWithWhite:0 alpha:0.5].CGColor);
     CGContextDrawPath(context, kCGPathFillStroke);
+
+    CGContextRestoreGState(context);
+
     CGPathRelease(path);
 }
-
 
 @end

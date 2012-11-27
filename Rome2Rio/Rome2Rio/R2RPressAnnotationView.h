@@ -7,7 +7,6 @@
 //
 
 #import <MapKit/MapKit.h>
-#import "R2RPressAnnotation.h"
 
 @interface R2RPressAnnotationView : MKAnnotationView
 
