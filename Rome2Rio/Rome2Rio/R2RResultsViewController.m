@@ -29,7 +29,7 @@
 
 @implementation R2RResultsViewController
 
-@synthesize dataManager, dataStore;
+@synthesize searchManager, searchStore;
 
 - (void)viewDidLoad
 {
@@ -53,6 +53,7 @@
 
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
     [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:self.statusButton];
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
@@ -74,20 +75,20 @@
     [super viewWillAppear:animated];
     
     //if there is a status message show it otherwise show search message
-    if ([self.dataStore.statusMessage length] > 0)
+    if ([self.searchStore.statusMessage length] > 0)
     {
-        [self setStatusMessage:self.dataStore.statusMessage];
+        [self setStatusMessage:self.searchStore.statusMessage];
     }
     else
     {
-        [self setStatusMessage:self.dataStore.searchMessage];
-        if ([self.dataManager isSearching]) [self.dataManager setSearchMessage:@"Searching"];
+        [self setStatusMessage:self.searchStore.searchMessage];
+        if ([self.searchManager isSearching]) [self.searchManager setSearchMessage:@"Searching"];
     }
 }
 
 -(void) viewWillDisappear:(BOOL)animated
 {
-    if ([self.dataManager isSearching]) [self.dataManager setSearchMessage:@""];
+    if ([self.searchManager isSearching]) [self.searchManager setSearchMessage:@""];
     [super viewWillDisappear:animated];
 }
 
@@ -110,7 +111,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataStore.searchResponse.routes count];
+    return [self.searchStore.searchResponse.routes count];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,7 +121,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    R2RRoute *route = [self.dataStore.searchResponse.routes objectAtIndex:indexPath.row];
+    R2RRoute *route = [self.searchStore.searchResponse.routes objectAtIndex:indexPath.row];
     R2RSegmentHelper *segmentHandler  = [[R2RSegmentHelper alloc] init];
     NSString *CellIdentifier = @"ResultsCell";
     
@@ -162,7 +163,7 @@
             CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, sprite.size.width, sprite.size.height);
             [iconView setFrame:iconFrame];
             
-            [self.dataStore.spriteStore setSpriteInView:sprite :iconView];
+            [self.searchStore.spriteStore setSpriteInView:sprite :iconView];
             
             xOffset = iconView.frame.origin.x + iconView.frame.size.width + 7; //xPos of next icon
 
@@ -182,22 +183,25 @@
     if ([[segue identifier] isEqualToString:@"showRouteDetails"])
     {
         R2RDetailViewController *detailsViewController = [segue destinationViewController];
-        detailsViewController.dataStore = self.dataStore;
-        detailsViewController.route = [self.dataStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        detailsViewController.searchManager = self.searchManager;
+        detailsViewController.searchStore = self.searchStore;
+        detailsViewController.route = [self.searchStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
     }
     if ([[segue identifier] isEqualToString:@"showTransitSegment"])
     {
         R2RTransitSegmentViewController *segmentViewController = [segue destinationViewController];
-        R2RRoute *route = [self.dataStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row]; 
-        segmentViewController.dataStore = self.dataStore;
+        R2RRoute *route = [self.searchStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        segmentViewController.searchManager = self.searchManager;
+        segmentViewController.searchStore = self.searchStore;
         segmentViewController.route = route;
         segmentViewController.transitSegment = [route.segments objectAtIndex:0];
     }
     if ([[segue identifier] isEqualToString:@"showWalkDriveSegment"])
     {
         R2RWalkDriveSegmentViewController *segmentViewController = [segue destinationViewController];
-        R2RRoute *route = [self.dataStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-        segmentViewController.dataStore = self.dataStore;
+        R2RRoute *route = [self.searchStore.searchResponse.routes objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        segmentViewController.searchManager = self.searchManager;
+        segmentViewController.searchStore = self.searchStore;
         segmentViewController.route = route;
         segmentViewController.walkDriveSegment = [route.segments objectAtIndex:0];
     }
@@ -212,18 +216,18 @@
 {
 
     NSString *from;
-    if (self.dataStore.fromPlace)
+    if (self.searchStore.fromPlace)
     {
-        from = self.dataStore.fromPlace.shortName;
+        from = self.searchStore.fromPlace.shortName;
     }
     else
     {
         from = @"finding";
     }
     NSString *to;
-    if (self.dataStore.toPlace)
+    if (self.searchStore.toPlace)
     {
-        to = self.dataStore.toPlace.shortName;
+        to = self.searchStore.toPlace.shortName;
     }
     else
     {
@@ -279,12 +283,12 @@
 
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-    [self setStatusMessage:self.dataStore.statusMessage];
+    [self setStatusMessage:self.searchStore.statusMessage];
 }
 
 -(void) refreshSearchMessage:(NSNotification *) notification
 {
-    [self setStatusMessage:self.dataStore.searchMessage];
+    [self setStatusMessage:self.searchStore.searchMessage];
 }
 
 -(void) setStatusMessage: (NSString *) message

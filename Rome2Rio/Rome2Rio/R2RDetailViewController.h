@@ -8,18 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-
+#import "R2RSearchManager.h"
 #import "R2RSearchStore.h"
 #import "R2RTableView.h"
 
 @interface R2RDetailViewController : UIViewController <UIScrollViewDelegate, R2RTableViewDelegate, UITableViewDataSource, MKMapViewDelegate, UIActionSheetDelegate>
 
-@property (strong, nonatomic) R2RSearchStore *dataStore;
+@property (strong, nonatomic) R2RSearchManager *searchManager;
+@property (strong, nonatomic) R2RSearchStore *searchStore;
 @property (strong, nonatomic) R2RRoute *route;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UIButton *searchButton;
 
 - (IBAction)returnToSearch:(id)sender;
+- (IBAction)resolveLocation:(id)sender;
 
 @end

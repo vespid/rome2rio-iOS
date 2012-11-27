@@ -29,7 +29,7 @@
 
 @implementation R2RMasterViewController
 
-@synthesize dataStore, fromTextField, toTextField;
+@synthesize searchStore, fromTextField, toTextField;
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -91,14 +91,14 @@
     if ([[segue identifier] isEqualToString:@"showSearchResults"])
     {
         R2RResultsViewController *resultsViewController = [segue destinationViewController];
-        resultsViewController.dataManager = self.dataManager;
-        resultsViewController.dataStore = self.dataStore;
+        resultsViewController.searchManager = self.searchManager;
+        resultsViewController.searchStore = self.searchStore;
     }
     
     if ([[segue identifier] isEqualToString:@"showAutocomplete"])
     {
         R2RAutocompleteViewController *autocompleteViewController = (R2RAutocompleteViewController *)[[[segue destinationViewController] viewControllers] objectAtIndex:0];
-        autocompleteViewController.searchManager = self.dataManager;
+        autocompleteViewController.searchManager = self.searchManager;
         autocompleteViewController.fieldName = sender;
     }
 }
@@ -106,26 +106,26 @@
 - (IBAction)searchTouchUpInside:(id)sender
 {
     //If not geocoding or searching and there is no searchResponse restart process
-    [self.dataManager restartSearchIfNoResponse];
+    [self.searchManager restartSearchIfNoResponse];
     
-    if ([self.dataManager canShowSearchResults])
+    if ([self.searchManager canShowSearchResults])
         [self performSegueWithIdentifier:@"showSearchResults" sender:self];
 
 }
 
 -(void) refreshFromTextField:(NSNotification *) notification
 {
-    self.fromTextField.text = self.dataStore.fromPlace.longName;
+    self.fromTextField.text = self.searchStore.fromPlace.longName;
 }
 
 -(void) refreshToTextField:(NSNotification *) notification
 {
-    self.toTextField.text = self.dataStore.toPlace.longName;
+    self.toTextField.text = self.searchStore.toPlace.longName;
 }
 
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-    [self setStatusMessage:self.dataStore.statusMessage];
+    [self setStatusMessage:self.searchStore.statusMessage];
 }
 
 -(void) setStatusMessage: (NSString *) message
@@ -159,13 +159,13 @@
 {
     if (textField == self.fromTextField)
     {
-        [self.dataManager setFromPlace:nil];
-        self.dataManager.fromText = nil;
+        [self.searchManager setFromPlace:nil];
+        self.searchManager.fromText = nil;
     }
     if (textField == self.toTextField)
     {
-        [self.dataManager setToPlace:nil];
-        self.dataManager.toText = nil;
+        [self.searchManager setToPlace:nil];
+        self.searchManager.toText = nil;
     }
     self.textFieldDidClear = YES;
     return YES;

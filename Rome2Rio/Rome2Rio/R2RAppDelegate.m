@@ -21,13 +21,13 @@
     
     R2RMasterViewController *firstViewController = (R2RMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
     
-    R2RSearchStore *dataStore = [[R2RSearchStore alloc] init];
+    R2RSearchStore *searchStore = [[R2RSearchStore alloc] init];
     
-    R2RSearchManager *dataManager = [[R2RSearchManager alloc] init];
-    dataManager.dataStore = dataStore;
+    R2RSearchManager *searchManager = [[R2RSearchManager alloc] init];
+    searchManager.dataStore = searchStore;
     
-    firstViewController.dataManager = dataManager;
-    firstViewController.dataStore = dataStore;
+    firstViewController.searchManager = searchManager;
+    firstViewController.searchStore = searchStore;
     
     return YES;
 }

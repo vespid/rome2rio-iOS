@@ -16,11 +16,12 @@
 #import "R2RTransitSegmentCell.h"
 #import "R2RSegmentHelper.h"
 #import "R2RMapHelper.h"
-#import "R2RStopAnnotation.h"
-#import "R2RHopAnnotation.h"
+#import "R2RAnnotation.h"
+#import "R2RPressAnnotationView.h"
 
 @interface R2RTransitSegmentViewController ()
 
+@property (strong, nonatomic) R2RAnnotation *pressAnnotation;
 @property (strong, nonatomic) NSMutableArray *legs;
 @property CLLocationDegrees zoomLevel;
 @property (nonatomic) BOOL isMapZoomedToAnnotation;
@@ -29,7 +30,7 @@
 
 @implementation R2RTransitSegmentViewController
 
-@synthesize dataStore, route, transitSegment;
+@synthesize searchManager, searchStore, route, transitSegment;
 
 - (void)viewDidLoad
 {
@@ -52,6 +53,9 @@
     self.legs = [NSMutableArray array];
     [self sortLegs];
     
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPressAnnotation:)];
+    [self.mapView addGestureRecognizer:longPressGesture];
+    
     [self configureMap];
 
 }
@@ -62,10 +66,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    self.searchButton.hidden = YES;
+    [super viewDidDisappear:animated];
+}
+
 - (void)viewDidUnload
 {
     [self setTableView:nil];
     [self setMapView:nil];
+    [self setSearchButton:nil];
     [super viewDidUnload];
 }
 
@@ -102,7 +113,7 @@
     rect = CGRectMake(startX, 9, iconSize.width, iconSize.height);
     [header.agencyIconView setFrame:rect];
     
-    R2RAgency *agency  = [self.dataStore getAgency:transitLine.agency];
+    R2RAgency *agency  = [self.searchStore getAgency:transitLine.agency];
     
     NSString *agencyName = agency.name;
     if ([agencyName length] == 0)
@@ -122,12 +133,12 @@
         R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
         
         R2RSprite *sprite = [segmentHandler getRouteSprite:transitSegment.kind];
-        [self.dataStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
+        [self.searchStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
     }
     else
     {
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:agency.iconPath :agency.iconOffset :agency.iconSize];
-        [self.dataStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
+        [self.searchStore.spriteStore setSpriteInView:sprite :header.agencyIconView];
     }
     
     rect = CGRectMake(startX + iconSize.width + iconPadding, 8, 280-(startX + iconSize.width + iconPadding), 25);
@@ -353,19 +364,19 @@
 {
     [self.mapView setDelegate:self];
     
-    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.searchStore];
     
     NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
     NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
     
     hopAnnotations = [mapHelper filterHopAnnotations:hopAnnotations stopAnnotations:stopAnnotations regionSpan:self.mapView.region.span];
     
-    for (R2RStopAnnotation *annotation in stopAnnotations)
+    for (R2RAnnotation *annotation in stopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
     }
     
-    for (R2RHopAnnotation *annotation in hopAnnotations)
+    for (R2RAnnotation *annotation in hopAnnotations)
     {
         [self.mapView addAnnotation:annotation];
     }
@@ -410,11 +421,23 @@
 	
     R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
     
-    return [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
-//    
-//    MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView :annotation];
-//    
-//    return annotationView;
+    MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
+    
+    if (r2rAnnotation.annotationType == r2rAnnotationTypePress)
+    {
+        R2RPressAnnotationView *pressAnnotationView = (R2RPressAnnotationView *)annotationView;
+        [pressAnnotationView.fromButton addTarget:self
+                                           action:@selector(setFromLocation:)
+                                 forControlEvents:UIControlEventTouchUpInside];
+        
+        [pressAnnotationView.toButton addTarget:self
+                                         action:@selector(setToLocation:)
+                               forControlEvents:UIControlEventTouchUpInside];
+        
+        return pressAnnotationView;
+    }
+    
+    return annotationView;
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView calloutAccessoryControlTapped:(UIControl *)control
@@ -440,12 +463,18 @@
     }
 }
 
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
+{
+    self.searchButton.hidden = NO;
+    view.canShowCallout = NO;
+}
+
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     self.isMapZoomedToAnnotation = NO;
     if (self.zoomLevel!=mapView.region.span.longitudeDelta)
     {
-        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.dataStore];
+        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.searchStore];
         
         NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
         NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
@@ -455,10 +484,9 @@
         //just get existing hopAnnotations
         NSMutableArray *existingHopAnnotations = [[NSMutableArray alloc] init];
         
-        
-        for (id annotation in mapView.annotations)
+        for (R2RAnnotation *annotation in mapView.annotations)
         {
-            if ([annotation isKindOfClass:[R2RHopAnnotation class]])
+            if (annotation.annotationType == r2rAnnotationTypeHop)
             {
                 [existingHopAnnotations addObject:annotation];
             }
@@ -474,9 +502,74 @@
     }
 }
 
+- (void)showPressAnnotation:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
+    CLLocationCoordinate2D touchMapCoordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
+    
+    if (!self.pressAnnotation)
+    {
+        self.pressAnnotation = [[R2RAnnotation alloc] initWithName:@"Press" kind:nil coordinate:touchMapCoordinate annotationType:r2rAnnotationTypePress];
+        [self.mapView addAnnotation:self.pressAnnotation];
+    }
+    else
+    {
+        [self.pressAnnotation setCoordinate:touchMapCoordinate];
+    }
+}
+
+-(void) setFromLocation:(id) sender
+{
+    for (R2RAnnotation *annotation in self.mapView.annotations)
+    {
+        if (annotation.annotationType == r2rAnnotationTypeFrom)
+        {
+            [annotation setCoordinate:self.pressAnnotation.coordinate];
+            [self.mapView removeAnnotation:self.pressAnnotation];
+            self.pressAnnotation = nil;
+            self.searchButton.hidden = NO;
+            break;
+        }
+    }
+}
+
+-(void) setToLocation:(id) sender
+{
+    for (R2RAnnotation *annotation in self.mapView.annotations)
+    {
+        if (annotation.annotationType == r2rAnnotationTypeTo)
+        {
+            [annotation setCoordinate:self.pressAnnotation.coordinate];
+            [self.mapView removeAnnotation:self.pressAnnotation];
+            self.pressAnnotation = nil;
+            self.searchButton.hidden = NO;
+            break;
+        }
+    }
+}
+
 - (IBAction)returnToSearch:(id)sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)resolveLocation:(id)sender
+{
+    for (R2RAnnotation *annotation in self.mapView.annotations)
+    {
+        if (annotation.annotationType == r2rAnnotationTypeFrom)
+        {
+            [self.searchManager setFromWithMapLocation:annotation.coordinate];
+        }
+        if (annotation.annotationType == r2rAnnotationTypeTo)
+        {
+            [self.searchManager setToWithMapLocation:annotation.coordinate];
+        }
+    }
+    //    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    
 }
 
 - (void) showLinkMenu

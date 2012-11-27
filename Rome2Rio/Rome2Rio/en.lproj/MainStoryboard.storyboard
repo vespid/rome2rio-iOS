@@ -379,7 +379,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Go">
+                                <state key="normal" title="Search">
                                     <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -430,6 +430,22 @@
                                 <rect key="frame" x="1" y="408" width="320" height="350"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </mapView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0nQ-hc-YL3">
+                                <rect key="frame" x="100" y="435" width="120" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Search">
+                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resolveLocation:" destination="mjw-xX-aua" eventType="touchUpInside" id="iPV-5T-Qrj"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </scrollView>
                     <navigationItem key="navigationItem" title="Transit" id="rcT-du-krC">
@@ -441,6 +457,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="hfw-FP-6Kr" id="EfM-p2-VMX"/>
+                        <outlet property="searchButton" destination="0nQ-hc-YL3" id="0vM-3K-RUq"/>
                         <outlet property="tableView" destination="qlj-Xz-wWF" id="QfT-zE-TVI"/>
                     </connections>
                 </viewController>
@@ -552,9 +569,25 @@
                                 </prototypes>
                             </tableView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="5lD-4k-jpI">
-                                <rect key="frame" x="0.0" y="320" width="320" height="408"/>
+                                <rect key="frame" x="0.0" y="170" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="308-vw-wQv">
+                                <rect key="frame" x="100" y="435" width="120" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Search">
+                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resolveLocation:" destination="Yhw-Qi-8V7" eventType="touchUpInside" id="yo7-6o-VRI"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </scrollView>
                     <navigationItem key="navigationItem" title="Route" id="QRl-Bx-YDC">
@@ -566,6 +599,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="5lD-4k-jpI" id="kts-oS-SRQ"/>
+                        <outlet property="searchButton" destination="308-vw-wQv" id="d9W-QY-EoR"/>
                         <outlet property="tableView" destination="D1c-h2-mzA" id="dom-OJ-g1K"/>
                     </connections>
                 </viewController>
@@ -661,6 +695,22 @@
                                 <rect key="frame" x="0.0" y="200" width="320" height="364"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gqU-Sf-8gW">
+                                <rect key="frame" x="100" y="435" width="120" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Search">
+                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resolveLocation:" destination="1ix-uE-0ex" eventType="touchUpInside" id="wZb-jT-UYK"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </scrollView>
                     <navigationItem key="navigationItem" title="WalkDrive" id="1pz-JF-LtS">
@@ -672,6 +722,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="mWm-yi-xsE" id="i4Q-IV-SOO"/>
+                        <outlet property="searchButton" destination="gqU-Sf-8gW" id="Ate-OF-hTo"/>
                         <outlet property="tableView" destination="vdB-Bm-a2a" id="Tap-Ax-Isl"/>
                     </connections>
                 </viewController>
@@ -687,13 +738,139 @@
         <image name="r2r-retina.png" width="600" height="120"/>
         <image name="targetIcon_orange.png" width="48" height="48"/>
     </resources>
+    <classes>
+        <class className="R2RAutocompleteCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="autocompleteImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="label" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RAutocompleteViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RExpandedFlightSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RExpandedFlightSegmentCell.h"/>
+        </class>
+        <class className="R2RFlightHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RFlightSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentCell.h"/>
+        </class>
+        <class className="R2RFlightSegmentViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+            </relationships>
+        </class>
+        <class className="R2RInfoViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RInfoViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="rateApp:"/>
+                <relationship kind="action" name="sendFeedbackMail:"/>
+                <relationship kind="action" name="showMasterView:"/>
+            </relationships>
+        </class>
+        <class className="R2RMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+        <class className="R2RMasterViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="searchTouchUpInside:"/>
+                <relationship kind="action" name="showInfoView:"/>
+                <relationship kind="outlet" name="fromTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="headerBackground" candidateClass="UIView"/>
+                <relationship kind="outlet" name="headerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="toTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="R2RNameCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RNameCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RResultsCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsCell.h"/>
+        </class>
+        <class className="R2RResultsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+            </relationships>
+        </class>
+        <class className="R2RTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTableView.h"/>
+        </class>
+        <class className="R2RTransitHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RTransitSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentCell.h"/>
+        </class>
+        <class className="R2RTransitSegmentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RWalkDriveHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RWalkDriveSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentCell.h"/>
+        </class>
+        <class className="R2RWalkDriveSegmentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="8H0-t3-LG0"/>
-        <segue reference="P9k-ch-yB6"/>
+        <segue reference="e2Y-k2-yrg"/>
+        <segue reference="tCJ-q2-xQV"/>
     </inferredMetricsTieBreakers>
 </document>

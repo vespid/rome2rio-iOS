@@ -12,7 +12,7 @@
 
 @interface R2RFlightSegmentViewController : UITableViewController <UIActionSheetDelegate>
 
-@property (strong, nonatomic) R2RSearchStore *dataStore;
+@property (strong, nonatomic) R2RSearchStore *searchStore;
 @property (strong, nonatomic) R2RRoute *route;
 @property (strong, nonatomic) R2RFlightSegment *flightSegment;
 

@@ -7,9 +7,9 @@
 //
 
 #import "R2RMapViewController.h"
-#import "R2RStopAnnotation.h"
 #import "R2RAnnotation.h"
 #import "R2RStatusButton.h"
+#import "R2RMapHelper.h"
 
 #import "R2RPressAnnotationView.h"
 
@@ -84,25 +84,6 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-//- (void) nothing
-//{
-//    R2RLog(@"do nothing");
-//}
-
-//- (void)moveAnnotation:(UILongPressGestureRecognizer *)gestureRecognizer
-//{
-////    if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
-////    {
-//    
-//    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
-//    CLLocationCoordinate2D touchMapCoordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
-//    
-//    if (self.fromAnnotation.coordinate.latitude == touchMapCoordinate.latitude && self.fromAnnotation.coordinate.longitude == touchMapCoordinate.longitude) return;
-//
-//    [self.fromAnnotation setCoordinate:touchMapCoordinate];
-//
-//}
-
 - (void)showPressAnnotation:(UILongPressGestureRecognizer *)gestureRecognizer
 {
     [self.statusButton setTitle:nil forState:UIControlStateNormal];
@@ -112,104 +93,38 @@
 
     if (!self.pressAnnotation)
     {
-        self.pressAnnotation = [[R2RAnnotation alloc] initWithName:@"Press" kind:nil coordinate:touchMapCoordinate annotationType:r2rAnnotationTypePress];
+        self.pressAnnotation = [[R2RAnnotation alloc] initWithName:@" " kind:nil coordinate:touchMapCoordinate annotationType:r2rAnnotationTypePress];
         [self.mapView addAnnotation:self.pressAnnotation];
     }
     else
     {
         [self.pressAnnotation setCoordinate:touchMapCoordinate];
     }
+    
+    [self.mapView selectAnnotation:self.pressAnnotation animated:YES];
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    MKAnnotationView *annotationView = nil;
-    
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+	
     R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
     
-    if (r2rAnnotation.annotationType == r2rAnnotationTypeStop)
-    {
-        NSString *identifier = @"R2RStopAnnotation";
-        
-        annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        
-        if (annotationView == nil)
-        {
-            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:r2rAnnotation reuseIdentifier:identifier];
-            
-            annotationView.enabled = YES;
-            annotationView.canShowCallout = NO;
-            
-            [annotationView setDraggable:YES];
-        }
-        else
-        {
-            annotationView.annotation = annotation;
-        }
-    }
-    else
-    if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom)
-    {
-        NSString *identifier = @"R2RFromAnnotation";
-        
-        MKPinAnnotationView *newAnnotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        
-        if (newAnnotationView == nil)
-        {
-            newAnnotationView = [[MKPinAnnotationView alloc] initWithAnnotation:r2rAnnotation reuseIdentifier:identifier];
-            
-            newAnnotationView.pinColor = MKPinAnnotationColorGreen;
-            newAnnotationView.canShowCallout = NO;
-            //TODO maybe add callout with remove button?
-            
-            [newAnnotationView setDraggable:YES];
-        }
-        
-        annotationView = newAnnotationView;
-    }
-    else if (r2rAnnotation.annotationType == r2rAnnotationTypeTo)
-    {
-        NSString *identifier = @"R2RTOAnnotation";
-        
-        MKPinAnnotationView *newAnnotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        
-        if (newAnnotationView == nil)
-        {
-            newAnnotationView = [[MKPinAnnotationView alloc] initWithAnnotation:r2rAnnotation reuseIdentifier:identifier];
-            
-            newAnnotationView.pinColor = MKPinAnnotationColorRed;
-            newAnnotationView.canShowCallout = NO;
-            //TODO maybe add callout with remove button?
-            
-            [newAnnotationView setDraggable:YES];
-        }
-        
-        annotationView = newAnnotationView;
-    }
-    else if (r2rAnnotation.annotationType == r2rAnnotationTypePress)
-    {
-        NSString *identifier = @"R2RPressAnnotation";
-        
-        R2RPressAnnotationView *newAnnotationView = (R2RPressAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        
-        if (!newAnnotationView)
-        {
-            newAnnotationView = [[R2RPressAnnotationView alloc] initWithAnnotation:r2rAnnotation reuseIdentifier:identifier];
-            
-            [newAnnotationView.fromButton addTarget:self
-                                           action:@selector(setFromLocation:)
-                                 forControlEvents:UIControlEventTouchUpInside];
-            
-            [newAnnotationView.toButton addTarget:self
-                                           action:@selector(setToLocation:)
-                                 forControlEvents:UIControlEventTouchUpInside];
-            
-        }
-        
-        annotationView = newAnnotationView;
-    }
-
+    MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
     
+    if (r2rAnnotation.annotationType == r2rAnnotationTypePress)
+    {
+        R2RPressAnnotationView *pressAnnotationView = (R2RPressAnnotationView *)annotationView;
+        [pressAnnotationView.fromButton addTarget:self
+                                         action:@selector(setFromLocation:)
+                               forControlEvents:UIControlEventTouchUpInside];
+        
+        [pressAnnotationView.toButton addTarget:self
+                                       action:@selector(setToLocation:)
+                             forControlEvents:UIControlEventTouchUpInside];
+        
+        return pressAnnotationView;
+    }
     
     return annotationView;
 }
@@ -220,7 +135,8 @@
     
     if (!self.fromAnnotation)
     {
-        self.fromAnnotation = [[R2RAnnotation alloc] initWithName:@"from" kind:nil coordinate:self.pressAnnotation.coordinate annotationType:r2rAnnotationTypeFrom];
+        //TODO maybe add a name here so magnifying glass is shown and then set it to zoom to different levels
+        self.fromAnnotation = [[R2RAnnotation alloc] initWithName:nil kind:nil coordinate:self.pressAnnotation.coordinate annotationType:r2rAnnotationTypeFrom];
         [self.mapView addAnnotation:self.fromAnnotation];
     }
     else
@@ -238,7 +154,7 @@
     
     if (!self.toAnnotation)
     {
-        self.toAnnotation = [[R2RAnnotation alloc] initWithName:@"to" kind:nil coordinate:self.pressAnnotation.coordinate annotationType:r2rAnnotationTypeTo];
+        self.toAnnotation = [[R2RAnnotation alloc] initWithName:nil kind:nil coordinate:self.pressAnnotation.coordinate annotationType:r2rAnnotationTypeTo];
         [self.mapView addAnnotation:self.toAnnotation];
     }
     else

@@ -15,8 +15,8 @@
 
 @interface R2RMasterViewController : UIViewController <UITextFieldDelegate>
 
-@property (strong, nonatomic) R2RSearchManager *dataManager;
-@property (strong, nonatomic) R2RSearchStore *dataStore;
+@property (strong, nonatomic) R2RSearchManager *searchManager;
+@property (strong, nonatomic) R2RSearchStore *searchStore;
 
 - (IBAction)showInfoView:(id)sender;
 

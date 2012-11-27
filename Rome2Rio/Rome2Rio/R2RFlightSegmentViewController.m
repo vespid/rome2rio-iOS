@@ -30,7 +30,7 @@
 
 @implementation R2RFlightSegmentViewController
 
-@synthesize dataStore, route, flightSegment;
+@synthesize searchStore, route, flightSegment;
 
 - (void)viewDidLoad
 {
@@ -167,17 +167,17 @@
     
     [cell.durationLabel setText:[R2RStringFormatter formatDurationZeroPadded:duration]];
     
-    for (R2RAirline *airline in self.dataStore.searchResponse.airlines)
+    for (R2RAirline *airline in self.searchStore.searchResponse.airlines)
     {
         if ([airline.code isEqualToString:firstAirlineCode])
         {
             R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.dataStore.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
+            [self.searchStore.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
         }
         if ([airline.code isEqualToString:secondAirlineCode])
         {
             R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.dataStore.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
+            [self.searchStore.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
         }
     }
 }
@@ -236,17 +236,17 @@
     
     [cell.durationLabel setText:[R2RStringFormatter formatDurationZeroPadded:duration]];
     
-    for (R2RAirline *airline in self.dataStore.searchResponse.airlines)
+    for (R2RAirline *airline in self.searchStore.searchResponse.airlines)
     {
         if ([airline.code isEqualToString:firstAirlineCode])
         {
             R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.dataStore.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
+            [self.searchStore.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
         }
         if ([airline.code isEqualToString:secondAirlineCode])
         {
             R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.dataStore.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
+            [self.searchStore.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
         }
     }
     
@@ -259,7 +259,7 @@
     
     if (flightHop.lDuration > 0 && hopNumber > 0) //the layover should always be in the second hop but adding this for safety
     {
-        R2RAirport *airport = [self.dataStore getAirport:flightHop.sCode];
+        R2RAirport *airport = [self.searchStore getAirport:flightHop.sCode];
         
         label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
         [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
@@ -270,10 +270,10 @@
         [label setHidden:NO];
     }
     
-    R2RAirline *airline = [self.dataStore getAirline:flightHop.airline];
+    R2RAirline *airline = [self.searchStore getAirline:flightHop.airline];
     UIImageView *imageView = [cell.airlineIcons objectAtIndex:hopNumber];
     R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-    [self.dataStore.spriteStore setSpriteInView:sprite :imageView];
+    [self.searchStore.spriteStore setSpriteInView:sprite :imageView];
     [imageView setHidden:NO];
     
     label = [cell.sAirportLabels objectAtIndex:hopNumber];
@@ -457,7 +457,7 @@
         
         if (!isDuplicateAirline)
         {
-            R2RAirline *airline = [self.dataStore getAirline:flightHop.airline];
+            R2RAirline *airline = [self.searchStore getAirline:flightHop.airline];
             
             [airlines addObject:airline];
             
