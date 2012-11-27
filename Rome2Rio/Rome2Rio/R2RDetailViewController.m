@@ -58,17 +58,6 @@
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPressAnnotation:)];
     [self.mapView addGestureRecognizer:longPressGesture];
     
-//    
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    
-//    [button setFrame:CGRectMake(0.0, 100, 50, 50)];
-//    
-//    //  [[UIButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
-//    
-//    [button addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-////    [self.mapView  addSubview:button];
-//    [[self.view superview] addSubview:button];
-    
     [self configureMap];
     
 }
@@ -355,6 +344,7 @@
     {
         [self.pressAnnotation setCoordinate:touchMapCoordinate];
     }
+    [self.mapView selectAnnotation:self.pressAnnotation animated:YES];
 }
 
 -(void) setFromLocation:(id) sender
@@ -364,6 +354,7 @@
         if (annotation.annotationType == r2rAnnotationTypeFrom)
         {
             [annotation setCoordinate:self.pressAnnotation.coordinate];
+            [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
             [self.mapView removeAnnotation:self.pressAnnotation];
             self.pressAnnotation = nil;
             [self showSearchButton];
@@ -379,6 +370,7 @@
         if (annotation.annotationType == r2rAnnotationTypeTo)
         {
             [annotation setCoordinate:self.pressAnnotation.coordinate];
+            [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
             [self.mapView removeAnnotation:self.pressAnnotation];
             self.pressAnnotation = nil;
             [self showSearchButton];
@@ -405,10 +397,8 @@
             [self.searchManager setToWithMapLocation:annotation.coordinate];
         }
     }
-    //    [self.navigationController popToRootViewControllerAnimated:YES];
     
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-    
 }
 
 -(void)reloadDataDidFinish
@@ -485,7 +475,7 @@
 //set map to display main region for route
 - (void)setMapRegionDefault
 {
-    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.searchStore];
     MKMapRect bounds = MKMapRectNull;
     
     for (id segment in self.route.segments)
@@ -572,10 +562,27 @@
     }
 }
 
+-(void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    //hide press annotation when not selected
+    if (view.annotation == self.pressAnnotation)
+    {
+        [self.mapView removeAnnotation:self.pressAnnotation];
+        self.pressAnnotation = nil;
+    }
+}
+
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
 {
-    [self showSearchButton];
-    view.canShowCallout = NO;
+    if (view.annotation != self.pressAnnotation)
+    {
+        [self showSearchButton];
+        view.canShowCallout = NO;
+        if (newState == MKAnnotationViewDragStateEnding)
+        {
+            [self.mapView deselectAnnotation:view.annotation animated:YES];
+        }
+    }
 }
 
 -(void) showSearchButton

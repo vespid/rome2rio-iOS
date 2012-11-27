@@ -104,6 +104,27 @@
     [self.mapView selectAnnotation:self.pressAnnotation animated:YES];
 }
 
+-(void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    //hide press annotation when not selected
+    if (view.annotation == self.pressAnnotation)
+    {
+        [self.mapView removeAnnotation:self.pressAnnotation];
+        self.pressAnnotation = nil;
+    }
+}
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
+{
+    if (view.annotation != self.pressAnnotation)
+    {
+        if (newState == MKAnnotationViewDragStateEnding)
+        {
+            [self.mapView deselectAnnotation:view.annotation animated:YES];
+        }
+    }
+}
+
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
@@ -125,6 +146,9 @@
         
         return pressAnnotationView;
     }
+    
+    //this makes the annotations draggable without a title
+    annotationView.canShowCallout = NO;
     
     return annotationView;
 }

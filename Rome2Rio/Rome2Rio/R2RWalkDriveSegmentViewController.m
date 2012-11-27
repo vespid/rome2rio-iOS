@@ -275,10 +275,27 @@
     }
 }
 
+-(void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    //hide press annotation when not selected
+    if (view.annotation == self.pressAnnotation)
+    {
+        [self.mapView removeAnnotation:self.pressAnnotation];
+        self.pressAnnotation = nil;
+    }
+}
+
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
 {
-    self.searchButton.hidden = NO;
-    view.canShowCallout = NO;
+    if (view.annotation != self.pressAnnotation)
+    {
+        self.searchButton.hidden = NO;
+        view.canShowCallout = NO;
+        if (newState == MKAnnotationViewDragStateEnding)
+        {
+            [self.mapView deselectAnnotation:view.annotation animated:YES];
+        }
+    }
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
@@ -329,6 +346,7 @@
     {
         [self.pressAnnotation setCoordinate:touchMapCoordinate];
     }
+    [self.mapView selectAnnotation:self.pressAnnotation animated:YES];
 }
 
 -(void) setFromLocation:(id) sender
@@ -379,10 +397,8 @@
             [self.searchManager setToWithMapLocation:annotation.coordinate];
         }
     }
-//    [self.navigationController popToRootViewControllerAnimated:YES];
 
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-    
 }
 
 @end
