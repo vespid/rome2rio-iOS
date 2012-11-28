@@ -67,6 +67,150 @@
     return rect;
 }
 
+-(NSString *) getVerySpecificLongName: (CLPlacemark *) placemark
+{
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    if (placemark.name) [names addObject:placemark.name];
+    if (placemark.locality) [names addObject:placemark.locality];
+    if (placemark.administrativeArea) [names addObject:placemark.administrativeArea];
+    if (placemark.country) [names addObject:placemark.country];
+    
+    NSMutableString *longName = [[NSMutableString alloc] init];
+    
+    for (NSString *name in names)
+    {
+        [longName appendString:name];
+        if (name != [names lastObject])
+        {
+            [longName appendString:@", "];
+        }
+    }
+    
+    return longName;
+}
+
+-(NSString *) getSpecificLongName: (CLPlacemark *) placemark
+{
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+
+    if (placemark.subLocality) [names addObject:placemark.subLocality];
+    if (placemark.locality) [names addObject:placemark.locality];
+    if (placemark.administrativeArea) [names addObject:placemark.administrativeArea];
+    if (placemark.country)
+    {
+        [names addObject:placemark.country];
+    }
+    else
+    {
+        //if location is not in a country just return the name of the place
+        return placemark.name;
+    }
+    
+    NSMutableString *longName = [[NSMutableString alloc] init];
+    
+    for (NSString *name in names)
+    {
+        [longName appendString:name];
+        if (name != [names lastObject])
+        {
+            [longName appendString:@", "];
+        }
+    }
+    
+    return longName;
+}
+
+-(NSString *) getCityLongName: (CLPlacemark *) placemark
+{
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    
+    if (placemark.locality) [names addObject:placemark.locality];
+    if (placemark.subAdministrativeArea) [names addObject:placemark.subAdministrativeArea];
+    if (placemark.administrativeArea) [names addObject:placemark.administrativeArea];
+    if (placemark.country)
+    {
+        [names addObject:placemark.country];
+    }
+    else
+    {
+        //if location is not in a country just return the name of the place
+        return placemark.name;
+    }
+    
+    NSMutableString *longName = [[NSMutableString alloc] init];
+    
+    for (NSString *name in names)
+    {
+        [longName appendString:name];
+        if (name != [names lastObject])
+        {
+            [longName appendString:@", "];
+        }
+    }
+    
+    return longName;
+}
+
+-(NSString *) getCountryName: (CLPlacemark *) placemark
+{
+    if (placemark.country)
+    {
+        return placemark.country;
+    }
+    else
+    {
+        //if location is not in a country just return the name of the place
+        return placemark.name;
+    }
+}
+
+-(NSString *)getVerySpecificShortName:(CLPlacemark *)placemark
+{
+    return placemark.name;
+}
+
+-(NSString *)getSpecificShortName:(CLPlacemark *)placemark
+{
+    if (placemark.subLocality)
+    {
+        return placemark.subLocality;
+    }
+    else if (placemark.administrativeArea)
+    {
+        return placemark.administrativeArea;
+    }
+    else if (placemark.country)
+    {
+        return placemark.country;
+    }
+    else
+    {
+        //if location is not in a country just return the name of the place
+        return placemark.name;
+    }
+}
+
+-(NSString *)getCityShortName:(CLPlacemark *)placemark
+{
+    if (placemark.locality)
+    {
+        return placemark.locality;
+    }
+    if (placemark.administrativeArea)
+    {
+        return placemark.administrativeArea;
+    }
+    else if (placemark.country)
+    {
+        return placemark.country;
+    }
+    else
+    {
+        //if location is not in a country just return the name of the place
+        return placemark.name;
+    }
+}
+
 static MKMapPoint MKMapPointFromPosition(R2RPosition *pos)
 {
     CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(pos.lat, pos.lng);

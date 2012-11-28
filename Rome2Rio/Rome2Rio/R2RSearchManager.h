@@ -23,8 +23,8 @@
 
 -(void) setFromWithCurrentLocation;
 -(void) setToWithCurrentLocation;
--(void) setFromWithMapLocation:(CLLocationCoordinate2D) coord;
--(void) setToWithMapLocation:(CLLocationCoordinate2D) coord;
+-(void) setFromWithMapLocation:(CLLocationCoordinate2D) coord mapScale:(float) mapScale;
+-(void) setToWithMapLocation:(CLLocationCoordinate2D) coord mapScale:(float) mapScale;
 
 -(void) setStatusMessage:(NSString *) statusMessage;
 -(void) setSearchMessage:(NSString *) searchMessage;

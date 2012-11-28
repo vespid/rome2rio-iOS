@@ -8,6 +8,7 @@
 
 #import "R2RSearchManager.h"
 #import "R2RCompletionState.h"
+#import "R2RMapHelper.h"
 
 @interface R2RSearchManager()
 
@@ -80,7 +81,7 @@ typedef enum
     [self startLocationManager];
 }
 
--(void) setFromWithMapLocation:(CLLocationCoordinate2D) coord
+-(void) setFromWithMapLocation:(CLLocationCoordinate2D) coord mapScale:(float) mapScale
 {
     [self setFromPlace:nil];
     
@@ -88,11 +89,11 @@ typedef enum
     self.fromWantsMapLocation = YES;
     [self setStatusMessage:@"Finding Map Location"];
     
-    CLLocation *location = [[CLLocation alloc] initWithCoordinate:coord altitude:0 horizontalAccuracy:100 verticalAccuracy:100 timestamp:[NSDate date]];
+    CLLocation *location = [[CLLocation alloc] initWithCoordinate:coord altitude:0 horizontalAccuracy:mapScale verticalAccuracy:100 timestamp:[NSDate date]];
     [self reverseGeocodeLocation:location fieldType:@"mapFrom"];
 }
 
--(void) setToWithMapLocation:(CLLocationCoordinate2D) coord
+-(void) setToWithMapLocation:(CLLocationCoordinate2D) coord mapScale:(float) mapScale
 {
     [self setToPlace:nil];
     
@@ -100,7 +101,7 @@ typedef enum
     self.toWantsMapLocation = YES;
     [self setStatusMessage:@"Finding Map Location"];
     
-    CLLocation *location = [[CLLocation alloc] initWithCoordinate:coord altitude:0 horizontalAccuracy:100 verticalAccuracy:100 timestamp:[NSDate date]];
+    CLLocation *location = [[CLLocation alloc] initWithCoordinate:coord altitude:0 horizontalAccuracy:mapScale verticalAccuracy:100 timestamp:[NSDate date]];
     [self reverseGeocodeLocation:location fieldType:@"mapTo"];
 }
 
@@ -349,13 +350,57 @@ typedef enum
 {
     R2RPlace *place = [[R2RPlace alloc] init];
     
-    NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
-    R2RLog(@"%@", longName);
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    if (placemark.name) [names addObject:placemark.name];
+    if (placemark.locality) [names addObject:placemark.locality];
+    if (placemark.country) [names addObject:placemark.country];
+    
+    NSMutableString *longName = [[NSMutableString alloc] init];
+    
+    for (NSString *name in names)
+    {
+        [longName appendString:name];
+        if (name != [names lastObject])
+        {
+            [longName appendString:@", "];
+        }
+    }
+    
+//    NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
+//    R2RLog(@"%@\t%@", longName, [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country]);
+    
+    R2RLog(@"%@\t:%.2f\t\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t", placemark.name, location.horizontalAccuracy, placemark.subThoroughfare, placemark.thoroughfare, placemark.subLocality, placemark.locality, placemark.subAdministrativeArea, placemark.administrativeArea, placemark.country);
     place.longName = longName;
     place.shortName = placemark.name;
     place.lat = location.coordinate.latitude;
     place.lng = location.coordinate.longitude;
-    place.kind = @":veryspecific";
+    
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+    
+    if (location.horizontalAccuracy <= 100)
+    {
+        place.kind = @":veryspecific";
+        place.shortName = [mapHelper getVerySpecificShortName:placemark];
+        place.longName = [mapHelper getVerySpecificLongName:placemark];
+    }
+    else if (location.horizontalAccuracy <= 1000)
+    {
+        place.kind = @":specific";
+        place.shortName = [mapHelper getSpecificShortName:placemark];
+        place.longName = [mapHelper getSpecificLongName:placemark];
+    }
+    else if (location.horizontalAccuracy <= 20000)
+    {
+        place.kind = @"city";
+        place.shortName = [mapHelper getCityShortName:placemark];
+        place.longName = [mapHelper getCityLongName:placemark];
+    }
+    else
+    {
+        place.kind = @"country";
+        place.shortName = [mapHelper getCountryName:placemark];
+        place.longName = [mapHelper getCountryName:placemark];
+    }
     
     
     if (self.fromWantsMapLocation && [fieldType isEqualToString:@"mapFrom"])

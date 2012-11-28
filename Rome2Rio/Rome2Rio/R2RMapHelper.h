@@ -25,14 +25,19 @@
 
 -(MKMapRect) getSegmentBounds: (id) segment;
 
+-(NSString *) getVerySpecificLongName: (CLPlacemark *) placemark;
+-(NSString *) getSpecificLongName: (CLPlacemark *) placemark;
+-(NSString *) getCityLongName: (CLPlacemark *) placemark;
+-(NSString *) getCountryName: (CLPlacemark *) placemark;
+-(NSString *) getVerySpecificShortName: (CLPlacemark *) placemark;
+-(NSString *) getSpecificShortName: (CLPlacemark *) placemark;
+-(NSString *) getCityShortName: (CLPlacemark *) placemark;
+
+
 -(NSArray *) getRouteStopAnnotations :(R2RRoute *)route;
 -(NSArray *) getRouteHopAnnotations :(R2RRoute *)route;
 
 -(id)getAnnotationView :(MKMapView *)mapView annotation:(R2RAnnotation *)annotation;
-
-//-(id)getAnnotationView :(MKMapView *)mapView :(id<MKAnnotation>)annotation;
-
-//-(void)filterAnnotations:(NSArray *)stops:(NSArray *)hops: (MKMapView *) mapView;
 
 -(NSArray *)filterHopAnnotations :(NSArray *)hopAnnotations stopAnnotations:(NSArray *)stopAnnotations regionSpan:(MKCoordinateSpan) span;
 -(NSArray *) removeAnnotations :(NSArray *) firstArray :(NSArray *) secondArray;

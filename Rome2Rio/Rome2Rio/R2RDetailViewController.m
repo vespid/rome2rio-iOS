@@ -390,11 +390,17 @@
     {
         if (annotation.annotationType == r2rAnnotationTypeFrom)
         {
-            [self.searchManager setFromWithMapLocation:annotation.coordinate];
+            //mapcale. Used as horizontal accuracy
+            float mapScale = self.mapView.region.span.longitudeDelta*500;
+            
+            [self.searchManager setFromWithMapLocation:annotation.coordinate mapScale:mapScale];
         }
         if (annotation.annotationType == r2rAnnotationTypeTo)
         {
-            [self.searchManager setToWithMapLocation:annotation.coordinate];
+            //mapcale. Used as horizontal accuracy
+            float mapScale = self.mapView.region.span.longitudeDelta*500;
+            
+            [self.searchManager setToWithMapLocation:annotation.coordinate mapScale:mapScale];
         }
     }
     

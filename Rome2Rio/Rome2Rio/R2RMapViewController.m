@@ -45,7 +45,14 @@
     [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
     
-    [self.mapView setRegion:MKCoordinateRegionForMapRect(MKMapRectWorld)];
+    //temp area for Melbourne zoom
+    CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(-37.816022 ,144.96151);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
+    MKCoordinateRegion region = MKCoordinateRegionMake(coord, span);
+    
+    [self.mapView setRegion:region];
+    
+//    [self.mapView setRegion:MKCoordinateRegionForMapRect(MKMapRectWorld)];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPressAnnotation:)];
     [self.mapView addGestureRecognizer:longPressGesture];
@@ -73,12 +80,18 @@
     
     if (self.fromAnnotation)
     {
-        [self.searchManager setFromWithMapLocation:self.fromAnnotation.coordinate]; 
+        //mapcale. Used as horizontal accuracy
+        float mapScale = self.mapView.region.span.longitudeDelta*500;
+
+        [self.searchManager setFromWithMapLocation:self.fromAnnotation.coordinate mapScale:mapScale];
     }
     
     if (self.toAnnotation)
     {
-        [self.searchManager setToWithMapLocation:self.toAnnotation.coordinate];
+        //mapcale. Used as horizontal accuracy
+        float mapScale = self.mapView.region.span.longitudeDelta*500;
+        
+        [self.searchManager setToWithMapLocation:self.toAnnotation.coordinate mapScale:mapScale];
     }
 
     [self dismissModalViewControllerAnimated:YES];
@@ -155,8 +168,6 @@
 
 -(void) setFromLocation:(id) sender
 {
-    R2RLog(@"%@", sender);
-    
     if (!self.fromAnnotation)
     {
         //TODO maybe add a name here so magnifying glass is shown and then set it to zoom to different levels
@@ -174,8 +185,6 @@
 
 -(void) setToLocation:(id) sender
 {
-    R2RLog(@"%@", sender);
-    
     if (!self.toAnnotation)
     {
         self.toAnnotation = [[R2RAnnotation alloc] initWithName:nil kind:nil coordinate:self.pressAnnotation.coordinate annotationType:r2rAnnotationTypeTo];
