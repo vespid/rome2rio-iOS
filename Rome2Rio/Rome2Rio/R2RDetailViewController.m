@@ -51,15 +51,14 @@
     [self.tableView setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     [self.view sendSubviewToBack:self.mapView];
-    
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableView.tableFooterView = footer;
+
+    // set default to show grabBar in footer
+    [self setTableFooterWithGrabBar];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPressAnnotation:)];
     [self.mapView addGestureRecognizer:longPressGesture];
     
     [self configureMap];
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -195,10 +194,9 @@
         [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
     }
     
-    CGPoint iconOffset = CGPointMake(267, 46);
-    CGSize iconSize = CGSizeMake (12, 12);
+    CGRect hopIconRect = [R2RConstants getHopIconRect];
     
-    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6" :iconOffset :iconSize ];
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :hopIconRect.origin:hopIconRect.size];
     
     [self.searchStore.spriteStore setSpriteInView:sprite :cell.icon];
     
@@ -390,14 +388,14 @@
     {
         if (annotation.annotationType == r2rAnnotationTypeFrom)
         {
-            //mapcale. Used as horizontal accuracy
+            //mapscale. Used as horizontal accuracy
             float mapScale = self.mapView.region.span.longitudeDelta*500;
             
             [self.searchManager setFromWithMapLocation:annotation.coordinate mapScale:mapScale];
         }
         if (annotation.annotationType == r2rAnnotationTypeTo)
         {
-            //mapcale. Used as horizontal accuracy
+            //mapcsale. Used as horizontal accuracy
             float mapScale = self.mapView.region.span.longitudeDelta*500;
             
             [self.searchManager setToWithMapLocation:annotation.coordinate mapScale:mapScale];
@@ -409,40 +407,77 @@
 
 -(void)reloadDataDidFinish
 {
+    [self setMapFrame];
+    
+    //adjust table to correct size
     [self.tableView sizeToFit];
     
+    //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
     self.tableView.layer.shadowRadius = 5;
     self.tableView.layer.shadowOpacity = 0.5;
     self.tableView.layer.masksToBounds = NO;
     self.tableView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.tableView.bounds].CGPath;
-    
-    CGRect mapFrame = self.mapView.frame;
-    mapFrame.origin.y = self.tableView.frame.size.height;
-    mapFrame.size.height = [self calculateMapHeight];
-    
-    [self.mapView setFrame:mapFrame];
-    
+
+    // adjust scrollview content size
     CGSize scrollviewSize = self.view.frame.size;
-    scrollviewSize.height = self.tableView.frame.size.height + mapFrame.size.height;
+    scrollviewSize.height = self.tableView.frame.size.height + self.mapView.frame.size.height;
     UIScrollView *tempScrollView=(UIScrollView *)self.view;
     tempScrollView.contentSize=scrollviewSize;
 }
 
--(float) calculateMapHeight
+-(void) setMapFrame
 {
-    CGRect viewRect = self.view.frame;
-    CGRect tableRect = self.tableView.frame;
+    //get the frame of the table section
+    CGRect sectionFrame = [self.tableView rectForSection:0];
+
+    CGRect viewFrame = self.view.frame;
+    CGRect mapFrame = self.mapView.frame;
     
-    if (tableRect.size.height < (viewRect.size.height/3))
+    if (sectionFrame.size.height < (viewFrame.size.height/3))
     {
-        int height = (viewRect.size.height - tableRect.size.height);
-        return height;
+        //set map to fill remaining screen space
+        int height = (viewFrame.size.height - sectionFrame.size.height);
+        mapFrame.size.height = height;
+        
+        //set the table footer to 0
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+        self.tableView.tableFooterView = footer;
+        
+        //set map position to below section
+        mapFrame.origin.y = sectionFrame.size.height;
     }
     else
     {
-        return viewRect.size.height*2/3;
+        //set map to default height
+        mapFrame.size.height = viewFrame.size.height*2/3;
+        
+        //set table footer
+        [self setTableFooterWithGrabBar];
+        
+        //set map position to below footer
+        mapFrame.origin.y = sectionFrame.size.height + self.tableView.tableFooterView.frame.size.height;
     }
+    
+    //set map frame to new size and position
+    [self.mapView setFrame:mapFrame];
+}
+
+-(void) setTableFooterWithGrabBar
+{
+    if (self.tableView.tableFooterView.frame.size.height != 0) return;
+    
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 17)];
+    [footer setBackgroundColor:[R2RConstants getExpandedCellColor]];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 5, 27, 7)];
+    [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
+    imageView.userInteractionEnabled = YES;
+    imageView.alpha = 0.6;
+    
+    [footer addSubview:imageView];
+    
+    self.tableView.tableFooterView = footer;
 }
 
 -(void) configureMap
@@ -545,8 +580,6 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView calloutAccessoryControlTapped:(UIControl *)control
 {
-//    R2RLog(@"%@\t%f\t%f", annotationView.annotation.title, annotationView.annotation.coordinate.latitude, annotationView.annotation.coordinate.longitude);
-
     if (self.isMapZoomedToAnnotation)
     {
         [self setMapRegionDefault];

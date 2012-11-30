@@ -44,8 +44,8 @@
     
     [self.view sendSubviewToBack:self.mapView];
     
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableView.tableFooterView = footer;
+    // set default to show grabBar in footer
+    [self setTableFooterWithGrabBar];
     
     NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:transitSegment.kind];
     self.navigationItem.title = navigationTitle;
@@ -324,40 +324,77 @@
 
 -(void)reloadDataDidFinish
 {
+    [self setMapFrame];
+    
+    //adjust table to correct size
     [self.tableView sizeToFit];
     
+    //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
     self.tableView.layer.shadowRadius = 5;
     self.tableView.layer.shadowOpacity = 0.5;
     self.tableView.layer.masksToBounds = NO;
     self.tableView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.tableView.bounds].CGPath;
     
-    CGRect mapFrame = self.mapView.frame;
-    mapFrame.origin.y = self.tableView.frame.size.height;
-    mapFrame.size.height = [self calculateMapHeight];
-    
-    [self.mapView setFrame:mapFrame];
-    
+    // adjust scrollview content size
     CGSize scrollviewSize = self.view.frame.size;
-    scrollviewSize.height = self.tableView.frame.size.height + mapFrame.size.height;
+    scrollviewSize.height = self.tableView.frame.size.height + self.mapView.frame.size.height;
     UIScrollView *tempScrollView=(UIScrollView *)self.view;
     tempScrollView.contentSize=scrollviewSize;
 }
 
--(float) calculateMapHeight
+-(void) setMapFrame
 {
-    CGRect viewRect = self.view.frame;
-    CGRect tableRect = self.tableView.frame;
+    //get the frame of the table section
+    CGRect sectionFrame = [self.tableView rectForSection:0];
     
-    if (tableRect.size.height < (viewRect.size.height/3))
+    CGRect viewFrame = self.view.frame;
+    CGRect mapFrame = self.mapView.frame;
+    
+    if (sectionFrame.size.height < (viewFrame.size.height/3))
     {
-        int height = (viewRect.size.height - tableRect.size.height);
-        return height;
+        //set map to fill remaining screen space
+        int height = (viewFrame.size.height - sectionFrame.size.height);
+        mapFrame.size.height = height;
+        
+        //set the table footer to 0
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+        self.tableView.tableFooterView = footer;
+        
+        //set map position to below section
+        mapFrame.origin.y = sectionFrame.size.height;
     }
     else
     {
-        return viewRect.size.height*2/3;
+        //set map to default height
+        mapFrame.size.height = viewFrame.size.height*2/3;
+        
+        //set table footer
+        [self setTableFooterWithGrabBar];
+        
+        //set map position to below footer
+        mapFrame.origin.y = sectionFrame.size.height + self.tableView.tableFooterView.frame.size.height;
     }
+    
+    //set map frame to new size and position
+    [self.mapView setFrame:mapFrame];
+}
+
+-(void) setTableFooterWithGrabBar
+{
+    if (self.tableView.tableFooterView.frame.size.height != 0) return;
+    
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 17)];
+    [footer setBackgroundColor:[R2RConstants getExpandedCellColor]];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 5, 27, 7)];
+    [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
+    imageView.userInteractionEnabled = YES;
+    imageView.alpha = 0.6;
+    
+    [footer addSubview:imageView];
+    
+    self.tableView.tableFooterView = footer;
 }
 
 -(void) configureMap
@@ -477,13 +514,22 @@
 {
     if (view.annotation != self.pressAnnotation)
     {
-        self.searchButton.hidden = NO;
+        [self showSearchButton];
         view.canShowCallout = NO;
         if (newState == MKAnnotationViewDragStateEnding)
         {
             [self.mapView deselectAnnotation:view.annotation animated:YES];
         }
     }
+}
+
+-(void) showSearchButton
+{
+    CGRect buttonFrame = self.searchButton.frame;
+    
+    buttonFrame.origin.y = self.mapView.frame.origin.y + self.mapView.frame.size.height - 70;
+    [self.searchButton setFrame:buttonFrame];
+    self.searchButton.hidden = NO;
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
@@ -546,7 +592,7 @@
             [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
             [self.mapView removeAnnotation:self.pressAnnotation];
             self.pressAnnotation = nil;
-            self.searchButton.hidden = NO;
+            [self showSearchButton];
             break;
         }
     }
@@ -562,7 +608,7 @@
             [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
             [self.mapView removeAnnotation:self.pressAnnotation];
             self.pressAnnotation = nil;
-            self.searchButton.hidden = NO;
+            [self showSearchButton];
             break;
         }
     }
