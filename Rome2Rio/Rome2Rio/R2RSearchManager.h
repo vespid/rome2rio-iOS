@@ -13,7 +13,7 @@
 
 @interface R2RSearchManager : NSObject <R2RSearchDelegate, CLLocationManagerDelegate>
 
-@property (strong, nonatomic) R2RSearchStore *dataStore;
+@property (strong, nonatomic) R2RSearchStore *searchStore;
 
 @property (strong, nonatomic) NSString *fromText;
 @property (strong, nonatomic) NSString *toText;

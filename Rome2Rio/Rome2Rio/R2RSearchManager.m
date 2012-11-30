@@ -43,8 +43,8 @@ typedef enum
 {
     self.fromWantsCurrentLocation = NO;
     
-    self.dataStore.fromPlace = fromPlace;
-    self.dataStore.searchResponse = nil;
+    self.searchStore.fromPlace = fromPlace;
+    self.searchStore.searchResponse = nil;
     
     if ([self canStartSearch]) [self startSearch];
 }
@@ -53,8 +53,8 @@ typedef enum
 {
     self.toWantsCurrentLocation = NO;
     
-    self.dataStore.toPlace = toPlace;
-    self.dataStore.searchResponse = nil;
+    self.searchStore.toPlace = toPlace;
+    self.searchStore.searchResponse = nil;
     
     if ([self canStartSearch]) [self startSearch];
 }
@@ -107,17 +107,17 @@ typedef enum
 
 -(void) setStatusMessage:(NSString *) statusMessage
 {
-    self.dataStore.statusMessage = statusMessage;
+    self.searchStore.statusMessage = statusMessage;
 }
 
 -(void) setSearchMessage:(NSString *)searchMessage
 {
-    self.dataStore.searchMessage = searchMessage;
+    self.searchStore.searchMessage = searchMessage;
 }
 
 -(void) restartSearchIfNoResponse
 {
-    if (!self.dataStore.searchResponse)
+    if (!self.searchStore.searchResponse)
     {
         if ([self canStartSearch]) [self startSearch];
     }
@@ -130,19 +130,19 @@ typedef enum
 
 -(BOOL) canStartSearch
 {
-    return ((self.state == r2rSearchManagerStateIdle) && self.dataStore.fromPlace && self.dataStore.toPlace);
+    return ((self.state == r2rSearchManagerStateIdle) && self.searchStore.fromPlace && self.searchStore.toPlace);
 }
 
 -(BOOL) canShowSearchResults
 {
-    if (!self.dataStore.fromPlace && self.state == r2rSearchManagerStateIdle)
+    if (!self.searchStore.fromPlace && self.state == r2rSearchManagerStateIdle)
     {
         [self setStatusMessage:@"Enter Origin"];
         
         return NO;
     }
     
-    if (!self.dataStore.toPlace && self.state == r2rSearchManagerStateIdle)
+    if (!self.searchStore.toPlace && self.state == r2rSearchManagerStateIdle)
     {
         [self setStatusMessage:@"Enter Destination"];
         
@@ -154,16 +154,16 @@ typedef enum
 
 - (void) startSearch
 {
-    self.dataStore.searchResponse = nil;
+    self.searchStore.searchResponse = nil;
     
-    NSString *oName = self.dataStore.fromPlace.shortName;
-    NSString *dName = self.dataStore.toPlace.shortName;
-    NSString *oPos = [NSString stringWithFormat:@"%f,%f", self.dataStore.fromPlace.lat, self.dataStore.fromPlace.lng];
-    NSString *dPos = [NSString stringWithFormat:@"%f,%f", self.dataStore.toPlace.lat, self.dataStore.toPlace.lng];
-    NSString *oKind = self.dataStore.fromPlace.kind;
-    NSString *dKind = self.dataStore.toPlace.kind;
-    NSString *oCode = self.dataStore.fromPlace.code;
-    NSString *dCode = self.dataStore.toPlace.code;
+    NSString *oName = self.searchStore.fromPlace.shortName;
+    NSString *dName = self.searchStore.toPlace.shortName;
+    NSString *oPos = [NSString stringWithFormat:@"%f,%f", self.searchStore.fromPlace.lat, self.searchStore.fromPlace.lng];
+    NSString *dPos = [NSString stringWithFormat:@"%f,%f", self.searchStore.toPlace.lat, self.searchStore.toPlace.lng];
+    NSString *oKind = self.searchStore.fromPlace.kind;
+    NSString *dKind = self.searchStore.toPlace.kind;
+    NSString *oCode = self.searchStore.fromPlace.code;
+    NSString *dCode = self.searchStore.toPlace.code;
     
     self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind: oCode: dCode delegate:self];
     
@@ -176,12 +176,12 @@ typedef enum
     {
         if (self.search.responseCompletionState == r2rCompletionStateResolved)
         {
-            self.dataStore.searchResponse = search.searchResponse;
+            self.searchStore.searchResponse = search.searchResponse;
             [self setSearchMessage:@""];
         }
         else
         {
-            self.dataStore.searchResponse = nil;
+            self.searchStore.searchResponse = nil;
             [self setSearchMessage:search.responseMessage];
         }
         
@@ -432,7 +432,7 @@ typedef enum
     for (R2RAirline *airline in self.search.searchResponse.airlines)
     {
         //pre cache airline images.
-        [self.dataStore.spriteStore loadImage:airline.iconPath];
+        [self.searchStore.spriteStore loadImage:airline.iconPath];
     }
 }
 
@@ -440,7 +440,7 @@ typedef enum
 {
     for (R2RAgency *agency in self.search.searchResponse.agencies)
     {
-        [self.dataStore.spriteStore loadImage:agency.iconPath];
+        [self.searchStore.spriteStore loadImage:agency.iconPath];
     }
 }
 

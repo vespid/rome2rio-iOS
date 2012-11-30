@@ -20,6 +20,96 @@
     return nil;
 }
 
++(UIImage *) getMasterViewBackgroundImage
+{
+    return [UIImage imageNamed:@"bg-retina"];
+}
+
++(UIImage *) getMasterViewLogo
+{
+    return [UIImage imageNamed:@"r2r-retina"];
+}
+
++(NSString *) getIconSpriteFileName
+{
+    return @"sprites6x2";
+}
+
++(CGRect) getHopIconRect
+{
+    return CGRectMake(534, 92, 24, 24);
+};
+
++(CGRect) getRouteFlightSpriteRect
+{
+    return CGRectMake(0, 160, 36, 36);
+}
+
++(CGRect) getRouteTrainSpriteRect
+{
+    return CGRectMake(0, 196, 36, 36);
+}
+
++(CGRect) getRouteBusSpriteRect
+{
+    return CGRectMake(0, 376, 36, 36);
+}
+
++(CGRect) getRouteFerrySpriteRect
+{
+    return CGRectMake(0, 412, 36, 36);
+}
+
++(CGRect) getRouteCarSpriteRect
+{
+    return CGRectMake(0, 304, 36, 36);
+}
+
++(CGRect) getRouteWalkSpriteRect
+{
+    return CGRectMake(0, 448, 36, 36);
+}
+
++(CGRect) getRouteUnknownSpriteRect
+{
+    return CGRectMake(0, 340, 36, 36);
+}
+
++(CGRect) getResultFlightSpriteRect
+{
+    return CGRectMake(680, 120, 28, 24);
+}
+
++(CGRect) getResultTrainSpriteRect
+{
+    return CGRectMake(708, 120, 38, 24);
+}
+
++(CGRect) getResultBusSpriteRect
+{
+    return CGRectMake(768, 120, 36, 24);
+}
+
++(CGRect) getResultFerrySpriteRect
+{
+    return CGRectMake(636, 120, 44, 24);
+}
+
++(CGRect) getResultCarSpriteRect
+{
+    return CGRectMake(600, 120, 36, 24);
+}
+
++(CGRect) getResultWalkSpriteRect
+{
+    return CGRectMake(804, 120, 28, 24);
+}
+
++(CGRect) getResultUnknownSpriteRect
+{
+    return CGRectMake(746, 120, 22, 24);
+}
+
 +(UIColor *) getBackgroundColor
 {
     return [UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0];

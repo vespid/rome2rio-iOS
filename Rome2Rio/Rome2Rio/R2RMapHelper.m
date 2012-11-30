@@ -479,13 +479,13 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         annotationView.enabled = YES;
         annotationView.canShowCallout = YES;
-        CGPoint iconOffset = CGPointMake(267, 46);
-        CGSize iconSize = CGSizeMake (12, 12);
         
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
+        CGRect hopIconRect = [R2RConstants getHopIconRect];
         
-        UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
-        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.3 orientation:image.imageOrientation];
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :hopIconRect.origin :hopIconRect.size];
+        
+        UIImage *image = [sprite getSprite:[UIImage imageNamed:[R2RConstants getIconSpriteFileName]]];
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:2.5 orientation:image.imageOrientation];
         
         annotationView.image = smallerImage;
         
@@ -509,13 +509,13 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         annotationView.enabled = YES;
         annotationView.canShowCallout = YES;
-        CGPoint iconOffset = CGPointMake(267, 46);
-        CGSize iconSize = CGSizeMake (12, 12);
         
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :iconOffset :iconSize ];
+        CGRect hopIconRect = [R2RConstants getHopIconRect];
         
-        UIImage *image = [sprite getSprite:[UIImage imageNamed:@"sprites6"]];
-        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:1.4 orientation:image.imageOrientation];
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :hopIconRect.origin :hopIconRect.size];
+        
+        UIImage *image = [sprite getSprite:[UIImage imageNamed:[R2RConstants getIconSpriteFileName]]];
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:2.5 orientation:image.imageOrientation];
         
         annotationView.image = smallerImage;
         

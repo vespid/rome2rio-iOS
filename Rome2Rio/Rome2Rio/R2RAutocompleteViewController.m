@@ -121,7 +121,7 @@
         R2RAutocompleteCell *mapCell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
         
         [mapCell.autocompleteImageView setHidden:NO];
-        [mapCell.label setText:@"Select location on map"];
+        [mapCell.label setText:@"Select on map"];
         
         return mapCell;
     }
@@ -131,7 +131,7 @@
     if (indexPath.row == [self.places count])
     {
         [cell.autocompleteImageView setHidden:NO];
-        [cell.label setText:@"My location"];
+        [cell.label setText:@"Current location"];
         
         return cell;
     }
@@ -185,7 +185,7 @@
 
 -(void) startAutocomplete: (NSString *) searchText
 {
-    if (![self.searchManager.dataStore.statusMessage isEqualToString:@"Searching"])
+    if (![self.searchManager.searchStore.statusMessage isEqualToString:@"Searching"])
     {
         [self.searchManager setStatusMessage:@""];
     }
@@ -336,7 +336,7 @@
 
 -(void) refreshStatusMessage:(NSNotification *) notification
 {
-    [self.statusButton setTitle:self.searchManager.dataStore.statusMessage forState:UIControlStateNormal];
+    [self.statusButton setTitle:self.searchManager.searchStore.statusMessage forState:UIControlStateNormal];
 }
 
 // Called when the UIKeyboardDidShowNotification is sent.

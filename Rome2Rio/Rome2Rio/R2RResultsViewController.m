@@ -160,7 +160,7 @@
             
             R2RSprite *sprite = [segmentHandler getSegmentResultSprite:segment];
             
-            CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, sprite.size.width, sprite.size.height);
+            CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, sprite.size.width/2, sprite.size.height/2);
             [iconView setFrame:iconFrame];
             
             [self.searchStore.spriteStore setSpriteInView:sprite :iconView];

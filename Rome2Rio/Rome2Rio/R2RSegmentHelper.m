@@ -7,6 +7,7 @@
 //
 
 #import "R2RSegmentHelper.h"
+#import "R2RConstants.h"
 
 @interface R2RSegmentHelper()
 
@@ -146,63 +147,63 @@
 {
     if ([kind isEqualToString:@"flight"])
     {
-        return CGRectMake(0, 80, 18, 18);
+        return [R2RConstants getRouteFlightSpriteRect];
     }
     else if ([kind isEqualToString:@"train"])
     {
-        return CGRectMake(0, 98, 18, 18);
+        return [R2RConstants getRouteTrainSpriteRect];
     }
     else if ([kind isEqualToString:@"bus"])
     {
-        return CGRectMake(0, 188, 18, 18);
+        return [R2RConstants getRouteBusSpriteRect];
     }
     else if ([kind isEqualToString:@"ferry"])
     {
-        return CGRectMake(0, 206, 18, 18);
+        return [R2RConstants getRouteFerrySpriteRect];
     }
     else if ([kind isEqualToString:@"car"])
     {
-        return CGRectMake(0, 152, 18, 18);
+        return [R2RConstants getRouteCarSpriteRect];
     }
     else if ([kind isEqualToString:@"walk"])
     {
-        return CGRectMake(0, 224, 18, 18);
+        return [R2RConstants getRouteWalkSpriteRect];
     }
     else
     {
-        return CGRectMake(0, 170, 18, 18);
-    }    
+        return [R2RConstants getRouteUnknownSpriteRect];
+    }
 }
 
 -(CGRect) getResultIconRect: (NSString *) kind
 {
     if ([kind isEqualToString:@"flight"])
     {
-        return CGRectMake(340, 60, 14, 12);
+        return [R2RConstants getResultFlightSpriteRect];
     }
     else if ([kind isEqualToString:@"train"])
     {
-        return CGRectMake(354, 60, 19, 12);
+        return [R2RConstants getResultTrainSpriteRect];
     }
     else if ([kind isEqualToString:@"bus"])
     {
-        return CGRectMake(384, 60, 18, 12);
+        return [R2RConstants getResultBusSpriteRect];
     }
     else if ([kind isEqualToString:@"ferry"])
     {
-        return CGRectMake(318, 60, 22, 12);
+        return [R2RConstants getResultFerrySpriteRect];
     }
     else if ([kind isEqualToString:@"car"])
     {
-        return CGRectMake(300, 60, 18, 12);
+        return [R2RConstants getResultCarSpriteRect];
     }
     else if ([kind isEqualToString:@"walk"])
     {
-        return CGRectMake(402, 60, 14, 12);
+        return [R2RConstants getResultWalkSpriteRect];
     }
     else
     {
-        return CGRectMake(373, 60, 11, 12);
+        return [R2RConstants getResultUnknownSpriteRect];
     }
 }
 
@@ -215,14 +216,14 @@
 -(R2RSprite *) getResultSprite:(NSString *)kind
 {
     CGRect rect = [self getResultIconRect:kind];
-    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6" :rect.origin :rect.size];
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :rect.origin :rect.size];
     return sprite;
 }
 
 -(R2RSprite *) getRouteSprite:(NSString *)kind
 {
     CGRect rect = [self getRouteIconRect:kind];
-    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"sprites6" :rect.origin :rect.size];
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :rect.origin :rect.size];
     return sprite;
 }
 

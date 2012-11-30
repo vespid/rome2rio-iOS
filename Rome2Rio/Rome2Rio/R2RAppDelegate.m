@@ -24,7 +24,7 @@
     R2RSearchStore *searchStore = [[R2RSearchStore alloc] init];
     
     R2RSearchManager *searchManager = [[R2RSearchManager alloc] init];
-    searchManager.dataStore = searchStore;
+    searchManager.searchStore = searchStore;
     
     firstViewController.searchManager = searchManager;
     firstViewController.searchStore = searchStore;
