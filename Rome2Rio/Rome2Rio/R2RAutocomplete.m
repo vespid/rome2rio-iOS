@@ -183,7 +183,7 @@
         {
             R2RLog(@"Timeout");
             
-            self.responseMessage = @"Unable to find location";
+            self.responseMessage = NSLocalizedString(@"Unable to find location", nil);
             self.responseCompletionState = r2rCompletionStateError;
             
             [[self delegate] autocompleteResolved:self];
@@ -263,15 +263,15 @@
              switch (error.code)
              {
                  case kCLErrorDenied:
-                     self.responseMessage = @"Location services are off";
+                     self.responseMessage = NSLocalizedString(@"Location services are off", nil);
                      break;
                      
                  case kCLErrorNetwork:
-                     self.responseMessage = @"Internet appears to be offline";
+                     self.responseMessage = NSLocalizedString(@"Internet appears to be offline", nil);
                      break;
                      
                  default:
-                     self.responseMessage = @"Unable to find location";
+                     self.responseMessage = NSLocalizedString(@"Unable to find location", nil);
                      break;
              }
              

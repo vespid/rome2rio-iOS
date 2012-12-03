@@ -44,6 +44,9 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.title = NSLocalizedString(@"Route", nil);
+    [self.searchButton setTitle:NSLocalizedString(@"Search", nil) forState:UIControlStateNormal];
+    
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     [self.tableView setDelegate:self];
@@ -666,8 +669,5 @@
         self.zoomLevel=mapView.region.span.longitudeDelta;
     }
 }
-
-
-
 
 @end

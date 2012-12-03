@@ -18,6 +18,6 @@
 @property (strong, nonatomic) R2RSearchManager *searchManager;
 @property (strong, nonatomic) R2RSearchStore *searchStore;
 
-- (IBAction)showInfoView:(id)sender;
+
 
 @end	

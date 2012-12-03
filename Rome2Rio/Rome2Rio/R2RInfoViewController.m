@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "R2RInfoViewController.h"
+#import "R2RConstants.h"
 
 @interface R2RInfoViewController ()
 
@@ -19,6 +20,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.versionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Version %@", nil), [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    [self.feedbackButton setTitle:NSLocalizedString(@"Send Feedback", nil) forState:UIControlStateNormal];
+    [self.rateButton setTitle:NSLocalizedString(@"Rate App", nil) forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning
@@ -28,12 +33,15 @@
 
 - (void)viewDidUnload
 {
+    [self setVersionLabel:nil];
+    [self setFeedbackButton:nil];
+    [self setRateButton:nil];
     [super viewDidUnload];
 }
 
 - (IBAction)rateApp:(id)sender
 {
-    NSString *appId = @"569793256";
+    NSString *appId = [R2RConstants getAppId];
 
     NSURL *reviewURL = [NSURL URLWithString: [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", appId]];
     
@@ -43,10 +51,10 @@
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not start iTunes"
-                                                        message:@"Please rate rome2rio in the iTunes store"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could not start iTunes", nil)
+                                                        message:NSLocalizedString(@"Please rate rome2rio in the iTunes store", nil)
                                                        delegate:nil
-                                              cancelButtonTitle:@"OK"
+                                              cancelButtonTitle:NSLocalizedString(@"Ok", nil)
                                               otherButtonTitles:nil];
         [alert show];
         R2RLog(@"App store not available");
@@ -73,11 +81,11 @@
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not start email client"
-                                                             message:@"Please send feedback to feedback@rome2rio.com"
-                                                            delegate:nil
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could not start email client", nil)
+                                                        message:NSLocalizedString(@"Please send feedback to feedback@rome2rio.com", nil)
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Ok", nil)
+                                              otherButtonTitles:nil];
         [alert show];
         R2RLog(@"Email not available");
     }

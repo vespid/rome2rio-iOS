@@ -7,11 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 @interface R2RConstants : NSObject
 
++(NSString *) getAppId;
+
 +(UIImage *) getMasterViewBackgroundImage;
 +(UIImage *) getMasterViewLogo;
+
++(MKCoordinateRegion) getStartMapRegion;
 
 +(NSString *) getIconSpriteFileName;
 

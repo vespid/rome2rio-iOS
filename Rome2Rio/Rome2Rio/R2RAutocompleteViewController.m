@@ -38,7 +38,6 @@
     self.fallbackToCLGeocoder = NO;
     
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
-    [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
@@ -59,6 +58,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
     self.fallbackToCLGeocoder = NO;
     if ([self.fieldName isEqualToString:@"from"])
     {
@@ -77,6 +79,12 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidUnload {
@@ -121,7 +129,7 @@
         R2RAutocompleteCell *mapCell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
         
         [mapCell.autocompleteImageView setHidden:NO];
-        [mapCell.label setText:@"Select on map"];
+        [mapCell.label setText:NSLocalizedString(@"Select on map", nil)];
         
         return mapCell;
     }
@@ -131,7 +139,7 @@
     if (indexPath.row == [self.places count])
     {
         [cell.autocompleteImageView setHidden:NO];
-        [cell.label setText:@"Current location"];
+        [cell.label setText:NSLocalizedString(@"Current location", nil)];
         
         return cell;
     }
@@ -185,7 +193,7 @@
 
 -(void) startAutocomplete: (NSString *) searchText
 {
-    if (![self.searchManager.searchStore.statusMessage isEqualToString:@"Searching"])
+    if (![self.searchManager.searchStore.statusMessage isEqualToString:NSLocalizedString(@"Searching", nil)])
     {
         [self.searchManager setStatusMessage:@""];
     }
@@ -250,7 +258,7 @@
     {
         if (self.autocomplete.responseCompletionState != r2rCompletionStateResolved && self.autocomplete.responseCompletionState != r2rCompletionStateError && self.autocomplete.responseCompletionState != r2rCompletionStateLocationNotFound)
         {
-            [self.searchManager setStatusMessage:@"Searching"];
+            [self.searchManager setStatusMessage:NSLocalizedString(@"Searching", nil)];
         }
     }
 }

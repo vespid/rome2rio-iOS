@@ -10,6 +10,7 @@
 #import "R2RAnnotation.h"
 #import "R2RStatusButton.h"
 #import "R2RMapHelper.h"
+#import "R2RConstants.h"
 
 #import "R2RPressAnnotationView.h"
 
@@ -41,17 +42,15 @@
 {
     [super viewDidLoad];
 
+    self.navigationItem.title = NSLocalizedString(@"Select location", nil);
+    
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
     [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
     
-//    //temp area for Melbourne zoom
-//    CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(-37.816022 ,144.96151);
-//    MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
-//    MKCoordinateRegion region = MKCoordinateRegionMake(coord, span);
-
-    MKCoordinateRegion region = MKCoordinateRegionForMapRect(MKMapRectWorld);
+    MKCoordinateRegion region = [R2RConstants getStartMapRegion];
     
+    // if a location is already chosen for from start the map at that location
     if ([self.fieldName isEqualToString:@"to"] && self.searchManager.searchStore.fromPlace)
     {
         CLLocationCoordinate2D fromCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.fromPlace.lat , self.searchManager.searchStore.fromPlace.lng);

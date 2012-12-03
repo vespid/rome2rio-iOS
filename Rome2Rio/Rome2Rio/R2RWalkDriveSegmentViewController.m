@@ -35,7 +35,8 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = [R2RStringFormatter capitaliseFirstLetter:walkDriveSegment.kind];
+    NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:walkDriveSegment.kind];
+    self.navigationItem.title = NSLocalizedString(navigationTitle, nil);
     
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     

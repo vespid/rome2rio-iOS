@@ -19,11 +19,13 @@
 
 @property (weak, nonatomic) IBOutlet UIView *headerBackground;
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
+@property (weak, nonatomic) IBOutlet UIButton *searchButton;
 @property (strong, nonatomic) R2RMasterViewStatusButton *statusButton;
 
 @property (nonatomic) BOOL textFieldDidClear;
 
 - (IBAction)searchTouchUpInside:(id)sender;
+- (IBAction)showInfoView:(id)sender;
 
 @end
 
@@ -35,7 +37,7 @@
 {
 	[super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -46,6 +48,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = NSLocalizedString(@"Search", nil);
+    self.fromTextField.placeholder = NSLocalizedString(@"Origin", nil);
+    self.toTextField.placeholder = NSLocalizedString(@"Destination", nil);
+    [self.searchButton setTitle:NSLocalizedString(@"Search", nil) forState:UIControlStateNormal];
  
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
 
@@ -69,6 +76,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshToTextField" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshStatusMessage" object:nil];
     
+    [self setSearchButton:nil];
     [super viewDidUnload];
 }
 

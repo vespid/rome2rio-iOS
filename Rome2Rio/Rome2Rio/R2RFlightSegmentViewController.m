@@ -36,9 +36,10 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.title = NSLocalizedString(@"Fly", nil);
+    
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    self.navigationItem.title = @"Fly";
     self.spriteCache = [[R2RSpriteCache alloc] init];
     
     [self.tableView setSectionHeaderHeight:55];
@@ -262,7 +263,7 @@
         R2RAirport *airport = [self.searchStore getAirport:flightHop.sCode];
         
         label = [cell.layoverNameLabels objectAtIndex:(hopNumber -1)];
-        [label setText:[NSString stringWithFormat:@"Layover at %@", airport.name]];
+        [label setText:[NSString stringWithFormat:NSLocalizedString(@"Layover at %@", nil), airport.name]];
         [label setHidden:NO];
         
         label = [cell.layoverDurationLabels objectAtIndex:(hopNumber - 1)];
@@ -435,7 +436,7 @@
     R2RFlightLeg *flightLeg = [flightItinerary.legs objectAtIndex:0];
     
     
-    self.linkMenuSheet = [[UIActionSheet alloc] initWithTitle:@"External Links"
+    self.linkMenuSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"External Links", nil)
                                                      delegate:self
                                             cancelButtonTitle:nil
                                        destructiveButtonTitle:nil
@@ -466,7 +467,7 @@
         }
     }
     
-    [self.linkMenuSheet addButtonWithTitle:@"cancel"];
+    [self.linkMenuSheet addButtonWithTitle:NSLocalizedString(@"cancel", nil)];
     [self.linkMenuSheet setCancelButtonIndex:[airlines count]];
     
     [self.linkMenuSheet showInView:self.view];

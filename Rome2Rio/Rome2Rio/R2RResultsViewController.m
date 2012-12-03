@@ -36,6 +36,7 @@
     [super viewDidLoad];
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.navigationItem.title = NSLocalizedString(@"Results", nil);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTitle:) name:@"refreshTitle" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshResults:) name:@"refreshResults" object:nil];
@@ -82,7 +83,7 @@
     else
     {
         [self setStatusMessage:self.searchStore.searchMessage];
-        if ([self.searchManager isSearching]) [self.searchManager setSearchMessage:@"Searching"];
+        if ([self.searchManager isSearching]) [self.searchManager setSearchMessage:NSLocalizedString(@"Searching", nil)];
     }
 }
 
@@ -222,7 +223,7 @@
     }
     else
     {
-        from = @"finding";
+        from = NSLocalizedString(@"finding", nil);
     }
     NSString *to;
     if (self.searchStore.toPlace)
@@ -231,10 +232,10 @@
     }
     else
     {
-        to = @"finding";
+        to = NSLocalizedString(@"finding", nil);
     }
     
-    NSString *joiner = @" to ";
+    NSString *joiner = NSLocalizedString(@" to ", nil);
     CGSize joinerSize = [joiner sizeWithFont:[UIFont systemFontOfSize:17.0]];
     joinerSize.width += 2;
     CGSize fromSize = [from sizeWithFont:[UIFont systemFontOfSize:17.0]];

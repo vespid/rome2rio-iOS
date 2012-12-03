@@ -10,6 +10,10 @@
 
 @interface R2RInfoViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
+@property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
+@property (weak, nonatomic) IBOutlet UIButton *rateButton;
+
 - (IBAction)sendFeedbackMail:(id)sender;
 - (IBAction)rateApp:(id)sender;
 - (IBAction)showMasterView:(id)sender;

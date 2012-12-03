@@ -20,6 +20,11 @@
     return nil;
 }
 
++(NSString *)getAppId
+{
+    return @"569793256";
+}
+
 +(UIImage *) getMasterViewBackgroundImage
 {
     return [UIImage imageNamed:@"bg-retina"];
@@ -28,6 +33,16 @@
 +(UIImage *) getMasterViewLogo
 {
     return [UIImage imageNamed:@"r2r-retina"];
+}
+
+
++(MKCoordinateRegion) getStartMapRegion
+{
+    //Region for Melbourne
+//    CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake(-37.816022 , 144.96151);
+//    return MKCoordinateRegionMakeWithDistance(startCoord , 50000, 50000);
+    
+    return MKCoordinateRegionForMapRect(MKMapRectWorld);
 }
 
 +(NSString *) getIconSpriteFileName

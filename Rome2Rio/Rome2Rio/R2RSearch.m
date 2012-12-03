@@ -744,7 +744,7 @@
             if ([self.searchResponse.routes count] == 0)
             {
                 self.responseCompletionState = r2rCompletionStateError;
-                self.responseMessage = @"Unable to find route";
+                self.responseMessage = NSLocalizedString(@"Unable to find route", nil);
             }
             else
             {
@@ -780,7 +780,7 @@
     if (self.responseCompletionState == r2rCompletionStateResolving)
     {
         self.responseCompletionState = r2rCompletionStateError;
-        self.responseMessage = @"Unable to find location";
+        self.responseMessage = NSLocalizedString(@"Unable to find location", nil);
         R2RLog(@"Search Timeout");
         [[self delegate] searchDidFinish:self];
     }

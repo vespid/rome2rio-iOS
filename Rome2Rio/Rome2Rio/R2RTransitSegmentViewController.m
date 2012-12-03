@@ -48,7 +48,7 @@
     [self setTableFooterWithGrabBar];
     
     NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:transitSegment.kind];
-    self.navigationItem.title = navigationTitle;
+    self.navigationItem.title = NSLocalizedString(navigationTitle, nil);
     
     self.legs = [NSMutableArray array];
     [self sortLegs];
@@ -644,7 +644,7 @@
 
 - (void) showLinkMenu
 {
-    UIActionSheet *linkMenuSheet = [[UIActionSheet alloc] initWithTitle:@"Schedules"
+    UIActionSheet *linkMenuSheet = [[UIActionSheet alloc] initWithTitle: NSLocalizedString(@"Schedules", nil)
                                                                delegate:self
                                                       cancelButtonTitle:nil
                                                  destructiveButtonTitle:nil
@@ -655,7 +655,7 @@
         [linkMenuSheet addButtonWithTitle:leg.host];
     }
     
-    [linkMenuSheet addButtonWithTitle:@"cancel"];
+    [linkMenuSheet addButtonWithTitle: NSLocalizedString(@"cancel", nil)];
     [linkMenuSheet setCancelButtonIndex:[self.legs count]];
     
     [linkMenuSheet showInView:self.view];

@@ -65,7 +65,7 @@ typedef enum
     
     self.fromWantsCurrentLocation = YES;
     self.fromWantsMapLocation = NO;
-    [self setStatusMessage:@"Finding Current Location"];
+    [self setStatusMessage:NSLocalizedString(@"Finding Current Location", nil)];
     
     [self startLocationManager];
 }
@@ -76,7 +76,7 @@ typedef enum
     
     self.toWantsCurrentLocation = YES;
     self.toWantsMapLocation = NO;
-    [self setStatusMessage:@"Finding Current Location"];
+    [self setStatusMessage:NSLocalizedString(@"Finding Current Location", nil)];
     
     [self startLocationManager];
 }
@@ -87,7 +87,7 @@ typedef enum
     
     self.fromWantsCurrentLocation = NO;
     self.fromWantsMapLocation = YES;
-    [self setStatusMessage:@"Finding Map Location"];
+    [self setStatusMessage:NSLocalizedString(@"Finding Map Location", nil)];
     
     CLLocation *location = [[CLLocation alloc] initWithCoordinate:coord altitude:0 horizontalAccuracy:mapScale verticalAccuracy:100 timestamp:[NSDate date]];
     [self reverseGeocodeLocation:location fieldType:@"mapFrom"];
@@ -99,7 +99,7 @@ typedef enum
     
     self.toWantsCurrentLocation = NO;
     self.toWantsMapLocation = YES;
-    [self setStatusMessage:@"Finding Map Location"];
+    [self setStatusMessage:NSLocalizedString(@"Finding Map Location", nil)];
     
     CLLocation *location = [[CLLocation alloc] initWithCoordinate:coord altitude:0 horizontalAccuracy:mapScale verticalAccuracy:100 timestamp:[NSDate date]];
     [self reverseGeocodeLocation:location fieldType:@"mapTo"];
@@ -137,14 +137,14 @@ typedef enum
 {
     if (!self.searchStore.fromPlace && self.state == r2rSearchManagerStateIdle)
     {
-        [self setStatusMessage:@"Enter Origin"];
+        [self setStatusMessage:NSLocalizedString(@"Enter Origin", nil)];
         
         return NO;
     }
     
     if (!self.searchStore.toPlace && self.state == r2rSearchManagerStateIdle)
     {
-        [self setStatusMessage:@"Enter Destination"];
+        [self setStatusMessage:NSLocalizedString(@"Enter Destination", nil)];
         
         return NO;
     }
@@ -255,15 +255,15 @@ typedef enum
     switch (error.code)
     {
         case kCLErrorDenied:
-            [self setStatusMessage:@"Location services are off"];
+            [self setStatusMessage:NSLocalizedString(@"Location services are off", nil)];
             break;
             
         case kCLErrorNetwork:
-            [self setStatusMessage:@"Internet appears to be offline"];
+            [self setStatusMessage:NSLocalizedString(@"Internet appears to be offline", nil)];
             break;
             
         default:
-            [self setStatusMessage:@"Unable to find location"];
+            [self setStatusMessage:NSLocalizedString(@"Unable to find location", nil)];
             break;
     }
 }
@@ -365,9 +365,6 @@ typedef enum
             [longName appendString:@", "];
         }
     }
-    
-//    NSString *longName = [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country];
-//    R2RLog(@"%@\t%@", longName, [NSString stringWithFormat:@"%@, %@, %@", placemark.name, placemark.locality, placemark.country]);
     
     R2RLog(@"%@\t:%.2f\t\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t", placemark.name, location.horizontalAccuracy, placemark.subThoroughfare, placemark.thoroughfare, placemark.subLocality, placemark.locality, placemark.subAdministrativeArea, placemark.administrativeArea, placemark.country);
     place.longName = longName;
