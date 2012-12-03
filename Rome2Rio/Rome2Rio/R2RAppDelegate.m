@@ -11,7 +11,14 @@
 
 #import "R2RSearchStore.h"
 #import "R2RSearchManager.h"
+#import "R2RAppRater.h"
 
+
+@interface R2RAppDelegate()
+
+@property (strong, nonatomic) R2RAppRater *appRater;
+
+@end
 
 @implementation R2RAppDelegate
 
@@ -52,6 +59,11 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if (!self.appRater)
+    {
+        self.appRater = [[R2RAppRater alloc] init];
+    }
+    [self.appRater appStarted];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

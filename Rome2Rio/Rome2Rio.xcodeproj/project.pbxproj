@@ -44,6 +44,7 @@
 		5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */; };
 		5EAC7147162D0A2E00BE8378 /* R2RSpriteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */; };
 		5EB02F77166C3BA4009C0A6C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5EB02F76166C3BA4009C0A6C /* Localizable.strings */; };
+		5EB02F7A166C6666009C0A6C /* R2RAppRater.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB02F79166C6664009C0A6C /* R2RAppRater.m */; };
 		5EB4AE201666E65D009E65BE /* sprites6x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB4AE1F1666E65D009E65BE /* sprites6x2.png */; };
 		5EB4AE26166830A0009E65BE /* GrabTransparent1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB4AE25166830A0009E65BE /* GrabTransparent1.png */; };
 		5EB4AE2C16685A9E009E65BE /* Home_Icon_White.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB4AE2B16685A9D009E65BE /* Home_Icon_White.png */; };
@@ -166,6 +167,8 @@
 		5EAC7145162D0A2D00BE8378 /* R2RSpriteStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSpriteStore.h; sourceTree = "<group>"; };
 		5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteStore.m; sourceTree = "<group>"; };
 		5EB02F76166C3BA4009C0A6C /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		5EB02F78166C6662009C0A6C /* R2RAppRater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAppRater.h; sourceTree = "<group>"; };
+		5EB02F79166C6664009C0A6C /* R2RAppRater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAppRater.m; sourceTree = "<group>"; };
 		5EB4AE1F1666E65D009E65BE /* sprites6x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprites6x2.png; sourceTree = "<group>"; };
 		5EB4AE25166830A0009E65BE /* GrabTransparent1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GrabTransparent1.png; sourceTree = "<group>"; };
 		5EB4AE2B16685A9D009E65BE /* Home_Icon_White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home_Icon_White.png; sourceTree = "<group>"; };
@@ -488,6 +491,8 @@
 				5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */,
 				5ED5C8D8160B012A004CFDC8 /* R2RStringFormatter.h */,
 				5ED5C8D9160B012A004CFDC8 /* R2RStringFormatter.m */,
+				5EB02F78166C6662009C0A6C /* R2RAppRater.h */,
+				5EB02F79166C6664009C0A6C /* R2RAppRater.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -681,6 +686,7 @@
 				5E241EA3165C680400D44710 /* R2RMapViewController.m in Sources */,
 				5EB91A13165EF4560015C0A1 /* R2RPressAnnotationView.m in Sources */,
 				5EB91A16165EFB8E0015C0A1 /* R2RAnnotation.m in Sources */,
+				5EB02F7A166C6666009C0A6C /* R2RAppRater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
