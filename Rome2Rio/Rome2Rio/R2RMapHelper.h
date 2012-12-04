@@ -33,6 +33,11 @@
 -(NSString *) getSpecificShortName: (CLPlacemark *) placemark;
 -(NSString *) getCityShortName: (CLPlacemark *) placemark;
 
+-(bool) shouldShowSubLocality:(CLPlacemark *)placemark;
+-(bool) shouldShowLocality:(CLPlacemark *)placemark;
+-(bool) shouldShowSubAdministrative:(CLPlacemark *)placemark;
+-(bool) shouldShowAdministrative:(CLPlacemark *)placemark;
+-(bool) shouldShowCountry:(CLPlacemark *)placemark;
 
 -(NSArray *) getRouteStopAnnotations :(R2RRoute *)route;
 -(NSArray *) getRouteHopAnnotations :(R2RRoute *)route;

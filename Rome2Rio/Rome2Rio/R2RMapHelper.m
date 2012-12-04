@@ -93,10 +93,11 @@
 {
     NSMutableArray *names = [[NSMutableArray alloc] init];
 
-    if (placemark.subLocality) [names addObject:placemark.subLocality];
-    if (placemark.locality) [names addObject:placemark.locality];
-    if (placemark.administrativeArea) [names addObject:placemark.administrativeArea];
-    if (placemark.country)
+    if (placemark.subLocality && [self shouldShowSubLocality:placemark]) [names addObject:placemark.subLocality];
+    if (placemark.locality && [self shouldShowLocality:placemark]) [names addObject:placemark.locality];
+    if (placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark]) [names addObject:placemark.subAdministrativeArea];
+    if (placemark.administrativeArea && [self shouldShowAdministrative:placemark]) [names addObject:placemark.administrativeArea];
+    if (placemark.country && [self shouldShowCountry:placemark])
     {
         [names addObject:placemark.country];
     }
@@ -124,10 +125,10 @@
 {
     NSMutableArray *names = [[NSMutableArray alloc] init];
     
-    if (placemark.locality) [names addObject:placemark.locality];
-    if (placemark.subAdministrativeArea) [names addObject:placemark.subAdministrativeArea];
-    if (placemark.administrativeArea) [names addObject:placemark.administrativeArea];
-    if (placemark.country)
+    if (placemark.locality && [self shouldShowLocality:placemark]) [names addObject:placemark.locality];
+    if (placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark]) [names addObject:placemark.subAdministrativeArea];
+    if (placemark.administrativeArea && [self shouldShowAdministrative:placemark]) [names addObject:placemark.administrativeArea];
+    if (placemark.country && [self shouldShowCountry:placemark])
     {
         [names addObject:placemark.country];
     }
@@ -171,15 +172,23 @@
 
 -(NSString *)getSpecificShortName:(CLPlacemark *)placemark
 {
-    if (placemark.subLocality)
+    if (placemark.subLocality && [self shouldShowSubLocality:placemark])
     {
         return placemark.subLocality;
     }
-    else if (placemark.administrativeArea)
+    else if (placemark.locality && [self shouldShowLocality:placemark])
+    {
+        return placemark.locality;
+    }
+    else if (placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark])
+    {
+        return placemark.subAdministrativeArea;
+    }
+    else if (placemark.administrativeArea && [self shouldShowAdministrative:placemark])
     {
         return placemark.administrativeArea;
     }
-    else if (placemark.country)
+    else if (placemark.country && [self shouldShowCountry:placemark])
     {
         return placemark.country;
     }
@@ -192,15 +201,19 @@
 
 -(NSString *)getCityShortName:(CLPlacemark *)placemark
 {
-    if (placemark.locality)
+    if (placemark.locality && [self shouldShowLocality:placemark])
     {
         return placemark.locality;
     }
-    if (placemark.administrativeArea)
+    else if (placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark])
+    {
+        return placemark.subAdministrativeArea;
+    }
+    else if (placemark.administrativeArea && [self shouldShowAdministrative:placemark])
     {
         return placemark.administrativeArea;
     }
-    else if (placemark.country)
+    else if (placemark.country && [self shouldShowCountry:placemark])
     {
         return placemark.country;
     }
@@ -210,6 +223,60 @@
         return placemark.name;
     }
 }
+
+-(bool) shouldShowSubLocality:(CLPlacemark *)placemark
+{
+    if ([placemark.ISOcountryCode isEqualToString:@"AU"]) return YES;
+    
+    if ([placemark.ISOcountryCode isEqualToString:@"US"]) return NO;
+    
+    if ([placemark.ISOcountryCode isEqualToString:@"CA"]) return NO;
+    
+    //default
+    return NO;
+}
+
+-(bool) shouldShowLocality:(CLPlacemark *)placemark
+{
+    if ([placemark.ISOcountryCode isEqualToString:@"AU"]) return NO;
+    
+    if ([placemark.ISOcountryCode isEqualToString:@"US"]) return YES;
+    
+    if ([placemark.ISOcountryCode isEqualToString:@"CA"]) return YES;
+    
+    //default
+    return YES;
+}
+
+-(bool) shouldShowSubAdministrative:(CLPlacemark *)placemark
+{
+    if ([placemark.ISOcountryCode isEqualToString:@"AU"]) return NO;
+
+    if ([placemark.ISOcountryCode isEqualToString:@"US"]) return NO;
+    
+    if ([placemark.ISOcountryCode isEqualToString:@"CA"]) return NO;
+    
+    //default
+    return NO;
+}
+
+-(bool) shouldShowAdministrative:(CLPlacemark *)placemark
+{
+    if ([placemark.ISOcountryCode isEqualToString:@"AU"]) return YES;
+    
+    if ([placemark.ISOcountryCode isEqualToString:@"US"]) return YES;
+
+    if ([placemark.ISOcountryCode isEqualToString:@"CA"]) return YES;
+
+    //default
+    return YES;
+}
+
+-(bool) shouldShowCountry:(CLPlacemark *)placemark
+{
+    return YES;
+}
+
 
 static MKMapPoint MKMapPointFromPosition(R2RPosition *pos)
 {

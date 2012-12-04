@@ -350,25 +350,8 @@ typedef enum
 {
     R2RPlace *place = [[R2RPlace alloc] init];
     
-    NSMutableArray *names = [[NSMutableArray alloc] init];
-    if (placemark.name) [names addObject:placemark.name];
-    if (placemark.locality) [names addObject:placemark.locality];
-    if (placemark.country) [names addObject:placemark.country];
+    R2RLog(@"%@\t:%.2f\t\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t", placemark.name, location.horizontalAccuracy, placemark.subThoroughfare, placemark.thoroughfare, placemark.subLocality, placemark.locality, placemark.subAdministrativeArea, placemark.administrativeArea, placemark.country,placemark.ISOcountryCode);
     
-    NSMutableString *longName = [[NSMutableString alloc] init];
-    
-    for (NSString *name in names)
-    {
-        [longName appendString:name];
-        if (name != [names lastObject])
-        {
-            [longName appendString:@", "];
-        }
-    }
-    
-    R2RLog(@"%@\t:%.2f\t\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t", placemark.name, location.horizontalAccuracy, placemark.subThoroughfare, placemark.thoroughfare, placemark.subLocality, placemark.locality, placemark.subAdministrativeArea, placemark.administrativeArea, placemark.country);
-    place.longName = longName;
-    place.shortName = placemark.name;
     place.lat = location.coordinate.latitude;
     place.lng = location.coordinate.longitude;
     

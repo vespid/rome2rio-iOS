@@ -7,6 +7,7 @@
 //
 
 #import "R2RAutocomplete.h"
+#import "R2RMapHelper.h"
 
 @interface R2RAutocomplete() <R2RConnectionDelegate>
 
@@ -181,7 +182,7 @@
     {
         if (self.responseCompletionState == r2rCompletionStateResolving)
         {
-            R2RLog(@"Timeout");
+            R2RLog(@"Timeout"); 
             
             self.responseMessage = NSLocalizedString(@"Unable to find location", nil);
             self.responseCompletionState = r2rCompletionStateError;
@@ -222,10 +223,18 @@
                      place.kind = @":veryspecific";
                  }
                  
-                 if ([placemark.subLocality length] > 0)
-                     [longName appendFormat:@"%@, ", placemark.subLocality];
+                 R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
                  
-                 if ([placemark.locality length] > 0)
+                 if ([placemark.subLocality length] > 0 && [mapHelper shouldShowSubLocality:placemark])
+                 {
+                     [longName appendFormat:@"%@, ", placemark.subLocality];
+                     if ([place.kind length] == 0)
+                         place.kind = @"city";
+                     if ([shortName length] == 0)
+                         [shortName appendString:placemark.locality];
+                 }
+                 
+                 if ([placemark.locality length] > 0 && [mapHelper shouldShowLocality:placemark])
                  {
                      [longName appendFormat:@"%@, ", placemark.locality];
                      if ([place.kind length] == 0)
@@ -234,7 +243,25 @@
                          [shortName appendString:placemark.locality];
                  }
                  
-                 if ([placemark.country length] > 0)
+                 if ([placemark.subAdministrativeArea length] > 0 && [mapHelper shouldShowSubAdministrative:placemark])
+                 {
+                     [longName appendFormat:@"%@, ", placemark.subAdministrativeArea];
+                     if ([place.kind length] == 0)
+                         place.kind = @"state";
+                     if ([shortName length] == 0)
+                         [shortName appendString:placemark.subAdministrativeArea];
+                 }
+                 
+                 if ([placemark.administrativeArea length] > 0 && [mapHelper shouldShowAdministrative:placemark])
+                 {
+                     [longName appendFormat:@"%@, ", placemark.administrativeArea];
+                     if ([place.kind length] == 0)
+                         place.kind = @"state";
+                     if ([shortName length] == 0)
+                         [shortName appendString:placemark.administrativeArea];
+                 }
+                 
+                 if ([placemark.country length] > 0 && [mapHelper shouldShowCountry:placemark])
                  {
                      [longName appendFormat:@"%@", placemark.country];
                      if ([place.kind length] == 0)
