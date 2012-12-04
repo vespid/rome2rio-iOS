@@ -182,6 +182,7 @@ typedef enum
         else
         {
             self.searchStore.searchResponse = nil;
+            R2RLog("%@", search.responseMessage);
             [self setSearchMessage:search.responseMessage];
         }
         
