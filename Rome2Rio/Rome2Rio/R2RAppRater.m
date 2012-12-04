@@ -11,10 +11,19 @@
 #import "R2RConstants.h"
 
 static NSInteger usesUntilPrompt = 2;
-//static NSInteger daysUntilPrompt = 1;
-//static NSInteger daysUntilReminder = 1;
-static float daysUntilPrompt = 0.001;
-static float daysUntilReminder = 0.001;
+
+//TODO remove small testing values
+//static float daysUntilPrompt = 0.001;
+//static float daysUntilReminder = 0.001;
+static NSInteger daysUntilPrompt = 1;
+static NSInteger daysUntilReminder = 1;
+
+NSString *const kR2RAppName                 = @"R2RAppName";
+NSString *const kR2RFirstUseTimeInterval    = @"R2RFirstUseTimeInterval";
+NSString *const kR2RUseCount                = @"R2RUseCount";
+NSString *const kR2RDidRate                 = @"R2RDidRate";
+NSString *const kR2RDeclinedToRate          = @"R2RDeclinedToRate";
+NSString *const kR2RReminderTimeInterval    = @"R2RReminderTimeInterval";
 
 @implementation R2RAppRater
 
@@ -34,31 +43,31 @@ static float daysUntilReminder = 0.001;
     
     //can add version number if rating is desired for each version
     
-    NSString *appName = [userDefaults stringForKey:@"R2RAppName"];
+    NSString *appName = [userDefaults stringForKey:kR2RAppName];
     
     if (appName == nil)
     {
         appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        [userDefaults setObject:appName forKey:@"R2RAppName"];
-        [userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:@"R2RFirstUseTimeInterval"];
-        [userDefaults setInteger:1 forKey:@"R2RUseCount"];
-        [userDefaults setBool:NO forKey:@"R2RDidRate"];
-        [userDefaults setBool:NO forKey:@"R2RDeclinedToRate"];
-        [userDefaults setDouble:0.0 forKey:@"R2RReminderTimeInterval"];
+        [userDefaults setObject:appName forKey:kR2RAppName];
+        [userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:kR2RFirstUseTimeInterval];
+        [userDefaults setInteger:1 forKey:kR2RUseCount];
+        [userDefaults setBool:NO forKey:kR2RDidRate];
+        [userDefaults setBool:NO forKey:kR2RDeclinedToRate];
+        [userDefaults setDouble:0.0 forKey:kR2RReminderTimeInterval];
     }
     else
     {
         //make sure a date is set
-        NSTimeInterval timeInterval = [userDefaults doubleForKey:@"R2RFirstUseTimeInterval"];
+        NSTimeInterval timeInterval = [userDefaults doubleForKey:kR2RFirstUseTimeInterval];
 		if (timeInterval == 0)
 		{
 			timeInterval = [[NSDate date] timeIntervalSince1970];
-			[userDefaults setDouble:timeInterval forKey:@"R2RFirstUseTimeInterval"];
+			[userDefaults setDouble:timeInterval forKey:kR2RFirstUseTimeInterval];
 		}
         
-        int count = [userDefaults integerForKey:@"R2RUseCount"];
+        int count = [userDefaults integerForKey:kR2RUseCount];
 		count++;
-		[userDefaults setInteger:count forKey:@"R2RUseCount"];
+		[userDefaults setInteger:count forKey:kR2RUseCount];
 
     }
     
@@ -72,25 +81,25 @@ static float daysUntilReminder = 0.001;
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    bool userDidRate = [userDefaults boolForKey:@"R2RDidRate"];
+    bool userDidRate = [userDefaults boolForKey:kR2RDidRate];
     R2RLog(@"%i", userDidRate);
     if (userDidRate) return NO;
     
-    bool userDeclinedToRate = [userDefaults boolForKey:@"R2RDeclinedToRate"];
+    bool userDeclinedToRate = [userDefaults boolForKey:kR2RDeclinedToRate];
     R2RLog(@"%i", userDeclinedToRate);
     if (userDeclinedToRate) return NO;
     
-    int useCount = [userDefaults integerForKey:@"R2RUseCount"];
+    int useCount = [userDefaults integerForKey:kR2RUseCount];
     R2RLog(@"%d", useCount);
-	if (useCount <= usesUntilPrompt) return NO;
+	if (useCount < usesUntilPrompt) return NO;
 
-    NSTimeInterval firstUseTimeInterval = [userDefaults doubleForKey:@"R2RFirstUseTimeInterval"];
+    NSTimeInterval firstUseTimeInterval = [userDefaults doubleForKey:kR2RFirstUseTimeInterval];
     NSTimeInterval timeIntervalUntilNow = [[NSDate date] timeIntervalSince1970];
     NSTimeInterval timeUntilPrompt = 60 * 60 * 24 * daysUntilPrompt;
     R2RLog(@"%f\t%f\t%f\t%f", firstUseTimeInterval, timeUntilPrompt, timeIntervalUntilNow, (firstUseTimeInterval + timeUntilPrompt) - timeIntervalUntilNow);
     if (firstUseTimeInterval + timeUntilPrompt > timeIntervalUntilNow) return NO;
     
-    NSTimeInterval reminderTimeInterval = [userDefaults doubleForKey:@"R2RReminderTimeInterval"];
+    NSTimeInterval reminderTimeInterval = [userDefaults doubleForKey:kR2RReminderTimeInterval];
     NSTimeInterval timeUntilReminder = 60 * 60 * 24 * daysUntilReminder;
     R2RLog(@"%f\t%f\t%f\t%f", reminderTimeInterval, timeUntilReminder, timeIntervalUntilNow, (reminderTimeInterval + timeUntilReminder) - timeIntervalUntilNow);
     if (reminderTimeInterval + timeUntilReminder > timeIntervalUntilNow) return NO;
@@ -102,14 +111,14 @@ static float daysUntilReminder = 0.001;
 -(void) showRatePrompt
 {
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    NSString *title = [NSString stringWithFormat:@"Rate %@", appName];
-    NSString *message = [NSString stringWithFormat:@"If you enjoy using %@, please take a moment to rate it", appName];
+    NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Rate %@", nil), appName];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"If you enjoy using %@, please take a moment to rate it", nil), appName];
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:self
-                                              cancelButtonTitle:@"No thanks"
-                                              otherButtonTitles:title, @"Remind me later", nil];
+                                              cancelButtonTitle:NSLocalizedString(@"No thanks", nil)
+                                              otherButtonTitles:title, NSLocalizedString(@"Remind me later", nil), nil];
     [alertView show];
 }
 
@@ -121,25 +130,25 @@ static float daysUntilReminder = 0.001;
     {
 		case 0:
             // "No Thanks"
-            [userDefaults setBool:YES forKey:@"R2RDeclinedToRate"];
-			[userDefaults synchronize];
+            [userDefaults setBool:YES forKey:kR2RDeclinedToRate];
             break;
             
 		case 1:
 			// "Rate App"
+            [userDefaults setBool:YES forKey:kR2RDidRate];
 			[self rateApp];
 			break;
             
 		case 2:
         	// "Remind me later"
-			[userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:@"R2RReminderTimeInterval"];
-			[userDefaults synchronize];
+			[userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:kR2RReminderTimeInterval];
 			break;
             
         default:
 			break;
 	}
     
+    [userDefaults synchronize];
 }
 
 -(void) rateApp
@@ -162,6 +171,7 @@ static float daysUntilReminder = 0.001;
         [alert show];
         R2RLog(@"App store not available");
     }
+    
 }
 
 @end
