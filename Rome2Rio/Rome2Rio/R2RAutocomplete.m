@@ -202,10 +202,14 @@
          
          if ([placemarks count] > 0)
          {
+             CLPlacemark *logPlacemark = [placemarks objectAtIndex:0];
+             R2RLog(@"%@\t:\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t", logPlacemark.name, logPlacemark.subThoroughfare, logPlacemark.thoroughfare, logPlacemark.subLocality, logPlacemark.locality, logPlacemark.subAdministrativeArea, logPlacemark.administrativeArea, logPlacemark.country,logPlacemark.ISOcountryCode);
+             
              self.geocodeResponse.places = [[NSMutableArray alloc] init];
              
              for (CLPlacemark *placemark in placemarks)
              {
+                 
                  R2RPlace *place = [[R2RPlace alloc] init];
                  
                  NSMutableString *longName = [[NSMutableString alloc] init];
@@ -234,7 +238,7 @@
                          [shortName appendString:placemark.locality];
                  }
                  
-                 if ([placemark.locality length] > 0 && [mapHelper shouldShowLocality:placemark])
+                 if ([placemark.locality length] > 0 && ([mapHelper shouldShowLocality:placemark] || [longName length] == 0))
                  {
                      [longName appendFormat:@"%@, ", placemark.locality];
                      if ([place.kind length] == 0)
