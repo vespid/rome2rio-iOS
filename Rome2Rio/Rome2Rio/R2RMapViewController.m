@@ -22,6 +22,8 @@
 @property (strong, nonatomic) R2RAnnotation *toAnnotation;
 @property (strong, nonatomic) R2RAnnotation *pressAnnotation;
 
+@property (nonatomic) bool fromAnnotationDidMove;
+
 @end
 
 @implementation R2RMapViewController
@@ -57,6 +59,9 @@
         [self setFromLocation:fromCoord];
         region = MKCoordinateRegionMakeWithDistance(fromCoord , 50000, 50000);
     }
+    
+    //after fromAnnotation is initially placed set DidMove to NO so we don't resolve again unless it changes
+    self.fromAnnotationDidMove = NO;
         
     [self.mapView setRegion:region];
     
@@ -94,7 +99,7 @@
         return;
     }
     
-    if (self.fromAnnotation)
+    if (self.fromAnnotation && self.fromAnnotationDidMove)
     {
         //mapcale. Used as horizontal accuracy
         float mapScale = self.mapView.region.span.longitudeDelta*500;
@@ -237,6 +242,7 @@
     {
         [self.fromAnnotation setCoordinate:coord];
     }
+    self.fromAnnotationDidMove = YES;
 }
 
 -(void) setToLocation:(CLLocationCoordinate2D) coord
