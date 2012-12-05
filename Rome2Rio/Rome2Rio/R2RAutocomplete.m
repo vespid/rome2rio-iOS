@@ -202,8 +202,8 @@
          
          if ([placemarks count] > 0)
          {
-             CLPlacemark *logPlacemark = [placemarks objectAtIndex:0];
-             R2RLog(@"%@\t:\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t", logPlacemark.name, logPlacemark.subThoroughfare, logPlacemark.thoroughfare, logPlacemark.subLocality, logPlacemark.locality, logPlacemark.subAdministrativeArea, logPlacemark.administrativeArea, logPlacemark.country,logPlacemark.ISOcountryCode);
+//             CLPlacemark *logPlacemark = [placemarks objectAtIndex:0];
+//             R2RLog(@"%@\t:\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t", logPlacemark.name, logPlacemark.subThoroughfare, logPlacemark.thoroughfare, logPlacemark.subLocality, logPlacemark.locality, logPlacemark.subAdministrativeArea, logPlacemark.administrativeArea, logPlacemark.country,logPlacemark.ISOcountryCode);
              
              self.geocodeResponse.places = [[NSMutableArray alloc] init];
              

@@ -5,6 +5,7 @@
 //  Created by Ash Verdoorn on 30/10/12.
 //  Copyright (c) 2012 Rome2Rio. All rights reserved.
 //
+
 #import <QuartzCore/QuartzCore.h>
 
 #import "R2RWalkDriveSegmentViewController.h"
@@ -17,7 +18,6 @@
 #import "R2RAnnotation.h"
 #import "R2RPressAnnotationView.h"
 
-#import "R2RResultsViewController.h"
 
 @interface R2RWalkDriveSegmentViewController ()
 
@@ -26,6 +26,7 @@
 @property (nonatomic) BOOL isMapZoomedToAnnotation;
 
 @end
+
 
 @implementation R2RWalkDriveSegmentViewController
 
@@ -203,7 +204,7 @@
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 5, 27, 7)];
     [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
     imageView.userInteractionEnabled = YES;
-    imageView.alpha = 0.6;
+    imageView.alpha = 0.3;
     
     [footer addSubview:imageView];
     
@@ -359,8 +360,7 @@
         
         //just get existing hopAnnotations
         NSMutableArray *existingHopAnnotations = [[NSMutableArray alloc] init];
-        
-        
+                
         for (R2RAnnotation *annotation in mapView.annotations)
         {
             if (annotation.annotationType == r2rAnnotationTypeHop)
@@ -403,6 +403,7 @@
         if (annotation.annotationType == r2rAnnotationTypeFrom)
         {
             [annotation setCoordinate:self.pressAnnotation.coordinate];
+            [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
             [self.mapView removeAnnotation:self.pressAnnotation];
             self.pressAnnotation = nil;
             [self showSearchButton];
@@ -418,6 +419,7 @@
         if (annotation.annotationType == r2rAnnotationTypeTo)
         {
             [annotation setCoordinate:self.pressAnnotation.coordinate];
+            [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
             [self.mapView removeAnnotation:self.pressAnnotation];
             self.pressAnnotation = nil;
             [self showSearchButton];

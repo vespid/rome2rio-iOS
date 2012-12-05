@@ -36,6 +36,9 @@
 {
     [super viewDidLoad];
   
+    NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:transitSegment.kind];
+    self.navigationItem.title = NSLocalizedString(navigationTitle, nil);
+    
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     [self.tableView setDelegate:self];
@@ -47,9 +50,6 @@
     // set default to show grabBar in footer
     [self setTableFooterWithGrabBar];
     
-    NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:transitSegment.kind];
-    self.navigationItem.title = NSLocalizedString(navigationTitle, nil);
-    
     self.legs = [NSMutableArray array];
     [self sortLegs];
     
@@ -57,7 +57,6 @@
     [self.mapView addGestureRecognizer:longPressGesture];
     
     [self configureMap];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -345,16 +344,21 @@
 
 -(void) setMapFrame
 {
-    //get the frame of the table section
-    CGRect sectionFrame = [self.tableView rectForSection:0];
+    //calculate table height;
+    float tableHeight = 0;
+    for (NSInteger i = 0; i < self.tableView.numberOfSections; i++)
+    {
+        CGRect sectionFrame = [self.tableView rectForSection:i];
+        tableHeight += sectionFrame.size.height;
+    }
     
     CGRect viewFrame = self.view.frame;
     CGRect mapFrame = self.mapView.frame;
     
-    if (sectionFrame.size.height < (viewFrame.size.height/3))
+    if (tableHeight < (viewFrame.size.height/3))
     {
         //set map to fill remaining screen space
-        int height = (viewFrame.size.height - sectionFrame.size.height);
+        int height = (viewFrame.size.height - tableHeight);
         mapFrame.size.height = height;
         
         //set the table footer to 0
@@ -362,7 +366,7 @@
         self.tableView.tableFooterView = footer;
         
         //set map position to below section
-        mapFrame.origin.y = sectionFrame.size.height;
+        mapFrame.origin.y = tableHeight;
     }
     else
     {
@@ -373,7 +377,7 @@
         [self setTableFooterWithGrabBar];
         
         //set map position to below footer
-        mapFrame.origin.y = sectionFrame.size.height + self.tableView.tableFooterView.frame.size.height;
+        mapFrame.origin.y = tableHeight + self.tableView.tableFooterView.frame.size.height;
     }
     
     //set map frame to new size and position
@@ -390,7 +394,7 @@
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 5, 27, 7)];
     [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
     imageView.userInteractionEnabled = YES;
-    imageView.alpha = 0.6;
+    imageView.alpha = 0.3;
     
     [footer addSubview:imageView];
     
