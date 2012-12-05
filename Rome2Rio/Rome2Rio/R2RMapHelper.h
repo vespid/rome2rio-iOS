@@ -26,12 +26,12 @@
 -(MKMapRect) getSegmentBounds: (id) segment;
 
 -(NSString *) getVerySpecificLongName: (CLPlacemark *) placemark;
--(NSString *) getSpecificLongName: (CLPlacemark *) placemark;
--(NSString *) getCityLongName: (CLPlacemark *) placemark;
+-(NSString *) getLocalityLongName: (CLPlacemark *) placemark;
+-(NSString *) getAdministrativeAreaLongName: (CLPlacemark *) placemark;
 -(NSString *) getCountryName: (CLPlacemark *) placemark;
 -(NSString *) getVerySpecificShortName: (CLPlacemark *) placemark;
--(NSString *) getSpecificShortName: (CLPlacemark *) placemark;
--(NSString *) getCityShortName: (CLPlacemark *) placemark;
+-(NSString *) getLocalityShortName: (CLPlacemark *) placemark;
+-(NSString *) getAdministrativeAreaShortName: (CLPlacemark *) placemark;
 
 -(bool) shouldShowSubLocality:(CLPlacemark *)placemark;
 -(bool) shouldShowLocality:(CLPlacemark *)placemark;

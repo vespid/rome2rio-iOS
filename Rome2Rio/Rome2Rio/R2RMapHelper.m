@@ -67,102 +67,72 @@
     return rect;
 }
 
--(NSString *) getVerySpecificLongName: (CLPlacemark *) placemark
+-(NSString *) getNameFromPlacemarkImpl:(CLPlacemark *) placemark showName:(bool)showName showLocality:(bool)showLocality showAdministrativeArea:(bool)showAdministrativeArea showCountry:(bool)showCountry
 {
     NSMutableArray *names = [[NSMutableArray alloc] init];
-    if (placemark.name) [names addObject:placemark.name];
-    if (placemark.locality) [names addObject:placemark.locality];
-    if (placemark.administrativeArea) [names addObject:placemark.administrativeArea];
-    if (placemark.country) [names addObject:placemark.country];
     
-    NSMutableString *longName = [[NSMutableString alloc] init];
-    
-    for (NSString *name in names)
-    {
-        [longName appendString:name];
-        if (name != [names lastObject])
-        {
-            [longName appendString:@", "];
-        }
-    }
-    
-    return longName;
-}
-
--(NSString *) getSpecificLongName: (CLPlacemark *) placemark
-{
-    NSMutableArray *names = [[NSMutableArray alloc] init];
-
-    if (placemark.subLocality && [self shouldShowSubLocality:placemark]) [names addObject:placemark.subLocality];
-    if (placemark.locality && [self shouldShowLocality:placemark]) [names addObject:placemark.locality];
-    if (placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark]) [names addObject:placemark.subAdministrativeArea];
-    if (placemark.administrativeArea && [self shouldShowAdministrative:placemark]) [names addObject:placemark.administrativeArea];
-    if (placemark.country && [self shouldShowCountry:placemark])
+    if (showName && placemark.name) [names addObject:placemark.name];
+    if (showLocality && placemark.subLocality && [self shouldShowSubLocality:placemark]) [names addObject:placemark.subLocality];
+    if (showLocality && placemark.locality && [self shouldShowLocality:placemark]) [names addObject:placemark.locality];
+    if (showAdministrativeArea && placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark]) [names addObject:placemark.subAdministrativeArea];
+    if (showAdministrativeArea && placemark.administrativeArea && [self shouldShowAdministrative:placemark]) [names addObject:placemark.administrativeArea];
+    if (showCountry && placemark.country && [self shouldShowCountry:placemark])
     {
         [names addObject:placemark.country];
     }
-    else
-    {
-        //if location is not in a country just return the name of the place
-        return placemark.name;
-    }
-    
-    NSMutableString *longName = [[NSMutableString alloc] init];
+
+    NSMutableString *fullName = [[NSMutableString alloc] init];
     
     for (NSString *name in names)
     {
-        [longName appendString:name];
+        [fullName appendString:name];
         if (name != [names lastObject])
         {
-            [longName appendString:@", "];
+            [fullName appendString:@", "];
         }
     }
     
-    return longName;
+    return fullName;
 }
 
--(NSString *) getCityLongName: (CLPlacemark *) placemark
+-(NSString *) getVerySpecificLongName:(CLPlacemark *) placemark
 {
-    NSMutableArray *names = [[NSMutableArray alloc] init];
+    NSString *name = [self getNameFromPlacemarkImpl:placemark showName:YES showLocality:YES showAdministrativeArea:YES showCountry:YES];
     
-    if (placemark.locality && [self shouldShowLocality:placemark]) [names addObject:placemark.locality];
-    if (placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark]) [names addObject:placemark.subAdministrativeArea];
-    if (placemark.administrativeArea && [self shouldShowAdministrative:placemark]) [names addObject:placemark.administrativeArea];
-    if (placemark.country && [self shouldShowCountry:placemark])
-    {
-        [names addObject:placemark.country];
-    }
-    else
-    {
-        //if location is not in a country just return the name of the place
-        return placemark.name;
-    }
+    // if name does not match paramaters just return the given name
+    if ([name length] == 0) name = placemark.name;
     
-    NSMutableString *longName = [[NSMutableString alloc] init];
+    return name;
+}
+
+-(NSString *) getLocalityLongName: (CLPlacemark *) placemark
+{
+    NSString *name = [self getNameFromPlacemarkImpl:placemark showName:NO showLocality:YES showAdministrativeArea:YES showCountry:YES];
     
-    for (NSString *name in names)
-    {
-        [longName appendString:name];
-        if (name != [names lastObject])
-        {
-            [longName appendString:@", "];
-        }
-    }
+    // if name does not match paramaters just return the given name
+    if ([name length] == 0) name = placemark.name;
     
-    return longName;
+    return name;
+}
+
+-(NSString *) getAdministrativeAreaLongName: (CLPlacemark *) placemark
+{
+    NSString *name = [self getNameFromPlacemarkImpl:placemark showName:NO showLocality:NO showAdministrativeArea:YES showCountry:YES];
+    
+    // if name does not match paramaters just return the given name
+    if ([name length] == 0) name = placemark.name;
+    
+    return name;
 }
 
 -(NSString *) getCountryName: (CLPlacemark *) placemark
 {
-    if (placemark.country)
-    {
-        return placemark.country;
-    }
-    else
-    {
-        //if location is not in a country just return the name of the place
-        return placemark.name;
-    }
+    NSString *name = [self getNameFromPlacemarkImpl:placemark showName:NO showLocality:NO showAdministrativeArea:NO showCountry:YES];
+    
+    // if name does not match paramaters just return the given name
+    if ([name length] == 0) name = placemark.name;
+    
+    return name;
 }
 
 -(NSString *)getVerySpecificShortName:(CLPlacemark *)placemark
@@ -170,58 +140,24 @@
     return placemark.name;
 }
 
--(NSString *)getSpecificShortName:(CLPlacemark *)placemark
+-(NSString *)getLocalityShortName:(CLPlacemark *)placemark
 {
-    if (placemark.subLocality && [self shouldShowSubLocality:placemark])
-    {
-        return placemark.subLocality;
-    }
-    else if (placemark.locality && [self shouldShowLocality:placemark])
-    {
-        return placemark.locality;
-    }
-    else if (placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark])
-    {
-        return placemark.subAdministrativeArea;
-    }
-    else if (placemark.administrativeArea && [self shouldShowAdministrative:placemark])
-    {
-        return placemark.administrativeArea;
-    }
-    else if (placemark.country && [self shouldShowCountry:placemark])
-    {
-        return placemark.country;
-    }
-    else
-    {
-        //if location is not in a country just return the name of the place
-        return placemark.name;
-    }
+    NSString *name = [self getNameFromPlacemarkImpl:placemark showName:NO showLocality:YES showAdministrativeArea:NO showCountry:NO];
+    
+    // if name does not match paramaters get the next highest name
+    if ([name length] == 0) name = [self getAdministrativeAreaLongName:placemark];
+    
+    return name;
 }
 
--(NSString *)getCityShortName:(CLPlacemark *)placemark
+-(NSString *)getAdministrativeAreaShortName:(CLPlacemark *)placemark
 {
-    if (placemark.locality && [self shouldShowLocality:placemark])
-    {
-        return placemark.locality;
-    }
-    else if (placemark.subAdministrativeArea && [self shouldShowSubAdministrative:placemark])
-    {
-        return placemark.subAdministrativeArea;
-    }
-    else if (placemark.administrativeArea && [self shouldShowAdministrative:placemark])
-    {
-        return placemark.administrativeArea;
-    }
-    else if (placemark.country && [self shouldShowCountry:placemark])
-    {
-        return placemark.country;
-    }
-    else
-    {
-        //if location is not in a country just return the name of the place
-        return placemark.name;
-    }
+    NSString *name = [self getNameFromPlacemarkImpl:placemark showName:NO showLocality:NO showAdministrativeArea:YES showCountry:NO];
+    
+    // if name does not match paramaters get the next highest name
+    if ([name length] == 0) name = [self getCountryName:placemark];
+    
+    return name;
 }
 
 -(bool) shouldShowSubLocality:(CLPlacemark *)placemark

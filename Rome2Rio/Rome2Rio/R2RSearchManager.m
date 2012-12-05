@@ -367,14 +367,14 @@ typedef enum
     else if (location.horizontalAccuracy <= 1000)
     {
         place.kind = @":specific";
-        place.shortName = [mapHelper getSpecificShortName:placemark];
-        place.longName = [mapHelper getSpecificLongName:placemark];
+        place.shortName = [mapHelper getLocalityShortName:placemark];
+        place.longName = [mapHelper getLocalityLongName:placemark];
     }
     else if (location.horizontalAccuracy <= 20000)
     {
         place.kind = @"city";
-        place.shortName = [mapHelper getCityShortName:placemark];
-        place.longName = [mapHelper getCityLongName:placemark];
+        place.shortName = [mapHelper getAdministrativeAreaShortName:placemark];
+        place.longName = [mapHelper getAdministrativeAreaLongName:placemark];
     }
     else
     {
