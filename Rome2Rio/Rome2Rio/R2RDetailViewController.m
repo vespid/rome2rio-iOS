@@ -587,6 +587,8 @@
     {
         [self setMapRegionDefault];
         
+        [self.mapView deselectAnnotation:annotationView.annotation animated:NO];
+        
         self.isMapZoomedToAnnotation = NO;
     }
     else
