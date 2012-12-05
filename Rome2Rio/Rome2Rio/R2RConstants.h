@@ -19,6 +19,7 @@
 +(MKCoordinateRegion) getStartMapRegion;
 
 +(NSString *) getIconSpriteFileName;
++(NSString *) getConnectionsImageFileName;
 
 +(CGRect) getHopIconRect;
 

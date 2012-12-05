@@ -270,47 +270,47 @@
     {
         CGPoint offset = CGPointMake(0, 0);
         CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     if ([kind isEqualToString:@"train"])
     {
         CGPoint offset = CGPointMake(10, 0);
         CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"bus"])
     {
         CGPoint offset = CGPointMake(20, 0);
         CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"car"])
     {
         CGPoint offset = CGPointMake(30, 0);
         CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"ferry"])
     {
         CGPoint offset = CGPointMake(40, 0);
         CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"walk"])
     {
         CGPoint offset = CGPointMake(50, 0);
         CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     CGPoint offset = CGPointMake(60, 0);
     CGSize size = CGSizeMake(10, 50);
-    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:@"ConnectionLines" :offset :size];
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
     return sprite;
 }
 

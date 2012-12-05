@@ -476,7 +476,7 @@
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 5, 27, 7)];
     [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
     imageView.userInteractionEnabled = YES;
-    imageView.alpha = 0.6;
+    imageView.alpha = 0.3;
     
     [footer addSubview:imageView];
     

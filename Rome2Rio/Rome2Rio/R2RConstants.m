@@ -50,6 +50,11 @@
     return @"sprites6x2";
 }
 
++(NSString *) getConnectionsImageFileName
+{
+    return @"ConnectionLines-v2";
+}
+
 +(CGRect) getHopIconRect
 {
     return CGRectMake(534, 92, 24, 24);
@@ -125,7 +130,7 @@
     return CGRectMake(746, 120, 22, 24);
 }
 
-+(UIColor *) getBackgroundColor
++(UIColor *)getBackgroundColor
 {
     return [UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0];
 }
@@ -157,7 +162,7 @@
 
 +(UIColor *)getFlightLineColor
 {
-    return [UIColor colorWithRed:241/255.0 green:96/255.0 blue:36/255.0 alpha:0.8];
+    return [UIColor colorWithRed:241/255.0 green:95/255.0 blue:34/255.0 alpha:0.8];
 }
 
 +(UIColor *)getBusLineColor
@@ -167,12 +172,12 @@
 
 +(UIColor *)getTrainLineColor
 {
-    return [UIColor colorWithRed:48/255.0 green:124/255.0 blue:192/255.0 alpha:0.8];
+    return [UIColor colorWithRed:35/255.0 green:99/255.0 blue:160/255.0 alpha:0.8];
 }
 
 +(UIColor *)getFerryLineColor
 {
-    return [UIColor colorWithRed:64/255.0 green:170/255.0 blue:196/255.0 alpha:0.8];
+    return [UIColor colorWithRed:0/255.0 green:139/255.0 blue:174/255.0 alpha:0.8];
 }
 
 +(UIColor *)getDriveLineColor
@@ -182,7 +187,7 @@
 
 +(UIColor *)getWalkLineColor
 {
-    return [UIColor colorWithWhite:0.4 alpha:0.8];
+    return [UIColor colorWithRed:102/255.0 green:101/255.0 blue:100/255.0 alpha:0.8];
 }
 
 @end
