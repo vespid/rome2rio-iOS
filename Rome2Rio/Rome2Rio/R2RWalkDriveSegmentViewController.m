@@ -198,13 +198,13 @@
 {
     if (self.tableView.tableFooterView.frame.size.height != 0) return;
     
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 17)];
-    [footer setBackgroundColor:[R2RConstants getExpandedCellColor]];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 6)];
+    [footer setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 5, 27, 7)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, -6, 27, 7)];
     [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
     imageView.userInteractionEnabled = YES;
-    imageView.alpha = 0.3;
+    imageView.alpha = 0.2;
     
     [footer addSubview:imageView];
     

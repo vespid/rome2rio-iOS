@@ -55,9 +55,16 @@
     return @"ConnectionLines-v2";
 }
 
-+(CGRect) getHopIconRect
+//detail view icon
++(CGRect) getConnectionIconRect
 {
     return CGRectMake(534, 92, 24, 24);
+};
+
+//annotation icon
++(CGRect) getHopIconRect
+{
+    return CGRectMake(540, 70, 18, 18);
 };
 
 +(CGRect) getRouteFlightSpriteRect

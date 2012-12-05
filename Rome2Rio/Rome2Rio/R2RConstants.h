@@ -21,6 +21,7 @@
 +(NSString *) getIconSpriteFileName;
 +(NSString *) getConnectionsImageFileName;
 
++(CGRect) getConnectionIconRect;
 +(CGRect) getHopIconRect;
 
 +(CGRect) getRouteFlightSpriteRect;

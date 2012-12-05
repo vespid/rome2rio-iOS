@@ -771,6 +771,13 @@
         self.responseCompletionState = r2rCompletionStateError;
         self.responseMessage = connection.error.localizedDescription;
         
+        
+        if ([connection.error.localizedDescription length] == 0)
+        {
+            R2RLog(@"No error message");
+            self.responseMessage = NSLocalizedString(@"Unable to find route", nil);
+        }
+        
         [[self delegate] searchDidFinish:self];
     }
 }

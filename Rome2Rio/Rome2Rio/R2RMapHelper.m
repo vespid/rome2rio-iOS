@@ -552,9 +552,10 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :hopIconRect.origin :hopIconRect.size];
         
         UIImage *image = [sprite getSprite:[UIImage imageNamed:[R2RConstants getIconSpriteFileName]]];
-        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:2.5 orientation:image.imageOrientation];
         
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:2.0 orientation:image.imageOrientation];
         annotationView.image = smallerImage;
+//        annotationView.image = image;
         
         if ([annotation.title length] > 0)
         {
@@ -582,9 +583,11 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :hopIconRect.origin :hopIconRect.size];
         
         UIImage *image = [sprite getSprite:[UIImage imageNamed:[R2RConstants getIconSpriteFileName]]];
-        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:2.5 orientation:image.imageOrientation];
         
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:2.0 orientation:image.imageOrientation];
         annotationView.image = smallerImage;
+        
+//        annotationView.image = image;
         
         if ([annotation.title length] > 0)
         {
