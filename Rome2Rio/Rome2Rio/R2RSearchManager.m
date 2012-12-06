@@ -364,15 +364,21 @@ typedef enum
         place.shortName = [mapHelper getVerySpecificShortName:placemark];
         place.longName = [mapHelper getVerySpecificLongName:placemark];
     }
-    else if (location.horizontalAccuracy <= 1000)
+    else if (location.horizontalAccuracy <= 500)
     {
         place.kind = @":specific";
         place.shortName = [mapHelper getLocalityShortName:placemark];
         place.longName = [mapHelper getLocalityLongName:placemark];
     }
-    else if (location.horizontalAccuracy <= 20000)
+    else if (location.horizontalAccuracy <= 5000)
     {
         place.kind = @"city";
+        place.shortName = [mapHelper getLocalityShortName:placemark];
+        place.longName = [mapHelper getLocalityLongName:placemark];
+    }
+    else if (location.horizontalAccuracy <= 30000)
+    {
+        place.kind = @"admin1";
         place.shortName = [mapHelper getAdministrativeAreaShortName:placemark];
         place.longName = [mapHelper getAdministrativeAreaLongName:placemark];
     }
@@ -405,7 +411,7 @@ typedef enum
         [self setToPlace:place];
         self.toWantsCurrentLocation = NO;
     }
-
+    R2RLog(@"%@\t:%.2f", place.longName, location.horizontalAccuracy);
 }
 
 -(void) loadAirlineImages
