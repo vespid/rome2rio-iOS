@@ -162,7 +162,18 @@
 
 -(bool) shouldShowSubLocality:(CLPlacemark *)placemark
 {
-    if ([placemark.ISOcountryCode isEqualToString:@"AU"]) return YES;
+    if ([placemark.ISOcountryCode isEqualToString:@"AU"])
+    {
+        float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+        if (version < 6.0)
+        {
+            return YES;
+        }
+        else
+        {
+            return NO;
+        }
+    }
     
     if ([placemark.ISOcountryCode isEqualToString:@"US"]) return NO;
     
@@ -174,7 +185,18 @@
 
 -(bool) shouldShowLocality:(CLPlacemark *)placemark
 {
-    if ([placemark.ISOcountryCode isEqualToString:@"AU"]) return NO;
+    if ([placemark.ISOcountryCode isEqualToString:@"AU"])
+    {
+        float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+        if (version < 6.0)
+        {
+            return NO;
+        }
+        else
+        {
+            return YES;
+        }
+    }
     
     if ([placemark.ISOcountryCode isEqualToString:@"US"]) return YES;
     
