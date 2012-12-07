@@ -23,48 +23,64 @@
 @property (strong, nonatomic) R2RAnnotation *pressAnnotation;
 
 @property (nonatomic) bool fromAnnotationDidMove;
+@property (nonatomic) bool toAnnotationDidMove;
 
 @end
 
 @implementation R2RMapViewController
 
-@synthesize searchManager, fieldName, mapView = _mapView;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize searchManager, fieldName;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self.mapView setDelegate:self];
+    
+//    CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(47.0 , -120.0);
+//    
+//    R2RAnnotation *annotation = [[R2RAnnotation alloc] initWithName:nil kind:nil coordinate:coord annotationType:r2rAnnotationTypeFrom];
+//    [self.mapView addAnnotation:annotation];
+
+    MKCoordinateRegion region = [R2RConstants getStartMapRegion];
+    
+    // if selecting from and a from location has previousy been selected start map zoomed in on that location instead of world
+    if (self.searchManager.searchStore.fromPlace)
+    {
+        CLLocationCoordinate2D fromCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.fromPlace.lat , self.searchManager.searchStore.fromPlace.lng);
+        
+        if ([self.fieldName isEqualToString:@"from"] || ([self.fieldName isEqualToString:@"to"] && !self.searchManager.searchStore.toPlace))
+        {
+            region = MKCoordinateRegionMakeWithDistance(fromCoord , 50000, 50000);
+        }
+        [self setFromLocation:fromCoord];
+        
+    }
+    
+    if (self.searchManager.searchStore.toPlace)
+    {
+        CLLocationCoordinate2D toCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.toPlace.lat , self.searchManager.searchStore.toPlace.lng);
+        
+        
+        if ([self.fieldName isEqualToString:@"to"])
+        {
+            region = MKCoordinateRegionMakeWithDistance(toCoord , 50000, 50000);
+        }
+        [self setToLocation:toCoord];
+    }
+    
+    //after annotations are initially placed set DidMove to NO so we don't resolve again unless it changes
+    self.fromAnnotationDidMove = NO;
+    self.toAnnotationDidMove = NO;
+        
+    [self.mapView setRegion:region];
 
     self.navigationItem.title = NSLocalizedString(@"Select location", nil);
     
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
     [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
-    
-    MKCoordinateRegion region = [R2RConstants getStartMapRegion];
-    
-    // if a location is already chosen for from start the map at that location
-    if ([self.fieldName isEqualToString:@"to"] && self.searchManager.searchStore.fromPlace)
-    {
-        CLLocationCoordinate2D fromCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.fromPlace.lat , self.searchManager.searchStore.fromPlace.lng);
-        [self setFromLocation:fromCoord];
-        region = MKCoordinateRegionMakeWithDistance(fromCoord , 50000, 50000);
-    }
-    
-    //after fromAnnotation is initially placed set DidMove to NO so we don't resolve again unless it changes
-    self.fromAnnotationDidMove = NO;
         
-    [self.mapView setRegion:region];
-    
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setAnnotationForTap:)];
     [self.mapView addGestureRecognizer:tapGesture];
     tapGesture.delegate = self;
@@ -72,6 +88,11 @@
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPressAnnotation:)];
     [self.mapView addGestureRecognizer:longPressGesture];
     longPressGesture.delegate = self;
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,7 +128,7 @@
         [self.searchManager setFromWithMapLocation:self.fromAnnotation.coordinate mapScale:mapScale];
     }
     
-    if (self.toAnnotation)
+    if (self.toAnnotation && self.toAnnotationDidMove)
     {
         //mapcale. Used as horizontal accuracy
         float mapScale = self.mapView.region.span.longitudeDelta*500;
@@ -143,6 +164,7 @@
     [self.mapView selectAnnotation:self.pressAnnotation animated:YES];
 }
 
+#pragma mark MKMapViewDelegate
 -(void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
     //hide press annotation when not selected
@@ -157,6 +179,12 @@
 {
     if (view.annotation != self.pressAnnotation)
     {
+        if (view.annotation == self.fromAnnotation)
+            self.fromAnnotationDidMove = YES;
+        
+        if (view.annotation == self.toAnnotation)
+            self.toAnnotationDidMove = YES;
+            
         if (newState == MKAnnotationViewDragStateEnding)
         {
             [self.mapView deselectAnnotation:view.annotation animated:YES];
@@ -256,6 +284,7 @@
     {
         [self.toAnnotation setCoordinate:coord];
     }
+    self.toAnnotationDidMove = YES;
 }
 
 #pragma mark - UIGestureRecognizerDelegate

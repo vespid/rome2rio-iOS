@@ -175,12 +175,9 @@
 {
     if ([[segue identifier] isEqualToString:@"showMap"])
     {
-
         R2RMapViewController *mapViewController = [segue destinationViewController];
         mapViewController.searchManager = self.searchManager;
         mapViewController.fieldName = self.fieldName;
-        
-        R2RLog(@"showMap");
     }
 }
 

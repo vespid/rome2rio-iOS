@@ -25,6 +25,7 @@
         //only display items before the ":"
         NSArray *kinds = [kind componentsSeparatedByString:@":"];
         _kind = [kinds objectAtIndex:0];
+//        _kind = kind;
         
         _coordinate = coordinate;
         _annotationType = annotationType;

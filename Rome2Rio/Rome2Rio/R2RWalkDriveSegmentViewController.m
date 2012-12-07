@@ -25,6 +25,9 @@
 @property CLLocationDegrees zoomLevel;
 @property (nonatomic) BOOL isMapZoomedToAnnotation;
 
+@property (nonatomic) bool fromAnnotationDidMove;
+@property (nonatomic) bool toAnnotationDidMove;
+
 @end
 
 
@@ -54,6 +57,10 @@
     [self.mapView addGestureRecognizer:longPressGesture];
     
     [self configureMap];
+    
+    //after annotations are initially placed set DidMove to NO so we don't resolve again unless it changes
+    self.fromAnnotationDidMove = NO;
+    self.toAnnotationDidMove = NO;
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -330,6 +337,12 @@
 {
     if (view.annotation != self.pressAnnotation)
     {
+        R2RAnnotation *annotation = (R2RAnnotation *)view.annotation;
+        if (annotation.annotationType == r2rAnnotationTypeFrom)
+            self.fromAnnotationDidMove = YES;
+        if (annotation.annotationType == r2rAnnotationTypeTo)
+            self.toAnnotationDidMove = YES;
+        
         [self showSearchButton];
         view.canShowCallout = NO;
         if (newState == MKAnnotationViewDragStateEnding)
@@ -406,6 +419,7 @@
         {
             [annotation setCoordinate:self.pressAnnotation.coordinate];
             [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
+            self.fromAnnotationDidMove = YES;
             [self.mapView removeAnnotation:self.pressAnnotation];
             self.pressAnnotation = nil;
             [self showSearchButton];
@@ -422,6 +436,7 @@
         {
             [annotation setCoordinate:self.pressAnnotation.coordinate];
             [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
+            self.toAnnotationDidMove = YES;
             [self.mapView removeAnnotation:self.pressAnnotation];
             self.pressAnnotation = nil;
             [self showSearchButton];
@@ -439,14 +454,14 @@
 {
     for (R2RAnnotation *annotation in self.mapView.annotations)
     {
-        if (annotation.annotationType == r2rAnnotationTypeFrom)
+        if (annotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
         {
             //mapcale. Used as horizontal accuracy
             float mapScale = self.mapView.region.span.longitudeDelta*500;
             
             [self.searchManager setFromWithMapLocation:annotation.coordinate mapScale:mapScale];
         }
-        if (annotation.annotationType == r2rAnnotationTypeTo)
+        if (annotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
         {
             //mapcale. Used as horizontal accuracy
             float mapScale = self.mapView.region.span.longitudeDelta*500;
