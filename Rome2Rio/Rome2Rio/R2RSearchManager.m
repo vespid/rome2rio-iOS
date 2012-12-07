@@ -15,7 +15,7 @@
 typedef enum
 {
     r2rSearchManagerStateIdle = 0,
-    r2rSearchManagerStateResolvingLocation, //not used currently
+    r2rSearchManagerStateResolvingLocation,
     r2rSearchManagerStateSearching,
 } R2RSearchManagerState;
 
@@ -32,7 +32,6 @@ typedef enum
 @property (nonatomic) BOOL fromWantsMapLocation;
 @property (nonatomic) BOOL toWantsMapLocation;
 
-
 @end
 
 @implementation R2RSearchManager
@@ -42,6 +41,7 @@ typedef enum
 -(void) setFromPlace:(R2RPlace *)fromPlace
 {
     self.fromWantsCurrentLocation = NO;
+    self.fromWantsMapLocation = NO;
     
     self.searchStore.fromPlace = fromPlace;
     self.searchStore.searchResponse = nil;
@@ -52,6 +52,7 @@ typedef enum
 -(void) setToPlace:(R2RPlace *)toPlace
 {
     self.toWantsCurrentLocation = NO;
+    self.toWantsMapLocation = NO;
     
     self.searchStore.toPlace = toPlace;
     self.searchStore.searchResponse = nil;
@@ -64,7 +65,6 @@ typedef enum
     [self setFromPlace:nil];
     
     self.fromWantsCurrentLocation = YES;
-    self.fromWantsMapLocation = NO;
     [self setStatusMessage:NSLocalizedString(@"Finding Current Location", nil)];
     
     [self startLocationManager];
@@ -75,7 +75,6 @@ typedef enum
     [self setToPlace:nil];
     
     self.toWantsCurrentLocation = YES;
-    self.toWantsMapLocation = NO;
     [self setStatusMessage:NSLocalizedString(@"Finding Current Location", nil)];
     
     [self startLocationManager];
@@ -85,7 +84,6 @@ typedef enum
 {
     [self setFromPlace:nil];
     
-    self.fromWantsCurrentLocation = NO;
     self.fromWantsMapLocation = YES;
     [self setStatusMessage:NSLocalizedString(@"Finding Map Location", nil)];
     
@@ -97,7 +95,6 @@ typedef enum
 {
     [self setToPlace:nil];
     
-    self.toWantsCurrentLocation = NO;
     self.toWantsMapLocation = YES;
     [self setStatusMessage:NSLocalizedString(@"Finding Map Location", nil)];
     
@@ -135,14 +132,17 @@ typedef enum
 
 -(BOOL) canShowSearchResults
 {
-    if (!self.searchStore.fromPlace && self.state == r2rSearchManagerStateIdle)
+    //if fromplace is empty and not waiting for a location
+    if (!self.searchStore.fromPlace && !self.fromWantsCurrentLocation && !self.fromWantsMapLocation)
+//    if (!self.searchStore.fromPlace && self.state == r2rSearchManagerStateIdle)
     {
         [self setStatusMessage:NSLocalizedString(@"Enter Origin", nil)];
         
         return NO;
     }
     
-    if (!self.searchStore.toPlace && self.state == r2rSearchManagerStateIdle)
+    if (!self.searchStore.toPlace && !self.toWantsCurrentLocation && !self.toWantsMapLocation)
+//    if (!self.searchStore.toPlace && self.state == r2rSearchManagerStateIdle)
     {
         [self setStatusMessage:NSLocalizedString(@"Enter Destination", nil)];
         
@@ -372,13 +372,13 @@ typedef enum
     }
     else if (location.horizontalAccuracy <= 5000)
     {
-        place.kind = @"city";
+        place.kind = @":notspecific";
         place.shortName = [mapHelper getLocalityShortName:placemark];
         place.longName = [mapHelper getLocalityLongName:placemark];
     }
     else if (location.horizontalAccuracy <= 30000)
     {
-        place.kind = @"admin1";
+        place.kind = @"region";
         place.shortName = [mapHelper getAdministrativeAreaShortName:placemark];
         place.longName = [mapHelper getAdministrativeAreaLongName:placemark];
     }
@@ -393,23 +393,19 @@ typedef enum
     if (self.fromWantsMapLocation && [fieldType isEqualToString:@"mapFrom"])
     {
         [self setFromPlace:place];
-        self.fromWantsMapLocation = NO;
     }
     if (self.toWantsMapLocation && [fieldType isEqualToString:@"mapTo"])
     {
         [self setToPlace:place];
-        self.toWantsCurrentLocation = NO;
     }
     
     if (self.fromWantsCurrentLocation && [fieldType isEqualToString:@"currentLocation"])
     {
         [self setFromPlace:place];
-        self.fromWantsCurrentLocation = NO;
     }
     if (self.toWantsCurrentLocation && [fieldType isEqualToString:@"currentLocation"])
     {
         [self setToPlace:place];
-        self.toWantsCurrentLocation = NO;
     }
     R2RLog(@"%@\t:%.2f", place.longName, location.horizontalAccuracy);
 }
