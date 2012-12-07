@@ -372,23 +372,20 @@
             </objects>
             <point key="canvasLocation" x="1404" y="1438"/>
         </scene>
-        <!--Map View Controller - Select Location-->
+        <!--Map View Controller - Map View-->
         <scene sceneID="OMg-B2-toS">
             <objects>
-                <viewController id="a0b-9s-bYq" customClass="R2RMapViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9bk-km-ifI">
+                <viewController title="Map View" id="a0b-9s-bYq" customClass="R2RMapViewController" sceneMemberID="viewController">
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wzj-ly-4td">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="BA6-6S-8eg">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <rect key="frame" x="-40" y="-188" width="400" height="880"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="a0b-9s-bYq" id="5pB-h5-K6d"/>
-                                </connections>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="VLB-vA-uex">
-                                <rect key="frame" x="100" y="435" width="120" height="35"/>
+                                <rect key="frame" x="100" y="423" width="120" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -404,8 +401,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
+                    </scrollView>
                     <navigationItem key="navigationItem" title="Select Location" id="7ge-9d-7bP">
                         <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="nTK-qu-wgA">
                             <connections>
@@ -674,9 +670,10 @@
         <!--Navigation Controller-->
         <scene sceneID="R29-NV-jz8">
             <objects>
-                <navigationController definesPresentationContext="YES" id="t6B-nq-p5o" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="j8E-HV-dss">
+                <navigationController id="t6B-nq-p5o" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" barStyle="blackOpaque" id="j8E-HV-dss">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </navigationBar>
                     <connections>
                         <segue destination="aWe-T3-IOY" kind="relationship" relationship="rootViewController" id="dIf-BT-vp7"/>
@@ -894,7 +891,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="e2Y-k2-yrg"/>
         <segue reference="tCJ-q2-xQV"/>
+        <segue reference="e2Y-k2-yrg"/>
     </inferredMetricsTieBreakers>
 </document>

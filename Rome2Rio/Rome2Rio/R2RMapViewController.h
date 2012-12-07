@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "R2RSearchManager.h"
 
-@interface R2RMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate>
+@interface R2RMapViewController : UIViewController <UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) R2RSearchManager *searchManager;
 @property (strong, nonatomic) NSString *fieldName;
