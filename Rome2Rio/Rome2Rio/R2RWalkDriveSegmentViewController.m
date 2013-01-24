@@ -275,6 +275,11 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
+    if ([annotation isKindOfClass:MKUserLocation.class]) {
+        //it's the built-in user location annotation, return nil to get default blue dot...
+        return nil;
+    }
+    
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	
     R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
@@ -376,11 +381,16 @@
         //just get existing hopAnnotations
         NSMutableArray *existingHopAnnotations = [[NSMutableArray alloc] init];
                 
-        for (R2RAnnotation *annotation in mapView.annotations)
+        for (id annotation in mapView.annotations)
         {
-            if (annotation.annotationType == r2rAnnotationTypeHop)
+            if ([annotation isKindOfClass:[R2RAnnotation class]])
             {
-                [existingHopAnnotations addObject:annotation];
+                R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+                
+                if (r2rAnnotation.annotationType == r2rAnnotationTypeHop)
+                {
+                    [existingHopAnnotations addObject:r2rAnnotation];
+                }
             }
         }
         
