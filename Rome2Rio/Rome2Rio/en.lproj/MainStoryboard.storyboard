@@ -33,7 +33,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origin" minimumFontSize="14" clearButtonMode="always" id="OV4-73-MRK">
-                                <rect key="frame" x="20" y="195" width="280" height="31"/>
+                                <rect key="frame" x="20" y="190" width="280" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -43,7 +43,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" minimumFontSize="14" clearButtonMode="always" id="Puj-uC-cuN">
-                                <rect key="frame" x="20" y="234" width="280" height="31"/>
+                                <rect key="frame" x="20" y="235" width="280" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -69,10 +69,17 @@
                                 </connections>
                             </button>
                             <view alpha="0.69999999999999996" contentMode="scaleToFill" id="zsF-bD-ZKY">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="discover how to get anywhere" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v7x-ah-nSH">
+                                <rect key="frame" x="0.0" y="75" width="320" height="25"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="r2r-retina.png" id="1sT-98-geU">
                                 <rect key="frame" x="10" y="10" width="300" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -106,9 +113,9 @@
                         <outlet property="headerImage" destination="1sT-98-geU" id="dtq-kZ-fbE"/>
                         <outlet property="searchButton" destination="gex-vl-wF7" id="4Xz-RS-GeA"/>
                         <outlet property="toTextField" destination="Puj-uC-cuN" id="GAd-t1-FBd"/>
-                        <segue destination="V3N-FG-aoW" kind="push" identifier="showSearchResults" id="hdR-C1-VDI"/>
                         <segue destination="egu-FJ-cxd" kind="modal" identifier="showInfo" modalTransitionStyle="flipHorizontal" id="bDh-Z3-rny"/>
                         <segue destination="t6B-nq-p5o" kind="modal" identifier="showAutocomplete" id="H1O-TY-Uhw"/>
+                        <segue destination="WK8-uk-BLQ" kind="push" identifier="showSearchResults" id="Kew-19-y2o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qfd-B4-VpX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -213,67 +220,94 @@
             <point key="canvasLocation" x="491" y="645"/>
         </scene>
         <!--Results View Controller - Results-->
-        <scene sceneID="jqK-QV-2qB">
+        <scene sceneID="Ttc-nM-6h8">
             <objects>
-                <tableViewController id="V3N-FG-aoW" customClass="R2RResultsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="9tV-8h-vJa">
+                <viewController title="Results" id="WK8-uk-BLQ" customClass="R2RResultsViewController" sceneMemberID="viewController">
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="JWb-Qf-cW0">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.97443181818181823" blue="0.95736416903409094" alpha="1" colorSpace="deviceRGB"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsCell" id="oP6-zY-2QM" customClass="R2RResultsCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="55"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="54"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
+                        <subviews>
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="hQn-Ft-wlA" customClass="R2RTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="10088"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsCell" id="Pah-FU-kOc" customClass="R2RResultsCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="55"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="54"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="Yhw-Qi-8V7" kind="push" identifier="showRouteDetails" id="77L-lq-Myp"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsCellTransit" id="Z9k-VO-EYC" customClass="R2RResultsCell">
+                                        <rect key="frame" x="0.0" y="77" width="320" height="55"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="54"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="mjw-xX-aua" kind="push" identifier="showTransitSegment" id="XWX-ic-Yoe"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsCellWalkDrive" id="VEq-m8-f24" customClass="R2RResultsCell">
+                                        <rect key="frame" x="0.0" y="132" width="320" height="55"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="54"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="1ix-uE-0ex" kind="push" identifier="showWalkDriveSegment" id="hFK-bo-ewS"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DlJ-lL-lcI">
+                                <rect key="frame" x="100" y="391" width="120" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Search">
+                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
-                                    <segue destination="Yhw-Qi-8V7" kind="push" identifier="showRouteDetails" id="4ea-pu-not"/>
+                                    <action selector="resolveLocation:" destination="WK8-uk-BLQ" eventType="touchUpInside" id="a0f-CV-3fA"/>
                                 </connections>
-                            </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsCellTransit" id="xrD-gl-yio" customClass="R2RResultsCell">
-                                <rect key="frame" x="0.0" y="77" width="320" height="55"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="54"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <connections>
-                                    <segue destination="mjw-xX-aua" kind="push" identifier="showTransitSegment" id="8H0-t3-LG0"/>
-                                </connections>
-                            </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultsCellWalkDrive" id="r0D-8i-ebs" customClass="R2RResultsCell">
-                                <rect key="frame" x="0.0" y="132" width="320" height="55"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="54"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <connections>
-                                    <segue destination="1ix-uE-0ex" kind="push" identifier="showWalkDriveSegment" id="P9k-ch-yB6"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="V3N-FG-aoW" id="d1h-u0-Mss"/>
-                            <outlet property="delegate" destination="V3N-FG-aoW" id="yVE-pa-QTV"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Results" id="XCH-um-NMF">
-                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="1yi-iW-K5b">
+                            </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="7hX-aN-Lmx">
+                                <rect key="frame" x="0.0" y="140" width="320" height="364"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                    </scrollView>
+                    <navigationItem key="navigationItem" title="Results" id="fIO-dG-uaE">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="4Ks-GR-4nd">
                             <connections>
-                                <action selector="returnToSearch:" destination="V3N-FG-aoW" id="8rg-Vn-IJ0"/>
+                                <action selector="returnToSearch:" destination="WK8-uk-BLQ" id="KbQ-U7-lEN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jRU-vJ-c5Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                    <connections>
+                        <outlet property="mapView" destination="7hX-aN-Lmx" id="bKL-qN-xJw"/>
+                        <outlet property="searchButton" destination="DlJ-lL-lcI" id="yeL-c9-ihv"/>
+                        <outlet property="tableView" destination="hQn-Ft-wlA" id="AH7-BR-nkb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1XI-Ra-wqu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="947" y="-160"/>
+            <point key="canvasLocation" x="979" y="-160"/>
         </scene>
         <!--Autocomplete View Controller-->
         <scene sceneID="MgI-pF-IDa">
@@ -837,10 +871,14 @@
         <class className="R2RResultsCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsCell.h"/>
         </class>
-        <class className="R2RResultsViewController" superclassName="UITableViewController">
+        <class className="R2RResultsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
             <relationships>
+                <relationship kind="action" name="resolveLocation:"/>
                 <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
         <class className="R2RTableView" superclassName="UITableView">
@@ -891,7 +929,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="tCJ-q2-xQV"/>
-        <segue reference="e2Y-k2-yrg"/>
+        <segue reference="XWX-ic-Yoe"/>
+        <segue reference="hFK-bo-ewS"/>
     </inferredMetricsTieBreakers>
 </document>
