@@ -423,34 +423,44 @@
 
 -(void) setFromLocation:(id) sender
 {
-    for (R2RAnnotation *annotation in self.mapView.annotations)
+    for (id annotation in self.mapView.annotations)
     {
-        if (annotation.annotationType == r2rAnnotationTypeFrom)
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
         {
-            [annotation setCoordinate:self.pressAnnotation.coordinate];
-            [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
-            self.fromAnnotationDidMove = YES;
-            [self.mapView removeAnnotation:self.pressAnnotation];
-            self.pressAnnotation = nil;
-            [self showSearchButton];
-            break;
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+            
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom)
+            {
+                [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
+                [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
+                self.fromAnnotationDidMove = YES;
+                [self.mapView removeAnnotation:self.pressAnnotation];
+                self.pressAnnotation = nil;
+                [self showSearchButton];
+                break;
+            }
         }
     }
 }
 
 -(void) setToLocation:(id) sender
 {
-    for (R2RAnnotation *annotation in self.mapView.annotations)
+    for (id annotation in self.mapView.annotations)
     {
-        if (annotation.annotationType == r2rAnnotationTypeTo)
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
         {
-            [annotation setCoordinate:self.pressAnnotation.coordinate];
-            [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
-            self.toAnnotationDidMove = YES;
-            [self.mapView removeAnnotation:self.pressAnnotation];
-            self.pressAnnotation = nil;
-            [self showSearchButton];
-            break;
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+            
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeTo)
+            {
+                [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
+                [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
+                self.toAnnotationDidMove = YES;
+                [self.mapView removeAnnotation:self.pressAnnotation];
+                self.pressAnnotation = nil;
+                [self showSearchButton];
+                break;
+            }
         }
     }
 }
@@ -462,21 +472,26 @@
 
 - (IBAction)resolveLocation:(id)sender
 {
-    for (R2RAnnotation *annotation in self.mapView.annotations)
+    for (id annotation in self.mapView.annotations)
     {
-        if (annotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
         {
-            //mapcale. Used as horizontal accuracy
-            float mapScale = self.mapView.region.span.longitudeDelta*500;
-            
-            [self.searchManager setFromWithMapLocation:annotation.coordinate mapScale:mapScale];
-        }
-        if (annotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
-        {
-            //mapcale. Used as horizontal accuracy
-            float mapScale = self.mapView.region.span.longitudeDelta*500;
-            
-            [self.searchManager setToWithMapLocation:annotation.coordinate mapScale:mapScale];
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+    
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
+            {
+                //mapcale. Used as horizontal accuracy
+                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                
+                [self.searchManager setFromWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
+            }
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
+            {
+                //mapcale. Used as horizontal accuracy
+                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                
+                [self.searchManager setToWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
+            }
         }
     }
 

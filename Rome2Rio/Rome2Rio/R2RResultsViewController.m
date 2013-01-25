@@ -37,6 +37,8 @@
 @property (nonatomic) bool fromAnnotationDidMove;
 @property (nonatomic) bool toAnnotationDidMove;
 
+@property (nonatomic) bool isMapFullSreen;
+
 @end
 
 @implementation R2RResultsViewController
@@ -91,6 +93,8 @@
     //after annotations are initially placed set DidMove to NO so we don't resolve again unless it changes
     self.fromAnnotationDidMove = NO;
     self.toAnnotationDidMove = NO;
+    self.isMapFullSreen = NO;
+    
 }
 
 - (void)viewDidUnload
@@ -103,6 +107,7 @@
     [self setTableView:nil];
     [self setMapView:nil];
     [self setSearchButton:nil];
+    [self setResizeMapButton:nil];
     [super viewDidUnload];
 }
 
@@ -367,34 +372,44 @@
 
 -(void) setFromLocation:(id) sender
 {
-    for (R2RAnnotation *annotation in self.mapView.annotations)
+    for (id annotation in self.mapView.annotations)
     {
-        if (annotation.annotationType == r2rAnnotationTypeFrom)
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
         {
-            [annotation setCoordinate:self.pressAnnotation.coordinate];
-            [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
-            self.fromAnnotationDidMove = YES;
-            [self.mapView removeAnnotation:self.pressAnnotation];
-            self.pressAnnotation = nil;
-            [self showSearchButton];
-            break;
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+            
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom)
+            {
+                [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
+                [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
+                self.fromAnnotationDidMove = YES;
+                [self.mapView removeAnnotation:self.pressAnnotation];
+                self.pressAnnotation = nil;
+                [self showSearchButton];
+                break;
+            }
         }
     }
 }
 
 -(void) setToLocation:(id) sender
 {
-    for (R2RAnnotation *annotation in self.mapView.annotations)
+    for (id annotation in self.mapView.annotations)
     {
-        if (annotation.annotationType == r2rAnnotationTypeTo)
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
         {
-            [annotation setCoordinate:self.pressAnnotation.coordinate];
-            [self.mapView viewForAnnotation:annotation].canShowCallout = NO;
-            self.toAnnotationDidMove = YES;
-            [self.mapView removeAnnotation:self.pressAnnotation];
-            self.pressAnnotation = nil;
-            [self showSearchButton];
-            break;
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+            
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeTo)
+            {
+                [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
+                [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
+                self.toAnnotationDidMove = YES;
+                [self.mapView removeAnnotation:self.pressAnnotation];
+                self.pressAnnotation = nil;
+                [self showSearchButton];
+                break;
+            }
         }
     }
 }
@@ -404,35 +419,41 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+
 - (IBAction)resolveLocation:(id)sender
 {
-    for (R2RAnnotation *annotation in self.mapView.annotations)
+    for (id annotation in self.mapView.annotations)
     {
-        if (annotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
         {
-            //mapscale. Used as horizontal accuracy
-            float mapScale = self.mapView.region.span.longitudeDelta*500;
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
             
-            [self.searchManager setFromWithMapLocation:annotation.coordinate mapScale:mapScale];
-        }
-        if (annotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
-        {
-            //mapcsale. Used as horizontal accuracy
-            float mapScale = self.mapView.region.span.longitudeDelta*500;
-            
-            [self.searchManager setToWithMapLocation:annotation.coordinate mapScale:mapScale];
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
+            {
+                //mapcale. Used as horizontal accuracy
+                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                
+                [self.searchManager setFromWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
+            }
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
+            {
+                //mapcale. Used as horizontal accuracy
+                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                
+                [self.searchManager setToWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
+            }
         }
     }
     
     self.searchButton.hidden = YES;
-    
-    //    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+//    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
 -(void)reloadDataDidFinish
 {
     [self configureMap];
     
+    // set map frame to non fullscreen size
     [self setMapFrame];
     
     //adjust table to correct size
@@ -451,6 +472,24 @@
     UIScrollView *tempScrollView=(UIScrollView *)self.view;
     tempScrollView.contentSize=scrollviewSize;
     
+}
+
+- (IBAction)resizeMap:(id)sender
+{
+    if (self.isMapFullSreen == NO)
+    {
+        [self.tableView setHidden:YES];
+        
+        self.isMapFullSreen = YES;
+        [self setMapFrameFullScreen];
+    }
+    else
+    {
+        [self.tableView setHidden:NO];
+        
+        self.isMapFullSreen = NO;
+        [self setMapFrame];
+    }
 }
 
 -(void) setMapFrame
@@ -488,6 +527,28 @@
     
     //set map frame to new size and position
     [self.mapView setFrame:mapFrame];
+    
+    [self setMapButtonPositions];
+}
+
+-(void) setMapFrameFullScreen
+{
+    CGRect viewFrame = self.view.frame;
+    
+    [self.mapView setFrame:viewFrame];
+    
+    [self setMapButtonPositions];
+}
+
+-(void) setMapButtonPositions
+{
+    CGRect buttonFrame = self.searchButton.frame;
+    buttonFrame.origin.y = self.mapView.frame.origin.y + self.mapView.frame.size.height - 70;
+    [self.searchButton setFrame:buttonFrame];
+    
+    buttonFrame = self.resizeMapButton.frame;
+    buttonFrame.origin.y = self.mapView.frame.origin.y + 20;
+    [self.resizeMapButton setFrame:buttonFrame];
 }
 
 -(void) setTableFooterWithGrabBar
@@ -599,6 +660,11 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
+    if ([annotation isKindOfClass:MKUserLocation.class]) {
+        //it's the built-in user location annotation, return nil to get default blue dot...
+        return nil;
+    }
+    
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	
     R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
@@ -678,11 +744,9 @@
 
 -(void) showSearchButton
 {
-    CGRect buttonFrame = self.searchButton.frame;
-    
-    buttonFrame.origin.y = self.mapView.frame.origin.y + self.mapView.frame.size.height - 70;
-    [self.searchButton setFrame:buttonFrame];
+
     self.searchButton.hidden = NO;
+
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
@@ -706,11 +770,16 @@
         //just get existing hopAnnotations
         NSMutableArray *existingHopAnnotations = [[NSMutableArray alloc] init];
         
-        for (R2RAnnotation *annotation in mapView.annotations)
+        for (id annotation in mapView.annotations)
         {
-            if (annotation.annotationType == r2rAnnotationTypeHop)
+            if ([annotation isKindOfClass:[R2RAnnotation class]])
             {
-                [existingHopAnnotations addObject:annotation];
+                R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+                
+                if (r2rAnnotation.annotationType == r2rAnnotationTypeHop)
+                {
+                    [existingHopAnnotations addObject:r2rAnnotation];
+                }
             }
         }
         
