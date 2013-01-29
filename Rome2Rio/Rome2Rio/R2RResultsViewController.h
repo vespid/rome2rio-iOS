@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *searchButton;
 @property (weak, nonatomic) IBOutlet UIButton *resizeMapButton;
 
-
 - (IBAction)returnToSearch:(id)sender;
 - (IBAction)resolveLocation:(id)sender;
 - (IBAction)resizeMap:(id)sender;

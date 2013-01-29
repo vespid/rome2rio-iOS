@@ -29,6 +29,8 @@
 @property (nonatomic) bool fromAnnotationDidMove;
 @property (nonatomic) bool toAnnotationDidMove;
 
+@property (nonatomic) bool isMapFullSreen;
+
 @end
 
 @implementation R2RTransitSegmentViewController
@@ -64,6 +66,7 @@
     //after annotations are initially placed set DidMove to NO so we don't resolve again unless it changes
     self.fromAnnotationDidMove = NO;
     self.toAnnotationDidMove = NO;
+    self.isMapFullSreen = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -330,10 +333,13 @@
 
 -(void)reloadDataDidFinish
 {
-    [self setMapFrame];
-    
     //adjust table to correct size
     [self.tableView sizeToFit];
+    
+    // set map frame to non fullscreen size
+    [self.tableView setHidden:NO];
+    self.isMapFullSreen = NO;
+    [self setMapFrame];
     
     //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
@@ -342,11 +348,24 @@
     self.tableView.layer.masksToBounds = NO;
     self.tableView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.tableView.bounds].CGPath;
     
-    // adjust scrollview content size
-    CGSize scrollviewSize = self.view.frame.size;
-    scrollviewSize.height = self.tableView.frame.size.height + self.mapView.frame.size.height;
-    UIScrollView *tempScrollView=(UIScrollView *)self.view;
-    tempScrollView.contentSize=scrollviewSize;
+}
+
+- (IBAction)resizeMap:(id)sender
+{
+    if (self.isMapFullSreen == NO)
+    {
+        [self.tableView setHidden:YES];
+        
+        self.isMapFullSreen = YES;
+        [self setMapFrameFullScreen];
+    }
+    else
+    {
+        [self.tableView setHidden:NO];
+        
+        self.isMapFullSreen = NO;
+        [self setMapFrame];
+    }
 }
 
 -(void) setMapFrame
@@ -389,6 +408,39 @@
     
     //set map frame to new size and position
     [self.mapView setFrame:mapFrame];
+    
+    // adjust scrollview content size
+    CGSize scrollviewSize = self.view.frame.size;
+    scrollviewSize.height = self.tableView.frame.size.height + self.mapView.frame.size.height;
+    UIScrollView *tempScrollView=(UIScrollView *)self.view;
+    tempScrollView.contentSize=scrollviewSize;
+
+    [self setMapButtonPositions];
+}
+
+-(void) setMapFrameFullScreen
+{
+    CGRect viewFrame = self.view.frame;
+    
+    [self.mapView setFrame:viewFrame];
+    
+    // adjust scrollview content size
+    CGSize scrollviewSize = self.view.frame.size;
+    UIScrollView *tempScrollView=(UIScrollView *)self.view;
+    tempScrollView.contentSize=scrollviewSize;
+    
+    [self setMapButtonPositions];
+}
+
+-(void) setMapButtonPositions
+{
+    CGRect buttonFrame = self.searchButton.frame;
+    buttonFrame.origin.y = self.mapView.frame.origin.y + self.mapView.frame.size.height - 70;
+    [self.searchButton setFrame:buttonFrame];
+    
+    buttonFrame = self.resizeMapButton.frame;
+    buttonFrame.origin.y = self.mapView.frame.origin.y + 20;
+    [self.resizeMapButton setFrame:buttonFrame];
 }
 
 -(void) setTableFooterWithGrabBar

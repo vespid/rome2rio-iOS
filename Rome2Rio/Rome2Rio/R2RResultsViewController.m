@@ -85,10 +85,11 @@
     // set default to show grabBar in footer
     [self setTableFooterWithGrabBar];
     
+    [self.mapView setDelegate:self];
+    [self setMapRegionOnLoad];
+    
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPressAnnotation:)];
     [self.mapView addGestureRecognizer:longPressGesture];
-    
-    //    [self configureMap];
     
     //after annotations are initially placed set DidMove to NO so we don't resolve again unless it changes
     self.fromAnnotationDidMove = NO;
@@ -431,14 +432,14 @@
             if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
             {
                 //mapcale. Used as horizontal accuracy
-                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                float mapScale = self.zoomLevel*500;
                 
                 [self.searchManager setFromWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
             }
             if (r2rAnnotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
             {
                 //mapcale. Used as horizontal accuracy
-                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                float mapScale = self.zoomLevel*500;
                 
                 [self.searchManager setToWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
             }
@@ -453,11 +454,13 @@
 {
     [self configureMap];
     
-    // set map frame to non fullscreen size
-    [self setMapFrame];
-    
     //adjust table to correct size
     [self.tableView sizeToFit];
+    
+    // set map frame to non fullscreen size
+    [self.tableView setHidden:NO];
+    self.isMapFullSreen = NO;
+    [self setMapFrame];
     
     //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
@@ -465,12 +468,6 @@
     self.tableView.layer.shadowOpacity = 0.5;
     self.tableView.layer.masksToBounds = NO;
     self.tableView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.tableView.bounds].CGPath;
-    
-    // adjust scrollview content size
-    CGSize scrollviewSize = self.view.frame.size;
-    scrollviewSize.height = self.tableView.frame.size.height + self.mapView.frame.size.height;
-    UIScrollView *tempScrollView=(UIScrollView *)self.view;
-    tempScrollView.contentSize=scrollviewSize;
     
 }
 
@@ -481,6 +478,7 @@
         [self.tableView setHidden:YES];
         
         self.isMapFullSreen = YES;
+        [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen1"] forState:UIControlStateNormal];
         [self setMapFrameFullScreen];
     }
     else
@@ -488,6 +486,7 @@
         [self.tableView setHidden:NO];
         
         self.isMapFullSreen = NO;
+        [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen2"] forState:UIControlStateNormal];
         [self setMapFrame];
     }
 }
@@ -528,6 +527,12 @@
     //set map frame to new size and position
     [self.mapView setFrame:mapFrame];
     
+    // adjust scrollview content size
+    CGSize scrollviewSize = self.view.frame.size;
+    scrollviewSize.height = self.tableView.frame.size.height + self.mapView.frame.size.height;
+    UIScrollView *tempScrollView=(UIScrollView *)self.view;
+    tempScrollView.contentSize=scrollviewSize;
+    
     [self setMapButtonPositions];
 }
 
@@ -536,6 +541,11 @@
     CGRect viewFrame = self.view.frame;
     
     [self.mapView setFrame:viewFrame];
+    
+    // adjust scrollview content size
+    CGSize scrollviewSize = self.view.frame.size;
+    UIScrollView *tempScrollView=(UIScrollView *)self.view;
+    tempScrollView.contentSize=scrollviewSize;
     
     [self setMapButtonPositions];
 }
@@ -547,7 +557,7 @@
     [self.searchButton setFrame:buttonFrame];
     
     buttonFrame = self.resizeMapButton.frame;
-    buttonFrame.origin.y = self.mapView.frame.origin.y + 20;
+    buttonFrame.origin.y = self.mapView.frame.origin.y + 5;
     [self.resizeMapButton setFrame:buttonFrame];
 }
 
@@ -571,11 +581,9 @@
 
 -(void) configureMap
 {
-    [self.mapView setDelegate:self];
-    
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.searchStore];
     
-    [self setMapRegionDefault];
+    [self setMapRegion];
     
     //return if search is not complete or route not found
     if ([self.searchStore.searchResponse.routes count] == 0)
@@ -608,13 +616,36 @@
     }
 }
 
+- (void) setMapRegionOnLoad
+{
+    // get default region
+    MKCoordinateRegion region = [R2RConstants getStartMapRegion];
+    
+    // if a place exists with no search response set region to that area
+    if (self.searchStore.fromPlace)
+    {
+        CLLocationCoordinate2D fromCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.fromPlace.lat , self.searchManager.searchStore.fromPlace.lng);
+        region = MKCoordinateRegionMakeWithDistance(fromCoord , 50000, 50000);
+    }
+    else if (self.searchStore.toPlace)
+    {
+        CLLocationCoordinate2D toCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.toPlace.lat , self.searchManager.searchStore.toPlace.lng);
+        region = MKCoordinateRegionMakeWithDistance(toCoord , 50000, 50000);
+    }
+
+    [self.mapView setRegion:region];
+    self.zoomLevel = region.span.longitudeDelta;
+    
+    // set mapRegion animated if search routes available
+    [self setMapRegion];
+    
+}
+
 //set map to display main region for route
-- (void)setMapRegionDefault
+- (void)setMapRegion
 {
     if ([self.searchStore.searchResponse.routes count] == 0)
     {
-        MKCoordinateRegion region = [R2RConstants getStartMapRegion];
-        [self.mapView setRegion:region];
         return;
     }
     
@@ -692,7 +723,7 @@
 {
     if (self.isMapZoomedToAnnotation)
     {
-        [self setMapRegionDefault];
+        [self setMapRegion];
         
         [self.mapView deselectAnnotation:annotationView.annotation animated:NO];
         
