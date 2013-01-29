@@ -33,7 +33,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origin" minimumFontSize="14" clearButtonMode="always" id="OV4-73-MRK">
-                                <rect key="frame" x="20" y="190" width="280" height="31"/>
+                                <rect key="frame" x="20" y="200" width="280" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -43,7 +43,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" minimumFontSize="14" clearButtonMode="always" id="Puj-uC-cuN">
-                                <rect key="frame" x="20" y="235" width="280" height="31"/>
+                                <rect key="frame" x="20" y="245" width="280" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -53,7 +53,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" id="gex-vl-wF7">
-                                <rect key="frame" x="60" y="290" width="200" height="36"/>
+                                <rect key="frame" x="60" y="300" width="200" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="tintColor" red="0.94901960784313721" green="0.40392156862745099" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
@@ -290,6 +290,21 @@
                                 <rect key="frame" x="0.0" y="140" width="320" height="364"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eKE-Sw-4NO">
+                                <rect key="frame" x="295" y="145" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="fullscreen2.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resizeMap:" destination="WK8-uk-BLQ" eventType="touchUpInside" id="ckp-bU-CtM"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </scrollView>
                     <navigationItem key="navigationItem" title="Results" id="fIO-dG-uaE">
@@ -301,6 +316,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="7hX-aN-Lmx" id="bKL-qN-xJw"/>
+                        <outlet property="resizeMapButton" destination="eKE-Sw-4NO" id="gAx-0R-8AI"/>
                         <outlet property="searchButton" destination="DlJ-lL-lcI" id="yeL-c9-ihv"/>
                         <outlet property="tableView" destination="hQn-Ft-wlA" id="AH7-BR-nkb"/>
                     </connections>
@@ -479,6 +495,21 @@
                                 <rect key="frame" x="1" y="408" width="320" height="350"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xkk-en-E76">
+                                <rect key="frame" x="295" y="413" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="fullscreen2.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resizeMap:" destination="mjw-xX-aua" eventType="touchUpInside" id="N7J-g5-4yZ"/>
+                                </connections>
+                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0nQ-hc-YL3">
                                 <rect key="frame" x="100" y="435" width="120" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -506,6 +537,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="hfw-FP-6Kr" id="EfM-p2-VMX"/>
+                        <outlet property="resizeMapButton" destination="Xkk-en-E76" id="JZK-l3-hqo"/>
                         <outlet property="searchButton" destination="0nQ-hc-YL3" id="0vM-3K-RUq"/>
                         <outlet property="tableView" destination="qlj-Xz-wWF" id="QfT-zE-TVI"/>
                     </connections>
@@ -621,6 +653,21 @@
                                 <rect key="frame" x="0.0" y="170" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZGe-wd-EZr">
+                                <rect key="frame" x="295" y="175" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="fullscreen2.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resizeMap:" destination="Yhw-Qi-8V7" eventType="touchUpInside" id="6ch-wF-7L0"/>
+                                </connections>
+                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="308-vw-wQv">
                                 <rect key="frame" x="100" y="435" width="120" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -648,6 +695,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="5lD-4k-jpI" id="kts-oS-SRQ"/>
+                        <outlet property="resizeMapButton" destination="ZGe-wd-EZr" id="JnX-qK-mE6"/>
                         <outlet property="searchButton" destination="308-vw-wQv" id="d9W-QY-EoR"/>
                         <outlet property="tableView" destination="D1c-h2-mzA" id="dom-OJ-g1K"/>
                     </connections>
@@ -745,6 +793,21 @@
                                 <rect key="frame" x="0.0" y="200" width="320" height="364"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DiP-we-cf6">
+                                <rect key="frame" x="295" y="205" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="fullscreen2.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resizeMap:" destination="1ix-uE-0ex" eventType="touchUpInside" id="eCP-nl-rDy"/>
+                                </connections>
+                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gqU-Sf-8gW">
                                 <rect key="frame" x="100" y="435" width="120" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -772,6 +835,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="mWm-yi-xsE" id="i4Q-IV-SOO"/>
+                        <outlet property="resizeMapButton" destination="DiP-we-cf6" id="RqC-q4-Qec"/>
                         <outlet property="searchButton" destination="gqU-Sf-8gW" id="Ate-OF-hTo"/>
                         <outlet property="tableView" destination="vdB-Bm-a2a" id="Tap-Ax-Isl"/>
                     </connections>
@@ -785,6 +849,7 @@
         <image name="Home_Icon_White.png" width="18" height="18"/>
         <image name="Home_Icon_White@2x.png" width="36" height="36"/>
         <image name="bg-retina.jpg" width="640" height="1136"/>
+        <image name="fullscreen2.png" width="200" height="181"/>
         <image name="r2r-retina.png" width="600" height="120"/>
         <image name="targetIcon_orange.png" width="48" height="48"/>
     </resources>
@@ -806,9 +871,11 @@
         <class className="R2RDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RDetailViewController.h"/>
             <relationships>
+                <relationship kind="action" name="resizeMap:"/>
                 <relationship kind="action" name="resolveLocation:"/>
                 <relationship kind="action" name="returnToSearch:"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="resizeMapButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
@@ -874,9 +941,11 @@
         <class className="R2RResultsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
             <relationships>
+                <relationship kind="action" name="resizeMap:"/>
                 <relationship kind="action" name="resolveLocation:"/>
                 <relationship kind="action" name="returnToSearch:"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="resizeMapButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
@@ -896,9 +965,11 @@
         <class className="R2RTransitSegmentViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentViewController.h"/>
             <relationships>
+                <relationship kind="action" name="resizeMap:"/>
                 <relationship kind="action" name="resolveLocation:"/>
                 <relationship kind="action" name="returnToSearch:"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="resizeMapButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
@@ -915,9 +986,11 @@
         <class className="R2RWalkDriveSegmentViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentViewController.h"/>
             <relationships>
+                <relationship kind="action" name="resizeMap:"/>
                 <relationship kind="action" name="resolveLocation:"/>
                 <relationship kind="action" name="returnToSearch:"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="resizeMapButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
@@ -929,7 +1002,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="XWX-ic-Yoe"/>
         <segue reference="hFK-bo-ewS"/>
+        <segue reference="XWX-ic-Yoe"/>
     </inferredMetricsTieBreakers>
 </document>
