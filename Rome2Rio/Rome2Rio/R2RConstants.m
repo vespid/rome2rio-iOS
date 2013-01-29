@@ -25,6 +25,69 @@
     return @"569793256";
 }
 
++(NSString *)getAppKey
+{
+    return @"cHwoWiHP";
+}
+
++(NSString *) getUserId
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *userId = [userDefaults stringForKey:@"R2RUserID"];
+    
+    if (userId == NULL)
+    {
+        // if no userId generate a new one from
+        // localeIdentifier + date + random number seeded from ID
+        
+        NSString *localeId = [[NSLocale currentLocale] localeIdentifier];
+        
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"yyyyMMddHHmmssSSS"];
+        
+        NSDate *now = [[NSDate alloc] init];
+        
+        NSString *theDate = [dateFormat stringFromDate:now];
+        
+        NSString *deviceUDID = NULL;
+        
+        if ([[UIDevice currentDevice] respondsToSelector:@selector(identifierForVendor)])
+        {
+            //get vendor UUID
+            deviceUDID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        }
+        else
+        {
+            // pre 6.0 generate a UUID
+            CFUUIDRef theUUID = CFUUIDCreate( kCFAllocatorDefault );
+            CFStringRef theUUIDString = CFUUIDCreateString( kCFAllocatorDefault, theUUID );
+            
+            deviceUDID = (NSString *)CFBridgingRelease(theUUIDString);
+        }
+        
+        // using adler32 checksum as random seed
+        NSInteger a = 1, b = 0;
+        NSInteger const MOD_ADLER = 65521;
+        for (NSInteger i = 0; i < [deviceUDID length]; i++)
+        {
+            a = (a + [deviceUDID characterAtIndex:i]) %MOD_ADLER;
+            b = (b + a) % MOD_ADLER;
+        }
+        NSInteger adler = (b << 16) | a;
+        
+        srand(adler);
+        NSInteger randNum = rand() % (9999 - 1000) + 1000;
+        
+        userId = [NSString stringWithFormat:(@"%@%@%d"),localeId, theDate, randNum];
+        
+        R2RLog(@"%@", userId);
+        [userDefaults setObject:userId forKey:@"R2RUserID"];
+    }
+    
+    return userId;
+}
+
 +(UIImage *) getMasterViewBackgroundImage
 {
     return [UIImage imageNamed:@"bg-retina"];

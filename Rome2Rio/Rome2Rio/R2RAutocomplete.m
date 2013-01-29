@@ -8,6 +8,7 @@
 
 #import "R2RAutocomplete.h"
 #import "R2RMapHelper.h"
+#import "R2RConstants.h"
 
 @interface R2RAutocomplete() <R2RConnectionDelegate>
 
@@ -62,10 +63,12 @@
 {
     NSMutableString *geoCoderString = [[NSMutableString alloc] init];
     
+    NSString *appKey = [R2RConstants getAppKey];
+    
 #if DEBUG
-    [geoCoderString appendFormat:@"http://prototype.rome2rio.com/api/1.2/json/Autocomplete?key=wOAPMlcG&query=%@", self.query];
+    [geoCoderString appendFormat:@"http://prototype.rome2rio.com/api/1.2/json/Autocomplete?key=%@&query=%@", appKey, self.query];
 #else
-    [geoCoderString appendFormat:@"http://ios.rome2rio.com/api/1.2/json/Autocomplete?key=wOAPMlcG&query=%@", self.query];
+    [geoCoderString appendFormat:@"http://ios.rome2rio.com/api/1.2/json/Autocomplete?key=%@&query=%@", appKey, self.query];
 #endif
     
     if ([self.countryCode length] > 0)
@@ -76,6 +79,13 @@
     if ([self.languageCode length] > 0)
     {
         [geoCoderString appendFormat:@"&languageCode=%@", self.languageCode];
+    }
+    
+    NSString *userId = [R2RConstants getUserId];
+    
+    if ([userId length] > 0)
+    {
+        [geoCoderString appendFormat:@"&uid=%@",userId];
     }
     
     NSString *geoCoderEncoded = [geoCoderString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

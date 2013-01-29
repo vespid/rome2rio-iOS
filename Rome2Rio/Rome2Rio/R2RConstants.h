@@ -12,6 +12,8 @@
 @interface R2RConstants : NSObject
 
 +(NSString *) getAppId;
++(NSString *) getAppKey;
++(NSString *) getUserId;
 
 +(UIImage *) getMasterViewBackgroundImage;
 +(UIImage *) getMasterViewLogo;
