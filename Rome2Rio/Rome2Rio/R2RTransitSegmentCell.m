@@ -11,7 +11,7 @@
 
 @implementation R2RTransitSegmentCell
 
-@synthesize fromLabel, durationLabel, frequencyLabel, toLabel, transitVehicleIcon, lineLabel;
+@synthesize fromLabel, durationLabel, frequencyLabel, toLabel, transitVehicleIcon, lineLabel, schedulesButton;
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -80,6 +80,15 @@
     [self.lineLabel setTextColor:[R2RConstants getLightTextColor]];
     [self.lineLabel setHidden:YES];
     [self addSubview:self.lineLabel];
+    
+    rect = CGRectMake(self.bounds.size.width - 15 - 100, 80, 100, 25);
+    self.schedulesButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.schedulesButton setFrame:rect];
+    self.schedulesButton.tintColor = [R2RConstants getButtonHighlightColor];
+    [self.schedulesButton setTitleColor:[R2RConstants getDarkTextColor] forState:UIControlStateNormal];
+    [self.schedulesButton setTitle:NSLocalizedString(@"Schedules", nil)  forState:UIControlStateNormal];
+    self.schedulesButton.hidden = YES;
+    [self addSubview:self.schedulesButton];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

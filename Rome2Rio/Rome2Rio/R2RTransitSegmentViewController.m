@@ -155,8 +155,8 @@
     [header.agencyNameLabel setFrame:rect];
     [header.agencyNameLabel setText:agencyName];
     
-    [header.linkButton setImage:[UIImage imageNamed:@"externalLinkIconGray"] forState:UIControlStateNormal];
-    [header.linkButton addTarget:self action:@selector(showLinkMenu) forControlEvents:UIControlEventTouchUpInside];
+//    [header.linkButton setImage:[UIImage imageNamed:@"externalLinkIconGray"] forState:UIControlStateNormal];
+//    [header.linkButton addTarget:self action:@selector(showLinkMenu) forControlEvents:UIControlEventTouchUpInside];
     
     return header;
 }
@@ -246,12 +246,36 @@
         [cell.lineLabel setText:line];
         rect = CGRectMake(20, 80, cell.toLabel.frame.size.width, 25);
         [cell.toLabel setFrame:rect];
+        
+        //set schedules button position
+        rect = cell.schedulesButton.frame;
+        rect.origin.y = 105;
+        [cell.schedulesButton setFrame:rect];
     }
     else
     {
         [cell.lineLabel setHidden:YES];
         rect = CGRectMake(20, 55, cell.toLabel.frame.size.width, 25);
         [cell.toLabel setFrame:rect];
+        
+        //set schedules button position
+        rect = cell.schedulesButton.frame;
+        rect.origin.y = 80;
+        [cell.schedulesButton setFrame:rect];
+    }
+    
+    //if last row in section
+    if (indexPath.row == [transitLeg.hops count] - 1)
+    {
+        [cell.schedulesButton setHidden:NO];
+        
+        //using tag to track which button is pressed
+        cell.schedulesButton.tag = indexPath.section;
+        [cell.schedulesButton addTarget:self action:@selector(showSchedules:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else
+    {
+        [cell.schedulesButton setHidden:YES];
     }
     
     return cell;
@@ -279,14 +303,24 @@
         [lineLabel appendString:line.name];
     }
     
+    float rowHeight = 0;
+    
     if ([lineLabel length] == 0)
     {
-        return 85;
+        rowHeight = 85;
     }
     else
     {
-        return 115;
+        rowHeight = 115;
     }
+    
+    //if last row in section
+    if (indexPath.row == [transitLeg.hops count] - 1)
+    {
+        rowHeight += 20;
+    }
+    
+    return rowHeight;
 }
 
 #pragma mark - Table view delegate
@@ -746,14 +780,14 @@
             if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
             {
                 //mapcale. Used as horizontal accuracy
-                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                float mapScale = self.zoomLevel*500;
                 
                 [self.searchManager setFromWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
             }
             if (r2rAnnotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
             {
                 //mapcale. Used as horizontal accuracy
-                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                float mapScale = self.zoomLevel*500;
                 
                 [self.searchManager setToWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
             }
@@ -763,38 +797,52 @@
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
-- (void) showLinkMenu
+- (void) showSchedules:(id) sender
 {
-    UIActionSheet *linkMenuSheet = [[UIActionSheet alloc] initWithTitle: NSLocalizedString(@"Schedules", nil)
-                                                               delegate:self
-                                                      cancelButtonTitle:nil
-                                                 destructiveButtonTitle:nil
-                                                      otherButtonTitles:nil];
+    UIButton *button = (UIButton *)sender;
     
-    for (R2RTransitLeg *leg in self.legs)
-    {
-        [linkMenuSheet addButtonWithTitle:leg.host];
-    }
     
-    [linkMenuSheet addButtonWithTitle: NSLocalizedString(@"cancel", nil)];
-    [linkMenuSheet setCancelButtonIndex:[self.legs count]];
+    R2RLog(@"Button %d", button.tag);
     
-    [linkMenuSheet showInView:self.view];
-    
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == [self.legs count])
-        return;
-    
-    R2RLog(@"Button %d", buttonIndex);
-    
-    R2RTransitLeg *leg = [self.legs objectAtIndex:buttonIndex];
+    R2RTransitLeg *leg = [self.legs objectAtIndex:button.tag];
     if ([[leg.url absoluteString] length] > 0)
     {
         [[UIApplication sharedApplication] openURL:leg.url];
     }
 }
+
+//- (void) showLinkMenu
+//{
+//    UIActionSheet *linkMenuSheet = [[UIActionSheet alloc] initWithTitle: NSLocalizedString(@"Schedules", nil)
+//                                                               delegate:self
+//                                                      cancelButtonTitle:nil
+//                                                 destructiveButtonTitle:nil
+//                                                      otherButtonTitles:nil];
+//    
+//    for (R2RTransitLeg *leg in self.legs)
+//    {
+//        [linkMenuSheet addButtonWithTitle:leg.host];
+//    }
+//    
+//    [linkMenuSheet addButtonWithTitle: NSLocalizedString(@"cancel", nil)];
+//    [linkMenuSheet setCancelButtonIndex:[self.legs count]];
+//    
+//    [linkMenuSheet showInView:self.view];
+//    
+//}
+//
+//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex == [self.legs count])
+//        return;
+//    
+//    R2RLog(@"Button %d", buttonIndex);
+//    
+//    R2RTransitLeg *leg = [self.legs objectAtIndex:buttonIndex];
+//    if ([[leg.url absoluteString] length] > 0)
+//    {
+//        [[UIApplication sharedApplication] openURL:leg.url];
+//    }
+//}
 
 @end

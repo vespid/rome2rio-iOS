@@ -16,5 +16,6 @@
 @property (strong, nonatomic) UILabel *durationLabel;
 @property (strong, nonatomic) UILabel *frequencyLabel;
 @property (strong, nonatomic) UILabel *lineLabel;
+@property (strong, nonatomic) UIButton *schedulesButton;
 
 @end

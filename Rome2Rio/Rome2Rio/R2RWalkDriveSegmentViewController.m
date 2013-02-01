@@ -555,14 +555,14 @@
             if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
             {
                 //mapcale. Used as horizontal accuracy
-                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                float mapScale = self.zoomLevel*500;
                 
                 [self.searchManager setFromWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
             }
             if (r2rAnnotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
             {
                 //mapcale. Used as horizontal accuracy
-                float mapScale = self.mapView.region.span.longitudeDelta*500;
+                float mapScale = self.zoomLevel*500;
                 
                 [self.searchManager setToWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
             }
