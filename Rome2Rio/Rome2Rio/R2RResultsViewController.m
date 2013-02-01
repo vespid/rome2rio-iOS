@@ -454,13 +454,20 @@
 {
     [self configureMap];
     
+    CGRect tableFrame = self.tableView.frame;
+    tableFrame.size.height = 1000; //added to make sizeToFit work better
+    tableFrame.origin.y = 0; // set table back to top of 
+    [self.tableView setFrame:tableFrame];
+    
     //adjust table to correct size
     [self.tableView sizeToFit];
     
     // set map frame to non fullscreen size
-    [self.tableView setHidden:NO];
     self.isMapFullSreen = NO;
     [self setMapFrame];
+    
+    //adjust table to correct size
+    [self.tableView sizeToFit];
     
     //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
@@ -475,19 +482,37 @@
 {
     if (self.isMapFullSreen == NO)
     {
-        [self.tableView setHidden:YES];
+        CGRect tableFrame = self.tableView.frame;
+        tableFrame.origin.y = 0 - tableFrame.size.height;
+        [UIView animateWithDuration:0.3
+                              delay:0.0
+                            options: UIViewAnimationCurveEaseOut
+                         animations:^{
+                             [self.tableView setFrame:tableFrame];
+                             [self setMapFrameFullScreen];
+                         }
+                         completion:^(BOOL finished){
+                         }];
         
         self.isMapFullSreen = YES;
         [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen1"] forState:UIControlStateNormal];
-        [self setMapFrameFullScreen];
     }
     else
     {
-        [self.tableView setHidden:NO];
+        CGRect tableFrame = self.tableView.frame;
+        tableFrame.origin.y = 0;
+        [UIView animateWithDuration:0.3
+                              delay:0.0
+                            options: UIViewAnimationCurveEaseOut
+                         animations:^{
+                             [self.tableView setFrame:tableFrame];
+                             [self setMapFrame];
+                         }
+                         completion:^(BOOL finished){
+                         }];
         
         self.isMapFullSreen = NO;
         [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen2"] forState:UIControlStateNormal];
-        [self setMapFrame];
     }
 }
 
@@ -577,6 +602,11 @@
     [footer addSubview:imageView];
     
     self.tableView.tableFooterView = footer;
+    
+    // added footer height to table frame
+    CGRect tableFrame = self.tableView.frame;
+    tableFrame.size.height += footer.frame.size.height;
+    [self.tableView setFrame:tableFrame];
 }
 
 -(void) configureMap
