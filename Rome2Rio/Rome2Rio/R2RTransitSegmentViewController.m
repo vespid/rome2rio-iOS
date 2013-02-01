@@ -341,6 +341,9 @@
     self.isMapFullSreen = NO;
     [self setMapFrame];
     
+    //adjust table to correct size
+    [self.tableView sizeToFit];
+    
     //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
     self.tableView.layer.shadowRadius = 5;
@@ -354,17 +357,37 @@
 {
     if (self.isMapFullSreen == NO)
     {
-        [self.tableView setHidden:YES];
+        CGRect tableFrame = self.tableView.frame;
+        tableFrame.origin.y = 0 - tableFrame.size.height;
+        [UIView animateWithDuration:0.3
+                              delay:0.0
+                            options: UIViewAnimationCurveEaseOut
+                         animations:^{
+                             [self.tableView setFrame:tableFrame];
+                             [self setMapFrameFullScreen];
+                         }
+                         completion:^(BOOL finished){
+                         }];
         
         self.isMapFullSreen = YES;
-        [self setMapFrameFullScreen];
+        [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen1"] forState:UIControlStateNormal];
     }
     else
     {
-        [self.tableView setHidden:NO];
+        CGRect tableFrame = self.tableView.frame;
+        tableFrame.origin.y = 0;
+        [UIView animateWithDuration:0.3
+                              delay:0.0
+                            options: UIViewAnimationCurveEaseOut
+                         animations:^{
+                             [self.tableView setFrame:tableFrame];
+                             [self setMapFrame];
+                         }
+                         completion:^(BOOL finished){
+                         }];
         
         self.isMapFullSreen = NO;
-        [self setMapFrame];
+        [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen2"] forState:UIControlStateNormal];
     }
 }
 
@@ -439,7 +462,7 @@
     [self.searchButton setFrame:buttonFrame];
     
     buttonFrame = self.resizeMapButton.frame;
-    buttonFrame.origin.y = self.mapView.frame.origin.y + 20;
+    buttonFrame.origin.y = self.mapView.frame.origin.y + 5;
     [self.resizeMapButton setFrame:buttonFrame];
 }
 
