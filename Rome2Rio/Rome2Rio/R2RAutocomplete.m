@@ -194,7 +194,7 @@
         {
             R2RLog(@"Timeout"); 
             
-            self.responseMessage = NSLocalizedString(@"Unable to find location", nil);
+            self.responseMessage = NSLocalizedString(@"Server Temporarily Unavailable", nil);
             self.responseCompletionState = r2rCompletionStateError;
             
             [[self delegate] autocompleteResolved:self];

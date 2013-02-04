@@ -63,20 +63,13 @@
 #if DEBUG
     
     NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@", self.oName, self.dName, self.oPos, self.dPos];
-    
-    if ([self.oKind length] != 0)
-        [searchString appendFormat:@"&oKind=%@", self.oKind];
-    if ([self.dKind length] != 0)
-        [searchString appendFormat:@"&dKind=%@", self.dKind];
-    if ([self.oCode length] != 0)
-        [searchString appendFormat:@"&oCode=%@", self.oCode];
-    if ([self.dCode length] != 0)
-        [searchString appendFormat:@"&dCode=%@", self.dCode];
-    
+       
 #else
     
     NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://ios.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@", self.oName, self.dName, self.oPos, self.dPos];
     
+#endif
+    
     if ([self.oKind length] != 0)
         [searchString appendFormat:@"&oKind=%@", self.oKind];
     if ([self.dKind length] != 0)
@@ -86,7 +79,7 @@
     if ([self.dCode length] != 0)
         [searchString appendFormat:@"&dCode=%@", self.dCode];
     
-#endif
+    [searchString appendFormat:@"&flags=0x2000000"];
     
     NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -775,7 +768,7 @@
         if ([connection.error.localizedDescription length] == 0)
         {
             R2RLog(@"No error message");
-            self.responseMessage = NSLocalizedString(@"Unable to find route", nil);
+            self.responseMessage = NSLocalizedString(@"Server Temporarily Unavailable", nil);
         }
         
         [[self delegate] searchDidFinish:self];
@@ -787,7 +780,7 @@
     if (self.responseCompletionState == r2rCompletionStateResolving)
     {
         self.responseCompletionState = r2rCompletionStateError;
-        self.responseMessage = NSLocalizedString(@"Unable to find route", nil);
+        self.responseMessage = NSLocalizedString(@"Server Temporarily Unavailable", nil);
         R2RLog(@"Search Timeout");
         [[self delegate] searchDidFinish:self];
     }
