@@ -54,6 +54,9 @@
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationItem.title = NSLocalizedString(@"Results", nil);
+ 
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(navigateBack)];
+    self.navigationItem.leftBarButtonItem = backButton;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTitle:) name:@"refreshTitle" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshResults:) name:@"refreshResults" object:nil];
@@ -286,10 +289,10 @@
     
 }
 
-//-(void) statusButtonClicked
-//{
-//    [self.navigationController popViewControllerAnimated:true];
-//}
+-(void) statusButtonClicked
+{
+    [self.navigationController popViewControllerAnimated:true];
+}
 
 -(void) refreshResultsViewTitle
 {
@@ -425,6 +428,7 @@
     [self.mapView removeAnnotation:self.pressAnnotation];
     self.pressAnnotation = nil;
     [self showSearchButton];
+    [self showFullScreenMap];
 }
 
 -(void) setToLocation:(id) sender
@@ -435,6 +439,7 @@
     [self.mapView removeAnnotation:self.pressAnnotation];
     self.pressAnnotation = nil;
     [self showSearchButton];
+    [self showFullScreenMap];
 }
 
 -(void) updateFromAnnotation:(NSString *)name kind:(NSString *)kind coord:(CLLocationCoordinate2D) fromCoord
@@ -527,6 +532,18 @@
 {
     if (self.isMapFullSreen == NO)
     {
+        [self showFullScreenMap];
+    }
+    else
+    {
+        [self showTableView];
+    }
+}
+
+-(void) showFullScreenMap
+{
+    if (self.isMapFullSreen == NO)
+    {
         CGRect tableFrame = self.tableView.frame;
         tableFrame.origin.y = 0 - tableFrame.size.height;
         [UIView animateWithDuration:0.3
@@ -542,7 +559,11 @@
         self.isMapFullSreen = YES;
         [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen1"] forState:UIControlStateNormal];
     }
-    else
+}
+
+-(void) showTableView
+{
+    if (self.isMapFullSreen == YES)
     {
         CGRect tableFrame = self.tableView.frame;
         tableFrame.origin.y = 0;
@@ -555,7 +576,7 @@
                          }
                          completion:^(BOOL finished){
                          }];
-        
+    
         self.isMapFullSreen = NO;
         [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen2"] forState:UIControlStateNormal];
     }
@@ -871,6 +892,7 @@
         if (newState == MKAnnotationViewDragStateEnding)
         {
             [self.mapView deselectAnnotation:view.annotation animated:YES];
+            [self showFullScreenMap];
         }
     }
 }
@@ -923,6 +945,18 @@
         [self.mapView removeAnnotations:annotationsToRemove];
         
         self.zoomLevel=mapView.region.span.longitudeDelta;
+    }
+}
+
+- (void) navigateBack
+{
+    if (self.isMapFullSreen == YES)
+    {
+        [self showTableView];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:true];
     }
 }
 

@@ -37,6 +37,8 @@
     [super viewDidLoad];
     
     self.navigationItem.title = NSLocalizedString(@"Fly", nil);
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(navigateBack)];
+    self.navigationItem.leftBarButtonItem = backButton;
     
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
@@ -484,6 +486,11 @@
     {
         [[UIApplication sharedApplication] openURL:url];
     }
+}
+
+- (void) navigateBack
+{
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 @end

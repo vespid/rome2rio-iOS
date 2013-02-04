@@ -44,6 +44,9 @@
     NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:walkDriveSegment.kind];
     self.navigationItem.title = NSLocalizedString(navigationTitle, nil);
     
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(navigateBack)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     [self.tableView setDelegate:self];
@@ -171,6 +174,18 @@
 {
     if (self.isMapFullSreen == NO)
     {
+        [self showFullScreenMap];
+    }
+    else
+    {
+        [self showTableView];
+    }
+}
+
+-(void) showFullScreenMap
+{
+    if (self.isMapFullSreen == NO)
+    {
         CGRect tableFrame = self.tableView.frame;
         tableFrame.origin.y = 0 - tableFrame.size.height;
         [UIView animateWithDuration:0.3
@@ -186,7 +201,11 @@
         self.isMapFullSreen = YES;
         [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen1"] forState:UIControlStateNormal];
     }
-    else
+}
+
+-(void) showTableView
+{
+    if (self.isMapFullSreen == YES)
     {
         CGRect tableFrame = self.tableView.frame;
         tableFrame.origin.y = 0;
@@ -427,6 +446,7 @@
         if (newState == MKAnnotationViewDragStateEnding)
         {
             [self.mapView deselectAnnotation:view.annotation animated:YES];
+            [self showFullScreenMap];
         }
     }
 }
@@ -511,6 +531,7 @@
                 [self.mapView removeAnnotation:self.pressAnnotation];
                 self.pressAnnotation = nil;
                 [self showSearchButton];
+                [self showFullScreenMap];
                 break;
             }
         }
@@ -533,6 +554,7 @@
                 [self.mapView removeAnnotation:self.pressAnnotation];
                 self.pressAnnotation = nil;
                 [self showSearchButton];
+                [self showFullScreenMap];
                 break;
             }
         }
@@ -570,6 +592,18 @@
     }
 
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+}
+
+- (void) navigateBack
+{
+    if (self.isMapFullSreen == YES)
+    {
+        [self showTableView];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:true];
+    }
 }
 
 @end

@@ -44,6 +44,9 @@
     NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:transitSegment.kind];
     self.navigationItem.title = NSLocalizedString(navigationTitle, nil);
     
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(navigateBack)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     [self.tableView setDelegate:self];
@@ -391,6 +394,18 @@
 {
     if (self.isMapFullSreen == NO)
     {
+        [self showFullScreenMap];
+    }
+    else
+    {
+        [self showTableView];
+    }
+}
+
+-(void) showFullScreenMap
+{
+    if (self.isMapFullSreen == NO)
+    {
         CGRect tableFrame = self.tableView.frame;
         tableFrame.origin.y = 0 - tableFrame.size.height;
         [UIView animateWithDuration:0.3
@@ -406,7 +421,11 @@
         self.isMapFullSreen = YES;
         [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen1"] forState:UIControlStateNormal];
     }
-    else
+}
+
+-(void) showTableView
+{
+    if (self.isMapFullSreen == YES)
     {
         CGRect tableFrame = self.tableView.frame;
         tableFrame.origin.y = 0;
@@ -652,6 +671,7 @@
         if (newState == MKAnnotationViewDragStateEnding)
         {
             [self.mapView deselectAnnotation:view.annotation animated:YES];
+            [self showFullScreenMap];
         }
     }
 }
@@ -736,6 +756,7 @@
                 [self.mapView removeAnnotation:self.pressAnnotation];
                 self.pressAnnotation = nil;
                 [self showSearchButton];
+                [self showFullScreenMap];
                 break;
             }
         }
@@ -758,6 +779,7 @@
                 [self.mapView removeAnnotation:self.pressAnnotation];
                 self.pressAnnotation = nil;
                 [self showSearchButton];
+                [self showFullScreenMap];
                 break;
             }
         }
@@ -811,38 +833,16 @@
     }
 }
 
-//- (void) showLinkMenu
-//{
-//    UIActionSheet *linkMenuSheet = [[UIActionSheet alloc] initWithTitle: NSLocalizedString(@"Schedules", nil)
-//                                                               delegate:self
-//                                                      cancelButtonTitle:nil
-//                                                 destructiveButtonTitle:nil
-//                                                      otherButtonTitles:nil];
-//    
-//    for (R2RTransitLeg *leg in self.legs)
-//    {
-//        [linkMenuSheet addButtonWithTitle:leg.host];
-//    }
-//    
-//    [linkMenuSheet addButtonWithTitle: NSLocalizedString(@"cancel", nil)];
-//    [linkMenuSheet setCancelButtonIndex:[self.legs count]];
-//    
-//    [linkMenuSheet showInView:self.view];
-//    
-//}
-//
-//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-//{
-//    if (buttonIndex == [self.legs count])
-//        return;
-//    
-//    R2RLog(@"Button %d", buttonIndex);
-//    
-//    R2RTransitLeg *leg = [self.legs objectAtIndex:buttonIndex];
-//    if ([[leg.url absoluteString] length] > 0)
-//    {
-//        [[UIApplication sharedApplication] openURL:leg.url];
-//    }
-//}
+- (void) navigateBack
+{
+    if (self.isMapFullSreen == YES)
+    {
+        [self showTableView];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:true];
+    }
+}
 
 @end
