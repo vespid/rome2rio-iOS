@@ -37,6 +37,9 @@
 @property (nonatomic) bool fromAnnotationDidMove;
 @property (nonatomic) bool toAnnotationDidMove;
 
+@property (strong, nonatomic) R2RAnnotation *fromAnnotation;
+@property (strong, nonatomic) R2RAnnotation *toAnnotation;
+
 @property (nonatomic) bool isMapFullSreen;
 
 @end
@@ -126,6 +129,26 @@
         [self setStatusMessage:self.searchStore.searchMessage];
         if ([self.searchManager isSearching]) [self.searchManager setSearchMessage:NSLocalizedString(@"Searching", nil)];
     }
+    
+    // clear from annotation in no from place resolved yet
+    if (self.searchStore.fromPlace == nil)
+    {
+        if (self.fromAnnotation != nil)
+        {
+            [self.mapView removeAnnotation:self.fromAnnotation];
+            self.fromAnnotation = nil;
+        }
+    }
+    
+    // clear to annotation in no to place resolved yet
+    if (self.searchStore.toPlace == nil)
+    {
+        if (self.toAnnotation != nil)
+        {
+            [self.mapView removeAnnotation:self.toAnnotation];
+            self.toAnnotation = nil;
+        }
+    }
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -187,12 +210,22 @@
     
     NSInteger iconCount = 0;
     float xOffset = 0;
+    NSString *prevSegmentKind = @"";
     for (id segment in route.segments)
     {
         if (iconCount >= MAX_ICONS) break;
         
         if ([segmentHandler getSegmentIsMajor:segment])
         {
+            NSString *segmentKind = [segmentHandler getSegmentKind:segment];
+            
+            if (iconCount > 0)
+            {
+                // do not display the same icon consecutively
+                if ([segmentKind isEqualToString:prevSegmentKind])
+                    continue;
+            }
+            
             UIImageView *iconView = [cell.icons objectAtIndex:iconCount];
             
             if (xOffset == 0)
@@ -209,6 +242,7 @@
             
             xOffset = iconView.frame.origin.x + iconView.frame.size.width + 7; //xPos of next icon
             
+            prevSegmentKind = segmentKind;
             iconCount++;
         }
     }
@@ -328,8 +362,21 @@
     frame.size.height = 10088;
     self.tableView.frame = frame;
     
-    //remove all map annotaions and overlays
-    [self.mapView removeAnnotations:self.mapView.annotations];
+    //remove hop annotations and stop annotations that are not to/from
+    for (id annotation in self.mapView.annotations)
+    {
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
+        {
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+            
+            if (r2rAnnotation.annotationType != r2rAnnotationTypeFrom && r2rAnnotation.annotationType != r2rAnnotationTypeTo)
+            {
+                [self.mapView removeAnnotation:r2rAnnotation];
+            }
+        }
+    }
+    
+    // remove overlays
     [self.mapView removeOverlays:self.mapView.overlays];
     
     //reload table. triggers redrawing of map as well
@@ -353,8 +400,7 @@
 
 - (void)showPressAnnotation:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-    // only allow the changing of to/from on the results after the search has completed
-    if (self.searchManager.searchStore.searchResponse == nil) return;
+    if (self.searchManager.searchStore.searchResponse == nil && [self.searchManager isSearching]) return;
     
     CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
     CLLocationCoordinate2D touchMapCoordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
@@ -373,45 +419,49 @@
 
 -(void) setFromLocation:(id) sender
 {
-    for (id annotation in self.mapView.annotations)
-    {
-        if ([annotation isKindOfClass:[R2RAnnotation class]])
-        {
-            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
-            
-            if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom)
-            {
-                [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
-                [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
-                self.fromAnnotationDidMove = YES;
-                [self.mapView removeAnnotation:self.pressAnnotation];
-                self.pressAnnotation = nil;
-                [self showSearchButton];
-                break;
-            }
-        }
-    }
+    [self updateFromAnnotation:@"From" kind:nil coord:self.pressAnnotation.coordinate];
+    [self.mapView viewForAnnotation:self.fromAnnotation].canShowCallout = NO;
+    self.fromAnnotationDidMove = YES;
+    [self.mapView removeAnnotation:self.pressAnnotation];
+    self.pressAnnotation = nil;
+    [self showSearchButton];
 }
 
 -(void) setToLocation:(id) sender
 {
-    for (id annotation in self.mapView.annotations)
+    [self updateToAnnotation:@"To" kind:nil coord:self.pressAnnotation.coordinate];
+    [self.mapView viewForAnnotation:self.toAnnotation].canShowCallout = NO;
+    self.toAnnotationDidMove = YES;
+    [self.mapView removeAnnotation:self.pressAnnotation];
+    self.pressAnnotation = nil;
+    [self showSearchButton];
+}
+
+-(void) updateFromAnnotation:(NSString *)name kind:(NSString *)kind coord:(CLLocationCoordinate2D) fromCoord
+{
+    // reuse from annotation if already exists or add it
+    if (self.fromAnnotation == nil)
     {
-        if ([annotation isKindOfClass:[R2RAnnotation class]])
-        {
-            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
-            
-            if (r2rAnnotation.annotationType == r2rAnnotationTypeTo)
-            {
-                [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
-                [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
-                self.toAnnotationDidMove = YES;
-                [self.mapView removeAnnotation:self.pressAnnotation];
-                self.pressAnnotation = nil;
-                [self showSearchButton];
-                break;
-            }
-        }
+        self.fromAnnotation = [[R2RAnnotation alloc] initWithName:name kind:kind coordinate:fromCoord annotationType:r2rAnnotationTypeFrom];
+        [self.mapView addAnnotation:self.fromAnnotation];
+    }
+    else
+    {
+        [self.fromAnnotation setCoordinate:fromCoord];
+    }
+}
+
+-(void) updateToAnnotation:(NSString *)name kind:(NSString *)kind coord:(CLLocationCoordinate2D) toCoord
+{
+    // reuse from annotation if already exists or add it
+    if (self.toAnnotation == nil)
+    {
+        self.toAnnotation = [[R2RAnnotation alloc] initWithName:name kind:kind coordinate:toCoord annotationType:r2rAnnotationTypeTo];
+        [self.mapView addAnnotation:self.toAnnotation];
+    }
+    else
+    {
+        [self.toAnnotation setCoordinate:toCoord];
     }
 }
 
@@ -420,31 +470,26 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-
 - (IBAction)resolveLocation:(id)sender
 {
-    for (id annotation in self.mapView.annotations)
+    if (self.fromAnnotation && self.fromAnnotationDidMove)
     {
-        if ([annotation isKindOfClass:[R2RAnnotation class]])
-        {
-            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
-            
-            if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
-            {
-                //mapcale. Used as horizontal accuracy
-                float mapScale = self.zoomLevel*500;
-                
-                [self.searchManager setFromWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
-            }
-            if (r2rAnnotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
-            {
-                //mapcale. Used as horizontal accuracy
-                float mapScale = self.zoomLevel*500;
-                
-                [self.searchManager setToWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
-            }
-        }
+        //mapcale. Used as horizontal accuracy
+        float mapScale = self.zoomLevel*500;
+        
+        [self.searchManager setFromWithMapLocation:self.fromAnnotation.coordinate mapScale:mapScale];
     }
+    
+    if (self.toAnnotation && self.toAnnotationDidMove)
+    {
+        //mapcale. Used as horizontal accuracy
+        float mapScale = self.zoomLevel*500;
+        
+        [self.searchManager setToWithMapLocation:self.toAnnotation.coordinate mapScale:mapScale];
+    }
+    
+    self.fromAnnotationDidMove = NO;
+    self.toAnnotationDidMove = NO;
     
     self.searchButton.hidden = YES;
 //    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
@@ -455,8 +500,8 @@
     [self configureMap];
     
     CGRect tableFrame = self.tableView.frame;
-    tableFrame.size.height = 1000; //added to make sizeToFit work better
-    tableFrame.origin.y = 0; // set table back to top of 
+//    tableFrame.size.height = 1000; //added to make sizeToFit work better //TODO CHECK THIS, done it refresh data notification
+    tableFrame.origin.y = 0; // set table back to top of
     [self.tableView setFrame:tableFrame];
     
     //adjust table to correct size
@@ -617,7 +662,24 @@
     
     //return if search is not complete or route not found
     if ([self.searchStore.searchResponse.routes count] == 0)
+    {
+        //display any available to/from annotations
+        if (self.searchStore.fromPlace && !self.fromAnnotationDidMove)
+        {
+            CLLocationCoordinate2D fromCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.fromPlace.lat , self.searchManager.searchStore.fromPlace.lng);
+            
+            [self updateFromAnnotation:self.searchManager.searchStore.fromPlace.longName kind:self.searchManager.searchStore.fromPlace.kind coord:fromCoord];
+        }
+    
+        if (self.searchStore.toPlace && ! self.toAnnotationDidMove)
+        {
+            CLLocationCoordinate2D toCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.toPlace.lat , self.searchManager.searchStore.toPlace.lng);
+            
+            [self updateToAnnotation:self.searchManager.searchStore.toPlace.longName kind:self.searchManager.searchStore.toPlace.kind coord:toCoord];
+        }
+        
         return;
+    }
     
     R2RRoute *route = [self.searchStore.searchResponse.routes objectAtIndex:0];
     
@@ -628,6 +690,16 @@
     
     for (R2RAnnotation *annotation in stopAnnotations)
     {
+        if (annotation.annotationType == r2rAnnotationTypeFrom)
+        {
+            [self updateFromAnnotation:annotation.name kind:annotation.kind coord:annotation.coordinate];
+            continue;
+        }
+        if (annotation.annotationType == r2rAnnotationTypeTo)
+        {
+            [self updateToAnnotation:annotation.name kind:annotation.kind coord:annotation.coordinate];
+            continue;
+        }
         [self.mapView addAnnotation:annotation];
     }
     
@@ -786,7 +858,7 @@
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
 {
-    if (view.annotation != self.pressAnnotation)
+    if (view.annotation == self.fromAnnotation || view.annotation == self.toAnnotation)
     {
         R2RAnnotation *annotation = (R2RAnnotation *)view.annotation;
         if (annotation.annotationType == r2rAnnotationTypeFrom)
