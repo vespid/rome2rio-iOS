@@ -39,6 +39,7 @@
 
 -(NSInteger) getTransitChangeCount: (R2RTransitSegment *) segment;
 -(float) getTransitFrequency: (R2RTransitSegment *)segment;
+-(NSString *) getTransitLine: (R2RTransitSegment *)segment;
 
 -(NSInteger) getFlightChangeCount: (R2RFlightSegment *) segment;
 

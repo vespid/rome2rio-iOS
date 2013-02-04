@@ -262,6 +262,34 @@
     return 0.0;
 }
 
+
+// return the transit line if there is only 1
+-(NSString *)getTransitLine:(R2RTransitSegment *)segment
+{
+    if ([segment.itineraries count] != 1)
+        return NULL;
+    
+    R2RTransitItinerary *transitItinerary = [segment.itineraries objectAtIndex:0];
+    
+    if ([transitItinerary.legs count] != 1)
+        return NULL;
+    
+    R2RTransitLeg *transitLeg = [transitItinerary.legs objectAtIndex:0];
+    
+    if ([transitLeg.hops count] != 1)
+        return NULL;
+    
+    R2RTransitHop *transitHop = [transitLeg.hops objectAtIndex:0];
+    
+    if ([transitHop.lines count] == 1)
+    {
+        R2RTransitLine *line = [transitHop.lines objectAtIndex:0];
+        return line.name;
+    }
+    
+    return NULL;
+}
+
 -(R2RSprite *)getConnectionSprite:(id)segment
 {
     NSString *kind = [self getSegmentKind:segment];

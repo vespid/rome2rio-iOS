@@ -261,7 +261,8 @@
     NSInteger changes = [segmentHandler getTransitChangeCount:segment];
     NSString *vehicle = segment.vehicle;
     NSInteger frequency = [segmentHandler getTransitFrequency:segment];
-    NSString *hopDescription = [R2RStringFormatter formatTransitHopDescription:segment.duration :changes :frequency :vehicle];
+    NSString *line = [segmentHandler getTransitLine:segment]; //line number for display if only 1 line and no changes
+    NSString *hopDescription = [R2RStringFormatter formatTransitHopDescription:segment.duration :changes :frequency :vehicle: line];
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];

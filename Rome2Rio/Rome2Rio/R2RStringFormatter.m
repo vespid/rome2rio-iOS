@@ -23,11 +23,14 @@
     return [NSString stringWithFormat:@"%@ by plane, %@", [R2RStringFormatter formatDuration:minutes], [R2RStringFormatter formatStopovers:stops]];
 }
 
-+(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle
++(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle: (NSString *) line
 {
     if (changes == 0)
     {
-        return [NSString stringWithFormat:@"%@ by %@, %@", [R2RStringFormatter formatDuration:minutes], vehicle, [R2RStringFormatter formatFrequency:frequency]];
+        if ([line length] > 0)
+            return [NSString stringWithFormat:@"%@ by %@ %@, %@", [R2RStringFormatter formatDuration:minutes], line, vehicle, [R2RStringFormatter formatFrequency:frequency]];
+        else
+            return [NSString stringWithFormat:@"%@ by %@, %@", [R2RStringFormatter formatDuration:minutes], vehicle, [R2RStringFormatter formatFrequency:frequency]];
     }
     else if (changes == 1)
     {
