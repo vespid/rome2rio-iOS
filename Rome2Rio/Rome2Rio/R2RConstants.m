@@ -64,6 +64,8 @@
             CFStringRef theUUIDString = CFUUIDCreateString( kCFAllocatorDefault, theUUID );
             
             deviceUDID = (NSString *)CFBridgingRelease(theUUIDString);
+            
+            CFRelease(theUUID);
         }
         
         // using adler32 checksum as random seed
