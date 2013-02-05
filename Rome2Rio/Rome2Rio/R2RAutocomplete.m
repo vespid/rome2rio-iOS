@@ -286,8 +286,9 @@
                  
                  place.longName = [NSString stringWithString:longName];
                  place.shortName = [NSString stringWithString:shortName];
-                 place.lat = placemark.region.center.latitude;
-                 place.lng = placemark.region.center.longitude;
+                 
+                 place.lat = placemark.location.coordinate.latitude;
+                 place.lng = placemark.location.coordinate.longitude;
              
                  [self.geocodeResponse.places addObject:place];
                  R2RLog(@"%@", place.longName);
