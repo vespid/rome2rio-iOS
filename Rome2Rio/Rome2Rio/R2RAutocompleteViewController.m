@@ -11,14 +11,15 @@
 #import "R2RStatusButton.h"
 #import "R2RMapViewController.h"
 #import "R2RSerializer.h"
+#import "R2RConstants.h"
 
 @interface R2RAutocompleteViewController ()
 
 @property (strong, nonatomic) R2RAutocomplete *autocomplete;
 @property (strong, nonatomic) NSMutableArray *places;
 
-@property (strong, nonatomic) NSArray *userPlaces;
-#define STORED_PLACES 25
+@property (strong, nonatomic) NSMutableArray *userPlaces;
+#define STORED_PLACES 50
 
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
@@ -147,6 +148,20 @@
         return mapCell;
     }
     
+    // previous stored user places
+    if (indexPath.row >= [self.places count] + 2)
+    {
+        R2RAutocompleteCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserPlaceCell"];
+
+        R2RPlace *place = [self.userPlaces objectAtIndex:(indexPath.row - [self.places count] - 2)];
+        
+        [cell.autocompleteImageView setHidden:YES];
+        [cell.label setText:place.longName];
+        [cell.label setTextColor:[R2RConstants getLightTextColor]];
+        
+        return cell;
+    }
+    
     R2RAutocompleteCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (indexPath.row == [self.places count])
@@ -157,16 +172,6 @@
         return cell;
     }
     
-    // previous stored user places
-    if (indexPath.row >= [self.places count] + 2)
-    {
-        R2RPlace *place = [self.userPlaces objectAtIndex:(indexPath.row - [self.places count] - 2)];
-        
-        [cell.autocompleteImageView setHidden:YES];
-        [cell.label setText:place.longName];
-        
-        return cell;
-    }
     
     R2RPlace *place = [self.places objectAtIndex:indexPath.row];
     
@@ -196,6 +201,32 @@
     else
     {
         [self placeClicked:[self.places objectAtIndex:indexPath.row]];
+    }
+}
+
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // set cell containing userPlaces as editable
+    if (indexPath.row >= [self.places count] + 2)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // on delete of stored user place remove object and reload table
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSInteger userPlaceIndex = indexPath.row - [self.places count] - 2;
+        
+        [self.userPlaces removeObjectAtIndex:userPlaceIndex];
+        
+        [self.tableView reloadData];
     }
 }
 
@@ -480,7 +511,7 @@
     [userDefaults setObject:userPlacesToStore forKey:r2rUserPlacesKey];
 }
 
--(NSArray *) getUserPlaces
+-(NSMutableArray *) getUserPlaces
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
