@@ -19,8 +19,8 @@ typedef enum {
 
 @interface R2RAnnotation : NSObject <MKAnnotation>
 
-@property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, readonly, copy) NSString *kind;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *kind;
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic) R2RAnnotationType annotationType;
 

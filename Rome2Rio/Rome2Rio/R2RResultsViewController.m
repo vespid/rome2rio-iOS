@@ -453,6 +453,8 @@
     else
     {
         [self.fromAnnotation setCoordinate:fromCoord];
+        [self.fromAnnotation setName:name];
+        [self.fromAnnotation setKind:kind];
     }
 }
 
@@ -467,6 +469,8 @@
     else
     {
         [self.toAnnotation setCoordinate:toCoord];
+        [self.toAnnotation setName:name];
+        [self.toAnnotation setKind:kind];
     }
 }
 
@@ -690,6 +694,7 @@
             CLLocationCoordinate2D fromCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.fromPlace.lat , self.searchManager.searchStore.fromPlace.lng);
             
             [self updateFromAnnotation:self.searchManager.searchStore.fromPlace.longName kind:self.searchManager.searchStore.fromPlace.kind coord:fromCoord];
+            [self.mapView viewForAnnotation:self.fromAnnotation].canShowCallout = YES;
         }
     
         if (self.searchStore.toPlace && ! self.toAnnotationDidMove)
@@ -697,6 +702,7 @@
             CLLocationCoordinate2D toCoord = CLLocationCoordinate2DMake(self.searchManager.searchStore.toPlace.lat , self.searchManager.searchStore.toPlace.lng);
             
             [self updateToAnnotation:self.searchManager.searchStore.toPlace.longName kind:self.searchManager.searchStore.toPlace.kind coord:toCoord];
+            [self.mapView viewForAnnotation:self.toAnnotation].canShowCallout = YES;
         }
         
         return;
