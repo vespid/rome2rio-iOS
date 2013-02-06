@@ -33,7 +33,7 @@
 @synthesize searchResponse, responseCompletionState, responseMessage;
 @synthesize delegate;
 
--(id)initWithSearch:(NSString *)oName :(NSString *)dName :(NSString *)oPos :(NSString *)dPos :(NSString *)oKind :(NSString *)dKind :(NSString *)oCode :(NSString *)dCode delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
+-(id)initWithSearch:(NSString *)oName dName:(NSString *)dName oPos:(NSString *)oPos dPos:(NSString *)dPos oKind:(NSString *)oKind dKind:(NSString *)dKind oCode:(NSString *)oCode dCode:(NSString *)dCode delegate:(id<R2RSearchDelegate>)r2rSearchDelegate
 {
     self = [super init];
     
@@ -156,13 +156,13 @@
     [scanner scanFloat:&lat];
     [scanner scanFloat:&lng];
         
-    R2RPosition *position = [self parsePosition:lat:lng];
+    R2RPosition *position = [self parsePositionWithLat:lat lng:lng];
     
     return  position;
 
 }
 
--(R2RPosition*) parsePosition:(float) lat: (float) lng
+-(R2RPosition*) parsePositionWithLat:(float) lat lng:(float) lng
 {
     R2RPosition *position = [R2RPosition alloc];
     

@@ -15,6 +15,7 @@ typedef enum {
 	r2rAnnotationTypeStop,
     r2rAnnotationTypeHop,
     r2rAnnotationTypePress,
+    r2rAnnotationTypeMyLocation,
 } R2RAnnotationType;
 
 @interface R2RAnnotation : NSObject <MKAnnotation>

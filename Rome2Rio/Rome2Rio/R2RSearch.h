@@ -39,7 +39,7 @@
 @property (nonatomic) R2RCompletionState responseCompletionState;
 @property (strong, nonatomic) NSString *responseMessage;
 
-- (id) initWithSearch:(NSString *)oName:(NSString *)dName:(NSString *)oPos:(NSString *)dPos:(NSString *)oKind:(NSString *)dKind:(NSString *)oCode:(NSString *)dCode delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
+- (id) initWithSearch:(NSString *)oName dName:(NSString *)dName oPos:(NSString *)oPos dPos:(NSString *)dPos oKind:(NSString *)oKind dKind:(NSString *)dKind oCode:(NSString *)oCode dCode:(NSString *)dCode delegate:(id<R2RSearchDelegate>)r2rSearchDelegate;
 
 -(void) sendAsynchronousRequest;
 

@@ -11,9 +11,9 @@
 
 @interface R2RStringFormatter : NSObject
 
-+(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops;
-+(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle: (NSString *) line;
-+(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance: (NSString *) kind;
++(NSString *) formatFlightHopCellDescriptionWithMinutes:(float) minutes stops:(NSInteger) stops;
++(NSString *) formatTransitHopDescriptionWithMinutes:(float) minutes changes:(NSInteger) changes frequency:(float) frequency vehicle:(NSString *) vehicle line:(NSString *) line;
++(NSString *) formatWalkDriveHopCellDescriptionWithMinutes:(float) minutes distance:(float) distance kind:(NSString *) kind;
 +(NSString *) formatTransitHopVehicle: (NSString *) vehicle;
 
 +(NSString *) formatDuration: (float) minutes;

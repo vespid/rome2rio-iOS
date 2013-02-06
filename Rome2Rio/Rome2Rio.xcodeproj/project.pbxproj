@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E0C56B916C1E4C80085768C /* Blue_dot-24px.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E0C56B816C1E4C80085768C /* Blue_dot-24px.png */; };
 		5E16F264163E021A00740B07 /* R2RTransitSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F263163E021A00740B07 /* R2RTransitSegmentViewController.m */; };
 		5E16F26C163E320900740B07 /* R2RTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F26B163E320900740B07 /* R2RTableView.m */; };
 		5E16F26F163E3A9800740B07 /* R2RConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F26E163E3A9700740B07 /* R2RConstants.m */; };
@@ -104,6 +105,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E0C56B816C1E4C80085768C /* Blue_dot-24px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blue_dot-24px.png"; sourceTree = "<group>"; };
 		5E16F262163E021A00740B07 /* R2RTransitSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentViewController.h; sourceTree = "<group>"; };
 		5E16F263163E021A00740B07 /* R2RTransitSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentViewController.m; sourceTree = "<group>"; };
 		5E16F26A163E320800740B07 /* R2RTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTableView.h; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 				5E2438421635123F0044C8AD /* externalLinkIconGray.png */,
 				5EB4AE1F1666E65D009E65BE /* sprites6x2.png */,
 				5EB4AE25166830A0009E65BE /* GrabTransparent1.png */,
+				5E0C56B816C1E4C80085768C /* Blue_dot-24px.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -571,7 +574,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = R2R;
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Rome2Rio;
 			};
 			buildConfigurationList = 5ED4B3411601D01C00E9FE42 /* Build configuration list for PBXProject "Rome2Rio" */;
@@ -615,6 +618,7 @@
 				5E3A083516AFAEEC006A4934 /* bg-retina.jpg in Resources */,
 				5EB94E5A16B2120D00E8F954 /* fullscreen1.png in Resources */,
 				5EB94E5B16B2120D00E8F954 /* fullscreen2.png in Resources */,
+				5E0C56B916C1E4C80085768C /* Blue_dot-24px.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -727,6 +731,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -754,6 +761,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rome2rio Pty Ltd";

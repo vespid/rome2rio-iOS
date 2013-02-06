@@ -474,6 +474,10 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     {
         annotationView = [self getPressAnnotationView:mapView annotation:annotation];
     }
+    else if (annotation.annotationType == r2rAnnotationTypeMyLocation)
+    {
+        annotationView = [self getMyLocationAnnotationView:mapView annotation:annotation];
+    }
 
     return annotationView;
 }
@@ -603,6 +607,32 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     return annotationView;
 }
 
+-(MKAnnotationView *) getMyLocationAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
+{
+    NSString *identifier = @"R2RMyLocation";
+    
+    MKAnnotationView *annotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    if (annotationView == nil)
+    {
+        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        annotationView.enabled = YES;
+        annotationView.canShowCallout = YES;
+        
+        CGRect hopIconRect = [R2RConstants getMyLocationIconRect];
+        
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:nil :hopIconRect.origin :hopIconRect.size];
+        
+        UIImage *image = [sprite getSprite:[UIImage imageNamed:[R2RConstants getMyLocationSpriteFileName]]];
+
+//        annotationView.image = image;
+        
+        UIImage *smallerImage = [UIImage imageWithCGImage:image.CGImage scale:2.0 orientation:image.imageOrientation];
+        annotationView.image = smallerImage;
+    }
+
+    return annotationView;
+}
+
 -(NSArray *)getRouteStopAnnotations:(R2RRoute *)route
 {
     NSMutableArray *annotations = [[NSMutableArray alloc] init];
@@ -637,27 +667,27 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     {
         if([segment isKindOfClass:[R2RWalkDriveSegment class]])
         {
-            [self getWalkDriveHopAnnotations:hopAnnotations :segment];
+            [self getWalkDriveHopAnnotations:hopAnnotations segment:segment];
         }
         else if([segment isKindOfClass:[R2RTransitSegment class]])
         {
-            [self getTransitHopAnnotations:hopAnnotations :segment];
+            [self getTransitHopAnnotations:hopAnnotations segment:segment];
         }
         else if([segment isKindOfClass:[R2RFlightSegment class]])
         {
-            [self getFlightHopAnnotations:hopAnnotations :segment];
+            [self getFlightHopAnnotations:hopAnnotations segment:segment];
         }
     }
     
     return hopAnnotations;
 }
 
--(void) getWalkDriveHopAnnotations:(NSMutableArray *) hopAnnotations:(R2RTransitSegment *)segment
+-(void) getWalkDriveHopAnnotations:(NSMutableArray *) hopAnnotations segment:(R2RTransitSegment *)segment
 {
     // no annotations
 }
 
--(void) getTransitHopAnnotations:(NSMutableArray *)hopAnnotations:(R2RTransitSegment *)segment
+-(void) getTransitHopAnnotations:(NSMutableArray *)hopAnnotations segment:(R2RTransitSegment *)segment
 {
     R2RTransitItinerary *itinerary = [segment.itineraries objectAtIndex:0];
     for (R2RTransitLeg *leg in itinerary.legs)
@@ -672,7 +702,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     }
 }
 
--(void) getFlightHopAnnotations:(NSMutableArray *) hopAnnotations:(R2RTransitSegment *)segment
+-(void) getFlightHopAnnotations:(NSMutableArray *) hopAnnotations segment:(R2RTransitSegment *)segment
 {
     R2RFlightItinerary *itinerary = [segment.itineraries objectAtIndex:0];
     R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];

@@ -118,7 +118,7 @@
         cellIdentifier = @"ExpandedFlightSegmentCell";
         R2RExpandedFlightSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
-        [self configureExpandedFlightSegmentCell:cell :flightLeg];
+        [self configureExpandedFlightSegmentCell:cell flightLeg:flightLeg];
         
         return cell;
     }
@@ -127,12 +127,12 @@
     cellIdentifier = @"FlightSegmentCell";
     R2RFlightSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    [self configureFlightSegmentCell:cell :flightLeg];
+    [self configureFlightSegmentCell:cell flightLeg:flightLeg];
     
     return cell;
 }
 
--(void) configureFlightSegmentCell: (R2RFlightSegmentCell *) cell: (R2RFlightLeg *) flightLeg
+-(void) configureFlightSegmentCell:(R2RFlightSegmentCell *) cell flightLeg:(R2RFlightLeg *) flightLeg
 {
     NSInteger hops = [flightLeg.hops count];
     
@@ -175,17 +175,17 @@
         if ([airline.code isEqualToString:firstAirlineCode])
         {
             R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.searchStore.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
+            [self.searchStore.spriteStore setSpriteInView:sprite view:cell.firstAirlineIcon];
         }
         if ([airline.code isEqualToString:secondAirlineCode])
         {
             R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.searchStore.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
+            [self.searchStore.spriteStore setSpriteInView:sprite view:cell.secondAirlineIcon];
         }
     }
 }
 
--(void) configureExpandedFlightSegmentCell: (R2RExpandedFlightSegmentCell *) cell: (R2RFlightLeg *) flightLeg
+-(void) configureExpandedFlightSegmentCell:(R2RExpandedFlightSegmentCell *) cell flightLeg:(R2RFlightLeg *) flightLeg
 {
     NSInteger hops = [flightLeg.hops count];
     
@@ -244,16 +244,16 @@
         if ([airline.code isEqualToString:firstAirlineCode])
         {
             R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.searchStore.spriteStore setSpriteInView:sprite :cell.firstAirlineIcon];
+            [self.searchStore.spriteStore setSpriteInView:sprite view:cell.firstAirlineIcon];
         }
         if ([airline.code isEqualToString:secondAirlineCode])
         {
             R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-            [self.searchStore.spriteStore setSpriteInView:sprite :cell.secondAirlineIcon];
+            [self.searchStore.spriteStore setSpriteInView:sprite view:cell.secondAirlineIcon];
         }
     }
     
-    [self setUnusedViewsHidden:cell :hops];
+    [self setUnusedViewsHidden:cell hops:hops];
 }
 
 -(void) setExpandedCellValues:(R2RExpandedFlightSegmentCell *)cell :(R2RFlightHop *)flightHop :(NSInteger) hopNumber
@@ -276,7 +276,7 @@
     R2RAirline *airline = [self.searchStore getAirline:flightHop.airline];
     UIImageView *imageView = [cell.airlineIcons objectAtIndex:hopNumber];
     R2RSprite *sprite = [self.spriteCache getSprite :airline.iconPath :airline.iconOffset :airline.iconSize];
-    [self.searchStore.spriteStore setSpriteInView:sprite :imageView];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:imageView];
     [imageView setHidden:NO];
     
     label = [cell.sAirportLabels objectAtIndex:hopNumber];
@@ -292,7 +292,7 @@
     [label setHidden:NO];
 }
 
--(void) setUnusedViewsHidden:(R2RExpandedFlightSegmentCell *) cell: (NSInteger) hops
+-(void) setUnusedViewsHidden:(R2RExpandedFlightSegmentCell *) cell hops:(NSInteger) hops
 {
     //1 less layover than stops
     for (int i = hops; i < MAX_FLIGHT_STOPS; i++)

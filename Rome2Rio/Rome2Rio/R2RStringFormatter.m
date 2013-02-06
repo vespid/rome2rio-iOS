@@ -18,12 +18,12 @@
     return nil;
 }
 
-+(NSString *) formatFlightHopCellDescription: (float) minutes: (NSInteger) stops
++(NSString *) formatFlightHopCellDescriptionWithMinutes:(float) minutes stops:(NSInteger) stops
 {
     return [NSString stringWithFormat:@"%@ by plane, %@", [R2RStringFormatter formatDuration:minutes], [R2RStringFormatter formatStopovers:stops]];
 }
 
-+(NSString *) formatTransitHopDescription: (float) minutes: (NSInteger) changes: (float) frequency: (NSString *) vehicle: (NSString *) line
++(NSString *) formatTransitHopDescriptionWithMinutes:(float) minutes changes:(NSInteger) changes frequency:(float) frequency vehicle:(NSString *) vehicle line:(NSString *) line
 {
     if (changes == 0)
     {
@@ -43,7 +43,7 @@
     return nil;
 }
 
-+(NSString *) formatWalkDriveHopCellDescription: (float) minutes: (float) distance: (NSString *) kind
++(NSString *) formatWalkDriveHopCellDescriptionWithMinutes:(float) minutes distance:(float) distance kind:(NSString *) kind
 {
     if ([kind isEqualToString:@"walk"])
     {

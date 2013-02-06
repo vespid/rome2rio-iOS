@@ -132,7 +132,7 @@
         
         R2RNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        [self configureNameCell:cell :routeIndex];
+        [self configureNameCell:cell routeIndex:routeIndex];
         
         return cell;
     }
@@ -144,7 +144,7 @@
         
         id cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        cell = [self configureHopCell:cell :[self.route.segments objectAtIndex:routeIndex]];
+        cell = [self configureHopCell:cell segment:[self.route.segments objectAtIndex:routeIndex]];
         
         return cell;
     }
@@ -175,7 +175,7 @@
     return nil;
 }
 
--(void) configureNameCell:(R2RNameCell *) cell: (NSInteger) routeIndex
+-(void) configureNameCell:(R2RNameCell *)cell routeIndex: (NSInteger) routeIndex
 {
     R2RStop *stop = [self.route.stops objectAtIndex:routeIndex];
     
@@ -198,7 +198,7 @@
     {
         [cell.connectTop setHidden:NO];
         R2RSprite *sprite = [segmentHandler getConnectionSprite:[self.route.segments objectAtIndex:routeIndex-1]];
-        [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectTop];
+        [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectTop];
     }
     
     if (routeIndex == [self.route.segments count])
@@ -209,57 +209,57 @@
     {
         [cell.connectBottom setHidden:NO];
         R2RSprite *sprite = [segmentHandler getConnectionSprite:[self.route.segments objectAtIndex:routeIndex]];
-        [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
+        [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectBottom];
     }
     
     CGRect connectionIconRect = [R2RConstants getConnectionIconRect];
     
     R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :connectionIconRect.origin:connectionIconRect.size];
     
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.icon];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
     [cell.contentView setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     return;
 }
 
--(id) configureHopCell:(id) cell:(id) segment
+-(id) configureHopCell:(id) cell segment:(id) segment
 {
     if([cell isKindOfClass:[R2RWalkDriveHopCell class]])
     {
-        return [self configureWalkDriveHopCell:cell:segment];
+        return [self configureWalkDriveHopCell:cell segment:segment];
     }
     else if([cell isKindOfClass:[R2RTransitHopCell class]])
     {
-        return [self configureTransitHopCell:cell:segment];
+        return [self configureTransitHopCell:cell segment:segment];
     }
     else if([cell isKindOfClass:[R2RFlightHopCell class]])
     {
-        return [self configureFlightHopCell:cell:segment];
+        return [self configureFlightHopCell:cell segment:segment];
     }
     return nil;
 }
 
--(R2RFlightHopCell *) configureFlightHopCell:(R2RFlightHopCell *) cell:(R2RFlightSegment *) segment
+-(R2RFlightHopCell *) configureFlightHopCell:(R2RFlightHopCell *) cell segment:(R2RFlightSegment *) segment
 {
     R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
     NSInteger changes = [segmentHandler getFlightChangeCount:segment];
     
-    NSString *hopDescription = [R2RStringFormatter formatFlightHopCellDescription:segment.duration :changes];
+    NSString *hopDescription = [R2RStringFormatter formatFlightHopCellDescriptionWithMinutes:segment.duration stops:changes];
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectTop];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectTop];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectBottom];
     
     sprite = [segmentHandler getRouteSprite:segment.kind];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.icon];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
     return cell;
 }
 
--(R2RTransitHopCell *) configureTransitHopCell:(R2RTransitHopCell *) cell:(R2RTransitSegment *) segment
+-(R2RTransitHopCell *) configureTransitHopCell:(R2RTransitHopCell *) cell segment:(R2RTransitSegment *) segment
 {
     R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
@@ -267,32 +267,32 @@
     NSString *vehicle = segment.vehicle;
     NSInteger frequency = [segmentHandler getTransitFrequency:segment];
     NSString *line = [segmentHandler getTransitLine:segment]; //line number for display if only 1 line and no changes
-    NSString *hopDescription = [R2RStringFormatter formatTransitHopDescription:segment.duration :changes :frequency :vehicle: line];
+    NSString *hopDescription = [R2RStringFormatter formatTransitHopDescriptionWithMinutes:segment.duration changes:changes frequency:frequency vehicle:vehicle line:line];
     [cell.hopLabel setText:hopDescription];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectTop];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectTop];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectBottom];
     
     sprite = [segmentHandler getRouteSprite:segment.kind];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.icon];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
     return cell;
 }
 
--(R2RWalkDriveHopCell *) configureWalkDriveHopCell:(R2RWalkDriveHopCell *) cell:(R2RWalkDriveSegment *) segment
+-(R2RWalkDriveHopCell *) configureWalkDriveHopCell:(R2RWalkDriveHopCell *) cell segment:(R2RWalkDriveSegment *) segment
 {
-    NSString *hopDescription = [R2RStringFormatter formatWalkDriveHopCellDescription:segment.duration :segment.distance: segment.kind];
+    NSString *hopDescription = [R2RStringFormatter formatWalkDriveHopCellDescriptionWithMinutes:segment.duration distance:segment.distance kind:segment.kind];
     [cell.hopLabel setText:hopDescription];
     
     R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
     
     R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectTop];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.connectBottom];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectTop];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectBottom];
     
     sprite = [segmentHandler getRouteSprite:segment.kind];
-    [self.searchStore.spriteStore setSpriteInView:sprite :cell.icon];
+    [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
     
     return cell;
@@ -484,7 +484,7 @@
         tableFrame.origin.y = 0 - tableFrame.size.height;
         [UIView animateWithDuration:0.3
                               delay:0.0
-                            options: UIViewAnimationCurveEaseOut
+                            options: UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              [self.tableView setFrame:tableFrame];
                              [self setMapFrameFullScreen];
@@ -505,7 +505,7 @@
         tableFrame.origin.y = 0;
         [UIView animateWithDuration:0.3
                               delay:0.0
-                            options: UIViewAnimationCurveEaseOut
+                            options: UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              [self.tableView setFrame:tableFrame];
                              [self setMapFrame];
@@ -680,14 +680,18 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    if ([annotation isKindOfClass:MKUserLocation.class]) {
-        //it's the built-in user location annotation, return nil to get default blue dot...
-        return nil;
-    }
-    
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	
-    R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+    R2RAnnotation *r2rAnnotation = nil;
+    
+    if ([annotation isKindOfClass:MKUserLocation.class])
+    {
+        r2rAnnotation = [[R2RAnnotation alloc] initWithName:@"Current Location" kind:nil coordinate:annotation.coordinate annotationType:r2rAnnotationTypeMyLocation];
+    }
+    else
+    {
+        r2rAnnotation = (R2RAnnotation *)annotation;
+    }
     
     MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
     

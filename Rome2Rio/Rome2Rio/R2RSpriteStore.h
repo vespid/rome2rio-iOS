@@ -12,8 +12,8 @@
 @interface R2RSpriteStore : NSObject
 
 -(UIImage *) loadImage: (NSString *)path; //async load image
--(void) setSpriteInButton: (R2RSprite *)sprite: (id) button;
--(void) setSpriteInView: (R2RSprite *)sprite: (UIImageView *) view;
+-(void) setSpriteInButton: (R2RSprite *)sprite button:(id) button;
+-(void) setSpriteInView: (R2RSprite *)sprite view:(UIImageView *) view;
 
 @end
 

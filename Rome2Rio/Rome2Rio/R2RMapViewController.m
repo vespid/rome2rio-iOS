@@ -194,14 +194,18 @@
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    if ([annotation isKindOfClass:MKUserLocation.class]) {
-        //it's the built-in user location annotation, return nil to get default blue dot...
-        return nil;
-    }
-    
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
 	
-    R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+    R2RAnnotation *r2rAnnotation = nil;
+    
+    if ([annotation isKindOfClass:MKUserLocation.class])
+    {
+        r2rAnnotation = [[R2RAnnotation alloc] initWithName:@"Current Location" kind:nil coordinate:annotation.coordinate annotationType:r2rAnnotationTypeMyLocation];
+    }
+    else
+    {
+        r2rAnnotation = (R2RAnnotation *)annotation;
+    }
     
     MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
     

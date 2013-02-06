@@ -59,7 +59,7 @@
     return image;
 }
 
--(void)setSpriteInButton:(R2RSprite *)sprite :(UIButton *)button
+-(void)setSpriteInButton:(R2RSprite *)sprite button:(UIButton *)button
 {
     [self dequeueSpriteView:sprite:button];
     
@@ -70,11 +70,11 @@
         return;
     }
 
-    [self enqueueSpriteView:sprite:button];
+    [self enqueueSpriteView:sprite view:button];
 }
 
 
--(void)setSpriteInView:(R2RSprite *)sprite :(UIImageView *)view
+-(void)setSpriteInView:(R2RSprite *)sprite view:(UIImageView *)view
 {
     [self dequeueSpriteView:sprite:view];
     
@@ -85,7 +85,7 @@
         return;
     }
     
-    [self enqueueSpriteView:sprite:view];
+    [self enqueueSpriteView:sprite view:view];
 }
 
 -(void)imageDidLoad:(R2RImageLoader *)imageLoader
@@ -113,7 +113,7 @@
     [self.imageLoaders removeObjectForKey:imageLoader.path];
 }
 
--(void) enqueueSpriteView: (R2RSprite *) sprite: (id) view
+-(void) enqueueSpriteView: (R2RSprite *) sprite view:(id) view
 {
     if ([sprite.path length] == 0) return;
     

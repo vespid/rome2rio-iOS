@@ -165,7 +165,7 @@ typedef enum
     NSString *oCode = self.searchStore.fromPlace.code;
     NSString *dCode = self.searchStore.toPlace.code;
     
-    self.search = [[R2RSearch alloc] initWithSearch:oName :dName :oPos :dPos :oKind :dKind: oCode: dCode delegate:self];
+    self.search = [[R2RSearch alloc] initWithSearch:oName dName:dName oPos:oPos dPos:dPos oKind:oKind dKind:dKind oCode:oCode dCode:dCode delegate:self];
     
     self.state = r2rSearchManagerStateSearching;
 }

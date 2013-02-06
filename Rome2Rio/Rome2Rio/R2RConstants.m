@@ -120,6 +120,11 @@
     return @"ConnectionLines-v2";
 }
 
++(NSString *) getMyLocationSpriteFileName
+{
+    return @"Blue_dot-24px";
+}
+
 //detail view icon
 +(CGRect) getConnectionIconRect
 {
@@ -130,6 +135,11 @@
 +(CGRect) getHopIconRect
 {
     return CGRectMake(540, 70, 18, 18);
+};
+
++(CGRect) getMyLocationIconRect
+{
+    return CGRectMake(0, 0, 24, 24);
 };
 
 +(CGRect) getRouteFlightSpriteRect
