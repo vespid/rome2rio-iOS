@@ -10,11 +10,15 @@
 #import "R2RAutocompleteCell.h"
 #import "R2RStatusButton.h"
 #import "R2RMapViewController.h"
+#import "R2RSerializer.h"
 
 @interface R2RAutocompleteViewController ()
 
 @property (strong, nonatomic) R2RAutocomplete *autocomplete;
 @property (strong, nonatomic) NSMutableArray *places;
+
+@property (strong, nonatomic) NSArray *userPlaces;
+#define STORED_PLACES 25
 
 @property (strong, nonatomic) R2RStatusButton *statusButton;
 
@@ -34,7 +38,9 @@
     
     self.searchBar.delegate = self;
     self.places = [[NSMutableArray alloc] init];
-
+    
+    self.userPlaces = [self getUserPlaces];
+    
     self.fallbackToCLGeocoder = NO;
     
     self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
@@ -115,9 +121,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
+    // number of results returned by autocomplete
+    NSInteger numberOfRows = [self.places count];
     
-    return (2 + [self.places count]);
+    // Current location and Select from map
+    numberOfRows += 2;
+    
+    // Previously Searched places (max 5)
+    numberOfRows += [self.userPlaces count];
+    
+    return numberOfRows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -144,6 +157,17 @@
         return cell;
     }
     
+    // previous stored user places
+    if (indexPath.row >= [self.places count] + 2)
+    {
+        R2RPlace *place = [self.userPlaces objectAtIndex:(indexPath.row - [self.places count] - 2)];
+        
+        [cell.autocompleteImageView setHidden:YES];
+        [cell.label setText:place.longName];
+        
+        return cell;
+    }
+    
     R2RPlace *place = [self.places objectAtIndex:indexPath.row];
     
     [cell.autocompleteImageView setHidden:YES];
@@ -164,6 +188,10 @@
     else if (indexPath.row == [self.places count] + 1)
     {
 //        [self performSegueWithIdentifier:@"showMap" sender:self];
+    }
+    else if (indexPath.row >= [self.places count] + 2)
+    {
+        [self placeClicked:[self.userPlaces objectAtIndex:(indexPath.row - [self.places count] - 2)]];
     }
     else
     {
@@ -283,6 +311,10 @@
     {
         [self.searchManager setToPlace:place];
     }
+    
+    // store place
+    [self setUserPlace:place];
+    
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -381,6 +413,90 @@
     }
     
     [self.tableView setFrame:tableViewFrame];
+}
+
+// record users last 5 autocomplete places
+- (void) setUserPlace:(R2RPlace *) place
+{
+    
+    NSMutableArray *userPlaces = nil;
+    
+    if ([self.userPlaces count] == 0)
+    {
+        userPlaces = [[NSMutableArray alloc] initWithCapacity:1]; // the array will end up being used with capacity 5 but only 1 is ever added at a time
+    }
+    else
+    {
+        userPlaces = [[NSMutableArray alloc] initWithArray:self.userPlaces];
+    }
+    
+    bool placeFound = NO;
+    NSInteger placeIndex = 0;
+    
+    // check stored palces for current place
+    for (R2RPlace *userPlace in userPlaces)
+    {
+        if ([userPlace.longName isEqualToString:place.longName])
+        {
+            placeFound = YES;
+            break;
+        }
+        placeIndex++;
+    }
+    
+    // if userPlaces contain current place, reorder array
+    if (placeFound)
+    {
+        // if place found move to start of array
+        [userPlaces removeObjectAtIndex:placeIndex];
+        [userPlaces insertObject:place atIndex:0];
+    }
+    // otherwise add to start of list
+    else
+    {
+        // only store 5 places so remove last place to make room for new place
+        if ([userPlaces count] > STORED_PLACES - 1)
+        {
+            [userPlaces removeLastObject];
+        }
+        
+        // add to start
+        [userPlaces insertObject:place atIndex:0];
+    }
+    
+    NSMutableArray *userPlacesToStore = [[NSMutableArray alloc] initWithCapacity:[userPlaces count]];
+    
+    for (R2RPlace *userPlace in userPlaces)
+    {
+        NSString *placeString = [R2RSerializer serializePlace:userPlace];
+        [userPlacesToStore addObject:placeString];
+    }
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *r2rUserPlacesKey = @"R2RUserPlaces";
+    
+    // store users last 5 autocomplete places
+    [userDefaults setObject:userPlacesToStore forKey:r2rUserPlacesKey];
+}
+
+-(NSArray *) getUserPlaces
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *r2rUserPlacesKey = @"R2RUserPlaces";
+    
+    NSArray *storedUserPlaces = [userDefaults arrayForKey:r2rUserPlacesKey];
+    
+    NSMutableArray *userPlaces = [[NSMutableArray alloc] initWithCapacity:[storedUserPlaces count]];
+    
+    for (NSString *placeString in storedUserPlaces)
+    {
+        R2RPlace *place = [R2RSerializer deserializePlace:placeString];
+        [userPlaces addObject:place];
+    }
+        
+    return userPlaces;
 }
 
 @end

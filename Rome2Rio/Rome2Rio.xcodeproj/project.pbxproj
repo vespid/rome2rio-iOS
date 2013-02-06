@@ -102,6 +102,7 @@
 		5ED962D2163FBFCB00B258F8 /* rome2rio_globe_114g.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ED962D1163FBFCB00B258F8 /* rome2rio_globe_114g.png */; };
 		5EDEDCBC161E79960005CADD /* R2RAgency.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDEDCBB161E79960005CADD /* R2RAgency.m */; };
 		5EDEDCBF161E7A200005CADD /* R2RTransitLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDEDCBE161E7A200005CADD /* R2RTransitLine.m */; };
+		5EF40B7A16C21820008A90E4 /* R2RSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF40B7916C21820008A90E4 /* R2RSerializer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -273,6 +274,8 @@
 		5EDEDCBB161E79960005CADD /* R2RAgency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAgency.m; sourceTree = "<group>"; };
 		5EDEDCBD161E7A1F0005CADD /* R2RTransitLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitLine.h; sourceTree = "<group>"; };
 		5EDEDCBE161E7A200005CADD /* R2RTransitLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitLine.m; sourceTree = "<group>"; };
+		5EF40B7816C21820008A90E4 /* R2RSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSerializer.h; sourceTree = "<group>"; };
+		5EF40B7916C21820008A90E4 /* R2RSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSerializer.m; sourceTree = "<group>"; };
 		5EFDB666161D672800209AA7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -502,6 +505,8 @@
 				5ED5C8D9160B012A004CFDC8 /* R2RStringFormatter.m */,
 				5EB02F78166C6662009C0A6C /* R2RAppRater.h */,
 				5EB02F79166C6664009C0A6C /* R2RAppRater.m */,
+				5EF40B7816C21820008A90E4 /* R2RSerializer.h */,
+				5EF40B7916C21820008A90E4 /* R2RSerializer.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -699,6 +704,7 @@
 				5EB91A13165EF4560015C0A1 /* R2RPressAnnotationView.m in Sources */,
 				5EB91A16165EFB8E0015C0A1 /* R2RAnnotation.m in Sources */,
 				5EB02F7A166C6666009C0A6C /* R2RAppRater.m in Sources */,
+				5EF40B7A16C21820008A90E4 /* R2RSerializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
