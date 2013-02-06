@@ -24,8 +24,9 @@
 		int lng = (int)((position.lng * 1e5f) + 0.5f);
 
 		// Encode the differences between the coordinates
-		[self encodeNumber: data, lat - prevLat];
-		[self encodeNumber: data, lng - prevLng];
+        
+        [self encodeNumber:data number:lat - prevLat];
+        [self encodeNumber:data number:lng - prevLat];
 
 		// Store the current coordinates
 		prevLat = lat;
@@ -35,7 +36,7 @@
 	return data;
 }
 
-+ (void)encodeNumber:(NSMutableString *)data, int number
++ (void)encodeNumber:(NSMutableString *)data number:(int) number
 {
 	number = (number < 0) ? ~(number << 1) : (number << 1);
 
@@ -67,8 +68,8 @@
 
 	while (index < length)
 	{
-		lat += [self decodeNumber: data, &index];
-		lng += [self decodeNumber: data, &index];
+		lat += [self decodeNumber:data index:&index];
+		lng += [self decodeNumber:data index:&index];
 
 		R2RPosition *position = [[R2RPosition alloc] init];
 		position.lat = lat / 1e5f;
@@ -80,7 +81,7 @@
 	return path;
 }
 
-+ (int)decodeNumber:(NSString *)data, int *index
++ (int)decodeNumber:(NSString *)data index:(int *) index
 {
 	int length = [data length];
 	int number = 0;
