@@ -116,7 +116,8 @@ typedef enum
 {
     if (!self.searchStore.searchResponse)
     {
-        if ([self canStartSearch]) [self startSearch];
+        // if no response, not currently searching and can search, start search
+        if (self.state != r2rSearchManagerStateSearching && [self canStartSearch]) [self startSearch];
     }
 }
 
@@ -127,7 +128,7 @@ typedef enum
 
 -(BOOL) canStartSearch
 {
-    return ((self.state == r2rSearchManagerStateIdle) && self.searchStore.fromPlace && self.searchStore.toPlace);
+    return (self.searchStore.fromPlace && self.searchStore.toPlace);
 }
 
 -(BOOL) canShowSearchResults
