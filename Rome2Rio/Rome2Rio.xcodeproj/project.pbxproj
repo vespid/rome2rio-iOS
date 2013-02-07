@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5E0C56B916C1E4C80085768C /* Blue_dot-24px.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E0C56B816C1E4C80085768C /* Blue_dot-24px.png */; };
 		5E10152716C324ED0035D60B /* R2RTransitSchedulesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E10152616C324ED0035D60B /* R2RTransitSchedulesViewController.m */; };
+		5E10152E16C38A7E0035D60B /* LeftTriangle20px.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E10152C16C38A7E0035D60B /* LeftTriangle20px.png */; };
+		5E10152F16C38A7E0035D60B /* RightTriangle20px.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E10152D16C38A7E0035D60B /* RightTriangle20px.png */; };
 		5E16F264163E021A00740B07 /* R2RTransitSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F263163E021A00740B07 /* R2RTransitSegmentViewController.m */; };
 		5E16F26C163E320900740B07 /* R2RTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F26B163E320900740B07 /* R2RTableView.m */; };
 		5E16F26F163E3A9800740B07 /* R2RConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F26E163E3A9700740B07 /* R2RConstants.m */; };
@@ -110,6 +112,8 @@
 		5E0C56B816C1E4C80085768C /* Blue_dot-24px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blue_dot-24px.png"; sourceTree = "<group>"; };
 		5E10152516C324ED0035D60B /* R2RTransitSchedulesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSchedulesViewController.h; sourceTree = "<group>"; };
 		5E10152616C324ED0035D60B /* R2RTransitSchedulesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSchedulesViewController.m; sourceTree = "<group>"; };
+		5E10152C16C38A7E0035D60B /* LeftTriangle20px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LeftTriangle20px.png; sourceTree = "<group>"; };
+		5E10152D16C38A7E0035D60B /* RightTriangle20px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RightTriangle20px.png; sourceTree = "<group>"; };
 		5E16F262163E021A00740B07 /* R2RTransitSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentViewController.h; sourceTree = "<group>"; };
 		5E16F263163E021A00740B07 /* R2RTransitSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentViewController.m; sourceTree = "<group>"; };
 		5E16F26A163E320800740B07 /* R2RTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTableView.h; sourceTree = "<group>"; };
@@ -447,6 +451,8 @@
 				5EB4AE1F1666E65D009E65BE /* sprites6x2.png */,
 				5EB4AE25166830A0009E65BE /* GrabTransparent1.png */,
 				5E0C56B816C1E4C80085768C /* Blue_dot-24px.png */,
+				5E10152C16C38A7E0035D60B /* LeftTriangle20px.png */,
+				5E10152D16C38A7E0035D60B /* RightTriangle20px.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -629,6 +635,8 @@
 				5EB94E5A16B2120D00E8F954 /* fullscreen1.png in Resources */,
 				5EB94E5B16B2120D00E8F954 /* fullscreen2.png in Resources */,
 				5E0C56B916C1E4C80085768C /* Blue_dot-24px.png in Resources */,
+				5E10152E16C38A7E0035D60B /* LeftTriangle20px.png in Resources */,
+				5E10152F16C38A7E0035D60B /* RightTriangle20px.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

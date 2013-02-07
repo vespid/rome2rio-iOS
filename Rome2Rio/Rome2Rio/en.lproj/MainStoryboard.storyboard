@@ -590,17 +590,21 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
                             </webView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" id="mCZ-o6-Yc8">
+                                <rect key="frame" x="151" y="158" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="MbI-ce-ez6">
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem systemItem="rewind" id="xzo-g5-chg">
+                                    <barButtonItem image="LeftTriangle20px.png" id="xzo-g5-chg">
                                         <connections>
                                             <action selector="goBack" destination="LFw-Wk-QtF" id="7cA-pM-BAl"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="1oB-wa-MTB"/>
-                                    <barButtonItem systemItem="fastForward" id="nnb-Gf-He5">
+                                    <barButtonItem image="RightTriangle20px.png" id="nnb-Gf-He5">
                                         <connections>
                                             <action selector="goForward" destination="LFw-Wk-QtF" id="Bdy-Fc-01R"/>
                                         </connections>
@@ -623,9 +627,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Schedules" id="PAj-dX-j6z">
-                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="y7o-jC-wqF"/>
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="y7o-jC-wqF">
+                            <connections>
+                                <action selector="returnToSearch:" destination="70o-bw-ecF" id="SIZ-Op-Aab"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="mCZ-o6-Yc8" id="86i-7y-xic"/>
                         <outlet property="back" destination="xzo-g5-chg" id="k5g-HG-2aS"/>
                         <outlet property="forward" destination="nnb-Gf-He5" id="bn3-jB-llG"/>
                         <outlet property="openExternal" destination="g4b-1C-3Qk" id="O7F-wh-pf6"/>
@@ -939,6 +948,8 @@
     <resources>
         <image name="Home_Icon_White.png" width="18" height="18"/>
         <image name="Home_Icon_White@2x.png" width="36" height="36"/>
+        <image name="LeftTriangle20px.png" width="14" height="20"/>
+        <image name="RightTriangle20px.png" width="14" height="20"/>
         <image name="bg-retina.jpg" width="640" height="1136"/>
         <image name="fullscreen2.png" width="200" height="181"/>
         <image name="r2r-retina.png" width="600" height="120"/>
@@ -1054,6 +1065,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSchedulesViewController.h"/>
             <relationships>
                 <relationship kind="action" name="openInBrowser:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="back" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="forward" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="openExternal" candidateClass="UIBarButtonItem"/>

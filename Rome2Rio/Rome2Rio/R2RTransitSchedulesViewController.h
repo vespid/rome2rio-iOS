@@ -15,11 +15,13 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forward;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *refresh;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *openExternal;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (strong, nonatomic) NSURL *schedulesURL;
 
+- (IBAction)returnToSearch:(id)sender;
 - (IBAction)openInBrowser:(id)sender;
 
-//- (void)updateButtons;
+- (void)updateButtons;
 
 @end
