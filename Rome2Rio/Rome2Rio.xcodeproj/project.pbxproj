@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5E0C56B916C1E4C80085768C /* Blue_dot-24px.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E0C56B816C1E4C80085768C /* Blue_dot-24px.png */; };
+		5E10152716C324ED0035D60B /* R2RTransitSchedulesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E10152616C324ED0035D60B /* R2RTransitSchedulesViewController.m */; };
 		5E16F264163E021A00740B07 /* R2RTransitSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F263163E021A00740B07 /* R2RTransitSegmentViewController.m */; };
 		5E16F26C163E320900740B07 /* R2RTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F26B163E320900740B07 /* R2RTableView.m */; };
 		5E16F26F163E3A9800740B07 /* R2RConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16F26E163E3A9700740B07 /* R2RConstants.m */; };
@@ -107,6 +108,8 @@
 
 /* Begin PBXFileReference section */
 		5E0C56B816C1E4C80085768C /* Blue_dot-24px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blue_dot-24px.png"; sourceTree = "<group>"; };
+		5E10152516C324ED0035D60B /* R2RTransitSchedulesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSchedulesViewController.h; sourceTree = "<group>"; };
+		5E10152616C324ED0035D60B /* R2RTransitSchedulesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSchedulesViewController.m; sourceTree = "<group>"; };
 		5E16F262163E021A00740B07 /* R2RTransitSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitSegmentViewController.h; sourceTree = "<group>"; };
 		5E16F263163E021A00740B07 /* R2RTransitSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitSegmentViewController.m; sourceTree = "<group>"; };
 		5E16F26A163E320800740B07 /* R2RTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTableView.h; sourceTree = "<group>"; };
@@ -469,6 +472,8 @@
 				5EA48D5B164209FA008A0ADA /* R2RInfoViewController.m */,
 				5E241EA1165C680400D44710 /* R2RMapViewController.h */,
 				5E241EA2165C680400D44710 /* R2RMapViewController.m */,
+				5E10152516C324ED0035D60B /* R2RTransitSchedulesViewController.h */,
+				5E10152616C324ED0035D60B /* R2RTransitSchedulesViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -705,6 +710,7 @@
 				5EB91A16165EFB8E0015C0A1 /* R2RAnnotation.m in Sources */,
 				5EB02F7A166C6666009C0A6C /* R2RAppRater.m in Sources */,
 				5EF40B7A16C21820008A90E4 /* R2RSerializer.m in Sources */,
+				5E10152716C324ED0035D60B /* R2RTransitSchedulesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

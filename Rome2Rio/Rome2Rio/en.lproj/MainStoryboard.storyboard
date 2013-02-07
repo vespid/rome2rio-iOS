@@ -569,11 +569,73 @@
                         <outlet property="resizeMapButton" destination="Xkk-en-E76" id="JZK-l3-hqo"/>
                         <outlet property="searchButton" destination="0nQ-hc-YL3" id="0vM-3K-RUq"/>
                         <outlet property="tableView" destination="qlj-Xz-wWF" id="QfT-zE-TVI"/>
+                        <segue destination="70o-bw-ecF" kind="push" identifier="showSchedules" id="KUe-Gh-61K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Yj-uc-S5T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1962" y="57"/>
+        </scene>
+        <!--Transit Schedules View Controller - Schedules-->
+        <scene sceneID="kDB-0m-N19">
+            <objects>
+                <viewController id="70o-bw-ecF" customClass="R2RTransitSchedulesViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gnj-0X-mFJ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" id="LFw-Wk-QtF">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
+                            </webView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="MbI-ce-ez6">
+                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem systemItem="rewind" id="xzo-g5-chg">
+                                        <connections>
+                                            <action selector="goBack" destination="LFw-Wk-QtF" id="7cA-pM-BAl"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="1oB-wa-MTB"/>
+                                    <barButtonItem systemItem="fastForward" id="nnb-Gf-He5">
+                                        <connections>
+                                            <action selector="goForward" destination="LFw-Wk-QtF" id="Bdy-Fc-01R"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="41" style="plain" systemItem="fixedSpace" id="GLm-wI-Ib9"/>
+                                    <barButtonItem systemItem="refresh" id="hqQ-Op-dMU">
+                                        <connections>
+                                            <action selector="reload" destination="LFw-Wk-QtF" id="mJT-sl-55e"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="9EX-2h-U6m"/>
+                                    <barButtonItem systemItem="action" id="g4b-1C-3Qk">
+                                        <connections>
+                                            <action selector="openInBrowser:" destination="70o-bw-ecF" id="Xgk-Gy-4n4"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Schedules" id="PAj-dX-j6z">
+                        <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="y7o-jC-wqF"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="back" destination="xzo-g5-chg" id="k5g-HG-2aS"/>
+                        <outlet property="forward" destination="nnb-Gf-He5" id="bn3-jB-llG"/>
+                        <outlet property="openExternal" destination="g4b-1C-3Qk" id="O7F-wh-pf6"/>
+                        <outlet property="refresh" destination="hqQ-Op-dMU" id="8ZI-IP-XCH"/>
+                        <outlet property="webView" destination="LFw-Wk-QtF" id="yTb-ab-o8y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mIp-tS-aBf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2432" y="59"/>
         </scene>
         <!--Detail View Controller - Details View-->
         <scene sceneID="En0-kO-5Wp">
@@ -882,6 +944,160 @@
         <image name="r2r-retina.png" width="600" height="120"/>
         <image name="targetIcon_orange.png" width="48" height="48"/>
     </resources>
+    <classes>
+        <class className="R2RAutocompleteCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="autocompleteImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="label" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RAutocompleteViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RAutocompleteViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resizeMap:"/>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="resizeMapButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RExpandedFlightSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RExpandedFlightSegmentCell.h"/>
+        </class>
+        <class className="R2RFlightHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RFlightSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentCell.h"/>
+        </class>
+        <class className="R2RFlightSegmentViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RFlightSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="returnToSearch:"/>
+            </relationships>
+        </class>
+        <class className="R2RInfoViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RInfoViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="rateApp:"/>
+                <relationship kind="action" name="sendFeedbackMail:"/>
+                <relationship kind="action" name="showMasterView:"/>
+                <relationship kind="outlet" name="feedbackButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="rateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="versionLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+        <class className="R2RMasterViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="searchTouchUpInside:"/>
+                <relationship kind="action" name="showInfoView:"/>
+                <relationship kind="outlet" name="fromTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="headerBackground" candidateClass="UIView"/>
+                <relationship kind="outlet" name="headerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="toTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="R2RNameCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RNameCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RResultsCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsCell.h"/>
+        </class>
+        <class className="R2RResultsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RResultsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resizeMap:"/>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="resizeMapButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTableView.h"/>
+        </class>
+        <class className="R2RTransitHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RTransitSchedulesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSchedulesViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="openInBrowser:"/>
+                <relationship kind="outlet" name="back" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="forward" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="openExternal" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="refresh" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="R2RTransitSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentCell.h"/>
+        </class>
+        <class className="R2RTransitSegmentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RTransitSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resizeMap:"/>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="resizeMapButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="R2RWalkDriveHopCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveHopCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="hopLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="R2RWalkDriveSegmentCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentCell.h"/>
+        </class>
+        <class className="R2RWalkDriveSegmentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/R2RWalkDriveSegmentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resizeMap:"/>
+                <relationship kind="action" name="resolveLocation:"/>
+                <relationship kind="action" name="returnToSearch:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="resizeMapButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

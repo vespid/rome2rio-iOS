@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "R2RTransitSegmentViewController.h"
+#import "R2RTransitSchedulesViewController.h"
 #import "R2RStringFormatter.h"
 #import "R2RConstants.h"
 
@@ -25,11 +26,13 @@
 @property (strong, nonatomic) NSMutableArray *legs;
 @property CLLocationDegrees zoomLevel;
 @property (nonatomic) BOOL isMapZoomedToAnnotation;
+@property (strong, nonatomic) NSURL *schedulesURL;
 
 @property (nonatomic) bool fromAnnotationDidMove;
 @property (nonatomic) bool toAnnotationDidMove;
 
 @property (nonatomic) bool isMapFullSreen;
+
 
 @end
 
@@ -827,13 +830,23 @@
 {
     UIButton *button = (UIButton *)sender;
     
-    
     R2RLog(@"Button %d", button.tag);
     
     R2RTransitLeg *leg = [self.legs objectAtIndex:button.tag];
     if ([[leg.url absoluteString] length] > 0)
     {
-        [[UIApplication sharedApplication] openURL:leg.url];
+        self.schedulesURL = leg.url;
+        [self performSegueWithIdentifier:@"showSchedules" sender:self];
+        //[[UIApplication sharedApplication] openURL:leg.url];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showSchedules"])
+    {
+        R2RTransitSchedulesViewController *transitSchedulesViewController = [segue destinationViewController];
+        transitSchedulesViewController.schedulesURL = self.schedulesURL;
     }
 }
 
