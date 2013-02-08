@@ -35,11 +35,11 @@
 {
     [self setClipsToBounds:YES];
     
-    CGRect rect = CGRectMake(8, 4, 27, 23);
+    CGRect rect = CGRectMake(5, 4, 27, 23);
     self.firstAirlineIcon = [[UIImageView alloc] initWithFrame:rect];
     [self addSubview:self.firstAirlineIcon];
     
-    rect = CGRectMake(38, 4, 27, 23);
+    rect = CGRectMake(35, 4, 27, 23);
     self.secondAirlineIcon = [[UIImageView alloc] initWithFrame:rect];
     [self addSubview:self.secondAirlineIcon];
     
@@ -88,14 +88,14 @@
     {
         int y = 40 + (i*50);
         
-        CGRect rect = CGRectMake(38, y, 27, 23);
+        CGRect rect = CGRectMake(35, y, 27, 23);
         UIImageView *icon = [[UIImageView alloc] initWithFrame:rect];
         [self.airlineIcons addObject:icon];
         [self addSubview:[self.airlineIcons objectAtIndex:i]];
         
         UILabel *label = nil;
         
-        rect = CGRectMake(38, y, 55, 25);
+        rect = CGRectMake(65, y, 55, 25);
         label = [[UILabel alloc] initWithFrame:rect];
         [label setTextAlignment:UITextAlignmentLeft];
         [label setBackgroundColor:[UIColor clearColor]];
@@ -146,7 +146,7 @@
     {
         int y = 65 + (i*50);
         
-        rect = CGRectMake(38, y, 190, 25);
+        rect = CGRectMake(35, y, 190, 25);
         UILabel *label = [[UILabel alloc] initWithFrame:rect];
         [label setTextAlignment:UITextAlignmentLeft];
         [label setBackgroundColor:[UIColor clearColor]];

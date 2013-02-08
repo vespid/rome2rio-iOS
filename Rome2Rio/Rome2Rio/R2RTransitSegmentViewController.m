@@ -313,7 +313,7 @@
     
     if ([lineLabel length] == 0)
     {
-        rowHeight = 85;
+        rowHeight = 90;
     }
     else
     {

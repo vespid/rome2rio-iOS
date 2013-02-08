@@ -34,11 +34,11 @@
 {
     [self setClipsToBounds:YES];
     
-    CGRect rect = CGRectMake(8, 4, 27, 23);
+    CGRect rect = CGRectMake(5, 4, 27, 23);
     self.firstAirlineIcon = [[UIImageView alloc] initWithFrame:rect];
     [self addSubview:self.firstAirlineIcon];
     
-    rect = CGRectMake(38, 4, 27, 23);
+    rect = CGRectMake(35, 4, 27, 23);
     self.secondAirlineIcon = [[UIImageView alloc] initWithFrame:rect];
     [self addSubview:self.secondAirlineIcon];
     

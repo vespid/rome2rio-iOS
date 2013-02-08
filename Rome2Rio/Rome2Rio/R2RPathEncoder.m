@@ -26,7 +26,7 @@
 		// Encode the differences between the coordinates
         
         [self encodeNumber:data number:lat - prevLat];
-        [self encodeNumber:data number:lng - prevLat];
+        [self encodeNumber:data number:lng - prevLng];
 
 		// Store the current coordinates
 		prevLat = lat;

@@ -279,6 +279,10 @@
     [self.searchStore.spriteStore setSpriteInView:sprite view:imageView];
     [imageView setHidden:NO];
     
+    label = [cell.flightNameLabels objectAtIndex:hopNumber];
+    [label setText:flightHop.flight];
+    [label setHidden:NO];
+    
     label = [cell.sAirportLabels objectAtIndex:hopNumber];
     [label setText:flightHop.sCode];
     [label setHidden:NO];
