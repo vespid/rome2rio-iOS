@@ -89,7 +89,8 @@
     
     self.responseCompletionState = r2rCompletionStateResolving;
     
-    [self performSelector:@selector(connectionTimeout) withObject:nil afterDelay:5.0];
+    R2RLog(@"Search %@ -> %@", self.oName, self.dName);
+    [self performSelector:@selector(connectionTimeout) withObject:nil afterDelay:10.0];
 }
 
 -(void) parseJson
