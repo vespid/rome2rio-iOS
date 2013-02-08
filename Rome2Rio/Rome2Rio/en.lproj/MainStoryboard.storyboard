@@ -156,7 +156,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LCn-Nq-y1a">
-                                <rect key="frame" x="50" y="300" width="220" height="36"/>
+                                <rect key="frame" x="50" y="360" width="220" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -171,8 +171,23 @@
                                     <action selector="sendFeedbackMail:" destination="egu-FJ-cxd" eventType="touchUpInside" id="hSi-vG-5MS"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Wwf-Ss-mJa">
+                                <rect key="frame" x="50" y="300" width="220" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Share by Email">
+                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="shareByEmail:" destination="egu-FJ-cxd" eventType="touchUpInside" id="h10-dL-Ws5"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cGK-C4-0jp">
-                                <rect key="frame" x="50" y="361" width="220" height="36"/>
+                                <rect key="frame" x="50" y="420" width="220" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -212,6 +227,7 @@
                     <connections>
                         <outlet property="feedbackButton" destination="LCn-Nq-y1a" id="eK1-ai-sD1"/>
                         <outlet property="rateButton" destination="cGK-C4-0jp" id="KYb-or-TEN"/>
+                        <outlet property="shareEmailButton" destination="Wwf-Ss-mJa" id="2dW-cr-KYG"/>
                         <outlet property="versionLabel" destination="bU2-97-HOp" id="URV-6d-1QU"/>
                     </connections>
                 </viewController>
@@ -1005,9 +1021,11 @@
             <relationships>
                 <relationship kind="action" name="rateApp:"/>
                 <relationship kind="action" name="sendFeedbackMail:"/>
+                <relationship kind="action" name="shareByEmail:"/>
                 <relationship kind="action" name="showMasterView:"/>
                 <relationship kind="outlet" name="feedbackButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="rateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="shareEmailButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="versionLabel" candidateClass="UILabel"/>
             </relationships>
         </class>

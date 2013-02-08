@@ -13,9 +13,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
 @property (weak, nonatomic) IBOutlet UIButton *rateButton;
+@property (weak, nonatomic) IBOutlet UIButton *shareEmailButton;
 
 - (IBAction)sendFeedbackMail:(id)sender;
 - (IBAction)rateApp:(id)sender;
 - (IBAction)showMasterView:(id)sender;
+- (IBAction)shareByEmail:(id)sender;
 
 @end

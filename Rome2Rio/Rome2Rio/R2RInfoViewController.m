@@ -36,6 +36,7 @@
     [self setVersionLabel:nil];
     [self setFeedbackButton:nil];
     [self setRateButton:nil];
+    [self setShareEmailButton:nil];
     [super viewDidUnload];
 }
 
@@ -94,6 +95,39 @@
 - (IBAction)showMasterView:(id)sender
 {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)shareByEmail:(id)sender
+{
+    NSString *subject = [NSString stringWithFormat:@"%@ iPhone App", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
+    
+    NSString *body = [NSString stringWithFormat:@"Check out the %@ App\n%@\n\n%@\n\nPowered by http://www.rome2rio.com\n\n",
+                                        [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
+                                        [R2RConstants getAppURL],
+                                        [R2RConstants getAppDescription]];
+    
+    /* create the URL */
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"mailto:?subject=%@&body=%@",
+                                       [subject stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+                                       [body stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:url])
+    {
+        /* load the URL */
+        [[UIApplication sharedApplication] openURL:url];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could not start email client", nil)
+                                                        message:NSLocalizedString(@"Please send feedback to feedback@rome2rio.com", nil)
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Ok", nil)
+                                              otherButtonTitles:nil];
+        [alert show];
+        R2RLog(@"Email not available");
+    }
+    
+    
 }
 
 @end

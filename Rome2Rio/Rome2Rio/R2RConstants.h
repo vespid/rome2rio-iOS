@@ -14,6 +14,8 @@
 +(NSString *) getAppId;
 +(NSString *) getAppKey;
 +(NSString *) getUserId;
++(NSString *) getAppURL;
++(NSString *) getAppDescription;
 
 +(UIImage *) getMasterViewBackgroundImage;
 +(UIImage *) getMasterViewLogo;
