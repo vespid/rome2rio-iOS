@@ -98,10 +98,8 @@
 }
 
 - (IBAction)openInBrowser:(id)sender
-{
-    NSURL* url = [self.webView.request mainDocumentURL];
-    
-    [[UIApplication sharedApplication] openURL:url];
+{   
+    [[UIApplication sharedApplication] openURL:self.schedulesURL];
 }
 
 - (void) navigateBack
