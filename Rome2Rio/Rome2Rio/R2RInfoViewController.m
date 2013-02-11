@@ -119,7 +119,7 @@
     else
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could not start email client", nil)
-                                                        message:NSLocalizedString(@"Please send feedback to feedback@rome2rio.com", nil)
+                                                        message:nil
                                                        delegate:nil
                                               cancelButtonTitle:NSLocalizedString(@"Ok", nil)
                                               otherButtonTitles:nil];
