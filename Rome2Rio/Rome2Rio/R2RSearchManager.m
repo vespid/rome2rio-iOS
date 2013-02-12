@@ -362,8 +362,18 @@ typedef enum
     if (location.horizontalAccuracy <= 100)
     {
         place.kind = @":veryspecific";
-        place.shortName = [mapHelper getVerySpecificShortName:placemark];
-        place.longName = [mapHelper getVerySpecificLongName:placemark];
+        
+        if ([fieldType isEqualToString:@"currentLocation"] && [placemark.subThoroughfare length] == 0 && [placemark.thoroughfare length] == 0)
+        {
+            // if the reverse geocoder did not return an address for current location, display "Current Location"
+            place.shortName = [NSString stringWithFormat:@"Current Location, %@", placemark.name];
+            place.longName = [NSString stringWithFormat:@"Current Location, %@", placemark.name];
+        }
+        else
+        {
+            place.shortName = [mapHelper getVerySpecificShortName:placemark];
+            place.longName = [mapHelper getVerySpecificLongName:placemark];
+        }
     }
     else if (location.horizontalAccuracy <= 500)
     {
