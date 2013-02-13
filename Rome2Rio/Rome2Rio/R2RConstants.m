@@ -97,7 +97,7 @@
 
 +(NSString *)getAppDescription
 {
-    return @"Rome2rio is a comprehensive global trip planner that helps you discover how to get anywhere.\nYou can enter any town, address or landmark as your destination and Rome2rio will instantly display flight, train, bus, ferry and driving options.";
+    return @"Discover how to get anywhere by plane, train, bus, ferry or car!";
 }
 
 +(UIImage *) getMasterViewBackgroundImage
