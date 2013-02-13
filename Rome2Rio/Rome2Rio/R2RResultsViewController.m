@@ -101,7 +101,6 @@
     self.fromAnnotationDidMove = NO;
     self.toAnnotationDidMove = NO;
     self.isMapFullSreen = NO;
-    
 }
 
 - (void)viewDidUnload
@@ -560,6 +559,7 @@
                          completion:^(BOOL finished){
                          }];
         
+        self.mapView.showsUserLocation = YES;
         self.isMapFullSreen = YES;
         [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen1"] forState:UIControlStateNormal];
     }
@@ -580,7 +580,8 @@
                          }
                          completion:^(BOOL finished){
                          }];
-    
+
+        self.mapView.showsUserLocation = NO;
         self.isMapFullSreen = NO;
         [self.resizeMapButton setImage:[UIImage imageNamed:@"fullscreen2"] forState:UIControlStateNormal];
     }
@@ -822,16 +823,12 @@
 {
     R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
     
-    R2RAnnotation *r2rAnnotation = nil;
-    
     if ([annotation isKindOfClass:MKUserLocation.class])
     {
-        r2rAnnotation = [[R2RAnnotation alloc] initWithName:@"Current Location" kind:nil coordinate:annotation.coordinate annotationType:r2rAnnotationTypeMyLocation];
+        return nil;
     }
-    else
-    {
-        r2rAnnotation = (R2RAnnotation *)annotation;
-    }
+
+    R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
     
     MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
     
