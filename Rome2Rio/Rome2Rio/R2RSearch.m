@@ -59,8 +59,6 @@
 
 -(void) sendAsynchronousRequest
 {
-    
-    
     NSString *appKey = [R2RConstants getAppKey];
     
 #if DEBUG
