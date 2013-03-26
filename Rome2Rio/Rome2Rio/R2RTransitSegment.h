@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSString *tName;
 @property (strong, nonatomic) R2RPosition *tPos;
 @property (nonatomic) BOOL isMajor;
+@property (nonatomic) BOOL isImperial;
 @property (strong, nonatomic) NSString *vehicle;
 @property (strong, nonatomic) NSString *path;
 

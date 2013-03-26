@@ -21,5 +21,6 @@
 @property (strong, nonatomic) R2RPosition *tPos;
 @property (strong, nonatomic) NSString *path;
 @property (nonatomic) BOOL isMajor;
+@property (nonatomic) BOOL isImperial;
 
 @end

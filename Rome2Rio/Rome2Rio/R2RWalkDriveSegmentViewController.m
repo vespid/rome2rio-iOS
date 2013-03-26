@@ -136,7 +136,7 @@
     [cell.fromLabel setText:sName];
     [cell.toLabel setText:tName];
     
-    [cell.distanceLabel setText:[R2RStringFormatter formatDistance:self.walkDriveSegment.distance]];
+    [cell.distanceLabel setText:[R2RStringFormatter formatDistance:self.walkDriveSegment.distance isImperial:self.walkDriveSegment.isImperial]];
     [cell.durationLabel setText:[R2RStringFormatter formatDuration:self.walkDriveSegment.duration]];
     
     return cell;

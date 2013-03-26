@@ -282,7 +282,7 @@
 
 -(R2RWalkDriveHopCell *) configureWalkDriveHopCell:(R2RWalkDriveHopCell *) cell segment:(R2RWalkDriveSegment *) segment
 {
-    NSString *hopDescription = [R2RStringFormatter formatWalkDriveHopCellDescriptionWithMinutes:segment.duration distance:segment.distance kind:segment.kind];
+    NSString *hopDescription = [R2RStringFormatter formatWalkDriveHopCellDescriptionWithMinutes:segment.duration distance:segment.distance isImperial:segment.isImperial kind:segment.kind];
     [cell.hopLabel setText:hopDescription];
     
     R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];

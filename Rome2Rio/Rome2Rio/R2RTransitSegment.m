@@ -10,6 +10,6 @@
 
 @implementation R2RTransitSegment
 
-@synthesize kind, distance, duration, sName, sPos, tName, tPos, itineraries, isMajor, vehicle, path;
+@synthesize kind, distance, duration, sName, sPos, tName, tPos, itineraries, isMajor, isImperial, vehicle, path;
 
 @end

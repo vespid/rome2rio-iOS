@@ -43,15 +43,15 @@
     return nil;
 }
 
-+(NSString *) formatWalkDriveHopCellDescriptionWithMinutes:(float) minutes distance:(float) distance kind:(NSString *) kind
++(NSString *) formatWalkDriveHopCellDescriptionWithMinutes:(float) minutes distance:(float) distance isImperial:(bool)isImperial kind:(NSString *)kind
 {
     if ([kind isEqualToString:@"walk"])
     {
-        return [NSString stringWithFormat:@"%@ by foot, %@", [self formatDuration:minutes], [self formatDistance:distance]];
+        return [NSString stringWithFormat:@"%@ by foot, %@", [self formatDuration:minutes], [self formatDistance:distance isImperial:isImperial]];
     }
     else
     {
-        return [NSString stringWithFormat:@"%@ by car, %@", [self formatDuration:minutes], [self formatDistance:distance]];
+        return [NSString stringWithFormat:@"%@ by car, %@", [self formatDuration:minutes], [self formatDistance:distance isImperial:isImperial]];
     }
     
 }
@@ -168,19 +168,33 @@
     return @"every 5 minutes";
 }
 
-+(NSString *) formatDistance: (float) distance
++(NSString *) formatDistance:(float) distance isImperial:(bool)isImperial
 {
-    if (distance < 1)
+    if (isImperial)
     {
-        return [NSString stringWithFormat:@"%.0f m", distance*1000];
-    }
-    else if(distance < 100)
-    {
-        return [NSString stringWithFormat:@"%.1f km", distance];
+        if (distance < 1.6)
+        {
+            return [NSString stringWithFormat:@"%.0f feet", distance*3.28084*1000];
+        }
+        else
+        {
+            return [NSString stringWithFormat:@"%.0f miles", distance*0.62137];
+        }
     }
     else
     {
-        return [NSString stringWithFormat:@"%.0f km", distance];
+        if (distance < 1)
+        {
+            return [NSString stringWithFormat:@"%.0f m", distance*1000];
+        }
+        else if(distance < 100)
+        {
+            return [NSString stringWithFormat:@"%.1f km", distance];
+        }
+        else
+        {
+            return [NSString stringWithFormat:@"%.0f km", distance];
+        }
     }
 }
 

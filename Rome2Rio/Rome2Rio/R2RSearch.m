@@ -407,6 +407,9 @@
     NSInteger isMajor = [[segmentResponse objectForKey:@"isMajor"] integerValue];
     segment.isMajor = (isMajor == 1) ? YES : NO;
     
+    NSInteger isImperial = [[segmentResponse objectForKey:@"isImperial"] integerValue];
+    segment.isImperial = (isImperial == 1) ? YES : NO;
+    
     segment.path = [segmentResponse objectForKey:@"path"];
     
     return segment;
@@ -431,6 +434,9 @@
     
     NSInteger isMajor = [[segmentResponse objectForKey:@"isMajor"] integerValue];
     segment.isMajor = (isMajor == 1) ? YES : NO;
+    
+    NSInteger isImperial = [[segmentResponse objectForKey:@"isImperial"] integerValue];
+    segment.isImperial = (isImperial == 1) ? YES : NO;
     
     segment.vehicle = [segmentResponse objectForKey:@"vehicle"];
     

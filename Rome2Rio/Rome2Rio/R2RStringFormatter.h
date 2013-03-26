@@ -13,13 +13,13 @@
 
 +(NSString *) formatFlightHopCellDescriptionWithMinutes:(float) minutes stops:(NSInteger) stops;
 +(NSString *) formatTransitHopDescriptionWithMinutes:(float) minutes changes:(NSInteger) changes frequency:(float) frequency vehicle:(NSString *) vehicle line:(NSString *) line;
-+(NSString *) formatWalkDriveHopCellDescriptionWithMinutes:(float) minutes distance:(float) distance kind:(NSString *) kind;
++(NSString *) formatWalkDriveHopCellDescriptionWithMinutes:(float) minutes distance:(float) distance isImperial:(bool) isImperial kind:(NSString *) kind;
 +(NSString *) formatTransitHopVehicle: (NSString *) vehicle;
 
 +(NSString *) formatDuration: (float) minutes;
 +(NSString *) formatDurationZeroPadded: (float) minutes;
 +(NSString *) formatFrequency: (float) frequency;
-+(NSString *) formatDistance: (float) distance;
++(NSString *) formatDistance: (float) distance isImperial: (bool) isImperial;
 +(NSString *) formatDays: (int) days;
 
 +(NSString *) capitaliseFirstLetter: (NSString *) string;
