@@ -71,4 +71,54 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([MKDirectionsRequest isDirectionsRequestURL:url])
+    {
+        MKDirectionsRequest *directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
+        
+        UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+        
+        [navigationController dismissModalViewControllerAnimated:NO];
+        [navigationController popToRootViewControllerAnimated:NO];
+        
+        R2RMasterViewController *firstViewController = (R2RMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
+        
+        if (directionsInfo.source.isCurrentLocation)
+        {
+            [firstViewController.searchManager setFromWithCurrentLocation];
+        }
+        else
+        {
+            CLLocationCoordinate2D sourceCoord = directionsInfo.source.placemark.coordinate;
+            if (CLLocationCoordinate2DIsValid(sourceCoord))
+            {
+                [firstViewController.searchManager setFromWithMapLocation:sourceCoord mapScale:50.0];
+            }
+        }
+        
+        if (directionsInfo.destination.isCurrentLocation)
+        {
+            [firstViewController.searchManager setToWithCurrentLocation];
+        }
+        else
+        {
+            CLLocationCoordinate2D destCoord = directionsInfo.destination.placemark.coordinate;
+            if (CLLocationCoordinate2DIsValid(destCoord))
+            {
+                [firstViewController.searchManager setToWithMapLocation:destCoord mapScale:50.0];
+            }
+        }
+        
+        if ([firstViewController.searchManager canShowSearchResults])
+        {
+            [firstViewController performSegueWithIdentifier:@"showSearchResults" sender:self];
+        }
+        
+        return YES;
+    }
+    
+    return NO;
+}
+
 @end

@@ -281,6 +281,7 @@
 		5EDEDCBB161E79960005CADD /* R2RAgency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAgency.m; sourceTree = "<group>"; };
 		5EDEDCBD161E7A1F0005CADD /* R2RTransitLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitLine.h; sourceTree = "<group>"; };
 		5EDEDCBE161E7A200005CADD /* R2RTransitLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitLine.m; sourceTree = "<group>"; };
+		5EEA1BDD16FFF62D000E0C22 /* Rome2Rio.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rome2Rio.geojson; sourceTree = SOURCE_ROOT; };
 		5EF40B7816C21820008A90E4 /* R2RSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSerializer.h; sourceTree = "<group>"; };
 		5EF40B7916C21820008A90E4 /* R2RSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSerializer.m; sourceTree = "<group>"; };
 		5EFDB666161D672800209AA7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -353,6 +354,7 @@
 				5ED4B35A1601D01C00E9FE42 /* R2RAppDelegate.h */,
 				5ED4B35B1601D01C00E9FE42 /* R2RAppDelegate.m */,
 				5ED4B35D1601D01C00E9FE42 /* MainStoryboard.storyboard */,
+				5EEA1BDD16FFF62D000E0C22 /* Rome2Rio.geojson */,
 				5E639EA31650CA7B00A18C20 /* Core */,
 				5ED4B3D81601D08300E9FE42 /* Controllers */,
 				5ED4B3D91601D0FC00E9FE42 /* Helpers */,
