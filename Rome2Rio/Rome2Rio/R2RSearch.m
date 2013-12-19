@@ -8,6 +8,7 @@
 
 #import "R2RSearch.h"
 #import "R2RConstants.h"
+#import "R2RKeys.h"
 #import "R2RPrintSearch.h"
 
 @interface R2RSearch() <R2RConnectionDelegate>
@@ -59,7 +60,7 @@
 
 -(void) sendAsynchronousRequest
 {
-    NSString *appKey = [R2RConstants getAppKey];
+    NSString *appKey = [R2RKeys getAppKey];
     
 #if DEBUG
     

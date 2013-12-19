@@ -11,8 +11,6 @@
 
 @interface R2RConstants : NSObject
 
-+(NSString *) getAppId;
-+(NSString *) getAppKey;
 +(NSString *) getUserId;
 +(NSString *) getAppURL;
 +(NSString *) getAppDescription;

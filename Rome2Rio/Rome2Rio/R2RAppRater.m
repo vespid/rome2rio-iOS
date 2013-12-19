@@ -8,7 +8,7 @@
 
 
 #import "R2RAppRater.h"
-#import "R2RConstants.h"
+#import "R2RKeys.h"
 
 static NSInteger usesUntilPrompt = 2;
 
@@ -153,7 +153,7 @@ NSString *const kR2RReminderTimeInterval    = @"R2RReminderTimeInterval";
 
 -(void) rateApp
 {
-    NSString *appId = [R2RConstants getAppId];
+    NSString *appId = [R2RKeys getAppId];
     
     NSURL *reviewURL = [NSURL URLWithString: [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", appId]];
     

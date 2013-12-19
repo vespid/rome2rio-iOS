@@ -9,6 +9,7 @@
 #import "R2RAutocomplete.h"
 #import "R2RMapHelper.h"
 #import "R2RConstants.h"
+#import "R2RKeys.h"
 
 @interface R2RAutocomplete() <R2RConnectionDelegate>
 
@@ -63,7 +64,7 @@
 {
     NSMutableString *geoCoderString = [[NSMutableString alloc] init];
     
-    NSString *appKey = [R2RConstants getAppKey];
+    NSString *appKey = [R2RKeys getAppKey];
     
 #if DEBUG
     [geoCoderString appendFormat:@"http://prototype.rome2rio.com/api/1.2/json/Autocomplete?key=%@&query=%@", appKey, self.query];

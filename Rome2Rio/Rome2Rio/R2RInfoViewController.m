@@ -10,6 +10,7 @@
 
 #import "R2RInfoViewController.h"
 #import "R2RConstants.h"
+#import "R2RKeys.h"
 
 @interface R2RInfoViewController ()
 
@@ -47,7 +48,7 @@
 
 - (IBAction)rateApp:(id)sender
 {
-    NSString *appId = [R2RConstants getAppId];
+    NSString *appId = [R2RKeys getAppId];
 
     NSURL *reviewURL = [NSURL URLWithString: [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", appId]];
     

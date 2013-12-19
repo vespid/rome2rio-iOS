@@ -7,6 +7,7 @@
 //
 
 #import "R2RConstants.h"
+#import "R2RKeys.h"
 
 @interface R2RConstants()
 
@@ -18,18 +19,6 @@
 {
     [NSException raise:@"R2RConstants is static" format:@"R2RConstants is static"];
     return nil;
-}
-
-+(NSString *)getAppId
-{
-    // Insert your App Id here
-    // return @"569793256";
-}
-
-+(NSString *)getAppKey
-{
-    // Please go to http://www.rome2rio.com/api to sign up for an app key
-    // return @"Insert key here";    
 }
 
 +(NSString *) getUserId
@@ -94,7 +83,7 @@
 
 +(NSString *)getAppURL
 {
-    return [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", [R2RConstants getAppId]];
+    return [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", [R2RKeys getAppId]];
 }
 
 +(NSString *)getAppDescription

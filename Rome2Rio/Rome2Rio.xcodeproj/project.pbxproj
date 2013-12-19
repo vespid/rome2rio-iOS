@@ -60,6 +60,7 @@
 		5EB94E5A16B2120D00E8F954 /* fullscreen1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB94E5816B2120D00E8F954 /* fullscreen1.png */; };
 		5EB94E5B16B2120D00E8F954 /* fullscreen2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB94E5916B2120D00E8F954 /* fullscreen2.png */; };
 		5EC20327164B3FC300B1F45A /* R2RExpandedFlightSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC20326164B3FC200B1F45A /* R2RExpandedFlightSegmentCell.m */; };
+		5EC399061862C9ED00F1FAE2 /* R2RKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC399051862C9ED00F1FAE2 /* R2RKeys.m */; };
 		5ED4B34C1601D01C00E9FE42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34B1601D01C00E9FE42 /* UIKit.framework */; };
 		5ED4B34E1601D01C00E9FE42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34D1601D01C00E9FE42 /* Foundation.framework */; };
 		5ED4B3501601D01C00E9FE42 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34F1601D01C00E9FE42 /* CoreGraphics.framework */; };
@@ -198,6 +199,8 @@
 		5EB94E5916B2120D00E8F954 /* fullscreen2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullscreen2.png; sourceTree = "<group>"; };
 		5EC20325164B3FC000B1F45A /* R2RExpandedFlightSegmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RExpandedFlightSegmentCell.h; sourceTree = "<group>"; };
 		5EC20326164B3FC200B1F45A /* R2RExpandedFlightSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RExpandedFlightSegmentCell.m; sourceTree = "<group>"; };
+		5EC399041862C9ED00F1FAE2 /* R2RKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RKeys.h; sourceTree = "<group>"; };
+		5EC399051862C9ED00F1FAE2 /* R2RKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RKeys.m; sourceTree = "<group>"; };
 		5ED4B3471601D01C00E9FE42 /* Rome2rio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rome2rio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ED4B34B1601D01C00E9FE42 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5ED4B34D1601D01C00E9FE42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -501,6 +504,8 @@
 				5EB91A15165EFB8E0015C0A1 /* R2RAnnotation.m */,
 				5E16F26D163E3A9700740B07 /* R2RConstants.h */,
 				5E16F26E163E3A9700740B07 /* R2RConstants.m */,
+				5EC399041862C9ED00F1FAE2 /* R2RKeys.h */,
+				5EC399051862C9ED00F1FAE2 /* R2RKeys.m */,
 				5E5AA3C3162E2E8F00055720 /* R2RDuration.h */,
 				5E5AA3C4162E2E8F00055720 /* R2RDuration.m */,
 				5EAC713F162BD42F00BE8378 /* R2RImageLoader.h */,
@@ -701,6 +706,7 @@
 				5ED4B3FC1602D3D700E9FE42 /* R2RWalkDriveHopCell.m in Sources */,
 				5ED5C8CC16082D34004CFDC8 /* R2RStatusButton.m in Sources */,
 				5ED5C8DA160B012A004CFDC8 /* R2RStringFormatter.m in Sources */,
+				5EC399061862C9ED00F1FAE2 /* R2RKeys.m in Sources */,
 				5E8DB4E516129D7500756321 /* R2RSegmentHelper.m in Sources */,
 				5E8DB4FD1616985F00756321 /* R2RSprite.m in Sources */,
 				5E8DB50316192C6400756321 /* R2RFlightSegmentSectionHeader.m in Sources */,
