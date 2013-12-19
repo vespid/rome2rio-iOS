@@ -9,6 +9,7 @@
 #import "R2RMasterViewController.h"
 #import "R2RResultsViewController.h"
 #import "R2RMasterViewStatusButton.h"
+#import "R2RSearchButton.h"
 
 #import "R2RConstants.h"
 
@@ -19,7 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *headerBackground;
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
-@property (weak, nonatomic) IBOutlet UIButton *searchButton;
+@property (weak, nonatomic) IBOutlet R2RSearchButton *searchButton;
 @property (strong, nonatomic) R2RMasterViewStatusButton *statusButton;
 
 @property (nonatomic) BOOL textFieldDidClear;
@@ -62,7 +63,7 @@
     self.fromTextField.placeholder = NSLocalizedString(@"Origin", nil);
     self.toTextField.placeholder = NSLocalizedString(@"Destination", nil);
     [self.searchButton setTitle:NSLocalizedString(@"Search", nil) forState:UIControlStateNormal];
- 
+
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
 
     self.statusButton = [[R2RMasterViewStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.frame.size.height-30), self.view.frame.size.width-30, 30.0)];
@@ -92,6 +93,11 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

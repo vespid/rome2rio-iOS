@@ -7,10 +7,11 @@
 //
 
 #import <MapKit/MapKit.h>
+#import "R2RSearchButton.h"
 
 @interface R2RPressAnnotationView : MKAnnotationView
 
-@property (strong, nonatomic) UIButton *fromButton;
-@property (strong, nonatomic) UIButton *toButton;
+@property (strong, nonatomic) R2RSearchButton *fromButton;
+@property (strong, nonatomic) R2RSearchButton *toButton;
 
 @end

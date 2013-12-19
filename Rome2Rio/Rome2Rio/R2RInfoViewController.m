@@ -40,6 +40,11 @@
     [super viewDidUnload];
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (IBAction)rateApp:(id)sender
 {
     NSString *appId = [R2RConstants getAppId];

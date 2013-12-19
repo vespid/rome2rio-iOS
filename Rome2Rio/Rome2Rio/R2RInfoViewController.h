@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "R2RSearchButton.h"
 
 @interface R2RInfoViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
-@property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
-@property (weak, nonatomic) IBOutlet UIButton *rateButton;
-@property (weak, nonatomic) IBOutlet UIButton *shareEmailButton;
+@property (weak, nonatomic) IBOutlet R2RSearchButton *feedbackButton;
+@property (weak, nonatomic) IBOutlet R2RSearchButton *rateButton;
+@property (weak, nonatomic) IBOutlet R2RSearchButton *shareEmailButton;
 
 - (IBAction)sendFeedbackMail:(id)sender;
 - (IBAction)rateApp:(id)sender;

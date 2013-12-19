@@ -89,6 +89,7 @@
 - (void)viewDidUnload
 {
     [self setTableView:nil];
+    [self.mapView setDelegate:nil];
     [self setMapView:nil];
     [self setSearchButton:nil];
     [super viewDidUnload];
@@ -377,8 +378,7 @@
                 [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
                 [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
                 self.fromAnnotationDidMove = YES;
-                [self.mapView removeAnnotation:self.pressAnnotation];
-                self.pressAnnotation = nil;
+                [self.mapView deselectAnnotation:self.pressAnnotation animated:YES];
                 [self showSearchButton];
                 [self showFullScreenMap];
                 break;
@@ -400,8 +400,7 @@
                 [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
                 [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
                 self.toAnnotationDidMove = YES;
-                [self.mapView removeAnnotation:self.pressAnnotation];
-                self.pressAnnotation = nil;
+                [self.mapView deselectAnnotation:self.pressAnnotation animated:YES];
                 [self showSearchButton];
                 [self showFullScreenMap];
                 break;
@@ -568,6 +567,7 @@
 -(void) setMapFrameFullScreen
 {
     CGRect viewFrame = self.view.frame;
+    if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1) viewFrame.origin.y = 0;
     
     [self.mapView setFrame:viewFrame];
     

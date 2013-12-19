@@ -12,6 +12,7 @@
 #import "R2RSearchStore.h"
 #import "R2RSearchManager.h"
 #import "R2RTableView.h"
+#import "R2RSearchButton.h"
 
 @interface R2RResultsViewController : UIViewController <UIScrollViewDelegate, R2RTableViewDelegate, UITableViewDataSource, MKMapViewDelegate>
 
@@ -20,7 +21,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (weak, nonatomic) IBOutlet UIButton *searchButton;
+@property (weak, nonatomic) IBOutlet R2RSearchButton *searchButton;
 @property (weak, nonatomic) IBOutlet UIButton *resizeMapButton;
 
 - (IBAction)returnToSearch:(id)sender;

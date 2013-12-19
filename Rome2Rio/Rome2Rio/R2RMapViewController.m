@@ -77,8 +77,10 @@
 
     self.navigationItem.title = NSLocalizedString(@"Select location", nil);
     
-    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
-    [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    CGRect frame = CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0);
+    if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1) frame.origin.y -= 20; // temp fix to account for status bar in ios 7 until full redesign
+    
+    self.statusButton = [[R2RStatusButton alloc] initWithFrame:frame];
     [self.view addSubview:self.statusButton];
         
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setAnnotationForTap:)];
@@ -251,16 +253,14 @@
 {
     [self setFromLocation:self.pressAnnotation.coordinate];
     
-    [self.mapView removeAnnotation:self.pressAnnotation];
-    self.pressAnnotation = nil;
+    [self.mapView deselectAnnotation:self.pressAnnotation animated:YES];
 }
 
 -(void) setToLocationFromLongPress:(id) sender
 {
     [self setToLocation:self.pressAnnotation.coordinate];
     
-    [self.mapView removeAnnotation:self.pressAnnotation];
-    self.pressAnnotation = nil;
+    [self.mapView deselectAnnotation:self.pressAnnotation animated:YES];
 }
 
 -(void) setFromLocation:(CLLocationCoordinate2D) coord

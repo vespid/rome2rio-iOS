@@ -26,6 +26,11 @@
 {
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
     
+    if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1)
+    {
+        [navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    }
+    
     R2RMasterViewController *firstViewController = (R2RMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
     
     R2RSearchStore *searchStore = [[R2RSearchStore alloc] init];

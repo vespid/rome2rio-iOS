@@ -78,9 +78,11 @@
     
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
-    [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    CGRect frame = CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0);
+    if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1) frame.origin.y -= 20; // temp fix to account for status bar in ios 7 until full redesign
     
+    self.statusButton = [[R2RStatusButton alloc] initWithFrame:frame];
+    [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
@@ -111,6 +113,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshSearchMessage" object:nil];
     
     [self setTableView:nil];
+    [self.mapView setDelegate:nil];
     [self setMapView:nil];
     [self setSearchButton:nil];
     [self setResizeMapButton:nil];
@@ -424,8 +427,7 @@
     [self updateFromAnnotation:@"From" kind:nil coord:self.pressAnnotation.coordinate];
     [self.mapView viewForAnnotation:self.fromAnnotation].canShowCallout = NO;
     self.fromAnnotationDidMove = YES;
-    [self.mapView removeAnnotation:self.pressAnnotation];
-    self.pressAnnotation = nil;
+    [self.mapView deselectAnnotation:self.pressAnnotation animated:YES];
     [self showSearchButton];
     [self showFullScreenMap];
 }
@@ -435,8 +437,7 @@
     [self updateToAnnotation:@"To" kind:nil coord:self.pressAnnotation.coordinate];
     [self.mapView viewForAnnotation:self.toAnnotation].canShowCallout = NO;
     self.toAnnotationDidMove = YES;
-    [self.mapView removeAnnotation:self.pressAnnotation];
-    self.pressAnnotation = nil;
+    [self.mapView deselectAnnotation:self.pressAnnotation animated:YES];
     [self showSearchButton];
     [self showFullScreenMap];
 }
@@ -635,6 +636,7 @@
 -(void) setMapFrameFullScreen
 {
     CGRect viewFrame = self.view.frame;
+    if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1) viewFrame.origin.y = 0;
     
     [self.mapView setFrame:viewFrame];
     

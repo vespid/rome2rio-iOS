@@ -44,7 +44,15 @@
     
     self.fallbackToCLGeocoder = NO;
     
-    self.statusButton = [[R2RStatusButton alloc] initWithFrame:CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0)];
+    if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1)
+    {
+        self.searchBar.tintColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.tintColor =[UIColor whiteColor];
+    }
+    
+    CGRect frame = CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0);
+    
+    self.statusButton = [[R2RStatusButton alloc] initWithFrame:frame];
     [self.view addSubview:self.statusButton];
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
@@ -110,6 +118,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - Table view data source
@@ -413,10 +426,7 @@
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
-    CGRect frame = self.statusButton.frame;
-    frame.origin.y = self.view.frame.size.height - 30 - kbSize.height;
-    
-    [self.statusButton setFrame:frame];
+    [self setStatusBarPositionWithKeyboardHeight:kbSize.height];
     
     CGRect tableViewFrame = self.tableView.frame;
     
@@ -431,10 +441,7 @@
 // Using DidHide instead of WillHide so it doesn't do anything while the modal view is being dismissed
 - (void) keyboardWasHidden:(NSNotification*)aNotification
 {
-    CGRect frame = self.statusButton.frame;
-    frame.origin.y = self.view.frame.size.height - 30;
-    
-    [self.statusButton setFrame:frame];
+    [self setStatusBarPositionWithKeyboardHeight:0];
     
     CGRect tableViewFrame = self.tableView.frame;
     
@@ -444,6 +451,17 @@
     }
     
     [self.tableView setFrame:tableViewFrame];
+}
+
+- (void) setStatusBarPositionWithKeyboardHeight:(float) keyboardHeight
+{
+    CGRect frame = self.statusButton.frame;
+    float offset = 30;
+    if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1) offset = 50; // temp fix to account for status bar in ios 7 until full redesign
+
+    frame.origin.y = self.view.frame.size.height - keyboardHeight - offset;
+    
+    [self.statusButton setFrame:frame];
 }
 
 // record users last 5 autocomplete places
