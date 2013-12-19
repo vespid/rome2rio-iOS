@@ -25,6 +25,7 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>rome2rio_globe_120.png</string>
 				<string>rome2rio_globe_57.png</string>
 				<string>rome2rio_globe_114.png</string>
 			</array>
@@ -41,11 +42,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6.1</string>
+	<string>1.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.6.1</string>
+	<string>1.7</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MKDirectionsApplicationSupportedModes</key>

@@ -31,6 +31,8 @@
 		5E5AA3DC162F854B00055720 /* R2RPathEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3DA162F854A00055720 /* R2RPathEncoder.m */; };
 		5E639E7416507D4C00A18C20 /* R2RSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639E7316507D4A00A18C20 /* R2RSpriteView.m */; };
 		5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */; };
+		5E6FAD99186130CA007B6D5B /* R2RSearchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6FAD98186130CA007B6D5B /* R2RSearchButton.m */; };
+		5E8726811862B10500F56BE0 /* rome2rio_globe_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E8726801862B10500F56BE0 /* rome2rio_globe_120.png */; };
 		5E8DB4E516129D7500756321 /* R2RSegmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4E416129D7400756321 /* R2RSegmentHelper.m */; };
 		5E8DB4FD1616985F00756321 /* R2RSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4FC1616985E00756321 /* R2RSprite.m */; };
 		5E8DB50316192C6400756321 /* R2RFlightSegmentSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB50216192C6400756321 /* R2RFlightSegmentSectionHeader.m */; };
@@ -148,6 +150,9 @@
 		5E639EA21650C53200A18C20 /* R2RCompletionState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = R2RCompletionState.h; sourceTree = "<group>"; };
 		5E639EA416521B7400A18C20 /* R2RSpriteCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSpriteCache.h; sourceTree = "<group>"; };
 		5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteCache.m; sourceTree = "<group>"; };
+		5E6FAD97186130CA007B6D5B /* R2RSearchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearchButton.h; sourceTree = "<group>"; };
+		5E6FAD98186130CA007B6D5B /* R2RSearchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchButton.m; sourceTree = "<group>"; };
+		5E8726801862B10500F56BE0 /* rome2rio_globe_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rome2rio_globe_120.png; sourceTree = "<group>"; };
 		5E8DB4E316129D7400756321 /* R2RSegmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSegmentHelper.h; sourceTree = "<group>"; };
 		5E8DB4E416129D7400756321 /* R2RSegmentHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSegmentHelper.m; sourceTree = "<group>"; };
 		5E8DB4FB1616985C00756321 /* R2RSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSprite.h; sourceTree = "<group>"; };
@@ -442,6 +447,7 @@
 				5ED962CE163FBFC000B258F8 /* rome2rio_globe_57g.png */,
 				5E1BE0241623DDD5002F7CBB /* rome2rio_globe_114.png */,
 				5E1BE0221623DDC8002F7CBB /* rome2rio_globe_57.png */,
+				5E8726801862B10500F56BE0 /* rome2rio_globe_120.png */,
 				5EB02F7B166ECDFA009C0A6C /* ConnectionLines-v2.png */,
 				5EFDB666161D672800209AA7 /* Default-568h@2x.png */,
 				5E1BE02C1623F4F1002F7CBB /* targetIcon_orange.png */,
@@ -549,6 +555,8 @@
 				5E8DB5051619341800756321 /* R2RResultSectionHeader.m */,
 				5ED5C8CA16082D34004CFDC8 /* R2RStatusButton.h */,
 				5ED5C8CB16082D34004CFDC8 /* R2RStatusButton.m */,
+				5E6FAD97186130CA007B6D5B /* R2RSearchButton.h */,
+				5E6FAD98186130CA007B6D5B /* R2RSearchButton.m */,
 				5E16F26A163E320800740B07 /* R2RTableView.h */,
 				5E16F26B163E320900740B07 /* R2RTableView.m */,
 				5ED4B3F71602D3C200E9FE42 /* R2RTransitHopCell.h */,
@@ -592,8 +600,13 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = R2R;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Rome2Rio;
+				TargetAttributes = {
+					5ED4B3461601D01C00E9FE42 = {
+						DevelopmentTeam = YL4M37VVQZ;
+					};
+				};
 			};
 			buildConfigurationList = 5ED4B3411601D01C00E9FE42 /* Build configuration list for PBXProject "Rome2Rio" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -639,6 +652,7 @@
 				5E0C56B916C1E4C80085768C /* Blue_dot-24px.png in Resources */,
 				5E10152E16C38A7E0035D60B /* LeftTriangle20px.png in Resources */,
 				5E10152F16C38A7E0035D60B /* RightTriangle20px.png in Resources */,
+				5E8726811862B10500F56BE0 /* rome2rio_globe_120.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,6 +663,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E6FAD99186130CA007B6D5B /* R2RSearchButton.m in Sources */,
 				5ED4B3581601D01C00E9FE42 /* main.m in Sources */,
 				5ED4B35C1601D01C00E9FE42 /* R2RAppDelegate.m in Sources */,
 				5ED4B3621601D01C00E9FE42 /* R2RMasterViewController.m in Sources */,
@@ -750,10 +765,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -768,10 +784,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -780,10 +800,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -792,11 +813,15 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "23A1553B-83A9-437F-B634-582964AAD9C2";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -806,11 +831,15 @@
 		5ED4B3691601D01C00E9FE42 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Rome2Rio/Rome2Rio-Prefix.pch";
 				INFOPLIST_FILE = "Rome2Rio/Rome2Rio-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Rome2rio;
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -820,15 +849,15 @@
 		5ED4B36A1601D01C00E9FE42 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Rome2rio Pty Ltd";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rome2rio Pty Ltd";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Rome2Rio/Rome2Rio-Prefix.pch";
 				INFOPLIST_FILE = "Rome2Rio/Rome2Rio-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = Rome2rio;
-				PROVISIONING_PROFILE = "1B9BA5D6-727C-4755-B34B-D1AB9D062DF8";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "23A1553B-83A9-437F-B634-582964AAD9C2";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "56E67B75-6A13-4FBE-9C7B-9C94D33472A0";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
