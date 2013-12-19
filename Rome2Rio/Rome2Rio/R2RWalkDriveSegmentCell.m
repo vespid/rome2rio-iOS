@@ -46,7 +46,7 @@
     
     CGRect rect = CGRectMake(paddingX, 5, self.bounds.size.width - (2*paddingX), 25);
     self.fromLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.fromLabel setTextAlignment:UITextAlignmentLeft];
+    [self.fromLabel setTextAlignment:NSTextAlignmentLeft];
     [self.fromLabel setMinimumFontSize:10.0];
     [self.fromLabel setAdjustsFontSizeToFitWidth:YES];
     [self.fromLabel setBackgroundColor:[UIColor clearColor]];
@@ -55,7 +55,7 @@
     
     rect = CGRectMake(paddingX, 55, self.bounds.size.width - (2*paddingX), 25);
     self.toLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.toLabel setTextAlignment:UITextAlignmentLeft];
+    [self.toLabel setTextAlignment:NSTextAlignmentLeft];
     [self.toLabel setMinimumFontSize:10.0];
     [self.toLabel setAdjustsFontSizeToFitWidth:YES];
     [self.toLabel setBackgroundColor:[UIColor clearColor]];
@@ -68,14 +68,14 @@
     
     rect = CGRectMake(paddingX+20+25, 30, self.bounds.size.width - 75, 25);
     self.distanceLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.distanceLabel setTextAlignment:UITextAlignmentLeft];
+    [self.distanceLabel setTextAlignment:NSTextAlignmentLeft];
     [self.distanceLabel setBackgroundColor:[UIColor clearColor]];
     [self.distanceLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.distanceLabel];
     
     rect = CGRectMake(self.bounds.size.width-75, 30, 60.0, 25);
     self.durationLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.durationLabel setTextAlignment:UITextAlignmentLeft];
+    [self.durationLabel setTextAlignment:NSTextAlignmentLeft];
     [self.durationLabel setMinimumFontSize:10.0];
     [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
     [self.durationLabel setBackgroundColor:[UIColor clearColor]];

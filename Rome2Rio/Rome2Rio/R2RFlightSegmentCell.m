@@ -44,21 +44,21 @@
     
     rect = CGRectMake((self.bounds.size.width/2)-10-50, 3, 50, 25);
     self.sTimeLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.sTimeLabel setTextAlignment:UITextAlignmentCenter];
+    [self.sTimeLabel setTextAlignment:NSTextAlignmentCenter];
     [self.sTimeLabel setBackgroundColor:[UIColor clearColor]];
     [self.sTimeLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.sTimeLabel];
     
     rect = CGRectMake((self.bounds.size.width/2)+10, 3, 50, 25);
     self.tTimeLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.tTimeLabel setTextAlignment:UITextAlignmentCenter];
+    [self.tTimeLabel setTextAlignment:NSTextAlignmentCenter];
     [self.tTimeLabel setBackgroundColor:[UIColor clearColor]];
     [self.tTimeLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.tTimeLabel];
     
     rect = CGRectMake(self.bounds.size.width-80, 3, 70, 25);
     self.durationLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.durationLabel setTextAlignment:UITextAlignmentRight];
+    [self.durationLabel setTextAlignment:NSTextAlignmentRight];
     [self.durationLabel setBackgroundColor:[UIColor clearColor]];
     [self.durationLabel setFont:[UIFont systemFontOfSize:11]];
     [self.durationLabel setTextColor:[R2RConstants getDarkTextColor]];

@@ -45,21 +45,21 @@
     
     rect = CGRectMake((self.bounds.size.width/2)-10-50, 3, 50, 25);
     self.sTimeLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.sTimeLabel setTextAlignment:UITextAlignmentCenter];
+    [self.sTimeLabel setTextAlignment:NSTextAlignmentCenter];
     [self.sTimeLabel setBackgroundColor:[UIColor clearColor]];
     [self.sTimeLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.sTimeLabel];
     
     rect = CGRectMake((self.bounds.size.width/2)+10, 3, 50, 25);
     self.tTimeLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.tTimeLabel setTextAlignment:UITextAlignmentCenter];
+    [self.tTimeLabel setTextAlignment:NSTextAlignmentCenter];
     [self.tTimeLabel setBackgroundColor:[UIColor clearColor]];
     [self.tTimeLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.tTimeLabel];
     
     rect = CGRectMake(self.bounds.size.width-80, 3, 70, 25);
     self.durationLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.durationLabel setTextAlignment:UITextAlignmentRight];
+    [self.durationLabel setTextAlignment:NSTextAlignmentRight];
     [self.durationLabel setBackgroundColor:[UIColor clearColor]];
     [self.durationLabel setFont:[UIFont systemFontOfSize:11]];
     [self.durationLabel setTextColor:[R2RConstants getDarkTextColor]];
@@ -67,7 +67,7 @@
     
     rect = CGRectMake(60, 155, 200, 25);
     self.frequencyLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.frequencyLabel setTextAlignment:UITextAlignmentCenter];
+    [self.frequencyLabel setTextAlignment:NSTextAlignmentCenter];
     [self.frequencyLabel setBackgroundColor:[UIColor clearColor]];
     [self.frequencyLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.frequencyLabel];
@@ -97,7 +97,7 @@
         
         rect = CGRectMake(65, y, 55, 25);
         label = [[UILabel alloc] initWithFrame:rect];
-        [label setTextAlignment:UITextAlignmentLeft];
+        [label setTextAlignment:NSTextAlignmentLeft];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setTextColor:[R2RConstants getLightTextColor]];
         [label setFont:[UIFont systemFontOfSize:15]];
@@ -106,7 +106,7 @@
         
         rect = CGRectMake((160-13-50), y, 50, 25);
         label = [[UILabel alloc] initWithFrame:rect];
-        [label setTextAlignment:UITextAlignmentRight];
+        [label setTextAlignment:NSTextAlignmentRight];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setTextColor:[R2RConstants getDarkTextColor]];
         [self.sAirportLabels addObject:label];
@@ -114,7 +114,7 @@
         
         rect = CGRectMake(160-13, y, 26, 25);
         label = [[UILabel alloc] initWithFrame:rect];
-        [label setTextAlignment:UITextAlignmentCenter];
+        [label setTextAlignment:NSTextAlignmentCenter];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setTextColor:[R2RConstants getLightTextColor]];
         [label setText:@"to"];
@@ -123,7 +123,7 @@
         
         rect = CGRectMake((160+13), y, 50, 25);
         label = [[UILabel alloc] initWithFrame:rect];
-        [label setTextAlignment:UITextAlignmentLeft];
+        [label setTextAlignment:NSTextAlignmentLeft];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setTextColor:[R2RConstants getDarkTextColor]];
         [self.tAirportLabels addObject:label];
@@ -131,7 +131,7 @@
         
         rect = CGRectMake(self.bounds.size.width-80, y, 70, 25);
         label = [[UILabel alloc] initWithFrame:rect];
-        [label setTextAlignment:UITextAlignmentRight];
+        [label setTextAlignment:NSTextAlignmentRight];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setFont:[UIFont systemFontOfSize:11]];
         [label setTextColor:[R2RConstants getLightTextColor]];
@@ -148,7 +148,7 @@
         
         rect = CGRectMake(35, y, 190, 25);
         UILabel *label = [[UILabel alloc] initWithFrame:rect];
-        [label setTextAlignment:UITextAlignmentLeft];
+        [label setTextAlignment:NSTextAlignmentLeft];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setMinimumFontSize:10.0];
         [label setAdjustsFontSizeToFitWidth:YES];
@@ -158,7 +158,7 @@
         
         rect = CGRectMake(self.bounds.size.width-80, y, 70, 25);
         label = [[UILabel alloc] initWithFrame:rect];
-        [label setTextAlignment:UITextAlignmentRight];
+        [label setTextAlignment:NSTextAlignmentRight];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setFont:[UIFont systemFontOfSize:11]];
         [label setTextColor:[R2RConstants getLightTextColor]];

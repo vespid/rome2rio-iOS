@@ -17,7 +17,7 @@
     if (self != nil)
     {
         self.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-        self.titleLabel.textAlignment = UITextAlignmentLeft;
+        self.titleLabel.textAlignment = NSTextAlignmentLeft;
         [self.titleLabel setMinimumFontSize:10.0];
         [self.titleLabel setAdjustsFontSizeToFitWidth:YES];
         

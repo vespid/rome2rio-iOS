@@ -44,7 +44,7 @@
     rect = CGRectMake(50, 8, 200, 25);
     
     self.agencyNameLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.agencyNameLabel setTextAlignment:UITextAlignmentCenter];
+    [self.agencyNameLabel setTextAlignment:NSTextAlignmentCenter];
     [self.agencyNameLabel setMinimumFontSize:10.0];
     [self.agencyNameLabel setAdjustsFontSizeToFitWidth:YES];
     [self.agencyNameLabel setBackgroundColor:[UIColor clearColor]];
