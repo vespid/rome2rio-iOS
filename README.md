@@ -1,4 +1,2 @@
-rome2rio-iOS
+Rome2rio iPhone app
 ============
-
-Super stealth iOS project :)

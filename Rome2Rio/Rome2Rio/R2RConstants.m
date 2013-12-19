@@ -22,12 +22,14 @@
 
 +(NSString *)getAppId
 {
-    return @"569793256";
+    // Insert your App Id here
+    // return @"569793256";
 }
 
 +(NSString *)getAppKey
 {
-    return @"cHwoWiHP";
+    // Please go to http://www.rome2rio.com/api to sign up for an app key
+    // return @"Insert key here";    
 }
 
 +(NSString *) getUserId
