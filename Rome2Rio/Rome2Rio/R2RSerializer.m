@@ -42,9 +42,10 @@
     place.kind = [splitPlaceString objectAtIndex:4];
     place.lat = [[splitPlaceString objectAtIndex:5] floatValue];
     place.lng = [[splitPlaceString objectAtIndex:6] floatValue];
-    place.regionCode = [splitPlaceString objectAtIndex:7];
-    place.regionName = [splitPlaceString objectAtIndex:8];
-    place.code = [splitPlaceString objectAtIndex:9];
+    place.rad = [splitPlaceString objectAtIndex:7];
+    place.regionCode = [splitPlaceString objectAtIndex:8];
+    place.regionName = [splitPlaceString objectAtIndex:9];
+    place.code = [splitPlaceString objectAtIndex:10];
 
     return place;
 }
