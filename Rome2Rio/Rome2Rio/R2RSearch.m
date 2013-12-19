@@ -7,7 +7,7 @@
 //
 
 #import "R2RSearch.h"
-
+#import "R2RConstants.h"
 #import "R2RPrintSearch.h"
 
 @interface R2RSearch() <R2RConnectionDelegate>
@@ -59,14 +59,15 @@
 
 -(void) sendAsynchronousRequest
 {
+    NSString *appKey = [R2RConstants getAppKey];
     
 #if DEBUG
     
-    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@", self.oName, self.dName, self.oPos, self.dPos];
+    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=%@&oName=%@&dName=%@&oPos=%@&dPos=%@", appKey, self.oName, self.dName, self.oPos, self.dPos];
        
 #else
     
-    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://ios.rome2rio.com/api/1.2/json/Search?key=wOAPMlcG&oName=%@&dName=%@&oPos=%@&dPos=%@", self.oName, self.dName, self.oPos, self.dPos];
+    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://ios.rome2rio.com/api/1.2/json/Search?key=%@&oName=%@&dName=%@&oPos=%@&dPos=%@", appKey, self.oName, self.dName, self.oPos, self.dPos];
     
 #endif
     

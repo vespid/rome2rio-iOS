@@ -25,15 +25,15 @@
 
 -(MKMapRect) getSegmentBounds: (id) segment;
 
--(NSString *) getVerySpecificLongName: (CLPlacemark *) placemark;
--(NSString *) getLocalityLongName: (CLPlacemark *) placemark;
--(NSString *) getAdministrativeAreaLongName: (CLPlacemark *) placemark;
--(NSString *) getCountryName: (CLPlacemark *) placemark;
--(NSString *) getVerySpecificShortName: (CLPlacemark *) placemark;
--(NSString *) getLocalityShortName: (CLPlacemark *) placemark;
--(NSString *) getAdministrativeAreaShortName: (CLPlacemark *) placemark;
+-(NSString *) getVerySpecificLongName: (CLPlacemark *) placemark location:(CLLocation *)location;
+-(NSString *) getLocalityLongName: (CLPlacemark *) placemark location:(CLLocation *)location;
+-(NSString *) getAdministrativeAreaLongName: (CLPlacemark *) placemark location:(CLLocation *)location;
+-(NSString *) getCountryName: (CLPlacemark *) placemark location:(CLLocation *)location;
+-(NSString *) getVerySpecificShortName: (CLPlacemark *) placemark location:(CLLocation *)location;
+-(NSString *) getLocalityShortName: (CLPlacemark *) placemark location:(CLLocation *)location;
+-(NSString *) getAdministrativeAreaShortName: (CLPlacemark *) placemark location:(CLLocation *)location;
 
--(bool) shouldShowSubLocality:(CLPlacemark *)placemark;
+-(bool) shouldShowSubLocality:(CLPlacemark *)placemark location:(CLLocation *)location;
 -(bool) shouldShowLocality:(CLPlacemark *)placemark;
 -(bool) shouldShowSubAdministrative:(CLPlacemark *)placemark;
 -(bool) shouldShowAdministrative:(CLPlacemark *)placemark;

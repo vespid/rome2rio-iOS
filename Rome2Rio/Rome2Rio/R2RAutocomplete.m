@@ -151,7 +151,7 @@
     place.rad = [placeResonse objectForKey:@"rad"];
     place.regionCode = [placeResonse objectForKey:@"regionCode"];
     place.regionName = [placeResonse objectForKey:@"regionName"];
-    place.code = [placeResonse objectForKey:@"code"];
+    place.code = ([placeResonse objectForKey:@"code"]) ? [placeResonse objectForKey:@"code"] : nil;
     
     return place;
 }
@@ -239,7 +239,7 @@
                  
                  R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
                  
-                 if ([placemark.subLocality length] > 0 && [mapHelper shouldShowSubLocality:placemark])
+                 if ([placemark.subLocality length] > 0 && [mapHelper shouldShowSubLocality:placemark location:placemark.location])
                  {
                      [longName appendFormat:@"%@, ", placemark.subLocality];
                      if ([place.kind length] == 0)

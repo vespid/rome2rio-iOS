@@ -371,33 +371,33 @@ typedef enum
         }
         else
         {
-            place.shortName = [mapHelper getVerySpecificShortName:placemark];
-            place.longName = [mapHelper getVerySpecificLongName:placemark];
+            place.shortName = [mapHelper getVerySpecificShortName:placemark location:location];
+            place.longName = [mapHelper getVerySpecificLongName:placemark location:location];
         }
     }
     else if (location.horizontalAccuracy <= 500)
     {
         place.kind = @":specific";
-        place.shortName = [mapHelper getLocalityShortName:placemark];
-        place.longName = [mapHelper getLocalityLongName:placemark];
+        place.shortName = [mapHelper getLocalityShortName:placemark location:location];
+        place.longName = [mapHelper getLocalityLongName:placemark location:location];
     }
     else if (location.horizontalAccuracy <= 5000)
     {
         place.kind = @":notspecific";
-        place.shortName = [mapHelper getLocalityShortName:placemark];
-        place.longName = [mapHelper getLocalityLongName:placemark];
+        place.shortName = [mapHelper getLocalityShortName:placemark location:location];
+        place.longName = [mapHelper getLocalityLongName:placemark location:location];
     }
     else if (location.horizontalAccuracy <= 30000)
     {
         place.kind = @"region";
-        place.shortName = [mapHelper getAdministrativeAreaShortName:placemark];
-        place.longName = [mapHelper getAdministrativeAreaLongName:placemark];
+        place.shortName = [mapHelper getAdministrativeAreaShortName:placemark location:location];
+        place.longName = [mapHelper getAdministrativeAreaLongName:placemark location:location];
     }
     else
     {
         place.kind = @"country";
-        place.shortName = [mapHelper getCountryName:placemark];
-        place.longName = [mapHelper getCountryName:placemark];
+        place.shortName = [mapHelper getCountryName:placemark location:location];
+        place.longName = [mapHelper getCountryName:placemark location:location];
     }
     
     
