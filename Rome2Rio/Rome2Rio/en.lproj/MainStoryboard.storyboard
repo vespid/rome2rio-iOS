@@ -936,7 +936,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="hFK-bo-ewS"/>
         <segue reference="XWX-ic-Yoe"/>
+        <segue reference="hFK-bo-ewS"/>
     </inferredMetricsTieBreakers>
 </document>

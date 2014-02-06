@@ -155,7 +155,7 @@ NSString *const kR2RReminderTimeInterval    = @"R2RReminderTimeInterval";
 {
     NSString *appId = [R2RKeys getAppId];
     
-    NSURL *reviewURL = [NSURL URLWithString: [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", appId]];
+    NSURL *reviewURL = [NSURL URLWithString: [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appId]];
     
     if ([[UIApplication sharedApplication] canOpenURL:reviewURL])
     {
