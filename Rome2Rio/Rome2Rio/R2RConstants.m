@@ -113,12 +113,12 @@
 
 +(NSString *) getIconSpriteFileName
 {
-    return @"sprites6x2";
+    return @"Rome2rio_2_0_sprites";
 }
 
 +(NSString *) getConnectionsImageFileName
 {
-    return @"ConnectionLines-v2";
+    return @"Rome2rio_2_0_lines";
 }
 
 +(NSString *) getMyLocationSpriteFileName
@@ -129,7 +129,7 @@
 //detail view icon
 +(CGRect) getConnectionIconRect
 {
-    return CGRectMake(534, 92, 24, 24);
+    return CGRectMake(20, 160, 20, 20);
 };
 
 //annotation icon
@@ -145,132 +145,136 @@
 
 +(CGRect) getRouteFlightSpriteRect
 {
-    return CGRectMake(0, 160, 36, 36);
+    return CGRectMake(200, 20, 36, 36);
+}
+
++(CGRect) getRouteHelicopterSpriteRect
+{
+    return CGRectMake(80, 80, 36, 36);
 }
 
 +(CGRect) getRouteTrainSpriteRect
 {
-    return CGRectMake(0, 196, 36, 36);
+    return CGRectMake(20, 20, 36, 36);
+}
+
++(CGRect) getRouteTramSpriteRect
+{
+    return CGRectMake(20, 80, 36, 36);
+}
+
++(CGRect) getRouteCablecarSpriteRect
+{
+    return CGRectMake(80, 140, 36, 36);
 }
 
 +(CGRect) getRouteBusSpriteRect
 {
-    return CGRectMake(0, 376, 36, 36);
+    return CGRectMake(80, 20, 36, 36);
 }
 
 +(CGRect) getRouteFerrySpriteRect
 {
-    return CGRectMake(0, 412, 36, 36);
+    return CGRectMake(140, 20, 36, 36);
 }
 
 +(CGRect) getRouteCarSpriteRect
 {
-    return CGRectMake(0, 304, 36, 36);
+    return CGRectMake(260, 20, 36, 36);
+}
+
++(CGRect) getRouteTaxiSpriteRect
+{
+    return CGRectMake(320, 20, 36, 36);
+}
+
++(CGRect) getRouteRideshareSpriteRect
+{
+    return CGRectMake(380, 80, 36, 36);
 }
 
 +(CGRect) getRouteWalkSpriteRect
 {
-    return CGRectMake(0, 448, 36, 36);
+    return CGRectMake(380, 20, 36, 36);
 }
 
++(CGRect) getRouteAnimalSpriteRect
+{
+    return CGRectMake(200, 80, 36, 36);
+}
+
+// TODO ADD unknown sprite to sprite file
 +(CGRect) getRouteUnknownSpriteRect
 {
     return CGRectMake(0, 340, 36, 36);
 }
 
-+(CGRect) getResultFlightSpriteRect
-{
-    return CGRectMake(680, 120, 28, 24);
-}
-
-+(CGRect) getResultTrainSpriteRect
-{
-    return CGRectMake(708, 120, 38, 24);
-}
-
-+(CGRect) getResultBusSpriteRect
-{
-    return CGRectMake(768, 120, 36, 24);
-}
-
-+(CGRect) getResultFerrySpriteRect
-{
-    return CGRectMake(636, 120, 44, 24);
-}
-
-+(CGRect) getResultCarSpriteRect
-{
-    return CGRectMake(600, 120, 36, 24);
-}
-
-+(CGRect) getResultWalkSpriteRect
-{
-    return CGRectMake(804, 120, 28, 24);
-}
-
-+(CGRect) getResultUnknownSpriteRect
-{
-    return CGRectMake(746, 120, 22, 24);
-}
-
 +(UIColor *)getBackgroundColor
 {
-    return [UIColor colorWithRed:234.0/256.0 green:228.0/256.0 blue:224.0/256.0 alpha:1.0];
+    return [UIColor colorWithWhite:242/255.0 alpha:1.0];
+//    return [UIColor colorWithRed:224.0/255.0 green:224.0/255.0 blue:224.0/255.0 alpha:1.0];
 }
 
 +(UIColor *)getExpandedCellColor
 {
-    return [UIColor colorWithRed:244.0/256.0 green:238.0/256.0 blue:234.0/256.0 alpha:1.0];
+    return [UIColor colorWithWhite:1.0 alpha:1.0];
+//    return [UIColor colorWithRed:244.0/255.0 green:238.0/255.0 blue:234.0/255.0 alpha:1.0];
 }
 
 +(UIColor *)getCellColor
 {
-    return [UIColor colorWithRed:254.0/256.0 green:248.0/256.0 blue:244.0/256.0 alpha:1.0];
+    return [UIColor colorWithWhite:224/255.0 alpha:1.0];
+//    return [UIColor colorWithRed:254.0/255.0 green:248.0/255.0 blue:244.0/255.0 alpha:1.0];
 }
 
 +(UIColor *)getDarkTextColor
 {
-    return [UIColor colorWithWhite:0.2 alpha:1.0];
+    return [UIColor colorWithWhite:112/255.0 alpha:1.0];
 }
 
 +(UIColor *)getLightTextColor
 {
-    return [UIColor colorWithWhite:0.5 alpha:1.0];
+    return [UIColor colorWithWhite:165/255.0 alpha:1.0];
 }
 
 + (UIColor *)getButtonHighlightColor
 {
-    return [UIColor colorWithRed:242.0/256.0 green:103.0/256.0 blue:54.0/256.0 alpha:1.0];
+    return [UIColor colorWithRed:222/255.0 green:0/255.0 blue:123/255.0 alpha:1.0];
+}
+
++ (UIColor *)getButtonHighlightDarkerColor
+{
+    return [UIColor colorWithRed:197/255.0 green:0/255.0 blue:109/255.0 alpha:1.0];
 }
 
 +(UIColor *)getFlightLineColor
 {
-    return [UIColor colorWithRed:241/255.0 green:95/255.0 blue:34/255.0 alpha:0.8];
+    return [UIColor colorWithRed:4/255.0 green:201/255.0 blue:166/255.0 alpha:0.8];
 }
 
 +(UIColor *)getBusLineColor
 {
-    return [UIColor colorWithRed:98/255.0 green:144/255.0 blue:46/255.0 alpha:0.8];
+    return [UIColor colorWithRed:228/255.0 green:114/255.0 blue:37/255.0 alpha:0.8];
 }
 
 +(UIColor *)getTrainLineColor
 {
-    return [UIColor colorWithRed:35/255.0 green:99/255.0 blue:160/255.0 alpha:0.8];
+    return [UIColor colorWithRed:115/255.0 green:66/255.0 blue:134/255.0 alpha:0.8];
 }
 
 +(UIColor *)getFerryLineColor
 {
-    return [UIColor colorWithRed:0/255.0 green:139/255.0 blue:174/255.0 alpha:0.8];
+    return [UIColor colorWithRed:46/255.0 green:186/255.0 blue:211/255.0 alpha:0.8];
 }
 
 +(UIColor *)getDriveLineColor
 {
-    return [UIColor colorWithWhite:0.0 alpha:0.4];
+    return [UIColor colorWithWhite:96/255.0 alpha:0.4];
 }
 
 +(UIColor *)getWalkLineColor
 {
-    return [UIColor colorWithRed:102/255.0 green:101/255.0 blue:100/255.0 alpha:0.8];
+    return [UIColor colorWithRed:224/255.0 green:4/255.0 blue:59/255.0 alpha:0.8];
 }
 
 @end

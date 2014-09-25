@@ -520,37 +520,24 @@
 }
 
 -(void) setMapFrame
-{
-    //get the frame of the table section
-    CGRect sectionFrame = [self.tableView rectForSection:0];
-
+{   
     CGRect viewFrame = self.view.frame;
     CGRect mapFrame = self.mapView.frame;
     
-    if (sectionFrame.size.height < (viewFrame.size.height/3))
+    if (self.tableView.frame.size.height < (viewFrame.size.height/3))
     {
         //set map to fill remaining screen space
-        int height = (viewFrame.size.height - sectionFrame.size.height);
+        int height = (viewFrame.size.height - self.tableView.frame.size.height);
         mapFrame.size.height = height;
-        
-        //set the table footer to 0
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
-        self.tableView.tableFooterView = footer;
-        
-        //set map position to below section
-        mapFrame.origin.y = sectionFrame.size.height;
     }
     else
     {
         //set map to default height
         mapFrame.size.height = viewFrame.size.height*2/3;
-        
-        //set table footer
-        [self setTableFooterWithGrabBar];
-        
-        //set map position to below footer
-        mapFrame.origin.y = sectionFrame.size.height + self.tableView.tableFooterView.frame.size.height;
     }
+    
+    //set map position to below footer
+    mapFrame.origin.y = self.tableView.frame.size.height;
     
     //set map frame to new size and position
     [self.mapView setFrame:mapFrame];

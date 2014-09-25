@@ -69,6 +69,50 @@
     return nil;
 }
 
+-(NSString*) getSegmentSubkind:(id) segment
+{
+    // if subkind is unknown return kind
+    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
+    {
+        R2RWalkDriveSegment *currentSegment = segment;
+        return ([self subkindIsHandled: currentSegment.subkind]) ? currentSegment.subkind : currentSegment.kind;
+    }
+    else if([segment isKindOfClass:[R2RTransitSegment class]])
+    {
+        R2RTransitSegment *currentSegment = segment;
+        return ([self subkindIsHandled: currentSegment.subkind]) ? currentSegment.subkind : currentSegment.kind;
+    }
+    else if([segment isKindOfClass:[R2RFlightSegment class]])
+    {
+        R2RFlightSegment *currentSegment = segment;
+        return currentSegment.kind;
+    }
+    
+    return nil;
+}
+
+// subkinds we currently know about
+-(BOOL) subkindIsHandled:(NSString *) subkind
+{
+    if ([subkind isEqualToString:@"plane"]) return true;
+    if ([subkind isEqualToString:@"helicopter"]) return true;
+    if ([subkind isEqualToString:@"bus"]) return true;
+    if ([subkind isEqualToString:@"taxi"]) return true;
+    if ([subkind isEqualToString:@"car"]) return true;
+    if ([subkind isEqualToString:@"rideshare"]) return true;
+    if ([subkind isEqualToString:@"busferry"]) return true;
+    if ([subkind isEqualToString:@"shuttle"]) return true;
+    if ([subkind isEqualToString:@"train"]) return true;
+    if ([subkind isEqualToString:@"tram"]) return true;
+    if ([subkind isEqualToString:@"cablecar"]) return true;
+    if ([subkind isEqualToString:@"subway"]) return true;
+    if ([subkind isEqualToString:@"ferry"]) return true;
+    if ([subkind isEqualToString:@"carferry"]) return true;
+    if ([subkind isEqualToString:@"walk"]) return true;
+    if ([subkind isEqualToString:@"animal"]) return true;
+    return false;
+}
+
 -(NSString*) getSegmentPath:(id)segment
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
@@ -143,21 +187,54 @@
     return nil;
 }
 
+-(R2RIndicativePrice *)getSegmentIndicativePrice:(id)segment
+{
+    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
+    {
+        R2RWalkDriveSegment *currentSegment = segment;
+        return currentSegment.indicativePrice;
+    }
+    else if([segment isKindOfClass:[R2RTransitSegment class]])
+    {
+        R2RTransitSegment *currentSegment = segment;
+        return currentSegment.indicativePrice;
+    }
+    else if([segment isKindOfClass:[R2RFlightSegment class]])
+    {
+        R2RFlightSegment *currentSegment = segment;
+        return currentSegment.indicativePrice;
+    }
+    
+    return nil;
+}
+
 -(CGRect) getRouteIconRect: (NSString *) kind
 {
     if ([kind isEqualToString:@"flight"])
     {
         return [R2RConstants getRouteFlightSpriteRect];
     }
+    else if ([kind isEqualToString:@"helicopter"])
+    {
+        return [R2RConstants getRouteHelicopterSpriteRect];
+    }
     else if ([kind isEqualToString:@"train"])
     {
         return [R2RConstants getRouteTrainSpriteRect];
     }
-    else if ([kind isEqualToString:@"bus"])
+    else if ([kind isEqualToString:@"tram"])
+    {
+        return [R2RConstants getRouteTramSpriteRect];
+    }
+    else if ([kind isEqualToString:@"cablecar"])
+    {
+        return [R2RConstants getRouteCablecarSpriteRect];
+    }
+    else if ([kind isEqualToString:@"bus"] || [kind isEqualToString:@"busferry"] || [kind isEqualToString:@"shuttle"])
     {
         return [R2RConstants getRouteBusSpriteRect];
     }
-    else if ([kind isEqualToString:@"ferry"])
+    else if ([kind isEqualToString:@"ferry"] || [kind isEqualToString:@"carferry"])
     {
         return [R2RConstants getRouteFerrySpriteRect];
     }
@@ -165,9 +242,21 @@
     {
         return [R2RConstants getRouteCarSpriteRect];
     }
+    else if ([kind isEqualToString:@"taxi"])
+    {
+        return [R2RConstants getRouteTaxiSpriteRect];
+    }
+    else if ([kind isEqualToString:@"rideshare"])
+    {
+        return [R2RConstants getRouteRideshareSpriteRect];
+    }
     else if ([kind isEqualToString:@"walk"])
     {
         return [R2RConstants getRouteWalkSpriteRect];
+    }
+    else if ([kind isEqualToString:@"animal"])
+    {
+        return [R2RConstants getRouteAnimalSpriteRect];
     }
     else
     {
@@ -175,50 +264,18 @@
     }
 }
 
--(CGRect) getResultIconRect: (NSString *) kind
-{
-    if ([kind isEqualToString:@"flight"])
-    {
-        return [R2RConstants getResultFlightSpriteRect];
-    }
-    else if ([kind isEqualToString:@"train"])
-    {
-        return [R2RConstants getResultTrainSpriteRect];
-    }
-    else if ([kind isEqualToString:@"bus"])
-    {
-        return [R2RConstants getResultBusSpriteRect];
-    }
-    else if ([kind isEqualToString:@"ferry"])
-    {
-        return [R2RConstants getResultFerrySpriteRect];
-    }
-    else if ([kind isEqualToString:@"car"])
-    {
-        return [R2RConstants getResultCarSpriteRect];
-    }
-    else if ([kind isEqualToString:@"walk"])
-    {
-        return [R2RConstants getResultWalkSpriteRect];
-    }
-    else
-    {
-        return [R2RConstants getResultUnknownSpriteRect];
-    }
-}
-
--(R2RSprite *) getSegmentResultSprite:(id)segment
-{
-    NSString *kind = [self getSegmentKind:segment];
-    return [self getResultSprite:kind];
-}
-
--(R2RSprite *) getResultSprite:(NSString *)kind
-{
-    CGRect rect = [self getResultIconRect:kind];
-    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :rect.origin :rect.size];
-    return sprite;
-}
+//-(R2RSprite *) getSegmentResultSprite:(id)segment
+//{
+//    NSString *kind = [self getSegmentKind:segment];
+//    return [self getResultSprite:kind];
+//}
+//
+//-(R2RSprite *) getResultSprite:(NSString *)kind
+//{
+//    CGRect rect = [self getResultIconRect:kind];
+//    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :rect.origin :rect.size];
+//    return sprite;
+//}
 
 -(R2RSprite *) getRouteSprite:(NSString *)kind
 {
@@ -331,12 +388,12 @@
     }
     else if ([kind isEqualToString:@"walk"])
     {
-        CGPoint offset = CGPointMake(50, 0);
+        CGPoint offset = CGPointMake(60, 0);
         CGSize size = CGSizeMake(10, 50);
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
-    CGPoint offset = CGPointMake(60, 0);
+    CGPoint offset = CGPointMake(50, 0);
     CGSize size = CGSizeMake(10, 50);
     R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
     return sprite;

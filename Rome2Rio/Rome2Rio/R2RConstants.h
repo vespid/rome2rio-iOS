@@ -29,20 +29,18 @@
 +(CGRect) getMyLocationIconRect;
 
 +(CGRect) getRouteFlightSpriteRect;
++(CGRect) getRouteHelicopterSpriteRect;
 +(CGRect) getRouteTrainSpriteRect;
++(CGRect) getRouteTramSpriteRect;
++(CGRect) getRouteCablecarSpriteRect;
 +(CGRect) getRouteBusSpriteRect;
 +(CGRect) getRouteFerrySpriteRect;
 +(CGRect) getRouteCarSpriteRect;
++(CGRect) getRouteTaxiSpriteRect;
++(CGRect) getRouteRideshareSpriteRect;
 +(CGRect) getRouteWalkSpriteRect;
++(CGRect) getRouteAnimalSpriteRect;
 +(CGRect) getRouteUnknownSpriteRect;
-
-+(CGRect) getResultFlightSpriteRect;
-+(CGRect) getResultTrainSpriteRect;
-+(CGRect) getResultBusSpriteRect;
-+(CGRect) getResultFerrySpriteRect;
-+(CGRect) getResultCarSpriteRect;
-+(CGRect) getResultWalkSpriteRect;
-+(CGRect) getResultUnknownSpriteRect;
 
 +(UIColor *) getBackgroundColor;
 +(UIColor *) getCellColor;
@@ -50,6 +48,7 @@
 +(UIColor *) getLightTextColor;
 +(UIColor *) getDarkTextColor;
 +(UIColor *) getButtonHighlightColor;
++(UIColor *) getButtonHighlightDarkerColor;
 +(UIColor *) getFlightLineColor;
 +(UIColor *) getBusLineColor;
 +(UIColor *) getTrainLineColor;
@@ -60,6 +59,6 @@
 
 
 #define MAX_FLIGHT_STOPS 5
-#define MAX_ICONS 5
+#define MAX_ICONS 3
 
 @end

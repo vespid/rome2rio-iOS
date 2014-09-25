@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) UILabel *resultDescripionLabel;
 @property (strong, nonatomic) UILabel *resultDurationLabel;
+@property (strong, nonatomic) UILabel *resultPriceLabel;
 @property (nonatomic) NSInteger iconCount;
 @property (strong, nonatomic) NSMutableArray *icons;
 

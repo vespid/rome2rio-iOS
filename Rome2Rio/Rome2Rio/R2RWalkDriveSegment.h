@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 
 #import "R2RPosition.h"
+#import "R2RIndicativePrice.h"
 
 @interface R2RWalkDriveSegment : NSObject
 
 @property (strong, nonatomic) NSString *kind;
+@property (strong, nonatomic) NSString *subkind;
 @property (nonatomic) float distance;
 @property (nonatomic) float duration;
 @property (strong, nonatomic) NSString *sName;
@@ -22,5 +24,6 @@
 @property (strong, nonatomic) NSString *path;
 @property (nonatomic) BOOL isMajor;
 @property (nonatomic) BOOL isImperial;
+@property (strong, nonatomic) R2RIndicativePrice *indicativePrice;
 
 @end

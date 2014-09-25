@@ -52,6 +52,8 @@
     
     self.navigationItem.title = NSLocalizedString(@"Search", nil);
     
+    self.headerBackground.layer.cornerRadius = 8;
+    
     //adjust text boc size above default 31
     CGRect frame = self.fromTextField.frame;
     frame.size.height = 35;

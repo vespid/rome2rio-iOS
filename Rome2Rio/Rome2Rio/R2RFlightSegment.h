@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "R2RFlightItinerary.h"
+#import "R2RIndicativePrice.h"
 
 @interface R2RFlightSegment : NSObject
 
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) NSString *sCode;
 @property (strong, nonatomic) NSString *tCode;
 @property (nonatomic) BOOL isMajor;
+@property (strong, nonatomic) R2RIndicativePrice *indicativePrice;
 
 @property (strong, nonatomic) NSMutableArray *itineraries;
 

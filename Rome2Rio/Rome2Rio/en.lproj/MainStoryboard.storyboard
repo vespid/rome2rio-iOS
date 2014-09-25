@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="3">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -20,7 +20,7 @@
             </objects>
             <point key="canvasLocation" x="3" y="-166"/>
         </scene>
-        <!--Master View Controller - Master-->
+        <!--Master-->
         <scene sceneID="fka-M7-pHc">
             <objects>
                 <viewController title="Master" id="KQv-tN-kqn" customClass="R2RMasterViewController" sceneMemberID="viewController">
@@ -32,10 +32,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="656"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
+                            <view alpha="0.69999999999999996" contentMode="scaleToFill" id="zsF-bD-ZKY">
+                                <rect key="frame" x="5" y="132" width="310" height="206"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="0.0" maxX="0.0" maxY="-20"/>
+                            </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origin" minimumFontSize="14" clearButtonMode="always" id="OV4-73-MRK">
                                 <rect key="frame" x="20" y="220" width="280" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.97443181820000002" blue="0.95736416899999999" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="tintColor" red="0.87058823529411766" green="0.0" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="done"/>
@@ -57,31 +64,26 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="gex-vl-wF7" customClass="R2RSearchButton">
                                 <rect key="frame" x="60" y="320" width="200" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.87058823529411766" green="0.0" blue="0.4823529411764706" alpha="1" colorSpace="deviceRGB"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                <color key="tintColor" red="0.94901960784313721" green="0.40392156862745099" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.77254901960784317" green="0.0" blue="0.42745098039215684" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Search">
-                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="searchTouchUpInside:" destination="KQv-tN-kqn" eventType="touchUpInside" id="FCE-Zc-diG"/>
                                 </connections>
                             </button>
-                            <view alpha="0.69999999999999996" contentMode="scaleToFill" id="zsF-bD-ZKY">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="0.0" maxX="0.0" maxY="-20"/>
-                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="discover how to get anywhere" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v7x-ah-nSH">
-                                <rect key="frame" x="0.0" y="95" width="320" height="25"/>
+                                <rect key="frame" x="0.0" y="175" width="320" height="25"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="r2r-retina.png" id="1sT-98-geU">
-                                <rect key="frame" x="10" y="30" width="300" height="60"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="Rome2rio_Logo_white.png" id="1sT-98-geU">
+                                <rect key="frame" x="10" y="75" width="302" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </imageView>
@@ -165,7 +167,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Send Feedback">
-                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -176,7 +178,7 @@
                                 <rect key="frame" x="50" y="320" width="220" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <state key="normal" title="Share by Email">
-                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -188,7 +190,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="tintColor" red="0.94901960780000005" green="0.4039215686" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Rate App">
-                                    <color key="titleColor" white="0.20000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -229,7 +231,7 @@
             </objects>
             <point key="canvasLocation" x="491" y="645"/>
         </scene>
-        <!--Results View Controller - Results-->
+        <!--Results-->
         <scene sceneID="Ttc-nM-6h8">
             <objects>
                 <viewController title="Results" id="WK8-uk-BLQ" customClass="R2RResultsViewController" sceneMemberID="viewController">
@@ -444,7 +446,7 @@
             </objects>
             <point key="canvasLocation" x="1404" y="1438"/>
         </scene>
-        <!--Map View Controller - Map View-->
+        <!--Map View-->
         <scene sceneID="OMg-B2-toS">
             <objects>
                 <viewController title="Map View" id="a0b-9s-bYq" customClass="R2RMapViewController" sceneMemberID="viewController">
@@ -486,7 +488,7 @@
             </objects>
             <point key="canvasLocation" x="1904" y="1438"/>
         </scene>
-        <!--Transit Segment View Controller - Transit Segment-->
+        <!--Transit Segment-->
         <scene sceneID="D5v-57-BHX">
             <objects>
                 <viewController title="Transit Segment" id="mjw-xX-aua" customClass="R2RTransitSegmentViewController" sceneMemberID="viewController">
@@ -561,7 +563,7 @@
             </objects>
             <point key="canvasLocation" x="1962" y="57"/>
         </scene>
-        <!--Transit Schedules View Controller - Schedules-->
+        <!--Schedules-->
         <scene sceneID="kDB-0m-N19">
             <objects>
                 <viewController id="70o-bw-ecF" customClass="R2RTransitSchedulesViewController" sceneMemberID="viewController">
@@ -637,7 +639,7 @@
             </objects>
             <point key="canvasLocation" x="2432" y="59"/>
         </scene>
-        <!--Detail View Controller - Details View-->
+        <!--Details View-->
         <scene sceneID="En0-kO-5Wp">
             <objects>
                 <viewController title="Details View" id="Yhw-Qi-8V7" customClass="R2RDetailViewController" sceneMemberID="viewController">
@@ -787,7 +789,7 @@
             </objects>
             <point key="canvasLocation" x="1426" y="-160"/>
         </scene>
-        <!--Flight Segment View Controller - FlightSegment-->
+        <!--FlightSegment-->
         <scene sceneID="WPp-dt-uY1">
             <objects>
                 <tableViewController title="FlightSegment" id="ZBu-OJ-Q4H" customClass="R2RFlightSegmentViewController" sceneMemberID="viewController">
@@ -846,7 +848,7 @@
             </objects>
             <point key="canvasLocation" x="910" y="1438"/>
         </scene>
-        <!--Walk Drive Segment View Controller - Walk Drive Segment-->
+        <!--Walk Drive Segment-->
         <scene sceneID="wLo-FN-BDN">
             <objects>
                 <viewController title="Walk Drive Segment" id="1ix-uE-0ex" customClass="R2RWalkDriveSegmentViewController" sceneMemberID="viewController">
@@ -925,6 +927,7 @@
         <image name="Home_Icon_White.png" width="18" height="18"/>
         <image name="LeftTriangle20px.png" width="14" height="20"/>
         <image name="RightTriangle20px.png" width="14" height="20"/>
+        <image name="Rome2rio_Logo_white.png" width="302" height="78"/>
         <image name="bg-retina.jpg" width="640" height="1136"/>
         <image name="fullscreen2.png" width="200" height="181"/>
         <image name="r2r-retina.png" width="600" height="120"/>
@@ -936,7 +939,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="XWX-ic-Yoe"/>
-        <segue reference="hFK-bo-ewS"/>
+        <segue reference="e2Y-k2-yrg"/>
+        <segue reference="tCJ-q2-xQV"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.87058823529999996" green="0.0" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
 </document>

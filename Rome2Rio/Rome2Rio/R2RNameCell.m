@@ -41,13 +41,13 @@
 
 - (void) initSubviews
 {
-    self.connectTop = [[UIImageView alloc] initWithFrame:CGRectMake(23, 0, 6, self.contentView.bounds.size.height/2)];
+    self.connectTop = [[UIImageView alloc] initWithFrame:CGRectMake(25, 0, 6, self.contentView.bounds.size.height/2)];
     [self.contentView addSubview:connectTop];
     
-    self.connectBottom = [[UIImageView alloc] initWithFrame:CGRectMake(23, self.contentView.bounds.size.height/2, 6, self.contentView.bounds.size.height/2)];
+    self.connectBottom = [[UIImageView alloc] initWithFrame:CGRectMake(25, self.contentView.bounds.size.height/2, 6, self.contentView.bounds.size.height/2)];
     [self.contentView addSubview:connectBottom];
     
-    self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(20, self.contentView.bounds.size.height/2-6, 12, 12)];
+    self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(22, self.contentView.bounds.size.height/2-6, 12, 12)];
     [self.contentView addSubview:icon];
 }
 

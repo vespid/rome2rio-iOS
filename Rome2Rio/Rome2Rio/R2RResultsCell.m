@@ -11,21 +11,18 @@
 
 @interface R2RResultsCell()
 
-@property (nonatomic) NSInteger maxIcons;
-
 @end
 
 
 @implementation R2RResultsCell
 
-@synthesize resultDescripionLabel, resultDurationLabel, iconCount, icons;
+@synthesize resultDescripionLabel, resultDurationLabel, resultPriceLabel, iconCount, icons;
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.maxIcons = 5;
         [self initSubviews];
     }
     return self;
@@ -43,7 +40,7 @@
 - (void) initSubviews
 {
     
-    CGRect rect = CGRectMake(15, 5, self.bounds.size.width-45, 25);
+    CGRect rect = CGRectMake(15, 5, self.bounds.size.width-100, 25);
     self.resultDescripionLabel = [[UILabel alloc] initWithFrame:rect];
     [self.resultDescripionLabel setMinimumFontSize:10.0];
     [self.resultDescripionLabel setAdjustsFontSizeToFitWidth:YES];
@@ -51,21 +48,31 @@
     [self.resultDescripionLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.resultDescripionLabel];
     
-    rect = CGRectMake(self.bounds.size.width-100-30, 30, 100.0, 20);
+    rect = CGRectMake(15, 30, 100.0, 20);
     self.resultDurationLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.resultDurationLabel setTextAlignment:NSTextAlignmentRight];
-    [self.resultDurationLabel setFont:[UIFont systemFontOfSize:17.0]];
+    [self.resultDurationLabel setTextAlignment:NSTextAlignmentLeft];
+    [self.resultDurationLabel setFont:[UIFont systemFontOfSize:10.0]];
     [self.resultDurationLabel setBackgroundColor:[UIColor clearColor]];
     [self.resultDurationLabel setMinimumFontSize:10.0];
     [self.resultDurationLabel setAdjustsFontSizeToFitWidth:YES];
     [self.resultDurationLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.resultDurationLabel];
     
-    self.icons = [[NSMutableArray alloc] initWithCapacity:5];
+    rect = CGRectMake(self.bounds.size.width-132, 30, 100.0, 20);
+    self.resultPriceLabel = [[UILabel alloc] initWithFrame:rect];
+    [self.resultPriceLabel setTextAlignment:NSTextAlignmentRight];
+    [self.resultPriceLabel setFont:[UIFont systemFontOfSize:15.0]];
+    [self.resultPriceLabel setBackgroundColor:[UIColor clearColor]];
+    [self.resultPriceLabel setMinimumFontSize:10.0];
+    [self.resultPriceLabel setAdjustsFontSizeToFitWidth:YES];
+    [self.resultPriceLabel setTextColor:[R2RConstants getButtonHighlightColor]];
+    [self addSubview:self.resultPriceLabel];
     
-    for (int i = 0; i <self.maxIcons; i++)
+    self.icons = [[NSMutableArray alloc] initWithCapacity:MAX_ICONS];
+    
+    for (int i = 0; i < MAX_ICONS; i++)
     {
-        CGRect rect = CGRectMake(15+(25*i), 35, 18, 18);
+        CGRect rect = CGRectMake(self.bounds.size.width-(53+(25*i)), 7, 22, 22);
         UIImageView *icon = [[UIImageView alloc] initWithFrame:rect];
         [self.icons addObject:icon];
         
@@ -84,7 +91,7 @@
 {
     iconCount = count;
     
-    for (int i = 0; i <self.maxIcons; i++)
+    for (int i = 0; i < MAX_ICONS; i++)
     {
         UIImageView *icon = [self.icons objectAtIndex:i];
         if (i < count)

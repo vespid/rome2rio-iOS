@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSString *name;
 @property (nonatomic) float distance;
 @property (nonatomic) float duration;
+@property (strong, nonatomic) R2RIndicativePrice *indicativePrice;
 @property (strong, nonatomic) NSMutableArray *stops;
 @property (strong, nonatomic) NSMutableArray *segments;
 

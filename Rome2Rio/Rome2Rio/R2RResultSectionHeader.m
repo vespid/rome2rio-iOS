@@ -35,7 +35,7 @@
         self.fromLabel = [[UILabel alloc] initWithFrame:rect];
         [self.fromLabel setTextAlignment:NSTextAlignmentRight];
         [self.fromLabel setBackgroundColor:[UIColor clearColor]];
-        [self.fromLabel setTextColor:[R2RConstants getDarkTextColor]];
+        [self.fromLabel setTextColor:[R2RConstants getButtonHighlightColor]];
         [self.fromLabel setMinimumFontSize:10.0];
         [self.fromLabel setAdjustsFontSizeToFitWidth:YES];
         [self addSubview:self.fromLabel];
@@ -44,7 +44,7 @@
         self.toLabel = [[UILabel alloc] initWithFrame:rect];
         [self.toLabel setTextAlignment:NSTextAlignmentLeft];
         [self.toLabel setBackgroundColor:[UIColor clearColor]];
-        [self.toLabel setTextColor:[R2RConstants getDarkTextColor]];
+        [self.toLabel setTextColor:[R2RConstants getButtonHighlightColor]];
         [self.toLabel setMinimumFontSize:10.0];
         [self.toLabel setAdjustsFontSizeToFitWidth:YES];
         [self addSubview:self.toLabel];

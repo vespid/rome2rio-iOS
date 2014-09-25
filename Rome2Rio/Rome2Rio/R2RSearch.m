@@ -83,6 +83,9 @@
     
     [searchString appendFormat:@"&flags=0x2000000"];
     
+    NSString *currencyCode = [[NSLocale currentLocale] objectForKey:NSLocaleCurrencyCode];
+    [searchString appendFormat:@"&currencyCode=%@", currencyCode];
+    
     NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSURL *searchUrl =  [NSURL URLWithString:searchEncoded];
@@ -321,6 +324,8 @@
     
     route.segments = [self parseSegments:segmentsResponse];
     
+    route.indicativePrice = [self parseIndicativePrice:[routeResponse objectForKey:@"indicativePrice"]];
+    
     return route;
 }
 
@@ -392,6 +397,7 @@
     R2RWalkDriveSegment *segment = [R2RWalkDriveSegment alloc];
     
     segment.kind = [segmentResponse objectForKey:@"kind"];
+    segment.subkind = [segmentResponse objectForKey:@"subkind"];
     segment.distance = [[segmentResponse objectForKey:@"distance"] floatValue];
     segment.duration = [[segmentResponse objectForKey:@"duration"] floatValue];
 
@@ -413,6 +419,8 @@
     
     segment.path = [segmentResponse objectForKey:@"path"];
     
+    segment.indicativePrice = [self parseIndicativePrice:[segmentResponse objectForKey:@"indicativePrice"]];
+    
     return segment;
 }
 
@@ -421,6 +429,7 @@
     R2RTransitSegment *segment = [R2RTransitSegment alloc];
     
     segment.kind = [segmentResponse objectForKey:@"kind"];
+    segment.subkind = [segmentResponse objectForKey:@"subkind"];
     segment.distance = [[segmentResponse objectForKey:@"distance"] floatValue];
     segment.duration = [[segmentResponse objectForKey:@"duration"] floatValue];
     segment.sName = [segmentResponse objectForKey:@"sName"];
@@ -444,10 +453,25 @@
     segment.path = [segmentResponse objectForKey:@"path"];
     
     NSArray *itinerariesResponse = [segmentResponse objectForKey:@"itineraries"];
-    
+
+    segment.indicativePrice = [self parseIndicativePrice:[segmentResponse objectForKey:@"indicativePrice"]];
+
     segment.itineraries = [self parseTransitItineraries:itinerariesResponse];
     
     return segment;
+}
+
+-(R2RIndicativePrice*) parseIndicativePrice:(NSDictionary *) indicativePriceResponse
+{
+    R2RIndicativePrice *indicativePrice = [R2RIndicativePrice alloc];
+    
+    indicativePrice.price = [[indicativePriceResponse objectForKey:@"price"] floatValue];
+    indicativePrice.currency = [indicativePriceResponse objectForKey:@"currency"];
+    indicativePrice.nativePrice = [[indicativePriceResponse objectForKey:@"nativePrice"] floatValue];
+    indicativePrice.nativeCurrency = [indicativePriceResponse objectForKey:@"nativeCurrency"];
+    indicativePrice.isFreeTransfer = [[indicativePriceResponse objectForKey:@"isFreeTransfer"] boolValue];
+    
+    return indicativePrice;
 }
 
 -(NSMutableArray*) parseTransitItineraries:(NSArray *) itinerariesResponse
@@ -585,6 +609,8 @@
     segment.isMajor = (isMajor == 1) ? YES : NO;
     
     NSArray *itinerariesResponse = [segmentResponse objectForKey:@"itineraries"];
+    
+    segment.indicativePrice = [self parseIndicativePrice:[segmentResponse objectForKey:@"indicativePrice"]];
     
     segment.itineraries = [self parseFlightItineraries:itinerariesResponse];
     

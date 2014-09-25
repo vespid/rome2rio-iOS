@@ -25,6 +25,7 @@
 		5E241EA3165C680400D44710 /* R2RMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E241EA2165C680400D44710 /* R2RMapViewController.m */; };
 		5E2438431635123F0044C8AD /* externalLinkIconGray.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E2438421635123F0044C8AD /* externalLinkIconGray.png */; };
 		5E3A083516AFAEEC006A4934 /* bg-retina.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E3A083416AFAEEB006A4934 /* bg-retina.jpg */; };
+		5E42F4BA19C6D1C8007796A0 /* Rome2rio_Logo_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E42F4B919C6D1C8007796A0 /* Rome2rio_Logo_white.png */; };
 		5E5AA3C5162E2E8F00055720 /* R2RDuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3C4162E2E8F00055720 /* R2RDuration.m */; };
 		5E5AA3D6162E89D900055720 /* R2RMapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3D5162E89D900055720 /* R2RMapHelper.m */; };
 		5E5AA3DB162F854B00055720 /* R2RPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3D8162F854900055720 /* R2RPath.m */; };
@@ -33,6 +34,7 @@
 		5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */; };
 		5E6FAD99186130CA007B6D5B /* R2RSearchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6FAD98186130CA007B6D5B /* R2RSearchButton.m */; };
 		5E8726811862B10500F56BE0 /* rome2rio_globe_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E8726801862B10500F56BE0 /* rome2rio_globe_120.png */; };
+		5E88679619CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E88679419CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png */; };
 		5E8DB4E516129D7500756321 /* R2RSegmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4E416129D7400756321 /* R2RSegmentHelper.m */; };
 		5E8DB4FD1616985F00756321 /* R2RSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4FC1616985E00756321 /* R2RSprite.m */; };
 		5E8DB50316192C6400756321 /* R2RFlightSegmentSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB50216192C6400756321 /* R2RFlightSegmentSectionHeader.m */; };
@@ -106,8 +108,10 @@
 		5ED65EB21622AB94008E064F /* r2r-retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ED65EAE1622AB94008E064F /* r2r-retina.png */; };
 		5ED962CF163FBFC000B258F8 /* rome2rio_globe_57g.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ED962CE163FBFC000B258F8 /* rome2rio_globe_57g.png */; };
 		5ED962D2163FBFCB00B258F8 /* rome2rio_globe_114g.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ED962D1163FBFCB00B258F8 /* rome2rio_globe_114g.png */; };
+		5EDBB1DC19D26BC600AED04F /* R2RIndicativePrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDBB1DB19D26BC600AED04F /* R2RIndicativePrice.m */; };
 		5EDEDCBC161E79960005CADD /* R2RAgency.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDEDCBB161E79960005CADD /* R2RAgency.m */; };
 		5EDEDCBF161E7A200005CADD /* R2RTransitLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EDEDCBE161E7A200005CADD /* R2RTransitLine.m */; };
+		5EEAB38719C7D325001A210F /* Rome2rio_Logo_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EEAB38619C7D325001A210F /* Rome2rio_Logo_white@2x.png */; };
 		5EF40B7A16C21820008A90E4 /* R2RSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF40B7916C21820008A90E4 /* R2RSerializer.m */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +142,7 @@
 		5E241EA2165C680400D44710 /* R2RMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMapViewController.m; sourceTree = "<group>"; };
 		5E2438421635123F0044C8AD /* externalLinkIconGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = externalLinkIconGray.png; sourceTree = "<group>"; };
 		5E3A083416AFAEEB006A4934 /* bg-retina.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "bg-retina.jpg"; sourceTree = "<group>"; };
+		5E42F4B919C6D1C8007796A0 /* Rome2rio_Logo_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rome2rio_Logo_white.png; sourceTree = "<group>"; };
 		5E5AA3C3162E2E8F00055720 /* R2RDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RDuration.h; sourceTree = "<group>"; };
 		5E5AA3C4162E2E8F00055720 /* R2RDuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RDuration.m; sourceTree = "<group>"; };
 		5E5AA3D4162E89D800055720 /* R2RMapHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = R2RMapHelper.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -154,6 +159,7 @@
 		5E6FAD97186130CA007B6D5B /* R2RSearchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearchButton.h; sourceTree = "<group>"; };
 		5E6FAD98186130CA007B6D5B /* R2RSearchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchButton.m; sourceTree = "<group>"; };
 		5E8726801862B10500F56BE0 /* rome2rio_globe_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rome2rio_globe_120.png; sourceTree = "<group>"; };
+		5E88679419CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rome2rio_2_0_sprites@2x.png"; sourceTree = "<group>"; };
 		5E8DB4E316129D7400756321 /* R2RSegmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSegmentHelper.h; sourceTree = "<group>"; };
 		5E8DB4E416129D7400756321 /* R2RSegmentHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSegmentHelper.m; sourceTree = "<group>"; };
 		5E8DB4FB1616985C00756321 /* R2RSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSprite.h; sourceTree = "<group>"; };
@@ -285,11 +291,14 @@
 		5ED65EAE1622AB94008E064F /* r2r-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "r2r-retina.png"; sourceTree = "<group>"; };
 		5ED962CE163FBFC000B258F8 /* rome2rio_globe_57g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rome2rio_globe_57g.png; path = ../../rome2rio_globe_57g.png; sourceTree = "<group>"; };
 		5ED962D1163FBFCB00B258F8 /* rome2rio_globe_114g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rome2rio_globe_114g.png; path = ../../rome2rio_globe_114g.png; sourceTree = "<group>"; };
+		5EDBB1DA19D26BC600AED04F /* R2RIndicativePrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RIndicativePrice.h; sourceTree = "<group>"; };
+		5EDBB1DB19D26BC600AED04F /* R2RIndicativePrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RIndicativePrice.m; sourceTree = "<group>"; };
 		5EDEDCBA161E79960005CADD /* R2RAgency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RAgency.h; sourceTree = "<group>"; };
 		5EDEDCBB161E79960005CADD /* R2RAgency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RAgency.m; sourceTree = "<group>"; };
 		5EDEDCBD161E7A1F0005CADD /* R2RTransitLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RTransitLine.h; sourceTree = "<group>"; };
 		5EDEDCBE161E7A200005CADD /* R2RTransitLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RTransitLine.m; sourceTree = "<group>"; };
 		5EEA1BDD16FFF62D000E0C22 /* Rome2Rio.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rome2Rio.geojson; sourceTree = SOURCE_ROOT; };
+		5EEAB38619C7D325001A210F /* Rome2rio_Logo_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rome2rio_Logo_white@2x.png"; sourceTree = "<group>"; };
 		5EF40B7816C21820008A90E4 /* R2RSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSerializer.h; sourceTree = "<group>"; };
 		5EF40B7916C21820008A90E4 /* R2RSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSerializer.m; sourceTree = "<group>"; };
 		5EFDB666161D672800209AA7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -411,6 +420,8 @@
 				5ED4B3851601D07000E9FE42 /* R2RFlightTicketSet.m */,
 				5ED4B3881601D07000E9FE42 /* R2RGeocodeResponse.h */,
 				5ED4B3891601D07000E9FE42 /* R2RGeocodeResponse.m */,
+				5EDBB1DA19D26BC600AED04F /* R2RIndicativePrice.h */,
+				5EDBB1DB19D26BC600AED04F /* R2RIndicativePrice.m */,
 				5E5AA3D7162F854800055720 /* R2RPath.h */,
 				5E5AA3D8162F854900055720 /* R2RPath.m */,
 				5ED4B38E1601D07000E9FE42 /* R2RPlace.h */,
@@ -444,6 +455,9 @@
 		5ED4B36C1601D07000E9FE42 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5E88679419CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png */,
+				5EEAB38619C7D325001A210F /* Rome2rio_Logo_white@2x.png */,
+				5E42F4B919C6D1C8007796A0 /* Rome2rio_Logo_white.png */,
 				5EB94E5816B2120D00E8F954 /* fullscreen1.png */,
 				5EB94E5916B2120D00E8F954 /* fullscreen2.png */,
 				5ED962D1163FBFCB00B258F8 /* rome2rio_globe_114g.png */,
@@ -605,7 +619,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = R2R;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = Rome2Rio;
 				TargetAttributes = {
 					5ED4B3461601D01C00E9FE42 = {
@@ -642,13 +656,16 @@
 				5E1BE0251623DDD5002F7CBB /* rome2rio_globe_114.png in Resources */,
 				5E1BE02B1623DFE8002F7CBB /* Default-568h@2x.png in Resources */,
 				5E1BE02D1623F4F1002F7CBB /* targetIcon_orange.png in Resources */,
+				5EEAB38719C7D325001A210F /* Rome2rio_Logo_white@2x.png in Resources */,
 				5E1BE0A316253A6A002F7CBB /* Home_Icon_White@2x.png in Resources */,
 				5E2438431635123F0044C8AD /* externalLinkIconGray.png in Resources */,
+				5E42F4BA19C6D1C8007796A0 /* Rome2rio_Logo_white.png in Resources */,
 				5ED962CF163FBFC000B258F8 /* rome2rio_globe_57g.png in Resources */,
 				5ED962D2163FBFCB00B258F8 /* rome2rio_globe_114g.png in Resources */,
 				5EB4AE201666E65D009E65BE /* sprites6x2.png in Resources */,
 				5EB4AE26166830A0009E65BE /* GrabTransparent1.png in Resources */,
 				5EB4AE2C16685A9E009E65BE /* Home_Icon_White.png in Resources */,
+				5E88679619CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png in Resources */,
 				5EB02F77166C3BA4009C0A6C /* Localizable.strings in Resources */,
 				5EB02F7C166ECDFA009C0A6C /* ConnectionLines-v2.png in Resources */,
 				5E3A083516AFAEEC006A4934 /* bg-retina.jpg in Resources */,
@@ -741,6 +758,7 @@
 				5EB91A16165EFB8E0015C0A1 /* R2RAnnotation.m in Sources */,
 				5EB02F7A166C6666009C0A6C /* R2RAppRater.m in Sources */,
 				5EF40B7A16C21820008A90E4 /* R2RSerializer.m in Sources */,
+				5EDBB1DC19D26BC600AED04F /* R2RIndicativePrice.m in Sources */,
 				5E10152716C324ED0035D60B /* R2RTransitSchedulesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -778,9 +796,11 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -813,10 +833,12 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rome2rio Pty Ltd";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

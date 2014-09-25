@@ -10,6 +10,6 @@
 
 @implementation R2RRoute
 
-@synthesize segments;
+@synthesize segments, indicativePrice;
 
 @end

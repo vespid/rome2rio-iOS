@@ -10,6 +10,6 @@
 
 @implementation R2RFlightSegment
 
-@synthesize kind, distance, duration, sCode, tCode, itineraries, isMajor;
+@synthesize kind, distance, duration, sCode, tCode, itineraries, isMajor, indicativePrice;
 
 @end

@@ -16,3 +16,4 @@ profile
 *.developerprofile
 *.ipa
 .DS_Store
+*.xcf

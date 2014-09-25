@@ -85,9 +85,6 @@
     [self.statusButton addTarget:self action:@selector(statusButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.statusButton];
     
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableView.tableFooterView = footer;
-    
     [self.view sendSubviewToBack:self.mapView];
     
     // set default to show grabBar in footer
@@ -214,15 +211,15 @@
     [cell.resultDurationLabel setText:[R2RStringFormatter formatDuration:route.duration]];
     
     NSInteger iconCount = 0;
-    float xOffset = 0;
     NSString *prevSegmentKind = @"";
+    NSMutableArray *spriteList = [[NSMutableArray alloc] initWithCapacity:MAX_ICONS];
     for (id segment in route.segments)
     {
         if (iconCount >= MAX_ICONS) break;
         
         if ([segmentHandler getSegmentIsMajor:segment])
         {
-            NSString *segmentKind = [segmentHandler getSegmentKind:segment];
+            NSString *segmentKind = [segmentHandler getSegmentSubkind:segment];
             
             if (iconCount > 0)
             {
@@ -231,25 +228,38 @@
                     continue;
             }
             
-            UIImageView *iconView = [cell.icons objectAtIndex:iconCount];
+            R2RSprite *sprite = [segmentHandler getRouteSprite:segmentKind];
             
-            if (xOffset == 0)
-            {
-                xOffset = iconView.frame.origin.x;
-            }
-            
-            R2RSprite *sprite = [segmentHandler getSegmentResultSprite:segment];
-            
-            CGRect iconFrame = CGRectMake(xOffset, iconView.frame.origin.y, sprite.size.width/2, sprite.size.height/2);
-            [iconView setFrame:iconFrame];
-            
-            [self.searchStore.spriteStore setSpriteInView:sprite view:iconView];
-            
-            xOffset = iconView.frame.origin.x + iconView.frame.size.width + 7; //xPos of next icon
+            [spriteList addObject:sprite];
             
             prevSegmentKind = segmentKind;
             iconCount++;
         }
+    }
+    
+    if (route.indicativePrice.currency != NULL)
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [formatter setMaximumFractionDigits:0];
+        [formatter setCurrencyCode:route.indicativePrice.currency];
+        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: route.indicativePrice.price]];
+        [cell.resultPriceLabel setText:priceString];
+        [cell.resultPriceLabel setHidden:false];
+    }
+    else
+    {
+        [cell.resultPriceLabel setHidden:true];
+    }
+    
+    for (int i = 0; i < iconCount; i++)
+    {
+        R2RSprite *sprite = [spriteList objectAtIndex:i];
+        
+        int spritePos = iconCount - 1 - i;
+        UIImageView *iconView = [cell.icons objectAtIndex:spritePos];
+        
+        [self.searchStore.spriteStore setSpriteInView:sprite view:iconView];
     }
     
     cell.iconCount = iconCount;
@@ -501,7 +511,6 @@
     self.toAnnotationDidMove = NO;
     
     self.searchButton.hidden = YES;
-//    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
 -(void)reloadDataDidFinish
@@ -590,36 +599,23 @@
 
 -(void) setMapFrame
 {
-    //get the frame of the table section
-    CGRect sectionFrame = [self.tableView rectForSection:0];
-    
     CGRect viewFrame = self.view.frame;
     CGRect mapFrame = self.mapView.frame;
-    
-    if (sectionFrame.size.height < (viewFrame.size.height/3))
+   
+    if (self.tableView.frame.size.height < (viewFrame.size.height/3))
     {
         //set map to fill remaining screen space
-        int height = (viewFrame.size.height - sectionFrame.size.height);
+        int height = (viewFrame.size.height - self.tableView.frame.size.height);
         mapFrame.size.height = height;
-        
-        //set the table footer to 0
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
-        self.tableView.tableFooterView = footer;
-        
-        //set map position to below section
-        mapFrame.origin.y = sectionFrame.size.height;
     }
     else
     {
         //set map to default height
         mapFrame.size.height = viewFrame.size.height*2/3;
-        
-        //set table footer
-        [self setTableFooterWithGrabBar];
-        
-        //set map position to below footer
-        mapFrame.origin.y = sectionFrame.size.height + self.tableView.tableFooterView.frame.size.height;
     }
+    
+    //set map position to below footer
+    mapFrame.origin.y = self.tableView.frame.size.height;
     
     //set map frame to new size and position
     [self.mapView setFrame:mapFrame];
@@ -675,11 +671,6 @@
     [footer addSubview:imageView];
     
     self.tableView.tableFooterView = footer;
-    
-    // added footer height to table frame
-    CGRect tableFrame = self.tableView.frame;
-    tableFrame.size.height += footer.frame.size.height;
-    [self.tableView setFrame:tableFrame];
 }
 
 -(void) configureMap

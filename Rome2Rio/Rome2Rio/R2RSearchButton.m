@@ -14,15 +14,15 @@
 - (void)initButton
 {
     self.layer.borderWidth = 1;
-    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.layer.borderColor = [R2RConstants getButtonHighlightColor].CGColor;
     self.layer.cornerRadius = 8;
     self.layer.masksToBounds = YES;
     
-    self.backgroundColor = [R2RConstants getCellColor];
+    self.backgroundColor = [R2RConstants getButtonHighlightColor];
     
     if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
     {
-        [self setTitleColor:[R2RConstants getButtonHighlightColor] forState:UIControlStateHighlighted];
+        [self setTitleColor:[R2RConstants getButtonHighlightDarkerColor] forState:UIControlStateHighlighted];
     }
 }
 
