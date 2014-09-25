@@ -21,11 +21,11 @@
         self.hops = initHops;
         if (self.hops == 1)
         {
-            self.name = @"Direct Flights";
+            self.name = NSLocalizedString(@"Direct Flights", nil);
         }
         else
         {
-            self.name = [NSString stringWithFormat:@"%d stopover flights", self.hops-1];
+            self.name = [NSString stringWithFormat:NSLocalizedString(@"%d stopover flights", nil), self.hops-1];
         }
     }
     return self;

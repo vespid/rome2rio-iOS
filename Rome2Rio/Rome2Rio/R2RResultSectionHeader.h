@@ -10,8 +10,6 @@
 
 @interface R2RResultSectionHeader : UIView
 
-@property (strong, nonatomic) UILabel *joinerLabel;
-@property (strong, nonatomic) UILabel *fromLabel;
-@property (strong, nonatomic) UILabel *toLabel;
+@property (strong, nonatomic) UILabel *titleLabel;
 
 @end

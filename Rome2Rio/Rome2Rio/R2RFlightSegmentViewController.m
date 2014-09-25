@@ -84,9 +84,12 @@
     NSString *from = [[NSString alloc] initWithString:self.flightSegment.sCode];
     NSString *to = [[NSString alloc] initWithString:self.flightSegment.tCode];
 
-    [header.fromLabel setText:from];
-   
-    [header.toLabel setText:to];
+    NSString *routeString = [NSString stringWithFormat:NSLocalizedString(@"%@ to %@", nil), from, to];
+    NSMutableAttributedString *coloredRouteString = [[NSMutableAttributedString alloc] initWithString:routeString];
+    [coloredRouteString addAttribute:NSForegroundColorAttributeName value:[R2RConstants getButtonHighlightColor] range:NSMakeRange(0,from.length)];
+    [coloredRouteString addAttribute:NSForegroundColorAttributeName value:[R2RConstants getButtonHighlightColor] range:NSMakeRange(routeString.length-to.length,to.length)];
+    
+    header.routeLabel.attributedText = coloredRouteString;
     
     return header;
 }

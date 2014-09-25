@@ -309,60 +309,15 @@
 -(void) refreshResultsViewTitle
 {
     
-    NSString *from;
-    if (self.searchStore.fromPlace)
-    {
-        from = self.searchStore.fromPlace.shortName;
-    }
-    else
-    {
-        from = NSLocalizedString(@"finding", nil);
-    }
-    NSString *to;
-    if (self.searchStore.toPlace)
-    {
-        to = self.searchStore.toPlace.shortName;
-    }
-    else
-    {
-        to = NSLocalizedString(@"finding", nil);
-    }
-    
-    NSString *joiner = NSLocalizedString(@" to ", nil);
-    CGSize joinerSize = [joiner sizeWithFont:[UIFont systemFontOfSize:17.0]];
-    joinerSize.width += 2;
-    CGSize fromSize = [from sizeWithFont:[UIFont systemFontOfSize:17.0]];
-    CGSize toSize = [to sizeWithFont:[UIFont systemFontOfSize:17.0]];
-    
-    NSInteger viewWidth = self.view.bounds.size.width;
-    NSInteger fromWidth = fromSize.width;
-    NSInteger toWidth = toSize.width;
-    
-    if (fromSize.width+joinerSize.width+toSize.width > viewWidth)
-    {
-        fromWidth = (fromSize.width/(fromSize.width+toSize.width))*(viewWidth-joinerSize.width);
-        toWidth = (toSize.width/(fromSize.width+toSize.width))*(viewWidth-joinerSize.width);
-    }
-    
-    CGRect fromFrame = self.header.fromLabel.frame;
-    fromFrame.size.width = fromWidth;
-    fromFrame.origin.x = (viewWidth-(fromWidth+joinerSize.width+toWidth))/2;
-    [self.header.fromLabel setFrame:fromFrame];
-    
-    CGRect joinerFrame = self.header.joinerLabel.frame;
-    joinerFrame.size.width = joinerSize.width;
-    joinerFrame.origin.x = fromFrame.origin.x + fromFrame.size.width;
-    [self.header.joinerLabel setFrame:joinerFrame];
-    
-    CGRect toFrame = self.header.toLabel.frame;
-    toFrame.size.width = toWidth;
-    toFrame.origin.x = joinerFrame.origin.x + joinerFrame.size.width;
-    [self.header.toLabel setFrame:toFrame];
-    
-    [self.header.fromLabel setText:from];
-    [self.header.toLabel setText:to];
-    [self.header.joinerLabel setText:joiner];
-    
+    NSString *from = (self.searchStore.fromPlace) ? self.searchStore.fromPlace.shortName: NSLocalizedString(@"finding", nil);
+    NSString *to = (self.searchStore.toPlace) ? self.searchStore.toPlace.shortName: NSLocalizedString(@"finding", nil);
+
+    NSMutableString *title = [NSMutableString stringWithFormat:NSLocalizedString(@"%@ to %@", nil), from, to];
+    NSMutableAttributedString *coloredTitle = [[NSMutableAttributedString alloc] initWithString:title];
+    [coloredTitle addAttribute:NSForegroundColorAttributeName value:[R2RConstants getButtonHighlightColor] range:NSMakeRange(0,from.length)];
+    [coloredTitle addAttribute:NSForegroundColorAttributeName value:[R2RConstants getButtonHighlightColor] range:NSMakeRange(title.length-to.length,to.length)];
+
+    self.header.titleLabel.attributedText = coloredTitle;
 }
 
 -(void) refreshTitle:(NSNotification *) notification

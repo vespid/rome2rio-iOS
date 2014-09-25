@@ -18,37 +18,14 @@
     {
         [self setBackgroundColor:[R2RConstants getBackgroundColor]];
         
-        NSString *joiner = @" to ";
-        CGSize joinerSize = [joiner sizeWithFont:[UIFont systemFontOfSize:17.0]];
-        
-        joinerSize.width += 2; //make slightly wider
-        CGRect rect = CGRectMake((self.bounds.size.width/2)-(joinerSize.width/2), 5, joinerSize.width, 25);
-        
-        self.joinerLabel = [[UILabel alloc] initWithFrame:rect];
-        [self.joinerLabel setTextAlignment:NSTextAlignmentCenter];
-        [self.joinerLabel setBackgroundColor:[UIColor clearColor]];
-        [self.joinerLabel setText:joiner];
-        [self.joinerLabel setTextColor:[R2RConstants getLightTextColor]];
-        [self addSubview:self.joinerLabel];
-        
-        rect = CGRectMake(0, 5, (self.bounds.size.width/2)-(joinerSize.width/2), 25);
-        self.fromLabel = [[UILabel alloc] initWithFrame:rect];
-        [self.fromLabel setTextAlignment:NSTextAlignmentRight];
-        [self.fromLabel setBackgroundColor:[UIColor clearColor]];
-        [self.fromLabel setTextColor:[R2RConstants getButtonHighlightColor]];
-        [self.fromLabel setMinimumFontSize:10.0];
-        [self.fromLabel setAdjustsFontSizeToFitWidth:YES];
-        [self addSubview:self.fromLabel];
-        
-        rect = CGRectMake((self.bounds.size.width/2)+(joinerSize.width/2), 5, (self.bounds.size.width/2)-(joinerSize.width/2), 25);
-        self.toLabel = [[UILabel alloc] initWithFrame:rect];
-        [self.toLabel setTextAlignment:NSTextAlignmentLeft];
-        [self.toLabel setBackgroundColor:[UIColor clearColor]];
-        [self.toLabel setTextColor:[R2RConstants getButtonHighlightColor]];
-        [self.toLabel setMinimumFontSize:10.0];
-        [self.toLabel setAdjustsFontSizeToFitWidth:YES];
-        [self addSubview:self.toLabel];
-        
+        CGRect rect = CGRectMake(10, 5, self.bounds.size.width - 10, 25);
+        self.titleLabel = [[UILabel alloc] initWithFrame:rect];
+        [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
+        [self.titleLabel setTextColor:[R2RConstants getLightTextColor]];
+        [self.titleLabel setBackgroundColor:[UIColor clearColor]];
+        [self.titleLabel setMinimumFontSize:10.0];
+        [self.titleLabel setAdjustsFontSizeToFitWidth:YES];
+        [self addSubview:self.titleLabel];
     }
     return self;
 }
