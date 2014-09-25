@@ -56,10 +56,10 @@
     
     //adjust text boc size above default 31
     CGRect frame = self.fromTextField.frame;
-    frame.size.height = 35;
+    frame.size.height = 40;
     self.fromTextField.frame = frame;
     frame = self.toTextField.frame;
-    frame.size.height = 35;
+    frame.size.height = 40;
     self.toTextField.frame = frame;
     
     self.fromTextField.placeholder = NSLocalizedString(@"Origin", nil);
