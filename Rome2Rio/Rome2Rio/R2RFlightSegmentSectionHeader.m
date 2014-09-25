@@ -29,7 +29,7 @@
         [self.routeLabel setTextAlignment:NSTextAlignmentCenter];
         [self.routeLabel setTextColor:[R2RConstants getLightTextColor]];
         [self.routeLabel setBackgroundColor:[UIColor clearColor]];
-        [self.routeLabel setMinimumFontSize:10.0];
+        [self.routeLabel setMinimumScaleFactor:0.6];
         [self.routeLabel setAdjustsFontSizeToFitWidth:YES];
         [self addSubview:self.routeLabel];
     

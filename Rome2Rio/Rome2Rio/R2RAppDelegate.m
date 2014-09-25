@@ -84,7 +84,7 @@
         
         UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
         
-        [navigationController dismissModalViewControllerAnimated:NO];
+        [navigationController dismissViewControllerAnimated:NO completion:nil];
         [navigationController popToRootViewControllerAnimated:NO];
         
         R2RMasterViewController *firstViewController = (R2RMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];

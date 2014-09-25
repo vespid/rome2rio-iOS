@@ -45,7 +45,7 @@
     
     self.agencyNameLabel = [[UILabel alloc] initWithFrame:rect];
     [self.agencyNameLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.agencyNameLabel setMinimumFontSize:10.0];
+    [self.agencyNameLabel setMinimumScaleFactor:0.6];
     [self.agencyNameLabel setAdjustsFontSizeToFitWidth:YES];
     [self.agencyNameLabel setBackgroundColor:[UIColor clearColor]];
     [self.agencyNameLabel setTextColor:[R2RConstants getDarkTextColor]];

@@ -42,7 +42,7 @@
     
     CGRect rect = CGRectMake(15, 5, self.bounds.size.width-100, 25);
     self.resultDescripionLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.resultDescripionLabel setMinimumFontSize:10.0];
+    [self.resultDescripionLabel setMinimumScaleFactor:0.6];
     [self.resultDescripionLabel setAdjustsFontSizeToFitWidth:YES];
     [self.resultDescripionLabel setBackgroundColor:[UIColor clearColor]];
     [self.resultDescripionLabel setTextColor:[R2RConstants getDarkTextColor]];
@@ -53,7 +53,7 @@
     [self.resultDurationLabel setTextAlignment:NSTextAlignmentLeft];
     [self.resultDurationLabel setFont:[UIFont systemFontOfSize:10.0]];
     [self.resultDurationLabel setBackgroundColor:[UIColor clearColor]];
-    [self.resultDurationLabel setMinimumFontSize:10.0];
+    [self.resultDurationLabel setMinimumScaleFactor:0.6];
     [self.resultDurationLabel setAdjustsFontSizeToFitWidth:YES];
     [self.resultDurationLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.resultDurationLabel];
@@ -63,7 +63,7 @@
     [self.resultPriceLabel setTextAlignment:NSTextAlignmentRight];
     [self.resultPriceLabel setFont:[UIFont systemFontOfSize:15.0]];
     [self.resultPriceLabel setBackgroundColor:[UIColor clearColor]];
-    [self.resultPriceLabel setMinimumFontSize:10.0];
+    [self.resultPriceLabel setMinimumScaleFactor:0.6];
     [self.resultPriceLabel setAdjustsFontSizeToFitWidth:YES];
     [self.resultPriceLabel setTextColor:[R2RConstants getButtonHighlightColor]];
     [self addSubview:self.resultPriceLabel];

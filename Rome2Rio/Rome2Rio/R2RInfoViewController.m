@@ -100,7 +100,7 @@
 
 - (IBAction)showMasterView:(id)sender
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)shareByEmail:(id)sender

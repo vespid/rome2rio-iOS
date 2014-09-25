@@ -343,7 +343,7 @@
     {
         [self.searchManager setToWithCurrentLocation];
     }
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) placeClicked:(R2RPlace *) place;
@@ -360,7 +360,7 @@
     // store place
     [self setUserPlace:place];
     
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar

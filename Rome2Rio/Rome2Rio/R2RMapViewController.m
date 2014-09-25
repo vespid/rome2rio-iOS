@@ -138,12 +138,12 @@
         [self.searchManager setToWithMapLocation:self.toAnnotation.coordinate mapScale:mapScale];
     }
 
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)returnToSearch:(id)sender
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)showPressAnnotation:(UILongPressGestureRecognizer *)gestureRecognizer

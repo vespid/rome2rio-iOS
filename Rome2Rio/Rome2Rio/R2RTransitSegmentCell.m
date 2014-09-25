@@ -43,7 +43,7 @@
     CGRect rect = CGRectMake(paddingX, 5, self.bounds.size.width - (2*paddingX), 25);
     self.fromLabel = [[UILabel alloc] initWithFrame:rect];
     [self.fromLabel setTextAlignment:NSTextAlignmentLeft];
-    [self.fromLabel setMinimumFontSize:10.0];
+    [self.fromLabel setMinimumScaleFactor:0.6];
     [self.fromLabel setAdjustsFontSizeToFitWidth:YES];
     [self.fromLabel setBackgroundColor:[UIColor clearColor]];
     [self.fromLabel setTextColor:[R2RConstants getDarkTextColor]];
@@ -52,7 +52,7 @@
     rect = CGRectMake(paddingX, 55, self.bounds.size.width - (2*paddingX), 25);
     self.toLabel = [[UILabel alloc] initWithFrame:rect];
     [self.toLabel setTextAlignment:NSTextAlignmentLeft];
-    [self.toLabel setMinimumFontSize:10.0];
+    [self.toLabel setMinimumScaleFactor:0.6];
     [self.toLabel setAdjustsFontSizeToFitWidth:YES];
     [self.toLabel setBackgroundColor:[UIColor clearColor]];
     [self.toLabel setTextColor:[R2RConstants getDarkTextColor]];
@@ -66,7 +66,7 @@
     self.durationLabel = [[UILabel alloc] initWithFrame:rect];
     [self.durationLabel setTextAlignment:NSTextAlignmentCenter];
     [self.durationLabel setTextColor:[R2RConstants getLightTextColor]];
-    [self.durationLabel setMinimumFontSize:10.0];
+    [self.durationLabel setMinimumScaleFactor:0.6];
     [self.durationLabel setAdjustsFontSizeToFitWidth:YES];
     [self.durationLabel setBackgroundColor:[UIColor clearColor]];
     [self addSubview:self.durationLabel];
@@ -74,7 +74,7 @@
     rect = CGRectMake(paddingX+indent, 55, self.bounds.size.width - (2*paddingX)-indent, 25);
     self.lineLabel = [[UILabel alloc] initWithFrame:rect];
     [self.lineLabel setTextAlignment:NSTextAlignmentLeft];
-    [self.lineLabel setMinimumFontSize:10.0];
+    [self.lineLabel setMinimumScaleFactor:0.6];
     [self.lineLabel setAdjustsFontSizeToFitWidth:YES];
     [self.lineLabel setBackgroundColor:[UIColor clearColor]];
     [self.lineLabel setTextColor:[R2RConstants getLightTextColor]];

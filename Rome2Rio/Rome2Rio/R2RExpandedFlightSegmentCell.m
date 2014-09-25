@@ -150,7 +150,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:rect];
         [label setTextAlignment:NSTextAlignmentLeft];
         [label setBackgroundColor:[UIColor clearColor]];
-        [label setMinimumFontSize:10.0];
+        [label setMinimumScaleFactor:0.6];
         [label setAdjustsFontSizeToFitWidth:YES];
         [label setTextColor:[R2RConstants getLightTextColor]];
         [self.layoverNameLabels addObject:label];

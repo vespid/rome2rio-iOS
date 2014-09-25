@@ -18,7 +18,7 @@
     {
         self.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
         self.titleLabel.textAlignment = NSTextAlignmentLeft;
-        [self.titleLabel setMinimumFontSize:10.0];
+        [self.titleLabel setMinimumScaleFactor:0.6];
         [self.titleLabel setAdjustsFontSizeToFitWidth:YES];
         
         self.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);

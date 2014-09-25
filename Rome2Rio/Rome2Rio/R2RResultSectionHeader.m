@@ -23,7 +23,7 @@
         [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
         [self.titleLabel setTextColor:[R2RConstants getLightTextColor]];
         [self.titleLabel setBackgroundColor:[UIColor clearColor]];
-        [self.titleLabel setMinimumFontSize:10.0];
+        [self.titleLabel setMinimumScaleFactor:0.6];
         [self.titleLabel setAdjustsFontSizeToFitWidth:YES];
         [self addSubview:self.titleLabel];
     }
