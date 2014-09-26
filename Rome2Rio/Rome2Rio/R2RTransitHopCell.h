@@ -11,6 +11,7 @@
 @interface R2RTransitHopCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *hopLabel;
+@property (weak, nonatomic) IBOutlet UILabel *hopPrice;
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UIImageView *connectTop;
 @property (strong, nonatomic) UIImageView *connectBottom;

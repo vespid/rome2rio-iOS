@@ -154,7 +154,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 37;//default height for route cell
+    if (indexPath.row % 2 == 0)
+    {
+        return 37;//default height for route cell
+    }
+    else
+    {
+        return 54;
+    }
 }
 
 -(NSString*) getCellIdentifier:(id) segment
@@ -257,6 +264,21 @@
     sprite = [segmentHandler getRouteSprite:segment.kind];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
+    if (segment.indicativePrice.currency != NULL)
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [formatter setMaximumFractionDigits:0];
+        [formatter setCurrencyCode:segment.indicativePrice.currency];
+        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: segment.indicativePrice.price]];
+        [cell.hopPrice setText:priceString];
+        [cell.hopPrice setHidden:false];
+    }
+    else
+    {
+        [cell.hopPrice setHidden:true];
+    }
+    
     return cell;
 }
 
@@ -278,6 +300,21 @@
     sprite = [segmentHandler getRouteSprite:segment.kind];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
+    if (segment.indicativePrice.currency != NULL)
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [formatter setMaximumFractionDigits:0];
+        [formatter setCurrencyCode:segment.indicativePrice.currency];
+        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: segment.indicativePrice.price]];
+        [cell.hopPrice setText:priceString];
+        [cell.hopPrice setHidden:false];
+    }
+    else
+    {
+        [cell.hopPrice setHidden:true];
+    }
+    
     return cell;
 }
 
@@ -295,6 +332,20 @@
     sprite = [segmentHandler getRouteSprite:segment.kind];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
+    if (segment.indicativePrice.currency != NULL)
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [formatter setMaximumFractionDigits:0];
+        [formatter setCurrencyCode:segment.indicativePrice.currency];
+        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: segment.indicativePrice.price]];
+        [cell.hopPrice setText:priceString];
+        [cell.hopPrice setHidden:false];
+    }
+    else
+    {
+        [cell.hopPrice setHidden:true];
+    }
     
     return cell;
 }

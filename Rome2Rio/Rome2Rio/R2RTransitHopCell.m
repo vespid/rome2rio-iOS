@@ -10,7 +10,7 @@
 
 @implementation R2RTransitHopCell
 
-@synthesize hopLabel, connectTop, connectBottom, icon;
+@synthesize hopLabel, hopPrice, connectTop, connectBottom, icon;
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
@@ -40,16 +40,16 @@
 
 - (void) initSubviews
 {
+    int cellHeight = 54; // needs to match DetailViewController heightForRowAtIndexPath
     
-    self.connectTop = [[UIImageView alloc] initWithFrame:CGRectMake(25, 0, 6, self.contentView.bounds.size.height/2)];
+    self.connectTop = [[UIImageView alloc] initWithFrame:CGRectMake(25, 0, 6, cellHeight/2)];
     [self.contentView addSubview:connectTop];
     
-    self.connectBottom = [[UIImageView alloc] initWithFrame:CGRectMake(25, self.contentView.bounds.size.height/2, 6, self.contentView.bounds.size.height/2)];
+    self.connectBottom = [[UIImageView alloc] initWithFrame:CGRectMake(25, cellHeight/2, 6, cellHeight/2)];
     [self.contentView addSubview:connectBottom];
     
-    self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(16, self.contentView.bounds.size.height/2-12, 24, 24)];
+    self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(16, cellHeight/2-12, 24, 24)];
     [self.contentView addSubview:icon];
-
 }
 
 @end
