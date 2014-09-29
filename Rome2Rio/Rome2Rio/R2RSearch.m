@@ -385,7 +385,10 @@
 //            R2RLog(@"unknown segment kind or error%@", @"." );
         }
         
-        [segments addObject:segment];
+        if (segment != nil)
+        {
+            [segments addObject:segment];
+        }
         
     }
     
@@ -398,6 +401,7 @@
     
     segment.kind = [segmentResponse objectForKey:@"kind"];
     segment.subkind = [segmentResponse objectForKey:@"subkind"];
+    segment.vehicle = [segmentResponse objectForKey:@"vehicle"];
     segment.distance = [[segmentResponse objectForKey:@"distance"] floatValue];
     segment.duration = [[segmentResponse objectForKey:@"duration"] floatValue];
 

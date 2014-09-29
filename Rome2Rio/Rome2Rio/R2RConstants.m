@@ -211,7 +211,7 @@
 
 +(UIColor *)getBackgroundColor
 {
-    return [UIColor colorWithWhite:242/255.0 alpha:1.0];
+    return [UIColor colorWithWhite:224/255.0 alpha:1.0];
 //    return [UIColor colorWithRed:224.0/255.0 green:224.0/255.0 blue:224.0/255.0 alpha:1.0];
 }
 
@@ -223,7 +223,7 @@
 
 +(UIColor *)getCellColor
 {
-    return [UIColor colorWithWhite:224/255.0 alpha:1.0];
+    return [UIColor colorWithWhite:242/255.0 alpha:1.0];
 //    return [UIColor colorWithRed:254.0/255.0 green:248.0/255.0 blue:244.0/255.0 alpha:1.0];
 }
 

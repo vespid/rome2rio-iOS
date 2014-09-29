@@ -28,7 +28,6 @@
 -(id) initWithData: (R2RSearchStore *) dataStore;
 
 -(R2RSprite *) getRouteSprite:(NSString *) kind;
-//-(R2RSprite *) getSegmentResultSprite:(id) segment;
 -(R2RSprite *) getConnectionSprite: (id) segment;
 
 -(BOOL) getSegmentIsMajor:(id) segment;

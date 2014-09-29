@@ -10,6 +10,6 @@
 
 @implementation R2RWalkDriveSegment
 
-@synthesize kind, subkind, distance, duration, sName, sPos, tName, tPos, path, isMajor, isImperial, indicativePrice;
+@synthesize kind, subkind, vehicle, distance, duration, sName, sPos, tName, tPos, path, isMajor, isImperial, indicativePrice;
 
 @end

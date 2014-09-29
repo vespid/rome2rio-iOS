@@ -11,11 +11,14 @@
 
 @interface R2RStringFormatter : NSObject
 
-+(NSString *) formatFlightHopCellDescriptionWithMinutes:(float) minutes stops:(NSInteger) stops;
-+(NSString *) formatTransitHopDescriptionWithMinutes:(float) minutes changes:(NSInteger) changes frequency:(float) frequency vehicle:(NSString *) vehicle line:(NSString *) line;
-+(NSString *) formatWalkDriveHopCellDescriptionWithMinutes:(float) minutes distance:(float) distance isImperial:(bool) isImperial kind:(NSString *) kind;
-+(NSString *) formatTransitHopVehicle: (NSString *) vehicle;
++(NSString *) formatFlightHopCellDuration:(float) minutes;
++(NSString *) formatFlightHopCellStops:(NSInteger) stops;
++(NSString *) formatTransitHopCellDuration:(float) minutes changes:(NSInteger) changes vehicle:(NSString *) vehicle line:(NSString *) line;
++(NSString *) formatTransitHopCellFrequency:(float) frequency;
++(NSString *) formatWalkDriveHopCellDuration:(float) minutes vehicle:(NSString *) vehicle;
++(NSString *) formatWalkDriveHopCellDistance:(float) distance isImperial:(bool) isImperial;
 
++(NSString *) formatTransitHopVehicle: (NSString *) vehicle;
 +(NSString *) formatDuration: (float) minutes;
 +(NSString *) formatDurationZeroPadded: (float) minutes;
 +(NSString *) formatFrequency: (float) frequency;

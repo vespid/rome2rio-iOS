@@ -10,7 +10,7 @@
 
 @implementation R2RTransitHopCell
 
-@synthesize hopLabel, hopPrice, connectTop, connectBottom, icon;
+@synthesize hopLabel, hopPrice, hopFrequency, connectTop, connectBottom, icon;
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {

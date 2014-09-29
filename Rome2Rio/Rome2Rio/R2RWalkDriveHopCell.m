@@ -10,7 +10,7 @@
 
 @implementation R2RWalkDriveHopCell
 
-@synthesize hopLabel, hopPrice, connectTop, connectBottom, icon;
+@synthesize hopLabel, hopPrice, hopDistance, connectTop, connectBottom, icon;
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {

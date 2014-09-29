@@ -18,19 +18,25 @@
     return nil;
 }
 
-+(NSString *) formatFlightHopCellDescriptionWithMinutes:(float) minutes stops:(NSInteger) stops
+#pragma mark - Multi label descriptions
++(NSString *)formatFlightHopCellDuration:(float)minutes
 {
-    return [NSString stringWithFormat:@"%@ by plane, %@", [R2RStringFormatter formatDuration:minutes], [R2RStringFormatter formatStopovers:stops]];
+    return [NSString stringWithFormat:@"%@ by plane", [R2RStringFormatter formatDuration:minutes]];
 }
 
-+(NSString *) formatTransitHopDescriptionWithMinutes:(float) minutes changes:(NSInteger) changes frequency:(float) frequency vehicle:(NSString *) vehicle line:(NSString *) line
++(NSString *)formatFlightHopCellStops:(NSInteger)stops
+{
+    return [R2RStringFormatter formatStopovers:stops];
+}
+
++(NSString *)formatTransitHopCellDuration:(float)minutes changes:(NSInteger)changes vehicle:(NSString *)vehicle line:(NSString *)line
 {
     if (changes == 0)
     {
         if ([line length] > 0)
-            return [NSString stringWithFormat:@"%@ by %@ %@, %@", [R2RStringFormatter formatDuration:minutes], line, vehicle, [R2RStringFormatter formatFrequency:frequency]];
+            return [NSString stringWithFormat:@"%@ by %@ %@", [R2RStringFormatter formatDuration:minutes], line, vehicle];
         else
-            return [NSString stringWithFormat:@"%@ by %@, %@", [R2RStringFormatter formatDuration:minutes], vehicle, [R2RStringFormatter formatFrequency:frequency]];
+            return [NSString stringWithFormat:@"%@ by %@", [R2RStringFormatter formatDuration:minutes], vehicle];
     }
     else if (changes == 1)
     {
@@ -43,19 +49,25 @@
     return nil;
 }
 
-+(NSString *) formatWalkDriveHopCellDescriptionWithMinutes:(float) minutes distance:(float) distance isImperial:(bool)isImperial kind:(NSString *)kind
++(NSString *)formatTransitHopCellFrequency:(float)frequency
 {
-    if ([kind isEqualToString:@"walk"])
-    {
-        return [NSString stringWithFormat:@"%@ by foot, %@", [self formatDuration:minutes], [self formatDistance:distance isImperial:isImperial]];
-    }
-    else
-    {
-        return [NSString stringWithFormat:@"%@ by car, %@", [self formatDuration:minutes], [self formatDistance:distance isImperial:isImperial]];
-    }
+    NSString *frequencyString = [R2RStringFormatter formatFrequency:frequency];
     
+    // Uppercase first letter
+    return [[[frequencyString substringToIndex:1] uppercaseString] stringByAppendingString:[frequencyString substringFromIndex:1]];
 }
 
++(NSString *)formatWalkDriveHopCellDuration:(float)minutes vehicle:(NSString *)vehicle
+{
+    return [NSString stringWithFormat:@"%@ by %@", [self formatDuration:minutes], vehicle];
+}
+
++(NSString *)formatWalkDriveHopCellDistance:(float)distance isImperial:(bool)isImperial
+{
+    return [self formatDistance:distance isImperial:isImperial];
+}
+
+#pragma mark - Helpers
 +(NSString *) formatDuration: (float) minutes
 {
     R2RDuration *duration = [[R2RDuration alloc] initWithMinutes:minutes];
@@ -243,7 +255,7 @@
 {
     if (stops == 0)
     {
-        return @"non-stop";
+        return @"Non-stop";
     }
     else if (stops == 1)
     {

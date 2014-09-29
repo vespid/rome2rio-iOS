@@ -22,6 +22,7 @@
 		5E1BE02B1623DFE8002F7CBB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EFDB666161D672800209AA7 /* Default-568h@2x.png */; };
 		5E1BE02D1623F4F1002F7CBB /* targetIcon_orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E1BE02C1623F4F1002F7CBB /* targetIcon_orange.png */; };
 		5E1BE0A316253A6A002F7CBB /* Home_Icon_White@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E1BE0A216253A6A002F7CBB /* Home_Icon_White@2x.png */; };
+		5E23E66219D919E60060FAA6 /* Rome2rio_2_0_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E23E66119D919E60060FAA6 /* Rome2rio_2_0_lines.png */; };
 		5E241EA3165C680400D44710 /* R2RMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E241EA2165C680400D44710 /* R2RMapViewController.m */; };
 		5E2438431635123F0044C8AD /* externalLinkIconGray.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E2438421635123F0044C8AD /* externalLinkIconGray.png */; };
 		5E3A083516AFAEEC006A4934 /* bg-retina.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E3A083416AFAEEB006A4934 /* bg-retina.jpg */; };
@@ -138,6 +139,7 @@
 		5E1BE02C1623F4F1002F7CBB /* targetIcon_orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = targetIcon_orange.png; sourceTree = "<group>"; };
 		5E1BE0A216253A6A002F7CBB /* Home_Icon_White@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Icon_White@2x.png"; sourceTree = "<group>"; };
 		5E1E21D31627C64F00763152 /* R2RLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = R2RLog.h; path = ../../Rome2Rio/Rome2Rio/R2RLog.h; sourceTree = "<group>"; };
+		5E23E66119D919E60060FAA6 /* Rome2rio_2_0_lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rome2rio_2_0_lines.png; sourceTree = "<group>"; };
 		5E241EA1165C680400D44710 /* R2RMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RMapViewController.h; sourceTree = "<group>"; };
 		5E241EA2165C680400D44710 /* R2RMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RMapViewController.m; sourceTree = "<group>"; };
 		5E2438421635123F0044C8AD /* externalLinkIconGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = externalLinkIconGray.png; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 		5ED4B36C1601D07000E9FE42 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5E23E66119D919E60060FAA6 /* Rome2rio_2_0_lines.png */,
 				5E88679419CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png */,
 				5EEAB38619C7D325001A210F /* Rome2rio_Logo_white@2x.png */,
 				5E42F4B919C6D1C8007796A0 /* Rome2rio_Logo_white.png */,
@@ -658,6 +661,7 @@
 				5E1BE02D1623F4F1002F7CBB /* targetIcon_orange.png in Resources */,
 				5EEAB38719C7D325001A210F /* Rome2rio_Logo_white@2x.png in Resources */,
 				5E1BE0A316253A6A002F7CBB /* Home_Icon_White@2x.png in Resources */,
+				5E23E66219D919E60060FAA6 /* Rome2rio_2_0_lines.png in Resources */,
 				5E2438431635123F0044C8AD /* externalLinkIconGray.png in Resources */,
 				5E42F4BA19C6D1C8007796A0 /* Rome2rio_Logo_white.png in Resources */,
 				5ED962CF163FBFC000B258F8 /* rome2rio_globe_57g.png in Resources */,

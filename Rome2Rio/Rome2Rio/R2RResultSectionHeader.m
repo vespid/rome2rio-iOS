@@ -21,7 +21,7 @@
         CGRect rect = CGRectMake(10, 5, self.bounds.size.width - 10, 25);
         self.titleLabel = [[UILabel alloc] initWithFrame:rect];
         [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
-        [self.titleLabel setTextColor:[R2RConstants getLightTextColor]];
+        [self.titleLabel setTextColor:[R2RConstants getDarkTextColor]];
         [self.titleLabel setBackgroundColor:[UIColor clearColor]];
         [self.titleLabel setMinimumScaleFactor:0.6];
         [self.titleLabel setAdjustsFontSizeToFitWidth:YES];

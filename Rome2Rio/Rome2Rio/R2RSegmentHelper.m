@@ -218,7 +218,7 @@
     {
         return [R2RConstants getRouteHelicopterSpriteRect];
     }
-    else if ([kind isEqualToString:@"train"])
+    else if ([kind isEqualToString:@"train"] || [kind isEqualToString:@"subway"])
     {
         return [R2RConstants getRouteTrainSpriteRect];
     }
@@ -263,19 +263,6 @@
         return [R2RConstants getRouteUnknownSpriteRect];
     }
 }
-
-//-(R2RSprite *) getSegmentResultSprite:(id)segment
-//{
-//    NSString *kind = [self getSegmentKind:segment];
-//    return [self getResultSprite:kind];
-//}
-//
-//-(R2RSprite *) getResultSprite:(NSString *)kind
-//{
-//    CGRect rect = [self getResultIconRect:kind];
-//    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :rect.origin :rect.size];
-//    return sprite;
-//}
 
 -(R2RSprite *) getRouteSprite:(NSString *)kind
 {
@@ -349,23 +336,23 @@
 
 -(R2RSprite *)getConnectionSprite:(id)segment
 {
-    NSString *kind = [self getSegmentKind:segment];
+    NSString *kind = [self getSegmentSubkind:segment];
     
-    if ([kind isEqualToString:@"flight"])
+    if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"helicopter"])
     {
         CGPoint offset = CGPointMake(0, 0);
         CGSize size = CGSizeMake(10, 50);
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
-    if ([kind isEqualToString:@"train"])
+    if ([kind isEqualToString:@"train"] || [kind isEqualToString:@"tram"] || [kind isEqualToString:@"cablecar"] || [kind isEqualToString:@"subway"])
     {
         CGPoint offset = CGPointMake(10, 0);
         CGSize size = CGSizeMake(10, 50);
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
-    else if ([kind isEqualToString:@"bus"])
+    else if ([kind isEqualToString:@"bus"] || [kind isEqualToString:@"busferry"] || [kind isEqualToString:@"shuttle"])
     {
         CGPoint offset = CGPointMake(20, 0);
         CGSize size = CGSizeMake(10, 50);
@@ -379,14 +366,21 @@
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
-    else if ([kind isEqualToString:@"ferry"])
+    else if ([kind isEqualToString:@"taxi"])
+    {
+        CGPoint offset = CGPointMake(70, 0);
+        CGSize size = CGSizeMake(10, 50);
+        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+        return sprite;
+    }
+    else if ([kind isEqualToString:@"ferry"] || [kind isEqualToString:@"carferry"])
     {
         CGPoint offset = CGPointMake(40, 0);
         CGSize size = CGSizeMake(10, 50);
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
-    else if ([kind isEqualToString:@"walk"])
+    else if ([kind isEqualToString:@"walk"] || [kind isEqualToString:@"animal"] || [kind isEqualToString:@"rideshare"])
     {
         CGPoint offset = CGPointMake(60, 0);
         CGSize size = CGSizeMake(10, 50);

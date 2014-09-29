@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *hopLabel;
 @property (weak, nonatomic) IBOutlet UILabel *hopPrice;
+@property (weak, nonatomic) IBOutlet UILabel *hopDistance;
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UIImageView *connectTop;
 @property (strong, nonatomic) UIImageView *connectBottom;

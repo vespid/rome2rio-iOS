@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) NSString *kind;
 @property (strong, nonatomic) NSString *subkind;
+@property (strong, nonatomic) NSString *vehicle;
 @property (nonatomic) float distance;
 @property (nonatomic) float duration;
 @property (strong, nonatomic) NSString *sName;

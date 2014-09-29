@@ -11,7 +11,7 @@
 
 @implementation R2RFlightHopCell
 
-@synthesize hopLabel, hopPrice, connectTop, connectBottom, icon;
+@synthesize hopLabel, hopPrice, hopStops, connectTop, connectBottom, icon;
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
