@@ -122,13 +122,6 @@
         transitLine = [[R2RTransitLine alloc] init];
     }
     
-    CGSize iconSize = CGSizeMake(27, 23);
-    NSInteger iconPadding = 5;
-    NSInteger startX = 15;
-    
-    rect = CGRectMake(startX, 9, iconSize.width, iconSize.height);
-    [header.agencyIconView setFrame:rect];
-    
     R2RAgency *agency  = [self.searchStore getAgency:transitLine.agency];
     
     NSString *agencyName = agency.name;
@@ -137,33 +130,46 @@
         agencyName = [R2RStringFormatter capitaliseFirstLetter:transitLine.vehicle];
     }
     
+    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
+    
     if ([agency.iconPath length] == 0)
     {
-        //allow for smaller icon
-        iconSize = CGSizeMake(18, 18);
-        iconPadding = 9;
-        startX = 19;
-        rect = CGRectMake(startX, 11, iconSize.width, iconSize.height);
-        
+        CGSize iconSize = CGSizeMake(24, 24);
+        NSInteger startX = 19;
+        rect = CGRectMake(startX, 5, iconSize.width, iconSize.height);
         [header.agencyIconView setFrame:rect];
-        R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
         
-        R2RSprite *sprite = [segmentHandler getRouteSprite:transitSegment.kind];
+        R2RSprite *sprite = [segmentHandler getRouteSprite:[segmentHandler getSegmentSubkind:transitSegment]];
+        
         [self.searchStore.spriteStore setSpriteInView:sprite view:header.agencyIconView];
     }
     else
     {
+        CGSize iconSize = CGSizeMake(27, 23);
+        NSInteger startX = 15;
+        rect = CGRectMake(startX, 6, iconSize.width, iconSize.height);
+        [header.agencyIconView setFrame:rect];
+        
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:agency.iconPath :agency.iconOffset :agency.iconSize];
         [self.searchStore.spriteStore setSpriteInView:sprite view:header.agencyIconView];
     }
     
-    rect = CGRectMake(startX + iconSize.width + iconPadding, 8, 280-(startX + iconSize.width + iconPadding), 25);
-    
-    [header.agencyNameLabel setFrame:rect];
     [header.agencyNameLabel setText:agencyName];
     
-//    [header.linkButton setImage:[UIImage imageNamed:@"externalLinkIconGray"] forState:UIControlStateNormal];
-//    [header.linkButton addTarget:self action:@selector(showLinkMenu) forControlEvents:UIControlEventTouchUpInside];
+    if (transitSegment.indicativePrice.currency != NULL)
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [formatter setMaximumFractionDigits:0];
+        [formatter setCurrencyCode:transitSegment.indicativePrice.currency];
+        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: transitSegment.indicativePrice.price]];
+        [header.segmentPrice setText:priceString];
+        [header.segmentPrice setHidden:false];
+    }
+    else
+    {
+        [header.segmentPrice setHidden:true];
+    }
     
     return header;
 }
@@ -314,11 +320,11 @@
     
     if ([lineLabel length] == 0)
     {
-        rowHeight = 90;
+        rowHeight = 95;
     }
     else
     {
-        rowHeight = 115;
+        rowHeight = 120;
     }
     
     //if last row in section

@@ -11,7 +11,7 @@
 
 @implementation R2RTransitSegmentHeader
 
-@synthesize agencyIconView, agencyNameLabel;
+@synthesize agencyIconView, agencyNameLabel, segmentPrice;
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -36,24 +36,29 @@
 
 -(void) initSubviews
 {
-    CGRect rect = CGRectMake(20, 5, 20, 20);
+    CGRect rect = CGRectMake(19, 5, 24, 24);
     
     self.agencyIconView = [[UIImageView alloc] initWithFrame:rect];
     [self addSubview:self.agencyIconView];
     
-    rect = CGRectMake(50, 8, 200, 25);
+    rect = CGRectMake(55, 6, 170, 25);
     
     self.agencyNameLabel = [[UILabel alloc] initWithFrame:rect];
-    [self.agencyNameLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.agencyNameLabel setTextAlignment:NSTextAlignmentLeft];
     [self.agencyNameLabel setMinimumScaleFactor:0.6];
     [self.agencyNameLabel setAdjustsFontSizeToFitWidth:YES];
     [self.agencyNameLabel setBackgroundColor:[UIColor clearColor]];
     [self.agencyNameLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.agencyNameLabel];
 
-    rect = CGRectMake(280, 8, 27, 23);
-    self.linkButton = [[UIButton alloc] initWithFrame:rect];
-    [self addSubview:self.linkButton];
+    rect = CGRectMake(230, 6, 75, 25);
+    self.segmentPrice = [[UILabel alloc] initWithFrame:rect];
+    [self.segmentPrice setTextAlignment:NSTextAlignmentRight];
+    [self.segmentPrice setMinimumScaleFactor:0.6];
+    [self.segmentPrice setAdjustsFontSizeToFitWidth:YES];
+    [self.segmentPrice setBackgroundColor:[UIColor clearColor]];
+    [self.segmentPrice setTextColor:[R2RConstants getButtonHighlightColor]];
+    [self addSubview:self.segmentPrice];
     
 }
 

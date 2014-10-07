@@ -229,12 +229,14 @@
 
 +(UIColor *)getDarkTextColor
 {
-    return [UIColor colorWithWhite:112/255.0 alpha:1.0];
+    return [UIColor colorWithWhite:0.2 alpha:1.0];
+//    return [UIColor colorWithWhite:112/255.0 alpha:1.0];
 }
 
 +(UIColor *)getLightTextColor
 {
-    return [UIColor colorWithWhite:165/255.0 alpha:1.0];
+    return [UIColor colorWithWhite:112/255.0 alpha:1.0];
+//    return [UIColor colorWithWhite:165/255.0 alpha:1.0];
 }
 
 + (UIColor *)getButtonHighlightColor

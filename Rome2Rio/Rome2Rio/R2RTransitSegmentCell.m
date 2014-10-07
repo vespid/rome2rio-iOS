@@ -81,11 +81,11 @@
     [self.lineLabel setHidden:YES];
     [self addSubview:self.lineLabel];
     
-    rect = CGRectMake(self.bounds.size.width - 15 - 100, 80, 100, 25);
-    self.schedulesButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    rect = CGRectMake(self.bounds.size.width - 10 - 100, 80, 100, 25);
+    self.schedulesButton = [R2RSearchButton buttonWithType:UIButtonTypeRoundedRect];
     [self.schedulesButton setFrame:rect];
     self.schedulesButton.tintColor = [R2RConstants getButtonHighlightColor];
-    [self.schedulesButton setTitleColor:[R2RConstants getDarkTextColor] forState:UIControlStateNormal];
+    [self.schedulesButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.schedulesButton setTitle:NSLocalizedString(@"Schedules", nil)  forState:UIControlStateNormal];
     self.schedulesButton.hidden = YES;
     [self addSubview:self.schedulesButton];

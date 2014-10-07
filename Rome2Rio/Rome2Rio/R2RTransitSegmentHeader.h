@@ -12,6 +12,6 @@
 
 @property (strong, nonatomic) UIImageView *agencyIconView;
 @property (strong, nonatomic) UILabel *agencyNameLabel;
-@property (strong, nonatomic) UIButton *linkButton;
+@property (strong, nonatomic) UILabel *segmentPrice;
 
 @end
