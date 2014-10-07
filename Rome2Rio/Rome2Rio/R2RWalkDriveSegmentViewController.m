@@ -17,6 +17,7 @@
 #import "R2RMapHelper.h"
 #import "R2RAnnotation.h"
 #import "R2RPressAnnotationView.h"
+#import "R2RTransitSegmentHeader.h"
 
 
 @interface R2RWalkDriveSegmentViewController ()
@@ -103,8 +104,54 @@
     return 1;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (![self.walkDriveSegment.subkind isEqualToString:@"taxi"])
+    {
+        return [[UIView alloc]initWithFrame:CGRectZero];
+    }
+    
+    CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, 35);
+    
+    R2RTransitSegmentHeader *header = [[R2RTransitSegmentHeader alloc] initWithFrame:rect];
+    
+    CGSize iconSize = CGSizeMake(24, 24);
+    NSInteger startX = 19;
+    rect = CGRectMake(startX, 6, iconSize.width, iconSize.height);
+    [header.agencyIconView setFrame:rect];
+    
+    R2RSprite *sprite = [R2RSegmentHelper getRouteSprite:[R2RSegmentHelper getSegmentSubkind:self.walkDriveSegment]];
+    
+    [self.searchStore.spriteStore setSpriteInView:sprite view:header.agencyIconView];
+    
+    [header.agencyNameLabel setHidden:true];
+    
+    if (self.walkDriveSegment.indicativePrice.currency != NULL)
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [formatter setMaximumFractionDigits:0];
+        [formatter setCurrencyCode:self.walkDriveSegment.indicativePrice.currency];
+        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: self.walkDriveSegment.indicativePrice.price]];
+        [header.segmentPrice setText:priceString];
+        [header.segmentPrice setHidden:false];
+    }
+    else
+    {
+        [header.segmentPrice setHidden:true];
+    }
+    
+    return header;
+    
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if ([self.walkDriveSegment.subkind isEqualToString:@"taxi"])
+    {
+        return 35;
+    }
+    
     return 10;
 }
 
