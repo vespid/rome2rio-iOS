@@ -49,12 +49,14 @@
 +(UIColor *) getDarkTextColor;
 +(UIColor *) getButtonHighlightColor;
 +(UIColor *) getButtonHighlightDarkerColor;
-+(UIColor *) getFlightLineColor;
-+(UIColor *) getBusLineColor;
-+(UIColor *) getTrainLineColor;
-+(UIColor *) getFerryLineColor;
-+(UIColor *) getDriveLineColor;
-+(UIColor *) getWalkLineColor;
++(UIColor *) getFlightColor;
++(UIColor *) getBusColor;
++(UIColor *) getTrainColor;
++(UIColor *) getFerryColor;
++(UIColor *) getDriveColor;
++(UIColor *) getTaxiColor;
++(UIColor *) getUnknownColor;
++(UIColor *) getWalkColor;
 
 
 

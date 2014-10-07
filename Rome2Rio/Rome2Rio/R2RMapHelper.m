@@ -43,16 +43,14 @@
 -(MKMapRect)getSegmentBounds:(id)segment
 {
     MKMapRect rect = MKMapRectNull;
-    
-    R2RSegmentHelper *segmentHelper = [[R2RSegmentHelper alloc] initWithData:self.dataStore];
-    
-    MKMapPoint sPoint = MKMapPointFromPosition([segmentHelper getSegmentSPos:segment]);
+        
+    MKMapPoint sPoint = MKMapPointFromPosition([R2RSegmentHelper getSegmentSPos:segment store:self.dataStore]);
     rect = MKMapRectGrow(rect, sPoint);
     
-    MKMapPoint tPoint = MKMapPointFromPosition([segmentHelper getSegmentTPos:segment]);
+    MKMapPoint tPoint = MKMapPointFromPosition([R2RSegmentHelper getSegmentTPos:segment store:self.dataStore]);
     rect = MKMapRectGrow(rect, tPoint);
     
-    NSString *pathString = [segmentHelper getSegmentPath:segment];
+    NSString *pathString = [R2RSegmentHelper getSegmentPath:segment];
     if (pathString.length > 0)
     {
         R2RPath *path = [R2RPathEncoder decode:pathString];
@@ -256,31 +254,18 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
 //return an array containing a polyline for each hop
 -(NSArray *) getPolylines:(id) segment;
 {
-    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
-    NSString *kind = [segmentHandler getSegmentKind:segment];
-    if ([kind isEqualToString:@"flight"])
+    
+    if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
-        return  [self getFlightPolylines:segment];
+        return [self getWalkDriveSegmentPolylines:segment];
     }
-    else if ([kind isEqualToString:@"train"])
+    else if([segment isKindOfClass:[R2RTransitSegment class]])
     {
-        return [self getTrainPolylines:segment];
+        return [self getTransitSegmentPolylines:segment];
     }
-    else if ([kind isEqualToString:@"bus"])
+    else if([segment isKindOfClass:[R2RFlightSegment class]])
     {
-        return [self getBusPolylines:segment];
-    }
-    else if ([kind isEqualToString:@"ferry"])
-    {
-        return [self getFerryPolylines:segment];
-    }
-    else if ([kind isEqualToString:@"car"])
-    {
-        return [self getDrivePolylines:segment];
-    }
-    else if ([kind isEqualToString:@"walk"])
-    {
-        return [self getWalkPolylines:segment];
+        return  [self getFlightSegmentPolylines:segment];
     }
     else
     {
@@ -288,7 +273,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     }
 }
 
--(NSArray *) getFlightPolylines: (R2RFlightSegment *) segment
+-(NSArray *) getFlightSegmentPolylines: (R2RFlightSegment *) segment
 {
     R2RFlightItinerary *itinerary = [segment.itineraries objectAtIndex:0];
     R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
@@ -318,7 +303,8 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
             points[0] = MKMapPointForCoordinate(sPos);
             points[1] = MKMapPointForCoordinate(mPos);
             
-            R2RFlightPolyline *polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:2];
+            R2RSegmentPolyline *polyline = [R2RSegmentPolyline polylineWithPoints:points count:2];
+            polyline.subkind = [R2RSegmentHelper getSegmentSubkind:segment];
             [array addObject:polyline];
             
             // add polyline for edge of map to target
@@ -327,7 +313,8 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
             points[0] = MKMapPointForCoordinate(mPos);
             points[1] = MKMapPointForCoordinate(tPos);
             
-            polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:2];
+            polyline = [R2RSegmentPolyline polylineWithPoints:points count:2];
+            polyline.subkind = [R2RSegmentHelper getSegmentSubkind:segment];
             [array addObject:polyline];
         }
         else
@@ -336,7 +323,8 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
             points[0] = MKMapPointForCoordinate(sPos);
             points[1] = MKMapPointForCoordinate(tPos);
             
-            R2RFlightPolyline *polyline = (R2RFlightPolyline *)[R2RFlightPolyline polylineWithPoints:points count:2];
+            R2RSegmentPolyline *polyline = [R2RSegmentPolyline polylineWithPoints:points count:2];
+            polyline.subkind = [R2RSegmentHelper getSegmentSubkind:segment];
             [array addObject:polyline];
         }
     }
@@ -344,7 +332,7 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
     return array;
 }
 
--(NSArray *) getTrainPolylines: (R2RTransitSegment *) segment
+-(NSArray *) getTransitSegmentPolylines: (R2RTransitSegment *) segment
 {
     R2RPath *path = [R2RPathEncoder decode:segment.path];
     
@@ -356,13 +344,15 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         points[count++] = MKMapPointFromPosition(pos);
     }
     
-    R2RTrainPolyline *polyline = (R2RTrainPolyline *)[R2RTrainPolyline polylineWithPoints:points count:count];
+    R2RSegmentPolyline *polyline = [R2RSegmentPolyline polylineWithPoints:points count:count];
+    polyline.subkind = [R2RSegmentHelper getSegmentSubkind:segment];
+    
     NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
     
     return array;
 }
 
--(NSArray *) getBusPolylines: (R2RTransitSegment *) segment
+-(NSArray *) getWalkDriveSegmentPolylines:(R2RWalkDriveSegment *) segment
 {
     R2RPath *path = [R2RPathEncoder decode:segment.path];
     
@@ -374,96 +364,29 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
         points[count++] = MKMapPointFromPosition(pos);
     }
     
-    R2RBusPolyline *polyline = (R2RBusPolyline *)[R2RBusPolyline polylineWithPoints:points count:count];
+    R2RSegmentPolyline *polyline = [R2RSegmentPolyline polylineWithPoints:points count:count];
+    polyline.subkind = [R2RSegmentHelper getSegmentSubkind:segment];
+    
     NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
     
     return array;
 }
 
--(NSArray *) getFerryPolylines: (R2RTransitSegment *) segment
-{
-    R2RPath *path = [R2RPathEncoder decode:segment.path];
-    
-    MKMapPoint points[[path.positions count]];
-    NSUInteger count = 0;
-    
-    for (R2RPosition *pos in path.positions)
-    {
-        points[count++] = MKMapPointFromPosition(pos);
-    }
-    
-    R2RFerryPolyline *polyline = (R2RFerryPolyline *)[R2RFerryPolyline polylineWithPoints:points count:count];
-    NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
-    
-    return array;
-}
 
--(NSArray *) getDrivePolylines:(R2RWalkDriveSegment *) segment
+-(id)getPolylineView:(R2RSegmentPolyline *)segmentPolyline
 {
-    R2RPath *path = [R2RPathEncoder decode:segment.path];
+    MKPolylineView *polylineView = [[MKPolylineView alloc] initWithPolyline:segmentPolyline];
     
-    MKMapPoint points[[path.positions count]];
-    NSUInteger count = 0;
+    UIColor *color = [R2RSegmentHelper getSegmentColorWithKind:segmentPolyline.subkind];
     
-    for (R2RPosition *pos in path.positions)
-    {
-        points[count++] = MKMapPointFromPosition(pos);
-    }
+    polylineView.strokeColor = [color colorWithAlphaComponent:0.8];
     
-    R2RDrivePolyline *polyline = (R2RDrivePolyline *)[R2RDrivePolyline polylineWithPoints:points count:count];
-    NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
-    
-    return array;
-}
-
--(NSArray *) getWalkPolylines:(R2RWalkDriveSegment *) segment
-{
-    R2RPath *path = [R2RPathEncoder decode:segment.path];
-    
-    MKMapPoint points[[path.positions count]];
-    NSUInteger count = 0;
-    
-    for (R2RPosition *pos in path.positions)
-    {
-        points[count++] = MKMapPointFromPosition(pos);
-    }
-    
-    R2RWalkPolyline *polyline = (R2RWalkPolyline *)[R2RWalkPolyline polylineWithPoints:points count:count];
-    NSArray *array = [[NSArray alloc] initWithObjects:polyline, nil];
-    
-    return array;
-}
-
--(id)getPolylineView:(id)polyline
-{
-    if ([polyline isKindOfClass:[R2RFlightPolyline class]])
-    {
-        return [[R2RFlightPolylineView alloc] initWithPolyline:polyline];
-    }
-    else if ([polyline isKindOfClass:[R2RBusPolyline class]])
-    {
-        return [[R2RBusPolylineView alloc] initWithPolyline:polyline];
-    }
-    else if ([polyline isKindOfClass:[R2RTrainPolyline class]])
-    {
-        return [[R2RTrainPolylineView alloc] initWithPolyline:polyline];
-    }
-    else if ([polyline isKindOfClass:[R2RFerryPolyline class]])
-    {
-        return [[R2RFerryPolylineView alloc] initWithPolyline:polyline];
-    }
-    else if ([polyline isKindOfClass:[R2RDrivePolyline class]])
-    {
-        return [[R2RDrivePolylineView alloc] initWithPolyline:polyline];
-    }
-    else if ([polyline isKindOfClass:[R2RWalkPolyline class]])
-    {
-        return [[R2RWalkPolylineView alloc] initWithPolyline:polyline];
-    }
+    if ([[UIScreen mainScreen] scale] < 2.0)
+        polylineView.lineWidth = 5;
     else
-    {
-        return [[MKPolylineView alloc] initWithPolyline:polyline];
-    }
+        polylineView.lineWidth = 10;
+    
+    return polylineView;
 }
 
 -(id)getAnnotationView:(MKMapView *)mapView annotation:(R2RAnnotation *)annotation
@@ -807,144 +730,8 @@ static MKMapRect MKMapRectGrow(MKMapRect rect, MKMapPoint point)
 @end
 
 
-@implementation R2RFlightPolyline
+@implementation R2RSegmentPolyline
 
-@end
-
-
-@implementation R2RBusPolyline
-
-@end
-
-
-@implementation R2RTrainPolyline
-
-@end
-
-
-@implementation R2RFerryPolyline
-
-@end
-
-
-@implementation R2RDrivePolyline
-
-@end
-
-@implementation R2RWalkPolyline
-
-@end
-
-
-@implementation R2RFlightPolylineView
-
--(id) initWithPolyline:(MKPolyline *)polyline
-{
-    self = [super initWithPolyline:polyline];
-    if (self)
-    { 
-        self.strokeColor = [R2RConstants getFlightLineColor];
-        if ([[UIScreen mainScreen] scale] < 2.0)
-            self.lineWidth = 5;
-        else
-            self.lineWidth = 10;
-    }
-    return self;
-}
-
-@end
-
-@implementation R2RBusPolylineView
-
--(id) initWithPolyline:(MKPolyline *)polyline
-{
-    self = [super initWithPolyline:polyline];
-    if (self)
-    {
-        self.strokeColor = [R2RConstants getBusLineColor];
-        if ([[UIScreen mainScreen] scale] < 2.0)
-            self.lineWidth = 5;
-        else
-            self.lineWidth = 10;
-    }
-    return self;
-}
-
-@end
-
-
-@implementation R2RTrainPolylineView
-
--(id) initWithPolyline:(MKPolyline *)polyline
-{
-    self = [super initWithPolyline:polyline];
-    if (self)
-    {
-        self.strokeColor = [R2RConstants getTrainLineColor];
-        if ([[UIScreen mainScreen] scale] < 2.0)
-            self.lineWidth = 5;
-        else
-            self.lineWidth = 10;
-    }
-    return self;
-}
-
-@end
-
-
-@implementation R2RFerryPolylineView
-
--(id) initWithPolyline:(MKPolyline *)polyline
-{
-    self = [super initWithPolyline:polyline];
-    if (self)
-    {
-        self.strokeColor = [R2RConstants getFerryLineColor];
-        if ([[UIScreen mainScreen] scale] < 2.0)
-            self.lineWidth = 5;
-        else
-            self.lineWidth = 10;
-    }
-    return self;
-}
-
-@end
-
-
-@implementation R2RDrivePolylineView
-
--(id) initWithPolyline:(MKPolyline *)polyline
-{
-    self = [super initWithPolyline:polyline];
-    if (self)
-    {
-        if ([[UIScreen mainScreen] scale] < 2.0)
-            self.lineWidth = 5;
-        else
-            self.lineWidth = 10;
-        
-        self.strokeColor = [R2RConstants getDriveLineColor];
-        
-    }
-    return self;
-}
-
-@end
-
-@implementation R2RWalkPolylineView
-
--(id) initWithPolyline:(MKPolyline *)polyline
-{
-    self = [super initWithPolyline:polyline];
-    if (self)
-    {
-        self.strokeColor = [R2RConstants getWalkLineColor];
-        if ([[UIScreen mainScreen] scale] < 2.0)
-            self.lineWidth = 5;
-        else
-            self.lineWidth = 10;
-    }
-    return self;
-}
+@synthesize subkind;
 
 @end

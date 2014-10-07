@@ -212,31 +212,26 @@
 +(UIColor *)getBackgroundColor
 {
     return [UIColor colorWithWhite:224/255.0 alpha:1.0];
-//    return [UIColor colorWithRed:224.0/255.0 green:224.0/255.0 blue:224.0/255.0 alpha:1.0];
 }
 
 +(UIColor *)getExpandedCellColor
 {
     return [UIColor colorWithWhite:1.0 alpha:1.0];
-//    return [UIColor colorWithRed:244.0/255.0 green:238.0/255.0 blue:234.0/255.0 alpha:1.0];
 }
 
 +(UIColor *)getCellColor
 {
     return [UIColor colorWithWhite:242/255.0 alpha:1.0];
-//    return [UIColor colorWithRed:254.0/255.0 green:248.0/255.0 blue:244.0/255.0 alpha:1.0];
 }
 
 +(UIColor *)getDarkTextColor
 {
     return [UIColor colorWithWhite:0.2 alpha:1.0];
-//    return [UIColor colorWithWhite:112/255.0 alpha:1.0];
 }
 
 +(UIColor *)getLightTextColor
 {
     return [UIColor colorWithWhite:112/255.0 alpha:1.0];
-//    return [UIColor colorWithWhite:165/255.0 alpha:1.0];
 }
 
 + (UIColor *)getButtonHighlightColor
@@ -249,34 +244,44 @@
     return [UIColor colorWithRed:197/255.0 green:0/255.0 blue:109/255.0 alpha:1.0];
 }
 
-+(UIColor *)getFlightLineColor
++(UIColor *)getFlightColor
 {
-    return [UIColor colorWithRed:4/255.0 green:201/255.0 blue:166/255.0 alpha:0.8];
+    return [UIColor colorWithRed:4/255.0 green:201/255.0 blue:166/255.0 alpha:1.0];
 }
 
-+(UIColor *)getBusLineColor
++(UIColor *)getBusColor
 {
-    return [UIColor colorWithRed:228/255.0 green:114/255.0 blue:37/255.0 alpha:0.8];
+    return [UIColor colorWithRed:228/255.0 green:114/255.0 blue:37/255.0 alpha:1.0];
 }
 
-+(UIColor *)getTrainLineColor
++(UIColor *)getTrainColor
 {
-    return [UIColor colorWithRed:115/255.0 green:66/255.0 blue:134/255.0 alpha:0.8];
+    return [UIColor colorWithRed:115/255.0 green:66/255.0 blue:134/255.0 alpha:1.0];
 }
 
-+(UIColor *)getFerryLineColor
++(UIColor *)getFerryColor
 {
-    return [UIColor colorWithRed:46/255.0 green:186/255.0 blue:211/255.0 alpha:0.8];
+    return [UIColor colorWithRed:46/255.0 green:186/255.0 blue:211/255.0 alpha:1.0];
 }
 
-+(UIColor *)getDriveLineColor
++(UIColor *)getDriveColor
 {
-    return [UIColor colorWithWhite:96/255.0 alpha:0.4];
+    return [UIColor colorWithWhite:96/255.0 alpha:1.0];
 }
 
-+(UIColor *)getWalkLineColor
++(UIColor *)getTaxiColor
 {
-    return [UIColor colorWithRed:224/255.0 green:4/255.0 blue:59/255.0 alpha:0.8];
+    return [UIColor colorWithRed:255/255.0 green:163/255.0 blue:0/255.0 alpha:1.0];
+}
+
++(UIColor *)getUnknownColor
+{
+    return [UIColor colorWithWhite:144/255.0 alpha:1.0];
+}
+
++(UIColor *)getWalkColor
+{
+    return [UIColor colorWithRed:224/255.0 green:4/255.0 blue:59/255.0 alpha:1.0];
 }
 
 @end

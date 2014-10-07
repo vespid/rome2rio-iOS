@@ -41,7 +41,7 @@
 {
     [super viewDidLoad];
     
-    NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:walkDriveSegment.kind];
+    NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:[R2RSegmentHelper getSegmentSubkind:walkDriveSegment]];
     self.navigationItem.title = NSLocalizedString(navigationTitle, nil);
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(navigateBack)];
@@ -113,9 +113,7 @@
     static NSString *CellIdentifier = @"WalkDriveSegmentCell";
     R2RWalkDriveSegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
-    
-    R2RSprite *sprite = [segmentHandler getRouteSprite:self.walkDriveSegment.kind];
+    R2RSprite *sprite = [R2RSegmentHelper getRouteSprite:[R2RSegmentHelper getSegmentSubkind: self.walkDriveSegment]];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.kindIcon];
     
     NSString *sName = self.walkDriveSegment.sName;

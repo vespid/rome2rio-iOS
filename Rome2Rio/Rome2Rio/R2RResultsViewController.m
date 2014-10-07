@@ -189,12 +189,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     R2RRoute *route = [self.searchStore.searchResponse.routes objectAtIndex:indexPath.row];
-    R2RSegmentHelper *segmentHandler  = [[R2RSegmentHelper alloc] init];
     NSString *CellIdentifier = @"ResultsCell";
     
     if ([route.segments count] == 1)
     {
-        NSString *kind = [segmentHandler getSegmentKind:[route.segments objectAtIndex:0]];
+        NSString *kind = [R2RSegmentHelper getSegmentKind:[route.segments objectAtIndex:0]];
         if ([kind isEqualToString:@"bus"] || [kind isEqualToString:@"train"] || [kind isEqualToString:@"ferry"])
         {
             CellIdentifier = @"ResultsCellTransit";
@@ -217,9 +216,9 @@
     {
         if (iconCount >= MAX_ICONS) break;
         
-        if ([segmentHandler getSegmentIsMajor:segment])
+        if ([R2RSegmentHelper getSegmentIsMajor:segment])
         {
-            NSString *segmentKind = [segmentHandler getSegmentSubkind:segment];
+            NSString *segmentKind = [R2RSegmentHelper getSegmentSubkind:segment];
             
             if (iconCount > 0)
             {
@@ -228,7 +227,7 @@
                     continue;
             }
             
-            R2RSprite *sprite = [segmentHandler getRouteSprite:segmentKind];
+            R2RSprite *sprite = [R2RSegmentHelper getRouteSprite:segmentKind];
             
             [spriteList addObject:sprite];
             

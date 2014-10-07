@@ -196,8 +196,6 @@
         [cell.nameLabel setText:stop.name];
     }
     
-    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
-    
     if (routeIndex == 0)
     {
         [cell.connectTop setHidden:YES];
@@ -205,7 +203,7 @@
     else
     {
         [cell.connectTop setHidden:NO];
-        R2RSprite *sprite = [segmentHandler getConnectionSprite:[self.route.segments objectAtIndex:routeIndex-1]];
+        R2RSprite *sprite = [R2RSegmentHelper getConnectionSprite:[self.route.segments objectAtIndex:routeIndex-1]];
         [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectTop];
     }
     
@@ -216,7 +214,7 @@
     else
     {
         [cell.connectBottom setHidden:NO];
-        R2RSprite *sprite = [segmentHandler getConnectionSprite:[self.route.segments objectAtIndex:routeIndex]];
+        R2RSprite *sprite = [R2RSegmentHelper getConnectionSprite:[self.route.segments objectAtIndex:routeIndex]];
         [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectBottom];
     }
     
@@ -250,19 +248,17 @@
 
 -(R2RFlightHopCell *) configureFlightHopCell:(R2RFlightHopCell *) cell segment:(R2RFlightSegment *) segment
 {
-    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
-    
-    NSInteger changes = [segmentHandler getFlightChangeCount:segment];
+    NSInteger changes = [R2RSegmentHelper getFlightChangeCount:segment];
     
     NSString *hopDescription = [R2RStringFormatter formatFlightHopCellDuration:segment.duration];
     [cell.hopLabel setText:hopDescription];
     [cell.hopStops setText:[R2RStringFormatter formatFlightHopCellStops:changes]];
     
-    R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
+    R2RSprite *sprite = [R2RSegmentHelper getConnectionSprite:segment];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectTop];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectBottom];
     
-    sprite = [segmentHandler getRouteSprite:[segmentHandler getSegmentSubkind:segment]];
+    sprite = [R2RSegmentHelper getRouteSprite:[R2RSegmentHelper getSegmentSubkind:segment]];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
     if (segment.indicativePrice.currency != NULL)
@@ -285,22 +281,20 @@
 
 -(R2RTransitHopCell *) configureTransitHopCell:(R2RTransitHopCell *) cell segment:(R2RTransitSegment *) segment
 {
-    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
-    
-    NSInteger changes = [segmentHandler getTransitChangeCount:segment];
+    NSInteger changes = [R2RSegmentHelper getTransitChangeCount:segment];
     NSString *vehicle = segment.vehicle;
-    NSInteger frequency = [segmentHandler getTransitFrequency:segment];
-    NSString *line = [segmentHandler getTransitLine:segment]; //line number for display if only 1 line and no changes
+    NSInteger frequency = [R2RSegmentHelper getTransitFrequency:segment];
+    NSString *line = [R2RSegmentHelper getTransitLine:segment]; //line number for display if only 1 line and no changes
     
     NSString *hopDescription = [R2RStringFormatter formatTransitHopCellDuration:segment.duration changes:changes vehicle:vehicle line:line];
     [cell.hopLabel setText:hopDescription];
     [cell.hopFrequency setText:[R2RStringFormatter formatTransitHopCellFrequency:frequency]];
     
-    R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
+    R2RSprite *sprite = [R2RSegmentHelper getConnectionSprite:segment];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectTop];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectBottom];
     
-    sprite = [segmentHandler getRouteSprite:[segmentHandler getSegmentSubkind:segment]];
+    sprite = [R2RSegmentHelper getRouteSprite:[R2RSegmentHelper getSegmentSubkind:segment]];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
     if (segment.indicativePrice.currency != NULL)
@@ -329,13 +323,11 @@
     [cell.hopLabel setText:hopDescription];
     [cell.hopDistance setText:[R2RStringFormatter formatWalkDriveHopCellDistance:segment.distance isImperial:segment.isImperial]];
     
-    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
-    
-    R2RSprite *sprite = [segmentHandler getConnectionSprite:segment];
+    R2RSprite *sprite = [R2RSegmentHelper getConnectionSprite:segment];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectTop];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.connectBottom];
     
-    sprite = [segmentHandler getRouteSprite:[segmentHandler getSegmentSubkind:segment]];
+    sprite = [R2RSegmentHelper getRouteSprite:[R2RSegmentHelper getSegmentSubkind:segment]];
     [self.searchStore.spriteStore setSpriteInView:sprite view:cell.icon];
     
     if (segment.indicativePrice.currency != NULL)

@@ -49,50 +49,9 @@
 
 @end
 
-@interface R2RFlightPolyline : MKPolyline
+@interface R2RSegmentPolyline : MKPolyline
+
+@property (strong, nonatomic) NSString *subkind;
 
 @end
 
-@interface R2RTrainPolyline : MKPolyline
-
-@end
-
-@interface R2RBusPolyline : MKPolyline
-
-@end
-
-@interface R2RFerryPolyline : MKPolyline
-
-@end
-
-@interface R2RDrivePolyline : MKPolyline
-
-@end
-
-@interface R2RWalkPolyline : MKPolyline
-
-@end
-
-@interface R2RFlightPolylineView : MKPolylineView
--(id) initWithPolyline:(MKPolyline *)polyline;
-@end
-
-@interface R2RTrainPolylineView : MKPolylineView
--(id) initWithPolyline:(MKPolyline *)polyline;
-@end
-
-@interface R2RBusPolylineView : MKPolylineView
--(id) initWithPolyline:(MKPolyline *)polyline;
-@end
-
-@interface R2RFerryPolylineView : MKPolylineView
--(id) initWithPolyline:(MKPolyline *)polyline;
-@end
-
-@interface R2RDrivePolylineView : MKPolylineView
--(id) initWithPolyline:(MKPolyline *)polyline;
-@end
-
-@interface R2RWalkPolylineView : MKPolylineView
--(id) initWithPolyline:(MKPolyline *)polyline;
-@end

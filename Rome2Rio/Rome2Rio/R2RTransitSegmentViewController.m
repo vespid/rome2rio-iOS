@@ -44,7 +44,7 @@
 {
     [super viewDidLoad];
   
-    NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:transitSegment.kind];
+    NSString *navigationTitle = [R2RStringFormatter capitaliseFirstLetter:[R2RSegmentHelper getSegmentSubkind:transitSegment]];
     self.navigationItem.title = NSLocalizedString(navigationTitle, nil);
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(navigateBack)];
@@ -129,9 +129,7 @@
     {
         agencyName = [R2RStringFormatter capitaliseFirstLetter:transitLine.vehicle];
     }
-    
-    R2RSegmentHelper *segmentHandler = [[R2RSegmentHelper alloc] init];
-    
+        
     if ([agency.iconPath length] == 0)
     {
         CGSize iconSize = CGSizeMake(24, 24);
@@ -139,7 +137,7 @@
         rect = CGRectMake(startX, 5, iconSize.width, iconSize.height);
         [header.agencyIconView setFrame:rect];
         
-        R2RSprite *sprite = [segmentHandler getRouteSprite:[segmentHandler getSegmentSubkind:transitSegment]];
+        R2RSprite *sprite = [R2RSegmentHelper getRouteSprite:[R2RSegmentHelper getSegmentSubkind:transitSegment]];
         
         [self.searchStore.spriteStore setSpriteInView:sprite view:header.agencyIconView];
     }

@@ -25,23 +25,22 @@
 
 @interface R2RSegmentHelper : NSObject
 
--(id) initWithData: (R2RSearchStore *) dataStore;
++(R2RSprite *) getRouteSprite:(NSString *) kind;
++(R2RSprite *) getConnectionSprite: (id) segment;
++(UIColor *) getSegmentColorWithKind: (NSString *) kind;
 
--(R2RSprite *) getRouteSprite:(NSString *) kind;
--(R2RSprite *) getConnectionSprite: (id) segment;
++(BOOL) getSegmentIsMajor:(id) segment;
++(NSString*) getSegmentKind:(id) segment;
++(NSString*) getSegmentSubkind:(id) segment;
++(NSString*) getSegmentPath:(id) segment;
++(R2RPosition *) getSegmentSPos:(id) segment store:(R2RSearchStore*) dataStore;
++(R2RPosition *) getSegmentTPos:(id) segment store:(R2RSearchStore*) dataStore;
++(R2RIndicativePrice *) getSegmentIndicativePrice:(id) segment;
 
--(BOOL) getSegmentIsMajor:(id) segment;
--(NSString*) getSegmentKind:(id) segment;
--(NSString*) getSegmentSubkind:(id) segment;
--(NSString*) getSegmentPath:(id) segment;
--(R2RPosition *) getSegmentSPos:(id) segment;
--(R2RPosition *) getSegmentTPos:(id) segment;
--(R2RIndicativePrice *) getSegmentIndicativePrice:(id) segment;
++(NSInteger) getTransitChangeCount: (R2RTransitSegment *) segment;
++(float) getTransitFrequency: (R2RTransitSegment *)segment;
++(NSString *) getTransitLine: (R2RTransitSegment *)segment;
 
--(NSInteger) getTransitChangeCount: (R2RTransitSegment *) segment;
--(float) getTransitFrequency: (R2RTransitSegment *)segment;
--(NSString *) getTransitLine: (R2RTransitSegment *)segment;
-
--(NSInteger) getFlightChangeCount: (R2RFlightSegment *) segment;
++(NSInteger) getFlightChangeCount: (R2RFlightSegment *) segment;
 
 @end

@@ -52,7 +52,7 @@
         [self.fromButton setFrame:CGRectMake(5, 5, 110, 30)];
         [self.fromButton setTitle:@"From here" forState:UIControlStateNormal];
         [self.fromButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-        [self.fromButton setTitleColor:[R2RConstants getDarkTextColor] forState:UIControlStateNormal];
+        [self.fromButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.fromButton.tintColor = [R2RConstants getButtonHighlightColor];
         [self addSubview:self.fromButton];
         
@@ -60,7 +60,7 @@
         [self.toButton setFrame:CGRectMake(5, 40, 110, 30)];
         [self.toButton setTitle:@"To here" forState:UIControlStateNormal];
         [self.toButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-        [self.toButton setTitleColor:[R2RConstants getDarkTextColor] forState:UIControlStateNormal];
+        [self.toButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.toButton.tintColor = [R2RConstants getButtonHighlightColor];
         [self addSubview:self.toButton];
   

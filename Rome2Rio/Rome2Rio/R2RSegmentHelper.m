@@ -17,17 +17,13 @@
 
 @implementation R2RSegmentHelper
 
--(id)initWithData:(R2RSearchStore *)dataStore
++(id) alloc
 {
-    self = [super init];
-    if (self)
-    {
-        self.dataStore = dataStore;
-    }
-    return self;
+    [NSException raise:@"R2RSegmentHelper is static" format:@"R2RSegmentHelper is static"];
+    return nil;
 }
 
--(BOOL) getSegmentIsMajor:(id) segment
++(BOOL) getSegmentIsMajor:(id) segment
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
@@ -48,7 +44,7 @@
     return NO;
 }
 
--(NSString*) getSegmentKind:(id) segment
++(NSString*) getSegmentKind:(id) segment
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
@@ -69,18 +65,18 @@
     return nil;
 }
 
--(NSString*) getSegmentSubkind:(id) segment
++(NSString*) getSegmentSubkind:(id) segment
 {
     // if subkind is unknown return kind
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
         R2RWalkDriveSegment *currentSegment = segment;
-        return ([self subkindIsHandled: currentSegment.subkind]) ? currentSegment.subkind : currentSegment.kind;
+        return ([R2RSegmentHelper subkindIsHandled: currentSegment.subkind]) ? currentSegment.subkind : currentSegment.kind;
     }
     else if([segment isKindOfClass:[R2RTransitSegment class]])
     {
         R2RTransitSegment *currentSegment = segment;
-        return ([self subkindIsHandled: currentSegment.subkind]) ? currentSegment.subkind : currentSegment.kind;
+        return ([R2RSegmentHelper subkindIsHandled: currentSegment.subkind]) ? currentSegment.subkind : currentSegment.kind;
     }
     else if([segment isKindOfClass:[R2RFlightSegment class]])
     {
@@ -92,7 +88,7 @@
 }
 
 // subkinds we currently know about
--(BOOL) subkindIsHandled:(NSString *) subkind
++(BOOL) subkindIsHandled:(NSString *) subkind
 {
     if ([subkind isEqualToString:@"plane"]) return true;
     if ([subkind isEqualToString:@"helicopter"]) return true;
@@ -113,7 +109,7 @@
     return false;
 }
 
--(NSString*) getSegmentPath:(id)segment
++(NSString*) getSegmentPath:(id)segment
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
@@ -134,7 +130,7 @@
 }
 
 //used to return start coordinate for any segment including flights
--(R2RPosition *) getSegmentSPos:(id) segment
++(R2RPosition *) getSegmentSPos:(id) segment store:(R2RSearchStore *)dataStore
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
@@ -152,7 +148,7 @@
         R2RFlightItinerary *itinerary = [currentSegment.itineraries objectAtIndex:0];
         R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
         R2RFlightHop *hop = [leg.hops objectAtIndex:0];
-        R2RAirport *airport = [self.dataStore getAirport:hop.sCode];
+        R2RAirport *airport = [dataStore getAirport:hop.sCode];
         
         return airport.pos;
     }
@@ -161,7 +157,7 @@
 }
 
 //used to return end coordinate for any segment including flights
--(R2RPosition *) getSegmentTPos:(id) segment
++(R2RPosition *) getSegmentTPos:(id) segment store:(R2RSearchStore *)dataStore
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
@@ -179,7 +175,7 @@
         R2RFlightItinerary *itinerary = [currentSegment.itineraries objectAtIndex:0];
         R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
         R2RFlightHop *hop = [leg.hops lastObject];
-        R2RAirport *airport = [self.dataStore getAirport:hop.tCode];
+        R2RAirport *airport = [dataStore getAirport:hop.tCode];
         
         return airport.pos;
     }
@@ -187,7 +183,7 @@
     return nil;
 }
 
--(R2RIndicativePrice *)getSegmentIndicativePrice:(id)segment
++(R2RIndicativePrice *)getSegmentIndicativePrice:(id)segment
 {
     if([segment isKindOfClass:[R2RWalkDriveSegment class]])
     {
@@ -208,7 +204,7 @@
     return nil;
 }
 
--(CGRect) getRouteIconRect: (NSString *) kind
++(CGRect) getRouteIconRect: (NSString *) kind
 {
     if ([kind isEqualToString:@"flight"])
     {
@@ -264,14 +260,14 @@
     }
 }
 
--(R2RSprite *) getRouteSprite:(NSString *)kind
++(R2RSprite *) getRouteSprite:(NSString *)kind
 {
-    CGRect rect = [self getRouteIconRect:kind];
+    CGRect rect = [R2RSegmentHelper getRouteIconRect:kind];
     R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :rect.origin :rect.size];
     return sprite;
 }
 
--(NSInteger) getTransitHopCount:(R2RTransitSegment *)segment
++(NSInteger) getTransitHopCount:(R2RTransitSegment *)segment
 {
     NSInteger hopCount = 0;
 
@@ -287,15 +283,15 @@
     return hopCount;
 }
 
--(NSInteger) getTransitChangeCount:(R2RTransitSegment *)segment
++(NSInteger) getTransitChangeCount:(R2RTransitSegment *)segment
 {
-    NSInteger hopCount = [self getTransitHopCount:segment];
+    NSInteger hopCount = [R2RSegmentHelper getTransitHopCount:segment];
     return (hopCount - 1);//1 less change than hops;
 }
 
--(float) getTransitFrequency: (R2RTransitSegment *)segment
++(float) getTransitFrequency: (R2RTransitSegment *)segment
 {
-    NSInteger hopCount = [self getTransitHopCount:segment];
+    NSInteger hopCount = [R2RSegmentHelper getTransitHopCount:segment];
     if (hopCount == 1)
     {
         R2RTransitItinerary *itinerary = [segment.itineraries objectAtIndex:0];
@@ -308,7 +304,7 @@
 
 
 // return the transit line if there is only 1
--(NSString *)getTransitLine:(R2RTransitSegment *)segment
++(NSString *)getTransitLine:(R2RTransitSegment *)segment
 {
     if ([segment.itineraries count] != 1)
         return NULL;
@@ -334,9 +330,9 @@
     return NULL;
 }
 
--(R2RSprite *)getConnectionSprite:(id)segment
++(R2RSprite *)getConnectionSprite:(id)segment
 {
-    NSString *kind = [self getSegmentSubkind:segment];
+    NSString *kind = [R2RSegmentHelper getSegmentSubkind:segment];
     
     if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"helicopter"])
     {
@@ -345,7 +341,7 @@
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
-    if ([kind isEqualToString:@"train"] || [kind isEqualToString:@"tram"] || [kind isEqualToString:@"cablecar"] || [kind isEqualToString:@"subway"])
+    else if ([kind isEqualToString:@"train"] || [kind isEqualToString:@"tram"] || [kind isEqualToString:@"cablecar"] || [kind isEqualToString:@"subway"])
     {
         CGPoint offset = CGPointMake(10, 0);
         CGSize size = CGSizeMake(10, 50);
@@ -393,7 +389,41 @@
     return sprite;
 }
 
--(NSInteger)getFlightChangeCount:(R2RFlightSegment *)segment
++(UIColor *)getSegmentColorWithKind:(NSString *)kind
+{
+    if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"helicopter"])
+    {
+        return [R2RConstants getFlightColor];
+    }
+    else if ([kind isEqualToString:@"train"] || [kind isEqualToString:@"tram"] || [kind isEqualToString:@"cablecar"] || [kind isEqualToString:@"subway"])
+    {
+        return [R2RConstants getTrainColor];
+    }
+    else if ([kind isEqualToString:@"bus"] || [kind isEqualToString:@"busferry"] || [kind isEqualToString:@"shuttle"])
+    {
+        return [R2RConstants getBusColor];
+    }
+    else if ([kind isEqualToString:@"car"])
+    {
+        return [R2RConstants getDriveColor];
+    }
+    else if ([kind isEqualToString:@"taxi"])
+    {
+        return [R2RConstants getTaxiColor];
+    }
+    else if ([kind isEqualToString:@"ferry"] || [kind isEqualToString:@"carferry"])
+    {
+        return [R2RConstants getFerryColor];
+    }
+    else if ([kind isEqualToString:@"walk"] || [kind isEqualToString:@"animal"] || [kind isEqualToString:@"rideshare"])
+    {
+        return [R2RConstants getWalkColor];
+    }
+    return [R2RConstants getUnknownColor];
+}
+
+
++(NSInteger)getFlightChangeCount:(R2RFlightSegment *)segment
 {
     int hops = 5;
     for (R2RFlightItinerary *itinerary in segment.itineraries)
