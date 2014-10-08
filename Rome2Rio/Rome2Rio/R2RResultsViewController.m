@@ -257,6 +257,11 @@
         [self.searchStore.spriteStore setSpriteInView:sprite view:iconView];
     }
     
+    // dynamic description size depending on number if icons
+    CGRect rect = cell.resultDescripionLabel.frame;
+    rect.size.width = cell.bounds.size.width-(45+(25*iconCount));
+    [cell.resultDescripionLabel setFrame:rect];
+    
     cell.iconCount = iconCount;
     
     return cell;
