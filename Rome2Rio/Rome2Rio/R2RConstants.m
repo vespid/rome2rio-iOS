@@ -206,7 +206,7 @@
 // TODO ADD unknown sprite to sprite file
 +(CGRect) getRouteUnknownSpriteRect
 {
-    return CGRectMake(0, 340, 36, 36);
+    return CGRectMake(20, 160, 20, 20);
 }
 
 +(UIColor *)getBackgroundColor

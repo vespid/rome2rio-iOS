@@ -106,6 +106,7 @@
     if ([subkind isEqualToString:@"carferry"]) return true;
     if ([subkind isEqualToString:@"walk"]) return true;
     if ([subkind isEqualToString:@"animal"]) return true;
+    if ([subkind isEqualToString:@"unknown"]) return true;
     return false;
 }
 
