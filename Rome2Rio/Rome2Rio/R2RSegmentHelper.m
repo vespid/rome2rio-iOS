@@ -206,7 +206,7 @@
 
 +(CGRect) getRouteIconRect: (NSString *) kind
 {
-    if ([kind isEqualToString:@"flight"])
+    if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"plane"])
     {
         return [R2RConstants getRouteFlightSpriteRect];
     }
@@ -334,7 +334,7 @@
 {
     NSString *kind = [R2RSegmentHelper getSegmentSubkind:segment];
     
-    if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"helicopter"])
+    if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"plane"] || [kind isEqualToString:@"helicopter"])
     {
         CGPoint offset = CGPointMake(0, 0);
         CGSize size = CGSizeMake(10, 50);
@@ -391,7 +391,7 @@
 
 +(UIColor *)getSegmentColorWithKind:(NSString *)kind
 {
-    if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"helicopter"])
+    if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"plane"] || [kind isEqualToString:@"helicopter"])
     {
         return [R2RConstants getFlightColor];
     }
