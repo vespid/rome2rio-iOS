@@ -11,6 +11,8 @@
 
 @implementation R2RFlightSegmentSectionHeader
 
+@synthesize titleLabel, routeLabel, iconView, priceText, segmentPrice;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -32,6 +34,27 @@
         [self.routeLabel setMinimumScaleFactor:0.6];
         [self.routeLabel setAdjustsFontSizeToFitWidth:YES];
         [self addSubview:self.routeLabel];
+        
+        rect = CGRectMake(10, 16, 24, 24);
+        self.iconView = [[UIImageView alloc] initWithFrame:rect];
+        [self addSubview:self.iconView];
+        
+        rect = CGRectMake(235, 15, 75, 25);
+        self.priceText = [[UILabel alloc] initWithFrame:rect];
+        [self.priceText setTextAlignment:NSTextAlignmentRight];
+        [self.priceText setFont:[UIFont systemFontOfSize:12.0]];
+        [self.priceText setBackgroundColor:[UIColor clearColor]];
+        [self.priceText setTextColor:[R2RConstants getLightTextColor]];
+        [self addSubview:self.priceText];
+        
+        rect = CGRectMake(235, 30, 75, 25);
+        self.segmentPrice = [[UILabel alloc] initWithFrame:rect];
+        [self.segmentPrice setTextAlignment:NSTextAlignmentRight];
+        [self.segmentPrice setMinimumScaleFactor:0.6];
+        [self.segmentPrice setAdjustsFontSizeToFitWidth:YES];
+        [self.segmentPrice setBackgroundColor:[UIColor clearColor]];
+        [self.segmentPrice setTextColor:[R2RConstants getButtonHighlightColor]];
+        [self addSubview:self.segmentPrice];
     
     }
     return self;

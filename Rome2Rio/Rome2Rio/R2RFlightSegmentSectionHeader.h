@@ -12,5 +12,8 @@
 
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *routeLabel;
+@property (strong, nonatomic) UIImageView *iconView;
+@property (strong, nonatomic) UILabel *priceText;
+@property (strong, nonatomic) UILabel *segmentPrice;
 
 @end

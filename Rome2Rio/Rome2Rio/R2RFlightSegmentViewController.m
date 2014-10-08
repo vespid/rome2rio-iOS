@@ -15,6 +15,7 @@
 #import "R2RSpriteCache.h"
 #import "R2RStringFormatter.h"
 #import "R2RConstants.h"
+#import "R2RSegmentHelper.h"
 
 
 @interface R2RFlightSegmentViewController ()
@@ -90,6 +91,30 @@
     [coloredRouteString addAttribute:NSForegroundColorAttributeName value:[R2RConstants getButtonHighlightColor] range:NSMakeRange(routeString.length-to.length,to.length)];
     
     header.routeLabel.attributedText = coloredRouteString;
+  
+    R2RSprite *sprite = [R2RSegmentHelper getRouteSprite:[R2RSegmentHelper getSegmentSubkind:self.flightSegment]];
+    
+    [self.searchStore.spriteStore setSpriteInView:sprite view:header.iconView];
+    
+    
+    if (self.flightSegment.indicativePrice.currency != NULL)
+    {
+        [header.priceText setText:NSLocalizedString(@"From", nil)];
+        [header.priceText setHidden:false];
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [formatter setMaximumFractionDigits:0];
+        [formatter setCurrencyCode:self.flightSegment.indicativePrice.currency];
+        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: self.flightSegment.indicativePrice.price]];
+        [header.segmentPrice setText:priceString];
+        [header.segmentPrice setHidden:false];
+    }
+    else
+    {
+        [header.priceText setHidden:true];
+        [header.segmentPrice setHidden:true];
+    }
     
     return header;
 }
