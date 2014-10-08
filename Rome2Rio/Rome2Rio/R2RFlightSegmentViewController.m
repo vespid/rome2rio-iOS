@@ -102,11 +102,7 @@
         [header.priceText setText:NSLocalizedString(@"From", nil)];
         [header.priceText setHidden:false];
         
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-        [formatter setMaximumFractionDigits:0];
-        [formatter setCurrencyCode:self.flightSegment.indicativePrice.currency];
-        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: self.flightSegment.indicativePrice.price]];
+        NSString *priceString = [R2RStringFormatter formatIndicativePrice:self.flightSegment.indicativePrice];
         [header.segmentPrice setText:priceString];
         [header.segmentPrice setHidden:false];
     }

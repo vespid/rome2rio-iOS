@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "R2RIndicativePrice.h"
 
 @interface R2RStringFormatter : NSObject
 
@@ -26,5 +26,7 @@
 +(NSString *) formatDays: (int) days;
 
 +(NSString *) capitaliseFirstLetter: (NSString *) string;
+
++(NSString *) formatIndicativePrice: (R2RIndicativePrice *) indicativePrice;
 
 @end

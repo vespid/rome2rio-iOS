@@ -128,11 +128,7 @@
     
     if (self.walkDriveSegment.indicativePrice.currency != NULL)
     {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-        [formatter setMaximumFractionDigits:0];
-        [formatter setCurrencyCode:self.walkDriveSegment.indicativePrice.currency];
-        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: self.walkDriveSegment.indicativePrice.price]];
+        NSString *priceString = [R2RStringFormatter formatIndicativePrice:self.walkDriveSegment.indicativePrice];
         [header.segmentPrice setText:priceString];
         [header.segmentPrice setHidden:false];
     }

@@ -156,11 +156,7 @@
     
     if (transitSegment.indicativePrice.currency != NULL)
     {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-        [formatter setMaximumFractionDigits:0];
-        [formatter setCurrencyCode:transitSegment.indicativePrice.currency];
-        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: transitSegment.indicativePrice.price]];
+        NSString *priceString = [R2RStringFormatter formatIndicativePrice:transitSegment.indicativePrice];
         [header.segmentPrice setText:priceString];
         [header.segmentPrice setHidden:false];
     }

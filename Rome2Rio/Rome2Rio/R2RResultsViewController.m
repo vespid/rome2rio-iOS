@@ -238,11 +238,7 @@
     
     if (route.indicativePrice.currency != NULL)
     {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-        [formatter setMaximumFractionDigits:0];
-        [formatter setCurrencyCode:route.indicativePrice.currency];
-        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: route.indicativePrice.price]];
+        NSString *priceString = [R2RStringFormatter formatIndicativePrice:route.indicativePrice];
         [cell.resultPriceLabel setText:priceString];
         [cell.resultPriceLabel setHidden:false];
     }

@@ -281,5 +281,21 @@
     return string;
 }
 
++(NSString *)formatIndicativePrice:(R2RIndicativePrice *)indicativePrice
+{
+    if (indicativePrice.isFreeTransfer)
+    {
+        return NSLocalizedString(@"Transfer", nil);
+    }
+        
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [formatter setMaximumFractionDigits:0];
+    [formatter setCurrencyCode:indicativePrice.currency];
+    NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: indicativePrice.price]];
+    
+    return priceString;
+}
+
 
 @end

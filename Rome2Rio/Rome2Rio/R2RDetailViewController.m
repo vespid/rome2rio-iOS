@@ -263,11 +263,7 @@
     
     if (segment.indicativePrice.currency != NULL)
     {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-        [formatter setMaximumFractionDigits:0];
-        [formatter setCurrencyCode:segment.indicativePrice.currency];
-        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: segment.indicativePrice.price]];
+        NSString *priceString = [R2RStringFormatter formatIndicativePrice:segment.indicativePrice];
         [cell.hopPrice setText:priceString];
         [cell.hopPrice setHidden:false];
     }
@@ -299,11 +295,7 @@
     
     if (segment.indicativePrice.currency != NULL)
     {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-        [formatter setMaximumFractionDigits:0];
-        [formatter setCurrencyCode:segment.indicativePrice.currency];
-        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: segment.indicativePrice.price]];
+        NSString *priceString = [R2RStringFormatter formatIndicativePrice:segment.indicativePrice];
         [cell.hopPrice setText:priceString];
         [cell.hopPrice setHidden:false];
     }
@@ -332,11 +324,7 @@
     
     if (segment.indicativePrice.currency != NULL)
     {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-        [formatter setMaximumFractionDigits:0];
-        [formatter setCurrencyCode:segment.indicativePrice.currency];
-        NSString *priceString = [formatter stringFromNumber:[NSNumber numberWithFloat: segment.indicativePrice.price]];
+        NSString *priceString = [R2RStringFormatter formatIndicativePrice:segment.indicativePrice];
         [cell.hopPrice setText:priceString];
         [cell.hopPrice setHidden:false];
     }
