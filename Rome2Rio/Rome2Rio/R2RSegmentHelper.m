@@ -268,6 +268,20 @@
     return sprite;
 }
 
++(R2RSprite *)getExternalLinkWhiteSprite
+{
+    CGRect rect = [R2RConstants getExternalLinkWhiteIconRect];
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :rect.origin :rect.size];
+    return sprite;
+}
+
++(R2RSprite *)getExternalLinkPinkSprite
+{
+    CGRect rect = [R2RConstants getExternalLinkPinkIconRect];
+    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getIconSpriteFileName] :rect.origin :rect.size];
+    return sprite;
+}
+
 +(NSInteger) getTransitHopCount:(R2RTransitSegment *)segment
 {
     NSInteger hopCount = 0;

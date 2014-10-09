@@ -27,6 +27,8 @@
 
 +(R2RSprite *) getRouteSprite:(NSString *) kind;
 +(R2RSprite *) getConnectionSprite: (id) segment;
++(R2RSprite *) getExternalLinkWhiteSprite;
++(R2RSprite *) getExternalLinkPinkSprite;
 +(UIColor *) getSegmentColorWithKind: (NSString *) kind;
 
 +(BOOL) getSegmentIsMajor:(id) segment;

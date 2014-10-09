@@ -72,7 +72,7 @@
     [self.frequencyLabel setTextColor:[R2RConstants getLightTextColor]];
     [self addSubview:self.frequencyLabel];
     
-    rect = CGRectMake(280, 155, 27, 23);
+    rect = CGRectMake(280, 155, 24, 22);
     self.linkButton = [[UIButton alloc] initWithFrame:rect];
     [self addSubview:self.linkButton];
     

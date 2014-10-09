@@ -132,6 +132,16 @@
     return CGRectMake(160, 272, 48, 48);
 };
 
++(CGRect)getExternalLinkWhiteIconRect
+{
+    return CGRectMake(240, 276, 48, 44);
+}
+
++(CGRect)getExternalLinkPinkIconRect
+{
+    return CGRectMake(320, 276, 48, 44);
+}
+
 //annotation icon
 +(CGRect) getHopIconRect
 {

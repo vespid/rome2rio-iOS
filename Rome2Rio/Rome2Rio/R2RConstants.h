@@ -27,6 +27,8 @@
 +(CGRect) getConnectionIconRect;
 +(CGRect) getHopIconRect;
 +(CGRect) getMyLocationIconRect;
++(CGRect) getExternalLinkWhiteIconRect;
++(CGRect) getExternalLinkPinkIconRect;
 
 +(CGRect) getRouteFlightSpriteRect;
 +(CGRect) getRouteHelicopterSpriteRect;

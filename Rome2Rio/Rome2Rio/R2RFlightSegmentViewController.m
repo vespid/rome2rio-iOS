@@ -221,9 +221,10 @@
     
     CGRect frame = cell.linkButton.frame;
     frame.origin.y = 75 + (50* (hops-1));
-    
     [cell.linkButton setFrame:frame];
-    [cell.linkButton setImage:[UIImage imageNamed:@"externalLinkIconGray"] forState:UIControlStateNormal];
+    
+    R2RSprite *sprite = [R2RSegmentHelper getExternalLinkPinkSprite];
+    [self.searchStore.spriteStore setSpriteInButton:sprite button:cell.linkButton];
     [cell.linkButton addTarget:self action:@selector(showLinkMenu) forControlEvents:UIControlEventTouchUpInside];
     
     frame = cell.frequencyLabel.frame;
