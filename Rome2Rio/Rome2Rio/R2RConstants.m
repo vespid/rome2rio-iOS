@@ -129,7 +129,7 @@
 //detail view icon
 +(CGRect) getConnectionIconRect
 {
-    return CGRectMake(20, 160, 20, 20);
+    return CGRectMake(160, 272, 48, 48);
 };
 
 //annotation icon
@@ -145,68 +145,67 @@
 
 +(CGRect) getRouteFlightSpriteRect
 {
-    return CGRectMake(200, 20, 36, 36);
+    return CGRectMake(320, 112, 48, 48);
 }
 
 +(CGRect) getRouteHelicopterSpriteRect
 {
-    return CGRectMake(80, 80, 36, 36);
+    return CGRectMake(160, 192, 48, 48);
 }
 
 +(CGRect) getRouteTrainSpriteRect
 {
-    return CGRectMake(20, 20, 36, 36);
+    return CGRectMake(80, 112, 48, 48);
 }
 
 +(CGRect) getRouteTramSpriteRect
 {
-    return CGRectMake(20, 80, 36, 36);
+    return CGRectMake(80, 192, 48, 48);
 }
 
 +(CGRect) getRouteCablecarSpriteRect
 {
-    return CGRectMake(80, 140, 36, 36);
+    return CGRectMake(240, 192, 48, 48);
 }
 
 +(CGRect) getRouteBusSpriteRect
 {
-    return CGRectMake(80, 20, 36, 36);
+    return CGRectMake(160, 112, 48, 48);
 }
 
 +(CGRect) getRouteFerrySpriteRect
 {
-    return CGRectMake(140, 20, 36, 36);
+    return CGRectMake(240, 112, 48, 48);
 }
 
 +(CGRect) getRouteCarSpriteRect
 {
-    return CGRectMake(260, 20, 36, 36);
+    return CGRectMake(400, 112, 48, 48);
 }
 
 +(CGRect) getRouteTaxiSpriteRect
 {
-    return CGRectMake(320, 20, 36, 36);
+    return CGRectMake(480, 112, 48, 48);
 }
 
 +(CGRect) getRouteRideshareSpriteRect
 {
-    return CGRectMake(380, 80, 36, 36);
+    return CGRectMake(560, 192, 48, 48);
 }
 
 +(CGRect) getRouteWalkSpriteRect
 {
-    return CGRectMake(380, 20, 36, 36);
+    return CGRectMake(560, 112, 48, 48);
 }
 
 +(CGRect) getRouteAnimalSpriteRect
 {
-    return CGRectMake(200, 80, 36, 36);
+    return CGRectMake(320, 192, 48, 48);
 }
 
-// TODO ADD unknown sprite to sprite file
 +(CGRect) getRouteUnknownSpriteRect
 {
-    return CGRectMake(20, 160, 20, 20);
+    return CGRectMake(80, 272, 48, 48);
 }
 
 +(UIColor *)getBackgroundColor
