@@ -34,6 +34,7 @@
 		5E639E7416507D4C00A18C20 /* R2RSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639E7316507D4A00A18C20 /* R2RSpriteView.m */; };
 		5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */; };
 		5E6FAD99186130CA007B6D5B /* R2RSearchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6FAD98186130CA007B6D5B /* R2RSearchButton.m */; };
+		5E84D3A819E667DD00C45875 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E84D3A719E667DD00C45875 /* Images.xcassets */; };
 		5E8726811862B10500F56BE0 /* rome2rio_globe_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E8726801862B10500F56BE0 /* rome2rio_globe_120.png */; };
 		5E88679619CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E88679419CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png */; };
 		5E8DB4E516129D7500756321 /* R2RSegmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8DB4E416129D7400756321 /* R2RSegmentHelper.m */; };
@@ -160,6 +161,7 @@
 		5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteCache.m; sourceTree = "<group>"; };
 		5E6FAD97186130CA007B6D5B /* R2RSearchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearchButton.h; sourceTree = "<group>"; };
 		5E6FAD98186130CA007B6D5B /* R2RSearchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchButton.m; sourceTree = "<group>"; };
+		5E84D3A719E667DD00C45875 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5E8726801862B10500F56BE0 /* rome2rio_globe_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rome2rio_globe_120.png; sourceTree = "<group>"; };
 		5E88679419CAAB4F00713804 /* Rome2rio_2_0_sprites@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rome2rio_2_0_sprites@2x.png"; sourceTree = "<group>"; };
 		5E8DB4E316129D7400756321 /* R2RSegmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSegmentHelper.h; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				5ED4B3DA1601D10500E9FE42 /* Views */,
 				5ED4B36B1601D05B00E9FE42 /* Models */,
 				5ED4B36C1601D07000E9FE42 /* Images */,
+				5E84D3A719E667DD00C45875 /* Images.xcassets */,
 				5ED4B3521601D01C00E9FE42 /* Supporting Files */,
 			);
 			path = Rome2Rio;
@@ -661,6 +664,7 @@
 				5E1BE02D1623F4F1002F7CBB /* targetIcon_orange.png in Resources */,
 				5EEAB38719C7D325001A210F /* Rome2rio_Logo_white@2x.png in Resources */,
 				5E1BE0A316253A6A002F7CBB /* Home_Icon_White@2x.png in Resources */,
+				5E84D3A819E667DD00C45875 /* Images.xcassets in Resources */,
 				5E23E66219D919E60060FAA6 /* Rome2rio_2_0_lines.png in Resources */,
 				5E2438431635123F0044C8AD /* externalLinkIconGray.png in Resources */,
 				5E42F4BA19C6D1C8007796A0 /* Rome2rio_Logo_white.png in Resources */,
@@ -863,6 +867,8 @@
 		5ED4B3691601D01C00E9FE42 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -881,6 +887,8 @@
 		5ED4B36A1601D01C00E9FE42 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
