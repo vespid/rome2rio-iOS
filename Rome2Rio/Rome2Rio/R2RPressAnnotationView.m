@@ -54,6 +54,10 @@
         [self.fromButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
         [self.fromButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.fromButton.tintColor = [R2RConstants getButtonHighlightColor];
+        if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
+        {
+            [self.fromButton setTitleColor:[R2RConstants getButtonHighlightColor] forState:UIControlStateNormal];
+        }
         [self addSubview:self.fromButton];
         
         self.toButton = [R2RSearchButton buttonWithType:UIButtonTypeRoundedRect];
@@ -62,6 +66,10 @@
         [self.toButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
         [self.toButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.toButton.tintColor = [R2RConstants getButtonHighlightColor];
+        if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
+        {
+            [self.toButton setTitleColor:[R2RConstants getButtonHighlightColor] forState:UIControlStateNormal];
+        }
         [self addSubview:self.toButton];
   
     }

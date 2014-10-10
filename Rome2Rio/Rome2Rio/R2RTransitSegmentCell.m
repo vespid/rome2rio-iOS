@@ -82,12 +82,20 @@
     [self addSubview:self.lineLabel];
     
     rect = CGRectMake(self.bounds.size.width - 10 - 100, 80, 100, 25);
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
+    {
+        rect.origin.x = rect.origin.x - 10; // move button further across to account for <7.0 table cell style
+    }
     self.schedulesButton = [R2RSearchButton buttonWithType:UIButtonTypeRoundedRect];
     [self.schedulesButton setFrame:rect];
     self.schedulesButton.tintColor = [R2RConstants getButtonHighlightColor];
     [self.schedulesButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.schedulesButton setTitle:NSLocalizedString(@"Schedules", nil)  forState:UIControlStateNormal];
     self.schedulesButton.hidden = YES;
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
+    {
+        [self.schedulesButton setTitleColor:[R2RConstants getButtonHighlightColor] forState:UIControlStateNormal];
+    }
     [self addSubview:self.schedulesButton];
 }
 
