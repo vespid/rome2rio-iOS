@@ -209,6 +209,12 @@ typedef enum
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+    {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
     [self.locationManager startUpdatingLocation];
     
     // If location services are disabled we sometimes do not get a didFailWithError callback.
