@@ -39,6 +39,14 @@
 
 - (void) initSubviews
 {
+    // add extra width for iPad table view
+    float extraWidth = (IPAD) ? 60.0 : 0.0;
+    
+    float a = self.contentView.bounds.size.width;
+    float b = self.bounds.size.width;
+    float c = self.frame.size.width;
+    float d = self.superview.frame.size.width;
+    float e = self.superview.bounds.size.width;
     
     CGRect rect = CGRectMake(15, 5, self.bounds.size.width-120, 25);
     self.resultDescripionLabel = [[UILabel alloc] initWithFrame:rect];

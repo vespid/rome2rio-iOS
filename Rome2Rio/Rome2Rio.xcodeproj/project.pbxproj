@@ -50,6 +50,7 @@
 		5EA48D6816436321008A0ADA /* R2RMasterViewStatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48D6716436321008A0ADA /* R2RMasterViewStatusButton.m */; };
 		5EA48DB81643969B008A0ADA /* R2RSearchStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48DB71643969B008A0ADA /* R2RSearchStore.m */; };
 		5EA48DBB16439DB9008A0ADA /* R2RSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA48DBA16439DB8008A0ADA /* R2RSearchManager.m */; };
+		5EAB83BF1A020F1D004AE552 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EAB83BD1A020F1D004AE552 /* MainStoryboard_iPad.storyboard */; };
 		5EAC705B162B8BA300BE8378 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EAC705A162B8BA300BE8378 /* MapKit.framework */; };
 		5EAC7141162BD43000BE8378 /* R2RImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */; };
 		5EAC7147162D0A2E00BE8378 /* R2RSpriteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAC7146162D0A2D00BE8378 /* R2RSpriteStore.m */; };
@@ -189,6 +190,7 @@
 		5EA48DB71643969B008A0ADA /* R2RSearchStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchStore.m; sourceTree = "<group>"; };
 		5EA48DB916439DB7008A0ADA /* R2RSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSearchManager.h; sourceTree = "<group>"; };
 		5EA48DBA16439DB8008A0ADA /* R2RSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSearchManager.m; sourceTree = "<group>"; };
+		5EAB83BE1A020F1D004AE552 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		5EAC705A162B8BA300BE8378 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5EAC713F162BD42F00BE8378 /* R2RImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RImageLoader.h; sourceTree = "<group>"; };
 		5EAC7140162BD42F00BE8378 /* R2RImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RImageLoader.m; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 				5ED4B35A1601D01C00E9FE42 /* R2RAppDelegate.h */,
 				5ED4B35B1601D01C00E9FE42 /* R2RAppDelegate.m */,
 				5ED4B35D1601D01C00E9FE42 /* MainStoryboard.storyboard */,
+				5EAB83BD1A020F1D004AE552 /* MainStoryboard_iPad.storyboard */,
 				5EEA1BDD16FFF62D000E0C22 /* Rome2Rio.geojson */,
 				5E639EA31650CA7B00A18C20 /* Core */,
 				5ED4B3D81601D08300E9FE42 /* Controllers */,
@@ -682,6 +685,7 @@
 				5E0C56B916C1E4C80085768C /* Blue_dot-24px.png in Resources */,
 				5E10152E16C38A7E0035D60B /* LeftTriangle20px.png in Resources */,
 				5E10152F16C38A7E0035D60B /* RightTriangle20px.png in Resources */,
+				5EAB83BF1A020F1D004AE552 /* MainStoryboard_iPad.storyboard in Resources */,
 				5E8726811862B10500F56BE0 /* rome2rio_globe_120.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -774,6 +778,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		5EAB83BD1A020F1D004AE552 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5EAB83BE1A020F1D004AE552 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
 		5ED4B3541601D01C00E9FE42 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -878,7 +890,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Rome2rio;
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -898,7 +910,7 @@
 				PRODUCT_NAME = Rome2rio;
 				PROVISIONING_PROFILE = "1612F5B4-AF31-4E02-B4AF-A86EFBA996F9";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1612F5B4-AF31-4E02-B4AF-A86EFBA996F9";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

@@ -70,13 +70,16 @@
     [self.tableView setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     [self.tableView setSectionHeaderHeight:37.0];
-    CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, self.tableView.sectionHeaderHeight);
+    
+    float width = (IPAD) ? self.tableView.bounds.size.width : self.view.bounds.size.width;
+    
+    CGRect rect = CGRectMake(0, 0, width, self.tableView.sectionHeaderHeight);
     
     self.header = [[R2RResultSectionHeader alloc] initWithFrame:rect];
     
     [self refreshResultsViewTitle];
     
-    [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
+    [self.view setBackgroundColor:[UIColor blackColor]];// [R2RConstants getBackgroundColor]];
     
     CGRect frame = CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0);
     if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1) frame.origin.y -= 20; // temp fix to account for status bar in ios 7 until full redesign
@@ -554,6 +557,9 @@
 
 -(void) setMapFrame
 {
+    // Don't adjust map position for ipad
+    if (IPAD) return;
+    
     CGRect viewFrame = self.view.frame;
     CGRect mapFrame = self.mapView.frame;
    
