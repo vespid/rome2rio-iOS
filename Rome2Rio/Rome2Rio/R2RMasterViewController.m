@@ -79,8 +79,8 @@
 
 - (void)viewDidUnload
 {
-    [self setFromTextFieldText:nil];
-    [self setToTextFieldText:nil];
+    [self setFromTextField:nil];
+    [self setToTextField:nil];
     [self setHeaderBackground:nil];
     [self setHeaderImage:nil];
 
