@@ -20,6 +20,8 @@
 
 +(MKCoordinateRegion) getStartMapRegion;
 
++(float) getTableWidth;
+
 +(NSString *) getIconSpriteFileName;
 +(NSString *) getConnectionsImageFileName;
 +(NSString *) getMyLocationSpriteFileName;
