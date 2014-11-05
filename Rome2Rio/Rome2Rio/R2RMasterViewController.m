@@ -79,8 +79,8 @@
 
 - (void)viewDidUnload
 {
-    [self setFromTextField:nil];
-    [self setToTextField:nil];
+    [self setFromTextFieldText:nil];
+    [self setToTextFieldText:nil];
     [self setHeaderBackground:nil];
     [self setHeaderImage:nil];
 
@@ -138,6 +138,18 @@
 
 }
 
+// Only for app url deeplinks
+-(void)setFromTextFieldText:(NSString *)text
+{
+    self.fromTextField.text = text;
+}
+
+// Only for app url deeplinks
+-(void)setToTextFieldText:(NSString *)text
+{
+    self.toTextField.text = text;
+}
+
 -(void) refreshFromTextField:(NSNotification *) notification
 {
     self.fromTextField.text = self.searchStore.fromPlace.longName;
@@ -161,6 +173,25 @@
 - (IBAction)showInfoView:(id)sender
 {
     [self performSegueWithIdentifier:@"showInfo" sender:self];
+}
+
+-(void)autocompleteResolved:(R2RAutocomplete *)autocomplete
+{
+    if ([autocomplete.query isEqualToString:self.fromTextField.text])
+    {
+        if ([autocomplete.geocodeResponse.places count] > 0)
+        {
+            [self.searchManager setFromPlace:[autocomplete.geocodeResponse.places objectAtIndex:0]];
+        }
+    }
+    
+    if ([autocomplete.query isEqualToString:self.toTextField.text])
+    {
+        if ([autocomplete.geocodeResponse.places count] > 0)
+        {
+            [self.searchManager setToPlace:[autocomplete.geocodeResponse.places objectAtIndex:0]];
+        }
+    }
 }
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField

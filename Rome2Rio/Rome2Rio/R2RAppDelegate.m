@@ -78,6 +78,7 @@
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    // If loading from apple maps
     if ([MKDirectionsRequest isDirectionsRequestURL:url])
     {
         MKDirectionsRequest *directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
@@ -122,6 +123,39 @@
         
         return YES;
     }
+    
+    // if loading from rome2rio website
+    if ([[url host] containsString:@"rome2rio.com"])
+    {
+        UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+        
+        [navigationController dismissViewControllerAnimated:NO completion:nil];
+        [navigationController popToRootViewControllerAnimated:NO];
+        
+        R2RMasterViewController *firstViewController = (R2RMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
+        
+        NSRange range = [[url path] rangeOfString:@"/s/"];
+        
+        NSString *queriesString = [[url path] substringFromIndex: (range.location + range.length)];
+        
+        NSArray *queries = [queriesString componentsSeparatedByString:@"/"];
+        
+        if ([queries count] > 0)
+        {
+            [firstViewController setFromTextFieldText:[queries objectAtIndex:0]];
+            R2RAutocomplete *fromAutocomplete = [[R2RAutocomplete alloc] initWithQueryString:[queries objectAtIndex:0] delegate:firstViewController];
+            [fromAutocomplete sendAsynchronousRequest];
+        }
+        if ([queries count] > 1)
+        {
+            [firstViewController setToTextFieldText:[queries objectAtIndex:1]];
+            R2RAutocomplete *toAutocomplete = [[R2RAutocomplete alloc] initWithQueryString:[queries objectAtIndex:1] delegate:firstViewController];
+            [toAutocomplete sendAsynchronousRequest];
+        }
+       
+        return YES;
+    }
+    
     
     return NO;
 }
