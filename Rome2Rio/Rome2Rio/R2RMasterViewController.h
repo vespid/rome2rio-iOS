@@ -13,11 +13,12 @@
 #import "R2RSearchStore.h"
 #import "R2RSearchManager.h"
 
-@interface R2RMasterViewController : UIViewController <UITextFieldDelegate>
+@interface R2RMasterViewController : UIViewController <UITextFieldDelegate, R2RAutocompleteDelegate>
 
 @property (strong, nonatomic) R2RSearchManager *searchManager;
 @property (strong, nonatomic) R2RSearchStore *searchStore;
 
-
+-(void) setFromTextFieldText:(NSString *) text;
+-(void) setToTextFieldText:(NSString *) text;
 
 @end	
