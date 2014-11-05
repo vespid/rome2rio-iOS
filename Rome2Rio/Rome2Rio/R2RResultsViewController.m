@@ -77,7 +77,7 @@
     
     [self refreshResultsViewTitle];
     
-    [self.view setBackgroundColor:[UIColor blackColor]];// [R2RConstants getBackgroundColor]];
+    [self.view setBackgroundColor: [R2RConstants getBackgroundColor]];
     
     CGRect frame = CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0);
     if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1) frame.origin.y -= 20; // temp fix to account for status bar in ios 7 until full redesign
@@ -517,6 +517,8 @@
 
 -(void) showFullScreenMap
 {
+    if (IPAD) return;
+    
     if (self.isMapFullSreen == NO)
     {
         CGRect tableFrame = self.tableView.frame;
@@ -625,10 +627,12 @@
     if (self.tableView.tableFooterView.frame.size.height != 0) return;
     
     //unique footer configuration for resultsView
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [R2RConstants getTableWidth], 10)];
+    float footerHeight = (IPAD) ? 15 : 10;
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [R2RConstants getTableWidth], footerHeight)];
     [footer setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 1, 27, 7)];
+    float grabBarY = (IPAD) ? 4 : 1;
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(([R2RConstants getTableWidth]/2) - 14, grabBarY, 27, 7)];
     [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
     imageView.userInteractionEnabled = YES;
     imageView.alpha = 0.2;
