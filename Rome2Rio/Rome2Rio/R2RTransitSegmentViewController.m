@@ -374,16 +374,19 @@
 
 -(void)reloadDataDidFinish
 {
-    //adjust table to correct size
-    [self.tableView sizeToFit];
-    
-    // set map frame to non fullscreen size
-    [self.tableView setHidden:NO];
-    self.isMapFullSreen = NO;
-    [self setMapFrame];
-    
-    //adjust table to correct size
-    [self.tableView sizeToFit];
+    if (!IPAD)
+    {
+        //adjust table to correct size
+        [self.tableView sizeToFit];
+        
+        // set map frame to non fullscreen size
+        [self.tableView setHidden:NO];
+        self.isMapFullSreen = NO;
+        [self setMapFrame];
+        
+        //adjust table to correct size
+        [self.tableView sizeToFit];
+    }
     
     //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
@@ -408,6 +411,8 @@
 
 -(void) showFullScreenMap
 {
+    if (IPAD) return;
+    
     if (self.isMapFullSreen == NO)
     {
         CGRect tableFrame = self.tableView.frame;
@@ -452,6 +457,8 @@
 
 -(void) setMapFrame
 {
+    if (IPAD) return;
+    
     //calculate table height;
     float tableHeight = 0;
     for (NSInteger i = 0; i < self.tableView.numberOfSections; i++)
@@ -530,10 +537,14 @@
 {
     if (self.tableView.tableFooterView.frame.size.height != 0) return;
     
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 6)];
+    float footerHeight = (IPAD) ? 10 : 6;
+    
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [R2RConstants getTableWidth], footerHeight)];
     [footer setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, -6, 27, 7)];
+    float grabBarY = (IPAD) ? -1 : -6;
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(([R2RConstants getTableWidth]/2) - 14, grabBarY, 27, 7)];
     [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
     imageView.userInteractionEnabled = YES;
     imageView.alpha = 0.2;
