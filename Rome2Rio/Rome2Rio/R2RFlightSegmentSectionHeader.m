@@ -20,13 +20,13 @@
     {
         [self setBackgroundColor:[R2RConstants getBackgroundColor]];
         
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, self.bounds.size.width-10, 25)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, [R2RConstants getTableWidth] - 20, 25)];
         [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
         
         [self.titleLabel setBackgroundColor:[UIColor clearColor]];
         [self addSubview:self.titleLabel];
      
-        CGRect rect = CGRectMake(10, 30, self.bounds.size.width - 10, 25);
+        CGRect rect = CGRectMake(10, 30, [R2RConstants getTableWidth] - 20, 25);
         self.routeLabel = [[UILabel alloc] initWithFrame:rect];
         [self.routeLabel setTextAlignment:NSTextAlignmentCenter];
         [self.routeLabel setTextColor:[R2RConstants getLightTextColor]];
@@ -39,7 +39,7 @@
         self.iconView = [[UIImageView alloc] initWithFrame:rect];
         [self addSubview:self.iconView];
         
-        rect = CGRectMake(235, 15, 75, 25);
+        rect = CGRectMake([R2RConstants getTableWidth] - 85, 15, 75, 25);
         self.priceText = [[UILabel alloc] initWithFrame:rect];
         [self.priceText setTextAlignment:NSTextAlignmentRight];
         [self.priceText setFont:[UIFont systemFontOfSize:12.0]];
@@ -47,7 +47,7 @@
         [self.priceText setTextColor:[R2RConstants getLightTextColor]];
         [self addSubview:self.priceText];
         
-        rect = CGRectMake(235, 30, 75, 25);
+        rect = CGRectMake([R2RConstants getTableWidth] - 85, 30, 75, 25);
         self.segmentPrice = [[UILabel alloc] initWithFrame:rect];
         [self.segmentPrice setTextAlignment:NSTextAlignmentRight];
         [self.segmentPrice setMinimumScaleFactor:0.6];

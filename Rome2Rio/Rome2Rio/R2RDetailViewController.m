@@ -361,6 +361,7 @@
     if ([[segue identifier] isEqualToString:@"showFlightSegment"])
     {
         R2RFlightSegmentViewController *segmentViewController = [segue destinationViewController];
+        segmentViewController.searchManager = self.searchManager;
         segmentViewController.searchStore = self.searchStore;
         segmentViewController.route = self.route;
         segmentViewController.flightSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];

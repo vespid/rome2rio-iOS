@@ -856,10 +856,6 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="ZBu-OJ-Q4H" id="FbH-y5-Sjc"/>
-                            <outlet property="delegate" destination="ZBu-OJ-Q4H" id="7fO-sK-uT0"/>
-                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Flight Segment" id="6VK-wA-HMf">
                         <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="CS2-vl-U98">
@@ -868,6 +864,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="lJW-33-20J" id="Tut-CG-1VW"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nDo-cm-HEU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
