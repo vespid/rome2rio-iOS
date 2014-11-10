@@ -92,7 +92,7 @@
 {
     [self.imageStore setObject:imageLoader.image forKey:imageLoader.path];
     
-    for (int i = [self.spriteViews count]-1; i >= 0; i--)
+    for (long i = [self.spriteViews count]-1; i >= 0; i--)
     {
         R2RSpriteView *spriteView = [self.spriteViews objectAtIndex:i];
         

@@ -302,7 +302,7 @@
          }
          else
          {
-             R2RLog(@"error code %d", error.code);
+             R2RLog(@"error code %ld", (long)error.code);
              switch (error.code)
              {
                  case kCLErrorDenied:

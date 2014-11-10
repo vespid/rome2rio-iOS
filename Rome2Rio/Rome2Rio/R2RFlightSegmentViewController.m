@@ -372,7 +372,7 @@
 -(void) setUnusedViewsHidden:(R2RExpandedFlightSegmentCell *) cell hops:(NSInteger) hops
 {
     //1 less layover than stops
-    for (int i = hops; i < MAX_FLIGHT_STOPS; i++)
+    for (long i = hops; i < MAX_FLIGHT_STOPS; i++)
     {
         UILabel *label = [cell.layoverNameLabels objectAtIndex:(i-1)];
         [label setHidden:YES];
@@ -453,7 +453,7 @@
         }
         
         R2RFlightLeg *leg = [itinerary.legs objectAtIndex:0];
-        int hops = [leg.hops count];
+        long hops = [leg.hops count];
         if (hops == 0)
         {
             continue;
@@ -552,7 +552,7 @@
     if (buttonIndex == [self.links count])
         return;
     
-    R2RLog(@"Button %d", buttonIndex);
+    R2RLog(@"Button %ld", (long)buttonIndex);
     NSURL *url = [self.links objectAtIndex:buttonIndex];
     if ([[url absoluteString] length] > 0)
     {

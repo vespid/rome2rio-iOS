@@ -61,7 +61,7 @@
         path = [[R2RPath alloc] init];
 	}
     
-	int length = [data length];
+	long length = [data length];
 	int index = 0;
 	int lat = 0;
 	int lng = 0;
@@ -83,7 +83,7 @@
 
 + (int)decodeNumber:(NSString *)data index:(int *) index
 {
-	int length = [data length];
+	long length = [data length];
 	int number = 0;
 	
 	if (*index < length)

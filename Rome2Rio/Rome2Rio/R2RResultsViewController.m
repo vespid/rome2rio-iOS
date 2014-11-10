@@ -252,7 +252,7 @@
     {
         R2RSprite *sprite = [spriteList objectAtIndex:i];
         
-        int spritePos = iconCount - 1 - i;
+        NSInteger spritePos = iconCount - 1 - i;
         UIImageView *iconView = [cell.icons objectAtIndex:spritePos];
         
         [self.searchStore.spriteStore setSpriteInView:sprite view:iconView];

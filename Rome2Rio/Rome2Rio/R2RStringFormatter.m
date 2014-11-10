@@ -44,7 +44,7 @@
     }
     else if (changes >= 2)
     {
-        return [NSString stringWithFormat:@"%@ by %@, %d changes", [self formatDuration:minutes], vehicle, changes];
+        return [NSString stringWithFormat:@"%@ by %@, %ld changes", [self formatDuration:minutes], vehicle, (long)changes];
     }
     return nil;
 }
@@ -74,21 +74,21 @@
     
     if (duration.totalHours >= 48)
     {
-        return [NSString stringWithFormat:@"%ddays %dhrs", duration.days, duration.hours];
+        return [NSString stringWithFormat:@"%lddays %ldhrs", (long)duration.days, (long)duration.hours];
     }
     else if (duration.totalHours < 1)
     {
-        return [NSString stringWithFormat:@"%dmin", duration.minutes];
+        return [NSString stringWithFormat:@"%ldmin", (long)duration.minutes];
     }
     else
     {
         if (duration.minutes == 0)
         {
-            return [NSString stringWithFormat:@"%dhrs", duration.totalHours];
+            return [NSString stringWithFormat:@"%ldhrs", (long)duration.totalHours];
         }
         else
         {
-            return [NSString stringWithFormat:@"%dhrs %dmin", duration.totalHours, duration.minutes];
+            return [NSString stringWithFormat:@"%ldhrs %ldmin", (long)duration.totalHours, (long)duration.minutes];
         }
     }
 }
@@ -99,21 +99,21 @@
     
     if (duration.totalHours >= 48)
     {
-        return [NSString stringWithFormat:@"%ddays %dhrs", duration.days, duration.hours];
+        return [NSString stringWithFormat:@"%lddays %ldhrs", (long)duration.days, (long)duration.hours];
     }
     else if (duration.totalHours < 1)
     {
-        return [NSString stringWithFormat:@"%dmin", duration.minutes];
+        return [NSString stringWithFormat:@"%ldmin", (long)duration.minutes];
     }
     else
     {
-        return [NSString stringWithFormat:@"%dhrs %dmin", duration.totalHours, duration.minutes];
+        return [NSString stringWithFormat:@"%ldhrs %ldmin", (long)duration.totalHours, (long)duration.minutes];
     }
 }
 
 +(NSString *) formatFrequency: (float) frequency
 {
-    int weekFrequency = lroundf(frequency);
+    long weekFrequency = lroundf(frequency);
     if (weekFrequency <= 1)
     {
         return @"once a week";
@@ -124,7 +124,7 @@
     }
     if (weekFrequency < 7)
     {
-        return [NSString stringWithFormat:@"%d times a week", weekFrequency];
+        return [NSString stringWithFormat:@"%ld times a week", weekFrequency];
     }
     
     NSInteger dayFrequency = lroundf(frequency/7);
@@ -139,7 +139,7 @@
     }
     if (dayFrequency < 6)
     {
-        return [NSString stringWithFormat:@"%d times a day", dayFrequency];
+        return [NSString stringWithFormat:@"%ld times a day", (long)dayFrequency];
     }
     if (dayFrequency < 9)
     {
@@ -210,7 +210,7 @@
     }
 }
 
-+(NSString *) formatDays: (int) days
++(NSString *) formatDays: (NSInteger) days
 {
 	NSString *labels[] = { @"Sun", @"Mon", @"Tue", @"Wed", @"Thu", @"Fri", @"Sat" };
 
@@ -243,11 +243,11 @@
 {
     if (number < 10)
     {
-        return [NSString stringWithFormat:@"0%d", number];
+        return [NSString stringWithFormat:@"0%ld", (long)number];
     }
     else
     {
-        return [NSString stringWithFormat:@"%d", number];
+        return [NSString stringWithFormat:@"%ld", (long)number];
     }
 }
 
@@ -263,7 +263,7 @@
     }
     else if (stops >= 2)
     {
-        return [NSString stringWithFormat:@"%d stopovers", stops];
+        return [NSString stringWithFormat:@"%ld stopovers", (long)stops];
     }
     return @"";
 }

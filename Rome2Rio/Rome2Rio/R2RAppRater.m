@@ -65,7 +65,7 @@ NSString *const kR2RReminderTimeInterval    = @"R2RReminderTimeInterval";
 			[userDefaults setDouble:timeInterval forKey:kR2RFirstUseTimeInterval];
 		}
         
-        int count = [userDefaults integerForKey:kR2RUseCount];
+        long count = [userDefaults integerForKey:kR2RUseCount];
 		count++;
 		[userDefaults setInteger:count forKey:kR2RUseCount];
 
@@ -89,8 +89,8 @@ NSString *const kR2RReminderTimeInterval    = @"R2RReminderTimeInterval";
     R2RLog(@"%i", userDeclinedToRate);
     if (userDeclinedToRate) return NO;
     
-    int useCount = [userDefaults integerForKey:kR2RUseCount];
-    R2RLog(@"%d", useCount);
+    long useCount = [userDefaults integerForKey:kR2RUseCount];
+    R2RLog(@"%ld", useCount);
 	if (useCount < usesUntilPrompt) return NO;
 
     NSTimeInterval firstUseTimeInterval = [userDefaults doubleForKey:kR2RFirstUseTimeInterval];

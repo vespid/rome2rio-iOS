@@ -69,10 +69,10 @@
         }
         NSInteger adler = (b << 16) | a;
         
-        srand(adler);
+        srand((uint)adler);
         NSInteger randNum = rand() % (9999 - 1000) + 1000;
         
-        userId = [NSString stringWithFormat:(@"%@%@%d"),localeId, theDate, randNum];
+        userId = [NSString stringWithFormat:(@"%@%@%ld"),localeId, theDate, (long)randNum];
         
         R2RLog(@"%@", userId);
         [userDefaults setObject:userId forKey:@"R2RUserID"];

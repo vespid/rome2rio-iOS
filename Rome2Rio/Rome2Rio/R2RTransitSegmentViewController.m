@@ -839,7 +839,7 @@
 {
     UIButton *button = (UIButton *)sender;
     
-    R2RLog(@"Button %d", button.tag);
+    R2RLog(@"Button %ld", (long)button.tag);
     
     R2RTransitLeg *leg = [self.legs objectAtIndex:button.tag];
     if ([[leg.url absoluteString] length] > 0)

@@ -441,7 +441,7 @@
 
 +(NSInteger)getFlightChangeCount:(R2RFlightSegment *)segment
 {
-    int hops = 5;
+    long hops = 5;
     for (R2RFlightItinerary *itinerary in segment.itineraries)
     {
         for (R2RFlightLeg *leg in itinerary.legs)

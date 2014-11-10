@@ -258,7 +258,7 @@ typedef enum
 
 - (void) locationError:(NSError *) error
 {
-    R2RLog(@"error code %d", error.code);
+    R2RLog(@"error code %ld", (long)error.code);
     // Set error status
     switch (error.code)
     {
