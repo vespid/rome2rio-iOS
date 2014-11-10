@@ -38,8 +38,7 @@
 }
 
 - (void) initSubviews
-{
-    
+{    
     CGRect rect = CGRectMake(15, 5, self.bounds.size.width-120, 25);
     self.resultDescripionLabel = [[UILabel alloc] initWithFrame:rect];
     [self.resultDescripionLabel setMinimumScaleFactor:0.6];

@@ -107,6 +107,7 @@
     if ([subkind isEqualToString:@"walk"]) return true;
     if ([subkind isEqualToString:@"animal"]) return true;
     if ([subkind isEqualToString:@"unknown"]) return true;
+    if ([subkind isEqualToString:@"towncar"]) return true;
     return false;
 }
 
@@ -235,7 +236,7 @@
     {
         return [R2RConstants getRouteFerrySpriteRect];
     }
-    else if ([kind isEqualToString:@"car"])
+    else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"towncar"])
     {
         return [R2RConstants getRouteCarSpriteRect];
     }
@@ -370,7 +371,7 @@
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
-    else if ([kind isEqualToString:@"car"])
+    else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"towncar"])
     {
         CGPoint offset = CGPointMake(30, 0);
         CGSize size = CGSizeMake(10, 50);
@@ -418,7 +419,7 @@
     {
         return [R2RConstants getBusColor];
     }
-    else if ([kind isEqualToString:@"car"])
+    else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"towncar"])
     {
         return [R2RConstants getDriveColor];
     }

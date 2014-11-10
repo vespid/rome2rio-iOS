@@ -16,6 +16,9 @@
 #import "R2RStringFormatter.h"
 #import "R2RConstants.h"
 #import "R2RSegmentHelper.h"
+#import "R2RMapHelper.h"
+#import "R2RAnnotation.h"
+#import "R2RPressAnnotationView.h"
 
 
 @interface R2RFlightSegmentViewController ()
@@ -27,11 +30,20 @@
 @property (strong, nonatomic) UIActionSheet *linkMenuSheet;
 @property (strong, nonatomic) NSMutableArray *links;
 
+@property (strong, nonatomic) R2RAnnotation *pressAnnotation;
+@property CLLocationDegrees zoomLevel;
+@property (nonatomic) BOOL isMapZoomedToAnnotation;
+
+@property (nonatomic) bool fromAnnotationDidMove;
+@property (nonatomic) bool toAnnotationDidMove;
+
+@property (nonatomic) bool isMapFullSreen;
+
 @end
 
 @implementation R2RFlightSegmentViewController
 
-@synthesize searchStore, route, flightSegment;
+@synthesize searchManager, searchStore, route, flightSegment;
 
 - (void)viewDidLoad
 {
@@ -43,14 +55,50 @@
     
     [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    self.spriteCache = [[R2RSpriteCache alloc] init];
+    [self.tableView setDelegate:self];
+    [self.tableView setDataSource:self];
+    [self.tableView setBackgroundColor:[R2RConstants getBackgroundColor]];
+    
+    [self.view sendSubviewToBack:self.mapView];
+    
+    // set default to show grabBar in footer
+    [self setTableFooterWithGrabBar];
     
     [self.tableView setSectionHeaderHeight:55];
+    
+    //draw table shadow
+    self.tableView.layer.shadowOffset = CGSizeMake(0,5);
+    self.tableView.layer.shadowRadius = 5;
+    self.tableView.layer.shadowOpacity = 0.5;
+    self.tableView.layer.masksToBounds = NO;
+    self.tableView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.tableView.bounds].CGPath;
+    
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPressAnnotation:)];
+    [self.mapView addGestureRecognizer:longPressGesture];
+    
+    [self configureMap];
+    
+    //after annotations are initially placed set DidMove to NO so we don't resolve again unless it changes
+    self.fromAnnotationDidMove = NO;
+    self.toAnnotationDidMove = NO;
+    self.isMapFullSreen = NO;
+    
+    self.spriteCache = [[R2RSpriteCache alloc] init];    
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    self.searchButton.hidden = YES;
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewDidUnload
 {
     self.spriteCache = nil;
+    [self setTableView:nil];
+    [self.mapView setDelegate:nil];
+    [self setMapView:nil];
+    [self setSearchButton:nil];
     
     [super viewDidUnload];
 }
@@ -393,11 +441,6 @@
         indexPath.row == self.selectedRowIndex.row;
 }
 
-- (IBAction)returnToSearch:(id)sender
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 -(void) sortFlightSegment
 {
     self.flightGroups = [[NSMutableArray alloc] init];
@@ -517,9 +560,343 @@
     }
 }
 
+#pragma mark - Map Configuration
+
+- (IBAction)resizeMap:(id)sender
+{
+}
+
+-(void) showFullScreenMap
+{
+}
+
+-(void) showTableView
+{
+}
+
+-(void) setMapFrame
+{
+}
+
+-(void) setMapFrameFullScreen
+{
+}
+
+-(void) setMapButtonPositions
+{
+}
+
+-(void) setTableFooterWithGrabBar
+{
+    if (self.tableView.tableFooterView.frame.size.height != 0) return;
+    
+    //same as resultsView
+    float footerHeight = (IPAD) ? 15 : 10;
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [R2RConstants getTableWidth], footerHeight)];
+    [footer setBackgroundColor:[R2RConstants getBackgroundColor]];
+    
+    float grabBarY = (IPAD) ? 4 : 1;
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(([R2RConstants getTableWidth]/2) - 14, grabBarY, 27, 7)];
+    [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
+    imageView.userInteractionEnabled = YES;
+    imageView.alpha = 0.2;
+    
+    [footer addSubview:imageView];
+    
+    self.tableView.tableFooterView = footer;
+}
+
+-(void) configureMap
+{
+    [self.mapView setDelegate:self];
+    
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.searchStore];
+    
+    NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+    NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+    
+    hopAnnotations = [mapHelper filterHopAnnotations:hopAnnotations stopAnnotations:stopAnnotations regionSpan:self.mapView.region.span];
+    
+    for (R2RAnnotation *annotation in stopAnnotations)
+    {
+        [self.mapView addAnnotation:annotation];
+    }
+    
+    for (R2RAnnotation *annotation in hopAnnotations)
+    {
+        [self.mapView addAnnotation:annotation];
+    }
+    
+    for (id segment in self.route.segments)
+    {
+        NSArray *paths = [mapHelper getPolylines:segment];
+        for (id path in paths)
+        {
+            [self.mapView addOverlay:path];
+        }
+    }
+    
+    [self setMapRegionDefault];
+}
+
+- (void)setMapRegionDefault
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.searchStore];
+    MKMapRect bounds = [mapHelper getSegmentBounds:self.flightSegment];
+    
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(bounds);
+    region.span.latitudeDelta *= 1.1;
+    region.span.longitudeDelta *= 1.1;
+    
+    self.zoomLevel = region.span.longitudeDelta;
+    
+    [self.mapView setRegion:region];
+}
+
+#pragma mark MKMapViewDelegate
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id) overlay
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+    
+    return [mapHelper getPolylineView:overlay];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    R2RMapHelper *mapHelper = [[R2RMapHelper alloc] init];
+    
+    if ([annotation isKindOfClass:MKUserLocation.class])
+    {
+        return nil;
+    }
+    
+    R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+    
+    MKAnnotationView *annotationView = [mapHelper getAnnotationView:mapView annotation:r2rAnnotation];
+    
+    if (r2rAnnotation.annotationType == r2rAnnotationTypePress)
+    {
+        R2RPressAnnotationView *pressAnnotationView = (R2RPressAnnotationView *)annotationView;
+        [pressAnnotationView.fromButton addTarget:self
+                                           action:@selector(setFromLocation:)
+                                 forControlEvents:UIControlEventTouchUpInside];
+        
+        [pressAnnotationView.toButton addTarget:self
+                                         action:@selector(setToLocation:)
+                               forControlEvents:UIControlEventTouchUpInside];
+        
+        return pressAnnotationView;
+    }
+    
+    return annotationView;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView calloutAccessoryControlTapped:(UIControl *)control
+{
+    if (self.isMapZoomedToAnnotation)
+    {
+        [self setMapRegionDefault];
+        
+        [self.mapView deselectAnnotation:annotationView.annotation animated:NO];
+        
+        self.isMapZoomedToAnnotation = NO;
+    }
+    else
+    {
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(annotationView.annotation.coordinate , 1000, 1000);
+        
+        self.zoomLevel = region.span.longitudeDelta;
+        
+        [self.mapView setRegion:region];
+        
+        [self.mapView deselectAnnotation:annotationView.annotation animated:NO];
+        
+        //must be after setRegion because isMapZoomedToAnnotation is set to NO when region changes
+        self.isMapZoomedToAnnotation = YES;
+    }
+}
+
+-(void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    //hide press annotation when not selected
+    if (view.annotation == self.pressAnnotation)
+    {
+        [self.mapView removeAnnotation:self.pressAnnotation];
+        self.pressAnnotation = nil;
+    }
+}
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
+{
+    if (view.annotation != self.pressAnnotation)
+    {
+        R2RAnnotation *annotation = (R2RAnnotation *)view.annotation;
+        if (annotation.annotationType == r2rAnnotationTypeFrom)
+            self.fromAnnotationDidMove = YES;
+        if (annotation.annotationType == r2rAnnotationTypeTo)
+            self.toAnnotationDidMove = YES;
+        
+        [self showSearchButton];
+        view.canShowCallout = NO;
+        if (newState == MKAnnotationViewDragStateEnding)
+        {
+            [self.mapView deselectAnnotation:view.annotation animated:YES];
+            [self showFullScreenMap];
+        }
+    }
+}
+
+-(void) showSearchButton
+{
+    CGRect buttonFrame = self.searchButton.frame;
+    
+    buttonFrame.origin.y = self.mapView.frame.origin.y + self.mapView.frame.size.height - 70;
+    [self.searchButton setFrame:buttonFrame];
+    self.searchButton.hidden = NO;
+}
+
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    self.isMapZoomedToAnnotation = NO;
+    if (self.zoomLevel!=mapView.region.span.longitudeDelta)
+    {
+        R2RMapHelper *mapHelper = [[R2RMapHelper alloc] initWithData:self.searchStore];
+        
+        NSArray *stopAnnotations = [mapHelper getRouteStopAnnotations:self.route];
+        NSArray *hopAnnotations = [mapHelper getRouteHopAnnotations:self.route];
+        
+        hopAnnotations = [mapHelper filterHopAnnotations:hopAnnotations stopAnnotations:stopAnnotations regionSpan:self.mapView.region.span];
+        
+        //just get existing hopAnnotations
+        NSMutableArray *existingHopAnnotations = [[NSMutableArray alloc] init];
+        
+        for (id annotation in mapView.annotations)
+        {
+            if ([annotation isKindOfClass:[R2RAnnotation class]])
+            {
+                R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+                
+                if (r2rAnnotation.annotationType == r2rAnnotationTypeHop)
+                {
+                    [existingHopAnnotations addObject:r2rAnnotation];
+                }
+            }
+        }
+        
+        NSArray *annotationsToAdd = [mapHelper removeAnnotations:hopAnnotations :existingHopAnnotations];
+        [self.mapView addAnnotations:annotationsToAdd];
+        
+        NSArray *annotationsToRemove = [mapHelper removeAnnotations:existingHopAnnotations :hopAnnotations];
+        [self.mapView removeAnnotations:annotationsToRemove];
+        
+        self.zoomLevel=mapView.region.span.longitudeDelta;
+    }
+}
+
+- (void)showPressAnnotation:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
+    CLLocationCoordinate2D touchMapCoordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
+    
+    if (!self.pressAnnotation)
+    {
+        self.pressAnnotation = [[R2RAnnotation alloc] initWithName:@"Press" kind:nil coordinate:touchMapCoordinate annotationType:r2rAnnotationTypePress];
+        [self.mapView addAnnotation:self.pressAnnotation];
+    }
+    else
+    {
+        [self.pressAnnotation setCoordinate:touchMapCoordinate];
+    }
+    [self.mapView selectAnnotation:self.pressAnnotation animated:YES];
+}
+
+-(void) setFromLocation:(id) sender
+{
+    for (id annotation in self.mapView.annotations)
+    {
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
+        {
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+            
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom)
+            {
+                [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
+                [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
+                self.fromAnnotationDidMove = YES;
+                [self.mapView deselectAnnotation:self.pressAnnotation animated:YES];
+                [self showSearchButton];
+                [self showFullScreenMap];
+                break;
+            }
+        }
+    }
+}
+
+-(void) setToLocation:(id) sender
+{
+    for (id annotation in self.mapView.annotations)
+    {
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
+        {
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+            
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeTo)
+            {
+                [r2rAnnotation setCoordinate:self.pressAnnotation.coordinate];
+                [self.mapView viewForAnnotation:r2rAnnotation].canShowCallout = NO;
+                self.toAnnotationDidMove = YES;
+                [self.mapView deselectAnnotation:self.pressAnnotation animated:YES];
+                [self showSearchButton];
+                [self showFullScreenMap];
+                break;
+            }
+        }
+    }
+}
+
+- (IBAction)returnToSearch:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)resolveLocation:(id)sender
+{
+    for (id annotation in self.mapView.annotations)
+    {
+        if ([annotation isKindOfClass:[R2RAnnotation class]])
+        {
+            R2RAnnotation *r2rAnnotation = (R2RAnnotation *)annotation;
+            
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeFrom && self.fromAnnotationDidMove)
+            {
+                //mapcale. Used as horizontal accuracy
+                float mapScale = self.zoomLevel*500;
+                
+                [self.searchManager setFromWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
+            }
+            if (r2rAnnotation.annotationType == r2rAnnotationTypeTo && self.toAnnotationDidMove)
+            {
+                //mapcale. Used as horizontal accuracy
+                float mapScale = self.zoomLevel*500;
+                
+                [self.searchManager setToWithMapLocation:r2rAnnotation.coordinate mapScale:mapScale];
+            }
+        }
+    }
+    
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+}
+
 - (void) navigateBack
 {
-    [self.navigationController popViewControllerAnimated:true];
+    if (self.isMapFullSreen == YES)
+    {
+        [self showTableView];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:true];
+    }
 }
 
 @end

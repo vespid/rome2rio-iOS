@@ -361,6 +361,7 @@
     if ([[segue identifier] isEqualToString:@"showFlightSegment"])
     {
         R2RFlightSegmentViewController *segmentViewController = [segue destinationViewController];
+        segmentViewController.searchManager = self.searchManager;
         segmentViewController.searchStore = self.searchStore;
         segmentViewController.route = self.route;
         segmentViewController.flightSegment = [self.route.segments objectAtIndex:([self.tableView indexPathForSelectedRow].row)/2];
@@ -481,16 +482,19 @@
 
 -(void)reloadDataDidFinish
 {
-    //adjust table to correct size
-    [self.tableView sizeToFit];
+    if (!IPAD)
+    {
+        //adjust table to correct size
+        [self.tableView sizeToFit];
 
-    // set map frame to non fullscreen size
-    [self.tableView setHidden:NO];
-    self.isMapFullSreen = NO;
-    [self setMapFrame];
-    
-    //adjust table to correct size
-    [self.tableView sizeToFit];
+        // set map frame to non fullscreen size
+        [self.tableView setHidden:NO];
+        self.isMapFullSreen = NO;
+        [self setMapFrame];
+        
+        //adjust table to correct size
+        [self.tableView sizeToFit];
+    }
     
     //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
@@ -514,6 +518,8 @@
 
 -(void) showFullScreenMap
 {
+    if (IPAD) return;
+    
     if (self.isMapFullSreen == NO)
     {
         CGRect tableFrame = self.tableView.frame;
@@ -557,7 +563,10 @@
 }
 
 -(void) setMapFrame
-{   
+{
+    // Don't adjust map position for ipad
+    if (IPAD) return;
+    
     CGRect viewFrame = self.view.frame;
     CGRect mapFrame = self.mapView.frame;
     
@@ -618,10 +627,14 @@
 {
     if (self.tableView.tableFooterView.frame.size.height != 0) return;
     
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 6)];
+    float footerHeight = (IPAD) ? 10 : 6;
+    
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [R2RConstants getTableWidth], footerHeight)];
     [footer setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, -6, 27, 7)];
+    float grabBarY = (IPAD) ? -1 : -6;
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(([R2RConstants getTableWidth]/2) - 14, grabBarY, 27, 7)];
     [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
     imageView.userInteractionEnabled = YES;
     imageView.alpha = 0.2;

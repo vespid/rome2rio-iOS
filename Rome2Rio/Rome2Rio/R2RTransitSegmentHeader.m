@@ -41,8 +41,8 @@
     self.agencyIconView = [[UIImageView alloc] initWithFrame:rect];
     [self addSubview:self.agencyIconView];
     
-    rect = CGRectMake(55, 6, 170, 25);
-    
+    float width = [R2RConstants getTableWidth] - 150;
+    rect = CGRectMake(55, 6, width, 25);
     self.agencyNameLabel = [[UILabel alloc] initWithFrame:rect];
     [self.agencyNameLabel setTextAlignment:NSTextAlignmentLeft];
     [self.agencyNameLabel setMinimumScaleFactor:0.6];
@@ -51,7 +51,8 @@
     [self.agencyNameLabel setTextColor:[R2RConstants getDarkTextColor]];
     [self addSubview:self.agencyNameLabel];
 
-    rect = CGRectMake(230, 6, 75, 25);
+    float x = [R2RConstants getTableWidth] - 90;
+    rect = CGRectMake(x, 6, 75, 25);
     self.segmentPrice = [[UILabel alloc] initWithFrame:rect];
     [self.segmentPrice setTextAlignment:NSTextAlignmentRight];
     [self.segmentPrice setMinimumScaleFactor:0.6];

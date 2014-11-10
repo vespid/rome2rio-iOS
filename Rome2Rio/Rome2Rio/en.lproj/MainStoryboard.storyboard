@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="3">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -688,7 +688,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.60000000000000009" id="DMc-9M-4fJ">
-                                                    <rect key="frame" x="210" y="17" width="75" height="21"/>
+                                                    <rect key="frame" x="210.00000007152556" y="17" width="75" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.87058823529411766" green="0.0" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
@@ -725,7 +725,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.60000000000000009" id="B9K-z5-l2j">
-                                                    <rect key="frame" x="210" y="17" width="75" height="21"/>
+                                                    <rect key="frame" x="210.00000007152556" y="17" width="75" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.87058823529999996" green="0.0" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
@@ -762,7 +762,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.60000000000000009" id="haw-Kr-mph">
-                                                    <rect key="frame" x="210" y="17" width="75" height="21"/>
+                                                    <rect key="frame" x="210.00000007152556" y="17" width="75" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.87058823529999996" green="0.0" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
@@ -856,10 +856,6 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="ZBu-OJ-Q4H" id="FbH-y5-Sjc"/>
-                            <outlet property="delegate" destination="ZBu-OJ-Q4H" id="7fO-sK-uT0"/>
-                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Flight Segment" id="6VK-wA-HMf">
                         <barButtonItem key="rightBarButtonItem" image="Home_Icon_White.png" id="CS2-vl-U98">
@@ -868,6 +864,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="lJW-33-20J" id="Tut-CG-1VW"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nDo-cm-HEU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -897,21 +896,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="85" sectionHeaderHeight="10" sectionFooterHeight="10" id="vdB-Bm-a2a" customClass="R2RTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="9936"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WalkDriveSegmentCell" id="cqe-8S-20v" customClass="R2RWalkDriveSegmentCell">
-                                        <rect key="frame" x="0.0" y="55" width="320" height="85"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cqe-8S-20v" id="OFv-ms-ffx">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" id="mWm-yi-xsE">
                                 <rect key="frame" x="0.0" y="200" width="320" height="364"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -943,6 +927,21 @@
                                     <action selector="resolveLocation:" destination="1ix-uE-0ex" eventType="touchUpInside" id="wZb-jT-UYK"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="85" sectionHeaderHeight="10" sectionFooterHeight="10" id="vdB-Bm-a2a" customClass="R2RTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="9936"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WalkDriveSegmentCell" id="cqe-8S-20v" customClass="R2RWalkDriveSegmentCell">
+                                        <rect key="frame" x="0.0" y="55" width="320" height="85"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cqe-8S-20v" id="OFv-ms-ffx">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                     </scrollView>
                     <navigationItem key="navigationItem" title="WalkDrive" id="1pz-JF-LtS">
@@ -979,8 +978,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="XWX-ic-Yoe"/>
         <segue reference="hFK-bo-ewS"/>
+        <segue reference="XWX-ic-Yoe"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>

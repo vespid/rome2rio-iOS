@@ -20,6 +20,8 @@
 
 +(MKCoordinateRegion) getStartMapRegion;
 
++(float) getTableWidth;
+
 +(NSString *) getIconSpriteFileName;
 +(NSString *) getConnectionsImageFileName;
 +(NSString *) getMyLocationSpriteFileName;
@@ -61,7 +63,7 @@
 +(UIColor *) getWalkColor;
 
 
-
+#define IPAD     UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
 #define MAX_FLIGHT_STOPS 5
 #define MAX_ICONS 3
 

@@ -70,13 +70,14 @@
     [self.tableView setBackgroundColor:[R2RConstants getBackgroundColor]];
     
     [self.tableView setSectionHeaderHeight:37.0];
-    CGRect rect = CGRectMake(0, 0, self.view.bounds.size.width, self.tableView.sectionHeaderHeight);
+    
+    CGRect rect = CGRectMake(0, 0, [R2RConstants getTableWidth], self.tableView.sectionHeaderHeight);
     
     self.header = [[R2RResultSectionHeader alloc] initWithFrame:rect];
     
     [self refreshResultsViewTitle];
     
-    [self.view setBackgroundColor:[R2RConstants getBackgroundColor]];
+    [self.view setBackgroundColor: [R2RConstants getBackgroundColor]];
     
     CGRect frame = CGRectMake(0.0, (self.view.bounds.size.height- self.navigationController.navigationBar.bounds.size.height-30), self.view.bounds.size.width, 30.0);
     if ([[UIDevice currentDevice].systemVersion floatValue] > 6.1) frame.origin.y -= 20; // temp fix to account for status bar in ios 7 until full redesign
@@ -327,11 +328,14 @@
 
 -(void) refreshResults:(NSNotification *) notification
 {
-    //resize table view frame back to max
-    CGRect frame = self.tableView.frame;
-    frame.size.height = 10088;
-    self.tableView.frame = frame;
-    
+    if (!IPAD)
+    {
+        //resize table view frame back to max
+        CGRect frame = self.tableView.frame;
+        frame.size.height = 10088;
+        self.tableView.frame = frame;
+    }
+        
     //remove hop annotations and stop annotations that are not to/from
     for (id annotation in self.mapView.annotations)
     {
@@ -472,21 +476,24 @@
 {
     [self configureMap];
     
-    CGRect tableFrame = self.tableView.frame;
-//    tableFrame.size.height = 1000; //added to make sizeToFit work better //TODO CHECK THIS, done it refresh data notification
-    tableFrame.origin.y = 0; // set table back to top of
-    [self.tableView setFrame:tableFrame];
-    
-    //adjust table to correct size
-    [self.tableView sizeToFit];
-    
-    // set map frame to non fullscreen size
-    self.isMapFullSreen = NO;
-    [self setMapFrame];
-    
-    //adjust table to correct size
-    [self.tableView sizeToFit];
-    
+    if (!IPAD)
+    {
+        CGRect tableFrame = self.tableView.frame;
+    //    tableFrame.size.height = 1000; //added to make sizeToFit work better //TODO CHECK THIS, done it refresh data notification
+        tableFrame.origin.y = 0; // set table back to top of
+        [self.tableView setFrame:tableFrame];
+        
+        //adjust table to correct size
+        [self.tableView sizeToFit];
+        
+        // set map frame to non fullscreen size
+        self.isMapFullSreen = NO;
+        [self setMapFrame];
+        
+        //adjust table to correct size
+        [self.tableView sizeToFit];
+    }
+
     //draw table shadow
     self.tableView.layer.shadowOffset = CGSizeMake(0,5);
     self.tableView.layer.shadowRadius = 5;
@@ -510,6 +517,8 @@
 
 -(void) showFullScreenMap
 {
+    if (IPAD) return;
+    
     if (self.isMapFullSreen == NO)
     {
         CGRect tableFrame = self.tableView.frame;
@@ -554,6 +563,9 @@
 
 -(void) setMapFrame
 {
+    // Don't adjust map position for ipad
+    if (IPAD) return;
+    
     CGRect viewFrame = self.view.frame;
     CGRect mapFrame = self.mapView.frame;
    
@@ -615,10 +627,12 @@
     if (self.tableView.tableFooterView.frame.size.height != 0) return;
     
     //unique footer configuration for resultsView
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
+    float footerHeight = (IPAD) ? 15 : 10;
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [R2RConstants getTableWidth], footerHeight)];
     [footer setBackgroundColor:[R2RConstants getBackgroundColor]];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 1, 27, 7)];
+    float grabBarY = (IPAD) ? 4 : 1;
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(([R2RConstants getTableWidth]/2) - 14, grabBarY, 27, 7)];
     [imageView setImage:[UIImage imageNamed:@"GrabTransparent1"]];
     imageView.userInteractionEnabled = YES;
     imageView.alpha = 0.2;

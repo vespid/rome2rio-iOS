@@ -101,6 +101,10 @@
     return [UIImage imageNamed:@"r2r-retina"];
 }
 
++(float)getTableWidth
+{
+    return (IPAD) ? 380.0 : 320.0;
+}
 
 +(MKCoordinateRegion) getStartMapRegion
 {
