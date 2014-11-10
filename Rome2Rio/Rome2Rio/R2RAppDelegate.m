@@ -125,7 +125,7 @@
     }
     
     // if loading from rome2rio website
-    if ([[url host] containsString:@"rome2rio.com"])
+    if ([[url host] rangeOfString:@"rome2rio.com" options:NSCaseInsensitiveSearch].location != NSNotFound)
     {
         UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
         
