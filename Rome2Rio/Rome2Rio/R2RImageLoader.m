@@ -35,7 +35,7 @@
 {
     
 #if DEBUG
-    NSString *imageString = [NSString stringWithFormat:@"http://prototype.rome2rio.com%@", self.path];
+    NSString *imageString = [NSString stringWithFormat:@"http://working.rome2rio.com%@", self.path];
 #else
     NSString *imageString = [NSString stringWithFormat:@"http://ios.rome2rio.com%@", self.path];
 #endif

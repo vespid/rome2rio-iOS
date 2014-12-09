@@ -9,6 +9,7 @@
 #import "R2RMasterViewController.h"
 #import "R2RResultsViewController.h"
 #import "R2RMasterViewStatusButton.h"
+#import "R2RInfoViewController.h"
 #import "R2RSearchButton.h"
 
 #import "R2RConstants.h"
@@ -125,6 +126,12 @@
         R2RAutocompleteViewController *autocompleteViewController = (R2RAutocompleteViewController *)[[[segue destinationViewController] viewControllers] objectAtIndex:0];
         autocompleteViewController.searchManager = self.searchManager;
         autocompleteViewController.fieldName = sender;
+    }
+    
+    if ([[segue identifier] isEqualToString:@"showInfo"])
+    {
+        R2RInfoViewController *infoViewController = [segue destinationViewController];
+        infoViewController.searchManager = self.searchManager;
     }
 }
 

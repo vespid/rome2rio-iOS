@@ -112,6 +112,12 @@ typedef enum
     self.searchStore.searchMessage = searchMessage;
 }
 
+-(void) restartSearch
+{
+    // restart search. Used if currency changes
+    if ([self canStartSearch]) [self startSearch];
+}
+
 -(void) restartSearchIfNoResponse
 {
     if (!self.searchStore.searchResponse)

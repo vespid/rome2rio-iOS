@@ -81,6 +81,32 @@
     return userId;
 }
 
++(void)setUserCurrency:(NSString *)currencyCode
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+    [userDefaults setObject:currencyCode forKey:@"R2RUserCurrency"];
+}
+
++(NSString *)getUserCurrency
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+    NSString *userCurrency = [userDefaults stringForKey:@"R2RUserCurrency"];
+    
+    if (userCurrency == NULL)
+    {
+        NSString *currencyCode = [[NSLocale currentLocale] objectForKey:NSLocaleCurrencyCode];
+        
+        userCurrency = currencyCode;
+        
+        [userDefaults setObject:currencyCode forKey:@"R2RUserCurrency"];
+    }
+    
+    return userCurrency;
+}
+
+
 +(NSString *)getAppURL
 {
     return [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", [R2RKeys getAppId]];
@@ -295,6 +321,17 @@
 +(UIColor *)getWalkColor
 {
     return [UIColor colorWithRed:224/255.0 green:4/255.0 blue:59/255.0 alpha:1.0];
+}
+
++(NSArray *)getAllCurrencies
+{
+    NSArray *currencyCodes = @[@"ARS", @"AUD", @"BRL", @"CAD", @"CNY", @"HRK", @"CZK", @"DKK", @"EUR", @"HKD", @"HUF", @"INR", @"IDR", @"ILS", @"JPY", @"MYR", @"MXN", @"MAD", @"NZD", @"NOK", @"PHP", @"PLN", @"GBP", @"RUB", @"SAR", @"RSD", @"SGD", @"ZAR", @"KRW", @"LKR", @"SEK", @"CHF", @"THB", @"TRY", @"AED", @"UAH", @"USD"];
+    
+    NSArray *currencyDescriptions = @[@"Argentine Peso (ARS)", @"Australian Dollar (AUD)", @"Brazillian Real (BRL)", @"Canadian Dollar (CAD)", @"Chinese Yuan (CNY)", @"Croatian Kuna (HRK)", @"Czech Koruna (CZK)", @"Danish Krone (DKK)", @"Euro (EUR)", @"Hong Kong Dollar (HKD)", @"Hungarian Forint (HUF)", @"Indian Rupee (INR)", @"Indonesian Rupiah (IDR)", @"Israeli New Shekel (ILS)", @"Japanese Yen (JPY)", @"Malaysian Ringgit (MYR)", @"Mexican Peso (MXN)", @"Moroccan Dirham (MAD)", @"New Zealand Dollar (NZD)", @"Norwegian Krone (NOK)", @"Philippines Peso (PHP)", @"Polish Złoty (PLN)", @"Pound Sterling (GBP)", @"Russian Ruble (RUB)", @"Saudi Arabian Riyal (SAR)", @"Serbian Dinar (RSD)", @"Singapore Dollar (SGD)", @"South African Rand (ZAR)", @"South Korean Won (KRW)", @"Sri Lankan Rupee (LKR)", @"Swedish Krona (SEK)", @"Swiss Franc (CHF)", @"Thai Baht (THB)", @"Turkish Lira (TRY)", @"UAE Dirham (AED)", @"Ukranian Hryvnia (UAH)", @"US Dollar (USD)"];
+    
+    NSArray* allCurrencies = @[currencyCodes, currencyDescriptions];
+
+    return allCurrencies;
 }
 
 @end

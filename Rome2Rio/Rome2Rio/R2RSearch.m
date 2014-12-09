@@ -64,7 +64,7 @@
     
 #if DEBUG
     
-    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=%@&oName=%@&dName=%@&oPos=%@&dPos=%@", appKey, self.oName, self.dName, self.oPos, self.dPos];
+    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://working.rome2rio.com/api/1.2/json/Search?key=%@&oName=%@&dName=%@&oPos=%@&dPos=%@", appKey, self.oName, self.dName, self.oPos, self.dPos];
        
 #else
     
@@ -83,8 +83,14 @@
     
     [searchString appendFormat:@"&flags=0x2000000"];
     
-    NSString *currencyCode = [[NSLocale currentLocale] objectForKey:NSLocaleCurrencyCode];
+    NSString *currencyCode = [R2RConstants getUserCurrency];
     [searchString appendFormat:@"&currencyCode=%@", currencyCode];
+    
+    NSString *userId = [R2RConstants getUserId];
+    if ([userId length] > 0)
+    {
+        [searchString appendFormat:@"&uid=%@",userId];
+    }
     
     NSString *searchEncoded = [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     

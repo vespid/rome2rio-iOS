@@ -157,6 +157,17 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="9mX-s5-VSI" customClass="R2RSearchButton">
+                                <rect key="frame" x="402" y="420" width="220" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Currency: ">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeCurrency:" destination="WFW-Uz-TCg" eventType="touchUpInside" id="FI9-Jw-4VY"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Sdl-uh-quS" customClass="R2RSearchButton">
                                 <rect key="frame" x="402" y="540" width="220" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -216,6 +227,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="currencyButton" destination="9mX-s5-VSI" id="DZk-md-LYx"/>
                         <outlet property="feedbackButton" destination="Sdl-uh-quS" id="JSg-ey-Dvo"/>
                         <outlet property="rateButton" destination="Xxn-ha-6DR" id="E45-QS-LsS"/>
                         <outlet property="shareEmailButton" destination="HXG-d2-9YB" id="0ze-zV-MML"/>

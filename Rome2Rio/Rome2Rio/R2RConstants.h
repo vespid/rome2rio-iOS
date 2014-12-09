@@ -12,6 +12,8 @@
 @interface R2RConstants : NSObject
 
 +(NSString *) getUserId;
++(void) setUserCurrency:(NSString *)currencyCode;
++(NSString *) getUserCurrency;
 +(NSString *) getAppURL;
 +(NSString *) getAppDescription;
 
@@ -62,6 +64,7 @@
 +(UIColor *) getUnknownColor;
 +(UIColor *) getWalkColor;
 
++(NSArray *) getAllCurrencies;
 
 #define IPAD     UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
 #define MAX_FLIGHT_STOPS 5

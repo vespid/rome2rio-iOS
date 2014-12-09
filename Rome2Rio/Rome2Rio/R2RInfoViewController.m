@@ -14,9 +14,14 @@
 
 @interface R2RInfoViewController ()
 
+@property (strong, nonatomic) UIActionSheet *currencySheet;
+@property (strong, nonatomic) NSArray *currencies;
+
 @end
 
 @implementation R2RInfoViewController
+
+@synthesize searchManager;
 
 - (void)viewDidLoad
 {
@@ -25,6 +30,15 @@
     self.versionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Version %@", nil), [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
     [self.feedbackButton setTitle:NSLocalizedString(@"Send Feedback", nil) forState:UIControlStateNormal];
     [self.rateButton setTitle:NSLocalizedString(@"Rate App", nil) forState:UIControlStateNormal];
+    
+    self.currencies = [R2RConstants getAllCurrencies];
+    self.currencyButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    [self setCurrencyButtonLabel];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self setCurrencyButtonLabel];
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,6 +48,7 @@
 
 - (void)viewDidUnload
 {
+    [self setCurrencyButton:nil];
     [self setVersionLabel:nil];
     [self setFeedbackButton:nil];
     [self setRateButton:nil];
@@ -132,7 +147,52 @@
         [alert show];
         R2RLog(@"Email not available");
     }
+}
+
+-(void)setCurrencyButtonLabel
+{
+    NSString *label = [NSString stringWithFormat:NSLocalizedString(@"Currency: %@", nil), [R2RConstants getUserCurrency]];
     
+    [self.currencyButton setTitle:label forState:UIControlStateNormal];
+    [self.currencyButton setTitle:label forState:UIControlStateHighlighted];
+//    self.currencyButton.titleLabel.text = label;
+}
+
+-(void)changeCurrency:(id)sender
+{
+    self.currencySheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Select Currency", nil)
+                                                     delegate:self
+                                            cancelButtonTitle:nil
+                                       destructiveButtonTitle:nil
+                                            otherButtonTitles:nil];
+    
+    for (NSString *currency in self.currencies[1])
+    {
+        [self.currencySheet addButtonWithTitle:currency];
+    }
+    
+    [self.currencySheet addButtonWithTitle:NSLocalizedString(@"cancel", nil)];
+    [self.currencySheet setCancelButtonIndex:[self.currencies count]];
+    
+    [self.currencySheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == [self.currencies[0] count])
+        return;
+    
+    R2RLog(@"Button %ld", (long)buttonIndex);
+    NSString *currencyCode = [self.currencies[0] objectAtIndex:buttonIndex];
+    
+    if ([currencyCode length] > 0)
+    {
+        [R2RConstants setUserCurrency:currencyCode];
+        [self setCurrencyButtonLabel];
+    }
+    
+    // redo search with new currency
+    [self.searchManager restartSearch];
     
 }
 

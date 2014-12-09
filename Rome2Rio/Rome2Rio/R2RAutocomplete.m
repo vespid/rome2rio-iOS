@@ -67,7 +67,7 @@
     NSString *appKey = [R2RKeys getAppKey];
     
 #if DEBUG
-    [geoCoderString appendFormat:@"http://prototype.rome2rio.com/api/1.2/json/Autocomplete?key=%@&query=%@", appKey, self.query];
+    [geoCoderString appendFormat:@"http://working.rome2rio.com/api/1.2/json/Autocomplete?key=%@&query=%@", appKey, self.query];
 #else
     [geoCoderString appendFormat:@"http://ios.rome2rio.com/api/1.2/json/Autocomplete?key=%@&query=%@", appKey, self.query];
 #endif

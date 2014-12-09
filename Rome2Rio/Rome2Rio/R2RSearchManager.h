@@ -32,6 +32,7 @@
 -(BOOL) isSearching;
 -(BOOL) canShowSearchResults;
 
+-(void) restartSearch;
 -(void) restartSearchIfNoResponse;
 
 @end
