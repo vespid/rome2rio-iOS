@@ -24,7 +24,7 @@
     [placeString appendFormat:@"\t%@",place.rad];
     [placeString appendFormat:@"\t%@",place.regionCode];
     [placeString appendFormat:@"\t%@",place.regionName];
-    [placeString appendFormat:@"\t%@",place.code];
+    [placeString appendFormat:@"\t%@",(place.code == nil) ? @"" : place.code];
     
     return placeString;
 }
