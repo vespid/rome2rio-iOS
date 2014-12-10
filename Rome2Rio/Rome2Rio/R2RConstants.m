@@ -7,6 +7,7 @@
 //
 
 #import "R2RConstants.h"
+#import "R2RCurrency.h"
 #import "R2RKeys.h"
 
 @interface R2RConstants()
@@ -325,11 +326,50 @@
 
 +(NSArray *)getAllCurrencies
 {
-    NSArray *currencyCodes = @[@"ARS", @"AUD", @"BRL", @"CAD", @"CNY", @"HRK", @"CZK", @"DKK", @"EUR", @"HKD", @"HUF", @"INR", @"IDR", @"ILS", @"JPY", @"MYR", @"MXN", @"MAD", @"NZD", @"NOK", @"PHP", @"PLN", @"GBP", @"RUB", @"SAR", @"RSD", @"SGD", @"ZAR", @"KRW", @"LKR", @"SEK", @"CHF", @"THB", @"TRY", @"AED", @"UAH", @"USD"];
+    NSArray* allCurrencies = @[[[R2RCurrency alloc] initWithCode:@"ARS" label:@"Argentine Peso (ARS)"],
+                               [[R2RCurrency alloc] initWithCode:@"AUD" label:@"Australian Dollar (AUD)"],
+                               [[R2RCurrency alloc] initWithCode:@"BRL" label:@"Brazillian Real (BRL)"],
+                               [[R2RCurrency alloc] initWithCode:@"CAD" label:@"Canadian Dollar (CAD)"],
+                               [[R2RCurrency alloc] initWithCode:@"CNY" label:@"Chinese Yuan (CNY)"],
+                               [[R2RCurrency alloc] initWithCode:@"HRK" label:@"Croatian Kuna (HRK)"],
+                               [[R2RCurrency alloc] initWithCode:@"CZK" label:@"Czech Koruna (CZK)"],
+                               [[R2RCurrency alloc] initWithCode:@"DKK" label:@"Danish Krone (DKK)"],
+                               [[R2RCurrency alloc] initWithCode:@"EUR" label:@"Euro (EUR)"],
+                               [[R2RCurrency alloc] initWithCode:@"HKD" label:@"Hong Kong Dollar (HKD)"],
+                               [[R2RCurrency alloc] initWithCode:@"HUF" label:@"Hungarian Forint (HUF)"],
+                               [[R2RCurrency alloc] initWithCode:@"INR" label:@"Indian Rupee (INR)"],
+                               [[R2RCurrency alloc] initWithCode:@"IDR" label:@"Indonesian Rupiah (IDR)"],
+                               [[R2RCurrency alloc] initWithCode:@"ILS" label:@"Israeli New Shekel (ILS)"],
+                               [[R2RCurrency alloc] initWithCode:@"JPY" label:@"Japanese Yen (JPY)"],
+                               [[R2RCurrency alloc] initWithCode:@"MYR" label:@"Malaysian Ringgit (MYR)"],
+                               [[R2RCurrency alloc] initWithCode:@"MXN" label:@"Mexican Peso (MXN)"],
+                               [[R2RCurrency alloc] initWithCode:@"MAD" label:@"Moroccan Dirham (MAD)"],
+                               [[R2RCurrency alloc] initWithCode:@"NZD" label:@"New Zealand Dollar (NZD)"],
+                               [[R2RCurrency alloc] initWithCode:@"NOK" label:@"Norwegian Krone (NOK)"],
+                               [[R2RCurrency alloc] initWithCode:@"PHP" label:@"Philippines Peso (PHP)"],
+                               [[R2RCurrency alloc] initWithCode:@"PLN" label:@"Polish Złoty (PLN)"],
+                               [[R2RCurrency alloc] initWithCode:@"GBP" label:@"Pound Sterling (GBP)"],
+                               [[R2RCurrency alloc] initWithCode:@"RUB" label:@"Russian Ruble (RUB)"],
+                               [[R2RCurrency alloc] initWithCode:@"SAR" label:@"Saudi Arabian Riyal (SAR)"],
+                               [[R2RCurrency alloc] initWithCode:@"RSD" label:@"Serbian Dinar (RSD)"],
+                               [[R2RCurrency alloc] initWithCode:@"SGD" label:@"Singapore Dollar (SGD)"],
+                               [[R2RCurrency alloc] initWithCode:@"ZAR" label:@"South African Rand (ZAR)"],
+                               [[R2RCurrency alloc] initWithCode:@"KRW" label:@"South Korean Won (KRW)"],
+                               [[R2RCurrency alloc] initWithCode:@"LKR" label:@"Sri Lankan Rupee (LKR)"],
+                               [[R2RCurrency alloc] initWithCode:@"SEK" label:@"Swedish Krona (SEK)"],
+                               [[R2RCurrency alloc] initWithCode:@"CHF" label:@"Swiss Franc (CHF)"],
+                               [[R2RCurrency alloc] initWithCode:@"THB" label:@"Thai Baht (THB)"],
+                               [[R2RCurrency alloc] initWithCode:@"TRY" label:@"Turkish Lira (TRY)"],
+                               [[R2RCurrency alloc] initWithCode:@"AED" label:@"UAE Dirham (AED)"],
+                               [[R2RCurrency alloc] initWithCode:@"UAH" label:@"Ukranian Hryvnia (UAH)"],
+                               [[R2RCurrency alloc] initWithCode:@"USD" label:@"US Dollar (USD)"],];
     
-    NSArray *currencyDescriptions = @[@"Argentine Peso (ARS)", @"Australian Dollar (AUD)", @"Brazillian Real (BRL)", @"Canadian Dollar (CAD)", @"Chinese Yuan (CNY)", @"Croatian Kuna (HRK)", @"Czech Koruna (CZK)", @"Danish Krone (DKK)", @"Euro (EUR)", @"Hong Kong Dollar (HKD)", @"Hungarian Forint (HUF)", @"Indian Rupee (INR)", @"Indonesian Rupiah (IDR)", @"Israeli New Shekel (ILS)", @"Japanese Yen (JPY)", @"Malaysian Ringgit (MYR)", @"Mexican Peso (MXN)", @"Moroccan Dirham (MAD)", @"New Zealand Dollar (NZD)", @"Norwegian Krone (NOK)", @"Philippines Peso (PHP)", @"Polish Złoty (PLN)", @"Pound Sterling (GBP)", @"Russian Ruble (RUB)", @"Saudi Arabian Riyal (SAR)", @"Serbian Dinar (RSD)", @"Singapore Dollar (SGD)", @"South African Rand (ZAR)", @"South Korean Won (KRW)", @"Sri Lankan Rupee (LKR)", @"Swedish Krona (SEK)", @"Swiss Franc (CHF)", @"Thai Baht (THB)", @"Turkish Lira (TRY)", @"UAE Dirham (AED)", @"Ukranian Hryvnia (UAH)", @"US Dollar (USD)"];
     
-    NSArray* allCurrencies = @[currencyCodes, currencyDescriptions];
+//    NSArray *currencyCodes = @[@"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+//    
+//    NSArray *currencyDescriptions = @[@"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+//    
+//    NSArray* allCurrencies = @[currencyCodes, currencyDescriptions];
 
     return allCurrencies;
 }

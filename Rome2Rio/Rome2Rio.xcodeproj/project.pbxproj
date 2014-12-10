@@ -31,6 +31,7 @@
 		5E5AA3D6162E89D900055720 /* R2RMapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3D5162E89D900055720 /* R2RMapHelper.m */; };
 		5E5AA3DB162F854B00055720 /* R2RPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3D8162F854900055720 /* R2RPath.m */; };
 		5E5AA3DC162F854B00055720 /* R2RPathEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5AA3DA162F854A00055720 /* R2RPathEncoder.m */; };
+		5E5B282B1A37C03400CA7A75 /* R2RCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E5B282A1A37C03400CA7A75 /* R2RCurrency.m */; };
 		5E639E7416507D4C00A18C20 /* R2RSpriteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639E7316507D4A00A18C20 /* R2RSpriteView.m */; };
 		5E639EA616521B8600A18C20 /* R2RSpriteCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E639EA516521B7E00A18C20 /* R2RSpriteCache.m */; };
 		5E6FAD99186130CA007B6D5B /* R2RSearchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6FAD98186130CA007B6D5B /* R2RSearchButton.m */; };
@@ -155,6 +156,8 @@
 		5E5AA3D8162F854900055720 /* R2RPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPath.m; sourceTree = "<group>"; };
 		5E5AA3D9162F854A00055720 /* R2RPathEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RPathEncoder.h; sourceTree = "<group>"; };
 		5E5AA3DA162F854A00055720 /* R2RPathEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RPathEncoder.m; sourceTree = "<group>"; };
+		5E5B28291A37C03400CA7A75 /* R2RCurrency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RCurrency.h; sourceTree = "<group>"; };
+		5E5B282A1A37C03400CA7A75 /* R2RCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RCurrency.m; sourceTree = "<group>"; };
 		5E639E7216507D4800A18C20 /* R2RSpriteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RSpriteView.h; sourceTree = "<group>"; };
 		5E639E7316507D4A00A18C20 /* R2RSpriteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RSpriteView.m; sourceTree = "<group>"; };
 		5E639EA21650C53200A18C20 /* R2RCompletionState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = R2RCompletionState.h; sourceTree = "<group>"; };
@@ -412,6 +415,8 @@
 				5ED4B36F1601D07000E9FE42 /* R2RAirline.m */,
 				5ED4B3701601D07000E9FE42 /* R2RAirport.h */,
 				5ED4B3711601D07000E9FE42 /* R2RAirport.m */,
+				5E5B28291A37C03400CA7A75 /* R2RCurrency.h */,
+				5E5B282A1A37C03400CA7A75 /* R2RCurrency.m */,
 				5E1BE01F1623D493002F7CBB /* R2RFlightGroup.h */,
 				5E1BE0201623D493002F7CBB /* R2RFlightGroup.m */,
 				5ED4B3761601D07000E9FE42 /* R2RFlightHop.h */,
@@ -702,6 +707,7 @@
 				5ED4B35C1601D01C00E9FE42 /* R2RAppDelegate.m in Sources */,
 				5ED4B3621601D01C00E9FE42 /* R2RMasterViewController.m in Sources */,
 				5ED4B3B51601D07000E9FE42 /* R2RAirline.m in Sources */,
+				5E5B282B1A37C03400CA7A75 /* R2RCurrency.m in Sources */,
 				5ED4B3B61601D07000E9FE42 /* R2RAirport.m in Sources */,
 				5ED4B3B71601D07000E9FE42 /* R2RConnection.m in Sources */,
 				5ED4B3B91601D07000E9FE42 /* R2RFlightHop.m in Sources */,

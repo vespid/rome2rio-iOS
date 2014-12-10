@@ -10,6 +10,7 @@
 
 #import "R2RInfoViewController.h"
 #import "R2RConstants.h"
+#import "R2RCurrency.h"
 #import "R2RKeys.h"
 
 @interface R2RInfoViewController ()
@@ -166,9 +167,9 @@
                                        destructiveButtonTitle:nil
                                             otherButtonTitles:nil];
     
-    for (NSString *currency in self.currencies[1])
+    for (R2RCurrency *currency in self.currencies)
     {
-        [self.currencySheet addButtonWithTitle:currency];
+        [self.currencySheet addButtonWithTitle:currency.label];
     }
     
     [self.currencySheet addButtonWithTitle:NSLocalizedString(@"cancel", nil)];
@@ -179,15 +180,15 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == [self.currencies[0] count])
+    if (buttonIndex == [self.currencies count])
         return;
     
     R2RLog(@"Button %ld", (long)buttonIndex);
-    NSString *currencyCode = [self.currencies[0] objectAtIndex:buttonIndex];
+    R2RCurrency *currency = [self.currencies objectAtIndex:buttonIndex];
     
-    if ([currencyCode length] > 0)
+    if (currency != nil)
     {
-        [R2RConstants setUserCurrency:currencyCode];
+        [R2RConstants setUserCurrency:currency.code];
         [self setCurrencyButtonLabel];
     }
     
