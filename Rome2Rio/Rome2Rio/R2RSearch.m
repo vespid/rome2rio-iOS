@@ -121,7 +121,7 @@
     
     parsedSearchResponse.airports = [self parseAirports:[responseData objectForKey:@"airports"]];
     parsedSearchResponse.airlines = [self parseAirlines:[responseData objectForKey:@"airlines"]];
-    parsedSearchResponse.agencies = [self parseAirlines:[responseData objectForKey:@"agencies"]];
+    parsedSearchResponse.agencies = [self parseAgencies:[responseData objectForKey:@"agencies"]];
     parsedSearchResponse.routes = [self parseRoutes:[responseData objectForKey:@"routes"]];
     
     return parsedSearchResponse;
@@ -296,6 +296,7 @@
         y = 23;
     }
     
+    agency.iconSize = CGSizeMake(x, y);
     agency.iconPath = [agencyResponse objectForKey:@"iconPath"];
     
     return agency;
