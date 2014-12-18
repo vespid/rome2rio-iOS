@@ -700,7 +700,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.60000000000000009" id="DMc-9M-4fJ">
-                                                    <rect key="frame" x="210.00000007152556" y="17" width="75" height="21"/>
+                                                    <rect key="frame" x="210" y="17" width="75" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.87058823529411766" green="0.0" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
@@ -737,7 +737,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.60000000000000009" id="B9K-z5-l2j">
-                                                    <rect key="frame" x="210.00000007152556" y="17" width="75" height="21"/>
+                                                    <rect key="frame" x="210" y="17" width="75" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.87058823529999996" green="0.0" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
@@ -774,7 +774,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.60000000000000009" id="haw-Kr-mph">
-                                                    <rect key="frame" x="210" y="17" width="75.000000071525577" height="21"/>
+                                                    <rect key="frame" x="210" y="17" width="75" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.87058823529999996" green="0.0" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
