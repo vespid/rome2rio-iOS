@@ -106,6 +106,7 @@
     if ([subkind isEqualToString:@"carferry"]) return true;
     if ([subkind isEqualToString:@"walk"]) return true;
     if ([subkind isEqualToString:@"animal"]) return true;
+    if ([subkind isEqualToString:@"cycle"]) return true;
     if ([subkind isEqualToString:@"unknown"]) return true;
     if ([subkind isEqualToString:@"towncar"]) return true;
     return false;
@@ -256,6 +257,10 @@
     {
         return [R2RConstants getRouteAnimalSpriteRect];
     }
+    else if ([kind isEqualToString:@"cycle"])
+    {
+        return [R2RConstants getRouteBikeSpriteRect];
+    }
     else
     {
         return [R2RConstants getRouteUnknownSpriteRect];
@@ -349,59 +354,60 @@
 +(R2RSprite *)getConnectionSprite:(id)segment
 {
     NSString *kind = [R2RSegmentHelper getSegmentSubkind:segment];
-    
+    CGSize size = CGSizeMake(10, 50);
+    R2RSprite *sprite;
+
     if ([kind isEqualToString:@"flight"] || [kind isEqualToString:@"plane"] || [kind isEqualToString:@"helicopter"])
     {
         CGPoint offset = CGPointMake(0, 0);
-        CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+        sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"train"] || [kind isEqualToString:@"tram"] || [kind isEqualToString:@"cablecar"] || [kind isEqualToString:@"subway"])
     {
         CGPoint offset = CGPointMake(10, 0);
-        CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+        sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"bus"] || [kind isEqualToString:@"busferry"] || [kind isEqualToString:@"shuttle"])
     {
         CGPoint offset = CGPointMake(20, 0);
-        CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+        sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"car"] || [kind isEqualToString:@"towncar"])
     {
         CGPoint offset = CGPointMake(30, 0);
-        CGSize size = CGSizeMake(10, 50);
         R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"taxi"])
     {
         CGPoint offset = CGPointMake(70, 0);
-        CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+        sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"ferry"] || [kind isEqualToString:@"carferry"])
     {
         CGPoint offset = CGPointMake(40, 0);
-        CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+        sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
         return sprite;
     }
     else if ([kind isEqualToString:@"walk"] || [kind isEqualToString:@"animal"] || [kind isEqualToString:@"rideshare"])
     {
         CGPoint offset = CGPointMake(60, 0);
-        CGSize size = CGSizeMake(10, 50);
-        R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
-        return sprite;
+         sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
     }
-    CGPoint offset = CGPointMake(50, 0);
-    CGSize size = CGSizeMake(10, 50);
-    R2RSprite *sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+    else if ([kind isEqualToString:@"cycle"])
+    {
+        CGPoint offset = CGPointMake(80, 0);
+        sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+    }
+    else {
+        CGPoint offset = CGPointMake(50, 0);
+        sprite = [[R2RSprite alloc] initWithPath:[R2RConstants getConnectionsImageFileName] :offset :size];
+    }
+    
     return sprite;
 }
 
@@ -430,6 +436,10 @@
     else if ([kind isEqualToString:@"ferry"] || [kind isEqualToString:@"carferry"])
     {
         return [R2RConstants getFerryColor];
+    }
+    else if ([kind isEqualToString:@"cycle"])
+    {
+        return [R2RConstants getBikeColor];
     }
     else if ([kind isEqualToString:@"walk"] || [kind isEqualToString:@"animal"] || [kind isEqualToString:@"rideshare"])
     {

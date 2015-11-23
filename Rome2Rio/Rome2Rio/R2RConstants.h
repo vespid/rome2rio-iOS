@@ -46,6 +46,7 @@
 +(CGRect) getRouteRideshareSpriteRect;
 +(CGRect) getRouteWalkSpriteRect;
 +(CGRect) getRouteAnimalSpriteRect;
++(CGRect) getRouteBikeSpriteRect;
 +(CGRect) getRouteUnknownSpriteRect;
 
 +(UIColor *) getBackgroundColor;
@@ -61,6 +62,7 @@
 +(UIColor *) getFerryColor;
 +(UIColor *) getDriveColor;
 +(UIColor *) getTaxiColor;
++(UIColor *) getBikeColor;
 +(UIColor *) getUnknownColor;
 +(UIColor *) getWalkColor;
 

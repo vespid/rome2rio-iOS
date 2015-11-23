@@ -244,6 +244,11 @@
     return CGRectMake(320, 192, 48, 48);
 }
 
++(CGRect) getRouteBikeSpriteRect
+{
+    return CGRectMake(400, 192, 48, 48);
+}
+
 +(CGRect) getRouteUnknownSpriteRect
 {
     return CGRectMake(80, 272, 48, 48);
@@ -312,6 +317,11 @@
 +(UIColor *)getTaxiColor
 {
     return [UIColor colorWithRed:255/255.0 green:163/255.0 blue:0/255.0 alpha:1.0];
+}
+
++(UIColor *)getBikeColor
+{
+    return [UIColor colorWithRed:132/255.0 green:202/255.0 blue:75/255.0 alpha:1.0];
 }
 
 +(UIColor *)getUnknownColor
