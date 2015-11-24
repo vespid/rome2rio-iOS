@@ -63,6 +63,8 @@
 		5EB94E5B16B2120D00E8F954 /* fullscreen2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EB94E5916B2120D00E8F954 /* fullscreen2.png */; };
 		5EC20327164B3FC300B1F45A /* R2RExpandedFlightSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC20326164B3FC200B1F45A /* R2RExpandedFlightSegmentCell.m */; };
 		5EC399061862C9ED00F1FAE2 /* R2RKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC399051862C9ED00F1FAE2 /* R2RKeys.m */; };
+		5ECC87AE1C03ECFD003CE940 /* Rome2Rio-API.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5ECC87AD1C03ECFD003CE940 /* Rome2Rio-API.plist */; };
+		5ECC87B01C03ED8F003CE940 /* Rome2Rio-API.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = 5ECC87AF1C03ED8F003CE940 /* Rome2Rio-API.plist.example */; };
 		5ED4B34C1601D01C00E9FE42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34B1601D01C00E9FE42 /* UIKit.framework */; };
 		5ED4B34E1601D01C00E9FE42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34D1601D01C00E9FE42 /* Foundation.framework */; };
 		5ED4B3501601D01C00E9FE42 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED4B34F1601D01C00E9FE42 /* CoreGraphics.framework */; };
@@ -205,6 +207,8 @@
 		5EC20326164B3FC200B1F45A /* R2RExpandedFlightSegmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RExpandedFlightSegmentCell.m; sourceTree = "<group>"; };
 		5EC399041862C9ED00F1FAE2 /* R2RKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R2RKeys.h; sourceTree = "<group>"; };
 		5EC399051862C9ED00F1FAE2 /* R2RKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R2RKeys.m; sourceTree = "<group>"; };
+		5ECC87AD1C03ECFD003CE940 /* Rome2Rio-API.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Rome2Rio-API.plist"; sourceTree = "<group>"; };
+		5ECC87AF1C03ED8F003CE940 /* Rome2Rio-API.plist.example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Rome2Rio-API.plist.example"; sourceTree = "<group>"; };
 		5ED4B3471601D01C00E9FE42 /* Rome2rio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rome2rio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ED4B34B1601D01C00E9FE42 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5ED4B34D1601D01C00E9FE42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -388,6 +392,8 @@
 				5ED4B3571601D01C00E9FE42 /* main.m */,
 				5ED4B3591601D01C00E9FE42 /* Rome2Rio-Prefix.pch */,
 				5EB02F76166C3BA4009C0A6C /* Localizable.strings */,
+				5ECC87AD1C03ECFD003CE940 /* Rome2Rio-API.plist */,
+				5ECC87AF1C03ED8F003CE940 /* Rome2Rio-API.plist.example */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -647,8 +653,10 @@
 				5E1BE02B1623DFE8002F7CBB /* Default-568h@2x.png in Resources */,
 				5E1BE02D1623F4F1002F7CBB /* targetIcon_orange.png in Resources */,
 				5EEAB38719C7D325001A210F /* Rome2rio_Logo_white@2x.png in Resources */,
+				5ECC87AE1C03ECFD003CE940 /* Rome2Rio-API.plist in Resources */,
 				5E1BE0A316253A6A002F7CBB /* Home_Icon_White@2x.png in Resources */,
 				5E84D3A819E667DD00C45875 /* Images.xcassets in Resources */,
+				5ECC87B01C03ED8F003CE940 /* Rome2Rio-API.plist.example in Resources */,
 				5E23E66219D919E60060FAA6 /* Rome2rio_2_0_lines.png in Resources */,
 				5E2438431635123F0044C8AD /* externalLinkIconGray.png in Resources */,
 				5E42F4BA19C6D1C8007796A0 /* Rome2rio_Logo_white.png in Resources */,

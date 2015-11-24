@@ -10,7 +10,12 @@
 
 @interface R2RKeys : NSObject
 
+@property NSDictionary *apiProperties;
+
 +(NSString *) getAppId;
 +(NSString *) getAppKey;
+
++(NSDictionary *) getApiProperties;
++(NSString *) getApiPlistPath;
 
 @end

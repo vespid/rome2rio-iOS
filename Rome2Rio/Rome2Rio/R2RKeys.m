@@ -10,16 +10,34 @@
 
 @implementation R2RKeys
 
-+(NSString *)getAppId
-{
-    // Insert your App Id here
-    // return @"569793256";
+static NSString *appIdKey = @"App ID";
+static NSString *appKeyKey = @"Key";
+
++(NSString *) getAppId {
+    return [[self getApiProperties] objectForKey:appIdKey];
+}
++(NSString *) getAppKey {
+    return [[self getApiProperties] objectForKey:appKeyKey];
 }
 
-+(NSString *)getAppKey
-{
-    // Please go to http://www.rome2rio.com/api to sign up for an app key
-    // return @"Insert key here";
++(NSDictionary *) getApiProperties {
+    static NSDictionary *apiProperties = nil;
+    
+    if (apiProperties == nil) {
+        apiProperties = [[NSDictionary alloc] initWithContentsOfFile:[self getApiPlistPath]];
+    }
+    
+    return apiProperties;
+}
+
++(NSString *) getApiPlistPath {
+    NSString *apiPlistPath = [[NSBundle mainBundle] pathForResource:@"Rome2Rio-API" ofType:@"plist"];
+    
+    if (apiPlistPath == nil) {
+        [NSException raise:@"API Plist not found" format:@"Please rename Rome2Rio-API.plist.example to Rome2Rio-API.plist and fill in using the API information you've received from http://www.rome2rio.com/documentation/signup"];
+    }
+    
+    return apiPlistPath;
 }
 
 @end
