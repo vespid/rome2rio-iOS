@@ -35,9 +35,9 @@
 {
     
 #if DEBUG
-    NSString *imageString = [NSString stringWithFormat:@"http://working.rome2rio.com%@", self.path];
+    NSString *imageString = [NSString stringWithFormat:@"https://working.rome2rio.com%@", self.path];
 #else
-    NSString *imageString = [NSString stringWithFormat:@"http://ios.rome2rio.com%@", self.path];
+    NSString *imageString = [NSString stringWithFormat:@"https://ios.rome2rio.com%@", self.path];
 #endif
     
     NSString *imageEncoded = [imageString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

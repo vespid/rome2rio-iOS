@@ -44,7 +44,7 @@
     self.connectTop = [[UIImageView alloc] initWithFrame:CGRectMake(25, 0, 6, self.contentView.bounds.size.height/2)];
     [self.contentView addSubview:connectTop];
     
-    self.connectBottom = [[UIImageView alloc] initWithFrame:CGRectMake(25, self.contentView.bounds.size.height/2, 6, self.contentView.bounds.size.height/2)];
+    self.connectBottom = [[UIImageView alloc] initWithFrame:CGRectMake(25, self.contentView.bounds.size.height/2 + 1, 6, self.contentView.bounds.size.height/2)];
     [self.contentView addSubview:connectBottom];
     
     self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(22, self.contentView.bounds.size.height/2-6, 12, 12)];
