@@ -90,23 +90,26 @@
 
 -(void)imageDidLoad:(R2RImageLoader *)imageLoader
 {
-    [self.imageStore setObject:imageLoader.image forKey:imageLoader.path];
-    
-    for (long i = [self.spriteViews count]-1; i >= 0; i--)
+    if (imageLoader.image != nil)
     {
-        R2RSpriteView *spriteView = [self.spriteViews objectAtIndex:i];
-        
-        if ([spriteView.sprite.path isEqualToString:imageLoader.path])
+        [self.imageStore setObject:imageLoader.image forKey:imageLoader.path];
+    
+        for (long i = [self.spriteViews count]-1; i >= 0; i--)
         {
-            if ([spriteView.view isKindOfClass:[UIButton class]])
+            R2RSpriteView *spriteView = [self.spriteViews objectAtIndex:i];
+        
+            if ([spriteView.sprite.path isEqualToString:imageLoader.path])
             {
-                [spriteView.view setImage:[spriteView.sprite getSprite:imageLoader.image] forState:UIControlStateNormal];
+                if ([spriteView.view isKindOfClass:[UIButton class]])
+                {
+                    [spriteView.view setImage:[spriteView.sprite getSprite:imageLoader.image] forState:UIControlStateNormal];
+                }
+                else
+                {
+                    [spriteView.view setImage:[spriteView.sprite getSprite:imageLoader.image]];
+                }
+                [self.spriteViews removeObjectAtIndex:i];
             }
-            else
-            {
-                [spriteView.view setImage:[spriteView.sprite getSprite:imageLoader.image]];
-            }
-            [self.spriteViews removeObjectAtIndex:i];
         }
     }
 
