@@ -64,7 +64,7 @@
     
 #if DEBUG
     
-    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://prototype.rome2rio.com/api/1.2/json/Search?key=%@&oName=%@&dName=%@&oPos=%@&dPos=%@", appKey, self.oName, self.dName, self.oPos, self.dPos];
+    NSMutableString *searchString = [[NSMutableString alloc] initWithFormat:@"http://free.rome2rio.com/api/1.2/json/Search?key=%@&oName=%@&dName=%@&oPos=%@&dPos=%@", appKey, self.oName, self.dName, self.oPos, self.dPos];
        
 #else
     
